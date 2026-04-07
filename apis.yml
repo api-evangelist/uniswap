@@ -4,8 +4,7 @@ url: >-
 apis:
   - aid: uniswap:uniswap-trade-apis
     name: Uniswap Trade APIs
-    tags:
-      - API
+    tags: []
     humanURL: ' https://docs.uniswap.org/'
     properties:
       - url: ' https://docs.uniswap.org/'
@@ -14,8 +13,7 @@ apis:
       Welcome to Uniswap Docs.
   - aid: uniswap:uniswap-x-apis
     name: UniswapX APIs
-    tags:
-      - API
+    tags: []
     humanURL: https://docs.uniswap.org/
     properties:
       - url: ' https://docs.uniswap.org/'
@@ -24,8 +22,8 @@ apis:
       Welcome to Uniswap Docs.
 name: Uniswap
 tags:
-  - Cryptocurrencies
   - Bitcoin
+  - Cryptocurrencies
 type: Contract
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 access: 3rd-Party
