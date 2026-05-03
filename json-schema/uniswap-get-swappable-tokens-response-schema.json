@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-get-swappable-tokens-response-schema.json",
+  "title": "GetSwappableTokensResponse",
+  "description": "GetSwappableTokensResponse schema from Uniswap Trading API",
+  "type": "object",
+  "properties": {
+    "requestId": {
+      "$ref": "#/components/schemas/RequestId"
+    },
+    "tokens": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "chainId": {
+            "$ref": "#/components/schemas/ChainId"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the token."
+          },
+          "symbol": {
+            "$ref": "#/components/schemas/tokenSymbol"
+          },
+          "project": {
+            "$ref": "#/components/schemas/TokenProject"
+          },
+          "isSpam": {
+            "$ref": "#/components/schemas/isSpam"
+          },
+          "decimals": {
+            "type": "number",
+            "description": "The number of decimals supported by the token. This number is used to convert token amounts to the token's common representation."
+          }
+        },
+        "required": [
+          "address",
+          "chainId",
+          "name",
+          "symbol",
+          "project",
+          "decimals"
+        ]
+      }
+    }
+  },
+  "required": [
+    "requestId",
+    "tokens"
+  ]
+}

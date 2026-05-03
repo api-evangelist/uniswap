@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-user-operation-schema.json",
+  "title": "UserOperation",
+  "description": "ERC-4337 v0.8 UserOperation.",
+  "type": "object",
+  "properties": {
+    "sender": {
+      "type": "string",
+      "description": "Smart account address that will execute the operation."
+    },
+    "nonce": {
+      "type": "string",
+      "description": "Anti-replay nonce from the EntryPoint."
+    },
+    "callData": {
+      "type": "string",
+      "description": "ABI-encoded call data for the batch execution."
+    },
+    "callGasLimit": {
+      "type": "string",
+      "description": "Gas limit for the main execution call."
+    },
+    "verificationGasLimit": {
+      "type": "string",
+      "description": "Gas limit for the verification step."
+    },
+    "preVerificationGas": {
+      "type": "string",
+      "description": "Gas to cover bundler overhead and L1 data costs."
+    },
+    "maxFeePerGas": {
+      "type": "string",
+      "description": "EIP-1559 max fee per gas."
+    },
+    "maxPriorityFeePerGas": {
+      "type": "string",
+      "description": "EIP-1559 max priority fee per gas."
+    },
+    "factory": {
+      "type": "string",
+      "description": "Account factory address (present for first-time account deployment)."
+    },
+    "factoryData": {
+      "type": "string",
+      "description": "Calldata for the account factory."
+    },
+    "paymaster": {
+      "type": "string",
+      "description": "Paymaster contract address (present when gas is sponsored)."
+    },
+    "paymasterVerificationGasLimit": {
+      "type": "string",
+      "description": "Gas limit for paymaster verification."
+    },
+    "paymasterPostOpGasLimit": {
+      "type": "string",
+      "description": "Gas limit for paymaster post-operation."
+    },
+    "paymasterData": {
+      "type": "string",
+      "description": "Paymaster-specific data."
+    },
+    "signature": {
+      "type": "string",
+      "description": "Dummy signature placeholder; the client signs the UserOperation after receiving this response."
+    },
+    "eip7702Auth": {
+      "$ref": "#/components/schemas/Eip7702Authorization"
+    }
+  },
+  "required": [
+    "sender",
+    "nonce",
+    "callData",
+    "callGasLimit",
+    "verificationGasLimit",
+    "preVerificationGas",
+    "maxFeePerGas",
+    "maxPriorityFeePerGas",
+    "signature"
+  ]
+}

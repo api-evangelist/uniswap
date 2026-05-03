@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-limit-order-quote-response-schema.json",
+  "title": "LimitOrderQuoteResponse",
+  "description": "LimitOrderQuoteResponse schema from Uniswap Trading API",
+  "type": "object",
+  "properties": {
+    "requestId": {
+      "$ref": "#/components/schemas/RequestId"
+    },
+    "quote": {
+      "$ref": "#/components/schemas/DutchQuote"
+    },
+    "routing": {
+      "type": "string",
+      "enum": [
+        "LIMIT_ORDER"
+      ]
+    },
+    "permitData": {
+      "$ref": "#/components/schemas/NullablePermit"
+    }
+  },
+  "required": [
+    "routing",
+    "quote",
+    "permitData",
+    "requestId"
+  ]
+}

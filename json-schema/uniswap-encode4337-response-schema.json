@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-encode4337-response-schema.json",
+  "title": "Encode4337Response",
+  "description": "Response containing the encoded ERC-4337 UserOperation with gas and sponsorship details.",
+  "type": "object",
+  "properties": {
+    "requestId": {
+      "type": "string",
+      "description": "Unique identifier for this request."
+    },
+    "userOperation": {
+      "$ref": "#/components/schemas/UserOperation"
+    },
+    "sponsorMetadata": {
+      "$ref": "#/components/schemas/Encode4337SponsorMetadata"
+    },
+    "gasSponsored": {
+      "type": "boolean",
+      "description": "Whether gas for this operation is sponsored by a paymaster."
+    },
+    "gasSponsorshipRejectionReason": {
+      "type": "string",
+      "description": "Reason gas sponsorship was not granted. Present only when `gasSponsored` is `false`."
+    }
+  },
+  "required": [
+    "requestId",
+    "userOperation",
+    "gasSponsored"
+  ]
+}

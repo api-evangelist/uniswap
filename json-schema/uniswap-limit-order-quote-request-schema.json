@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-limit-order-quote-request-schema.json",
+  "title": "LimitOrderQuoteRequest",
+  "description": "LimitOrderQuoteRequest schema from Uniswap Trading API",
+  "type": "object",
+  "properties": {
+    "swapper": {
+      "$ref": "#/components/schemas/receiverWalletAddress"
+    },
+    "limitPrice": {
+      "type": "string"
+    },
+    "amount": {
+      "$ref": "#/components/schemas/tokenAmount"
+    },
+    "orderDeadline": {
+      "type": "number"
+    },
+    "type": {
+      "$ref": "#/components/schemas/TradeType"
+    },
+    "tokenIn": {
+      "$ref": "#/components/schemas/inputToken"
+    },
+    "tokenOut": {
+      "$ref": "#/components/schemas/outputToken"
+    },
+    "tokenInChainId": {
+      "$ref": "#/components/schemas/ChainId"
+    },
+    "tokenOutChainId": {
+      "$ref": "#/components/schemas/ChainId"
+    }
+  },
+  "required": [
+    "swapper",
+    "type",
+    "amount",
+    "tokenIn",
+    "tokenOut",
+    "tokenInChainId",
+    "tokenOutChainId"
+  ]
+}

@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "QuoteRequest Structure",
+  "description": "JSON Structure for QuoteRequest from Uniswap Trading API",
+  "structure": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "description": "The handling of the `amount` field. `EXACT_INPUT` means the requester will send the specified `amount` of input tokens and get a quote with a variable quantity of output tokens. `EXACT_OUTPUT` means the requester will receive the specified `amount` of output tokens and get a quote with a variable quantity of input tokens.",
+        "enum": [
+          "EXACT_INPUT",
+          "EXACT_OUTPUT"
+        ]
+      },
+      "amount": {
+        "type": "string",
+        "description": "The quantity of tokens denominated in the token's base units. (For example, for an ERC20 token one token is 1x10^18 base units. For one USDC token one token is 1x10^6 base units.) This value must be greater than 0."
+      },
+      "tokenInChainId": {
+        "type": "number",
+        "description": "The unique ID of the blockchain. For a list of supported chains see the [FAQ](https://api-docs.uniswap.org/guides/faqs)."
+      },
+      "tokenOutChainId": {
+        "type": "number",
+        "description": "The unique ID of the blockchain. For a list of supported chains see the [FAQ](https://api-docs.uniswap.org/guides/faqs)."
+      },
+      "tokenIn": {
+        "type": "string",
+        "description": "The token which will be sent, specified by its token address. For a list of supported tokens, see the [FAQ](https://api-docs.uniswap.org/guides/faqs)."
+      },
+      "tokenOut": {
+        "type": "string",
+        "description": "The token which will be received, specified by its token address. For a list of supported tokens, see the [FAQ](https://api-docs.uniswap.org/guides/faqs)."
+      },
+      "generatePermitAsTransaction": {
+        "type": "boolean",
+        "description": "Indicates whether you want to receive a permit2 transaction to sign and submit onchain, or a permit message to sign. When set to `true`, the quote response returns the Permit2 as a calldata which the user signs and broadcasts. When set to `false` (the default), the quote response returns the Permit2 as a message which the user signs but does not need to broadcast. When using a 7702-delegated wallet, set this field to `true`. Except for this scenario, it is recommended that this field is set to false. Note that a Permit2 calldata (e.g. `true`), will provide indefinite permission for Permit2 to spend a token, in contrast to a Permit2 message (e.g. `false`) which is only valid for 30 days. Further, a Permit2 calldata (e.g. `true`) requires the user to pay gas to submit the transaction, whereas the Permit2 message (e.g. `false` ) does not require the user to submit a transaction and requires no gas."
+      },
+      "swapper": {
+        "type": "string",
+        "description": "The wallet address which will be used to send the token."
+      },
+      "slippageTolerance": {
+        "type": "number",
+        "description": "The slippage tolerance as a percentage up to a maximum of two decimal places. For Uniswap Protocols (v2, v3, v4), the slippage tolerance is the maximum amount the price can change between the time the transaction is submitted and the time it is executed. The slippage tolerance is a percentage of the total value of the swap.\n\nWhen submitting a quote, note that slippage tolerance works differently in UniswapX swaps where it does not set a limit on the Spread in an order. See [here](https://api-docs.uniswap.org/guides/faqs#why-do-uniswapx-quotes-have-more-slippage-than-the-tolerance-i-set) for more information.\n\nNote that if the trade type is `EXACT_INPUT`, then the slippage is in terms of the output token. If the trade type is `EXACT_OUTPUT`, then the slippage is in terms of the input token.\n\nWhen submitting a request, `slippageTolerance` may not be set when `autoSlippage` is defined. One of `slippageTolerance` or `autoSlippage` must be defined."
+      },
+      "autoSlippage": {
+        "type": "string",
+        "description": "The auto slippage strategy to employ. For Uniswap Protocols (v2, v3, v4) the auto slippage will be automatically calculated when this field is set to `DEFAULT`. Auto slippage cannot be calculated for UniswapX swaps.\n\nNote that if the trade type is `EXACT_INPUT`, then the slippage is in terms of the output token. If the trade type is `EXACT_OUTPUT`, then the slippage is in terms of the input token.\n\nWhen submitting a request, `autoSlippage` may not be set when `slippageTolerance` is defined. One of `slippageTolerance` or `autoSlippage` must be defined.",
+        "enum": [
+          "DEFAULT"
+        ]
+      },
+      "routingPreference": {
+        "type": "string",
+        "description": "The `routingPreference` specifies the preferred strategy to determine the quote. If the `routingPreference` is `BEST_PRICE`, then the quote will propose a route through the specified whitelisted protocols (or all, if none are specified) that provides the best price. When the `routingPreference` is `FASTEST`, the quote will propose the first route which is found to complete the swap.",
+        "enum": [
+          "BEST_PRICE",
+          "FASTEST"
+        ]
+      },
+      "protocols": {
+        "type": "array",
+        "description": "The protocols to use for the swap/order. If the `protocols` field is defined, then you can only set the `routingPreference` to `BEST_PRICE`. Note that the value `UNISWAPX` is deprecated and will be removed in a future release.",
+        "items": {
+          "$ref": "ProtocolItems"
+        }
+      },
+      "hooksOptions": {
+        "type": "string",
+        "description": "The hook options to use for V4 pool quotes. `V4_HOOKS_INCLUSIVE` will get quotes for V4 pools with or without hooks. `V4_HOOKS_ONLY` will only get quotes for V4 pools with hooks. `V4_NO_HOOKS` will only get quotes for V4 pools without hooks. Defaults to `V4_HOOKS_INCLUSIVE` if `V4` is included in `protocols` and `hookOptions` is not set. This field is ignored if `V4` is not passed in `protocols`.",
+        "enum": [
+          "V4_HOOKS_INCLUSIVE",
+          "V4_HOOKS_ONLY",
+          "V4_NO_HOOKS"
+        ]
+      },
+      "spreadOptimization": {
+        "type": "string",
+        "description": "For UniswapX swaps, when set to `EXECUTION`, quotes optimize for looser spreads at higher fill rates. When set to `PRICE`, quotes optimize for tighter spreads at lower fill rates. This field is not applicable to Uniswap Protocols (v2, v3, v4), bridging, or wrapping/unwrapping and will be ignored if set.",
+        "enum": [
+          "EXECUTION",
+          "PRICE"
+        ]
+      },
+      "urgency": {
+        "type": "string",
+        "description": "The urgency impacts the estimated gas price of the transaction. The higher the urgency, the higher the gas price, and the faster the transaction is likely to be selected from the mempool. The default value is `urgent`.",
+        "enum": [
+          "normal",
+          "fast",
+          "urgent"
+        ]
+      },
+      "permitAmount": {
+        "type": "string",
+        "description": "For Uniswap Protocols (v2, v3, v4) swaps, specify the input token spend allowance (e.g. quantity) to be set in the permit. `FULL` can be used to specify an unlimited token quantity, and may prevent the wallet from needing to sign another permit for the same token in the future. `EXACT` can be used to specify the exact input token quantity for this request. Defaults to `FULL`.",
+        "enum": [
+          "FULL",
+          "EXACT"
+        ]
+      },
+      "integratorFees": {
+        "type": "array",
+        "description": "Optional integrator fee configuration. When provided, the specified fee is applied to the swap instead of the default partner fee service. Only one fee entry is currently supported.",
+        "items": {
+          "$ref": "IntegratorFee"
+        }
+      },
+      "walletExecutionContext": {
+        "type": "object",
+        "description": "Wallet execution context based on CAIP-25 Standard. Provides information about wallet capabilities and scopes.",
+        "properties": {
+          "scopes": {
+            "type": "object",
+            "description": "Map of scope identifiers to their scope data."
+          },
+          "properties": {
+            "$ref": "WalletProperties"
+          }
+        },
+        "required": [
+          "scopes"
+        ]
+      }
+    },
+    "required": [
+      "type",
+      "amount",
+      "tokenInChainId",
+      "tokenOutChainId",
+      "tokenIn",
+      "tokenOut",
+      "swapper"
+    ]
+  }
+}

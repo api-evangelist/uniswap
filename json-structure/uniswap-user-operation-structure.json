@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "UserOperation Structure",
+  "description": "JSON Structure for UserOperation from Uniswap Trading API",
+  "structure": {
+    "type": "object",
+    "description": "ERC-4337 v0.8 UserOperation.",
+    "properties": {
+      "sender": {
+        "type": "string",
+        "description": "Smart account address that will execute the operation."
+      },
+      "nonce": {
+        "type": "string",
+        "description": "Anti-replay nonce from the EntryPoint."
+      },
+      "callData": {
+        "type": "string",
+        "description": "ABI-encoded call data for the batch execution."
+      },
+      "callGasLimit": {
+        "type": "string",
+        "description": "Gas limit for the main execution call."
+      },
+      "verificationGasLimit": {
+        "type": "string",
+        "description": "Gas limit for the verification step."
+      },
+      "preVerificationGas": {
+        "type": "string",
+        "description": "Gas to cover bundler overhead and L1 data costs."
+      },
+      "maxFeePerGas": {
+        "type": "string",
+        "description": "EIP-1559 max fee per gas."
+      },
+      "maxPriorityFeePerGas": {
+        "type": "string",
+        "description": "EIP-1559 max priority fee per gas."
+      },
+      "factory": {
+        "type": "string",
+        "description": "Account factory address (present for first-time account deployment)."
+      },
+      "factoryData": {
+        "type": "string",
+        "description": "Calldata for the account factory."
+      },
+      "paymaster": {
+        "type": "string",
+        "description": "Paymaster contract address (present when gas is sponsored)."
+      },
+      "paymasterVerificationGasLimit": {
+        "type": "string",
+        "description": "Gas limit for paymaster verification."
+      },
+      "paymasterPostOpGasLimit": {
+        "type": "string",
+        "description": "Gas limit for paymaster post-operation."
+      },
+      "paymasterData": {
+        "type": "string",
+        "description": "Paymaster-specific data."
+      },
+      "signature": {
+        "type": "string",
+        "description": "Dummy signature placeholder; the client signs the UserOperation after receiving this response."
+      },
+      "eip7702Auth": {
+        "type": "object",
+        "description": "Signed EIP-7702 authorization tuple.",
+        "properties": {
+          "address": {
+            "type": "string",
+            "description": "Contract address to delegate to."
+          },
+          "chainId": {
+            "type": "string",
+            "description": "Hex-encoded chain ID."
+          },
+          "nonce": {
+            "type": "string",
+            "description": "Hex-encoded nonce."
+          },
+          "r": {
+            "type": "string",
+            "description": "ECDSA r value."
+          },
+          "s": {
+            "type": "string",
+            "description": "ECDSA s value."
+          },
+          "yParity": {
+            "type": "string",
+            "description": "ECDSA y parity."
+          }
+        },
+        "required": [
+          "address",
+          "chainId",
+          "nonce",
+          "r",
+          "s",
+          "yParity"
+        ]
+      }
+    },
+    "required": [
+      "sender",
+      "nonce",
+      "callData",
+      "callGasLimit",
+      "verificationGasLimit",
+      "preVerificationGas",
+      "maxFeePerGas",
+      "maxPriorityFeePerGas",
+      "signature"
+    ]
+  }
+}

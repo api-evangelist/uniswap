@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "QuoteResponse Structure",
+  "description": "JSON Structure for QuoteResponse from Uniswap Trading API",
+  "structure": {
+    "type": "object",
+    "properties": {
+      "requestId": {
+        "type": "string",
+        "description": "A unique ID for the request."
+      },
+      "quote": {
+        "type": "object"
+      },
+      "routing": {
+        "type": "string",
+        "description": "The routing for the proposed transaction.",
+        "enum": [
+          "CLASSIC",
+          "DUTCH_LIMIT",
+          "DUTCH_V2",
+          "DUTCH_V3",
+          "BRIDGE",
+          "LIMIT_ORDER",
+          "PRIORITY",
+          "WRAP",
+          "UNWRAP",
+          "CHAINED"
+        ]
+      },
+      "permitTransaction": {
+        "type": "object",
+        "properties": {
+          "to": {
+            "$ref": "receiverWalletAddress"
+          },
+          "from": {
+            "$ref": "senderWalletAddress"
+          },
+          "data": {
+            "type": "string",
+            "description": "The calldata for the transaction."
+          },
+          "value": {
+            "type": "string",
+            "description": "The quantity of ETH tokens approved for spending by the transaction, denominated in wei. Note that by default Uniswap Labs sets this to the maximum approvable spend."
+          },
+          "gasLimit": {
+            "$ref": "gasLimit"
+          },
+          "chainId": {
+            "$ref": "ChainId"
+          },
+          "maxFeePerGas": {
+            "$ref": "maxFeePerGas"
+          },
+          "maxPriorityFeePerGas": {
+            "$ref": "maxPriorityFeePerGas"
+          },
+          "gasPrice": {
+            "$ref": "gasPrice"
+          }
+        },
+        "required": [
+          "to",
+          "from",
+          "data",
+          "value",
+          "chainId"
+        ]
+      },
+      "permitData": {
+        "type": "object",
+        "description": "the permit2 message object for the customer to sign to permit spending by the permit2 contract.",
+        "properties": {
+          "domain": {
+            "type": "object"
+          },
+          "values": {
+            "type": "object"
+          },
+          "types": {
+            "type": "object"
+          }
+        }
+      },
+      "permitGasFee": {
+        "type": "string",
+        "description": "The total estimated gas cost of this transaction (eg. `gasLimit` multiplied by `maxFeePerGas`) in the base unit of the chain."
+      },
+      "sponsorshipInfo": {
+        "type": "object",
+        "description": "Gas sponsorship information for the quoted swap. When `sponsored` is `true`, gas fees for executing this swap will be covered by the `sponsor`. When `sponsored` is `false`, `rejectionReason` describes why sponsorship was not granted.",
+        "properties": {
+          "sponsored": {
+            "type": "boolean",
+            "description": "Whether gas for this swap is sponsored."
+          },
+          "rejectionReason": {
+            "type": "string",
+            "description": "Reason gas sponsorship was not granted. Present only when `sponsored` is `false`."
+          },
+          "sponsor": {
+            "$ref": "SponsorSummary"
+          }
+        }
+      }
+    },
+    "required": [
+      "routing",
+      "quote",
+      "permitData",
+      "requestId"
+    ]
+  }
+}

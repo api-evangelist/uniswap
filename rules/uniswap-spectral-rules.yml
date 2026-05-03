@@ -1,0 +1,311 @@
+rules:
+
+  # ─── INFO / METADATA ───────────────────────────────────────────────────────
+
+  info-title-required:
+    message: API info title is required
+    severity: error
+    given: $.info
+    then:
+      field: title
+      function: truthy
+
+  info-description-required:
+    message: API info description is required and should be meaningful
+    severity: warn
+    given: $.info
+    then:
+      field: description
+      function: truthy
+
+  info-version-required:
+    message: API info version is required
+    severity: error
+    given: $.info
+    then:
+      field: version
+      function: truthy
+
+  # ─── OPENAPI VERSION ────────────────────────────────────────────────────────
+
+  openapi-version-3:
+    message: OpenAPI version must be 3.x
+    severity: error
+    given: $
+    then:
+      field: openapi
+      function: pattern
+      functionOptions:
+        match: "^3\\."
+
+  # ─── SERVERS ────────────────────────────────────────────────────────────────
+
+  servers-defined:
+    message: At least one server must be defined
+    severity: error
+    given: $
+    then:
+      field: servers
+      function: truthy
+
+  servers-https-only:
+    message: Server URLs must use HTTPS
+    severity: error
+    given: $.servers[*].url
+    then:
+      function: pattern
+      functionOptions:
+        match: "^https://"
+
+  server-description-required:
+    message: Server entries should have descriptions
+    severity: warn
+    given: $.servers[*]
+    then:
+      field: description
+      function: truthy
+
+  # ─── PATHS — NAMING CONVENTIONS ─────────────────────────────────────────────
+
+  paths-no-trailing-slash:
+    message: Paths must not end with a trailing slash
+    severity: warn
+    given: $.paths[*]~
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: "/$"
+
+  paths-no-query-strings:
+    message: Query strings must not appear in path definitions
+    severity: error
+    given: $.paths[*]~
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: "\\?"
+
+  paths-kebab-case:
+    message: Path segments should use kebab-case (lowercase with hyphens)
+    severity: warn
+    given: $.paths[*]~
+    then:
+      function: pattern
+      functionOptions:
+        match: "^(/[a-z0-9_{}/-]+)+$"
+
+  # ─── OPERATIONS ─────────────────────────────────────────────────────────────
+
+  operation-id-required:
+    message: Every operation must have an operationId
+    severity: error
+    given: $.paths[*][get,post,put,patch,delete,head,options]
+    then:
+      field: operationId
+      function: truthy
+
+  operation-id-snake-case:
+    message: operationId should use snake_case
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete,head,options].operationId
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[a-z][a-z0-9_]*$"
+
+  operation-summary-required:
+    message: Every operation must have a summary
+    severity: error
+    given: $.paths[*][get,post,put,patch,delete,head,options]
+    then:
+      field: summary
+      function: truthy
+
+  operation-summary-title-case:
+    message: Operation summaries should use Title Case
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete,head,options].summary
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[A-Z]"
+
+  operation-description-required:
+    message: Every operation should have a description
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete,head,options]
+    then:
+      field: description
+      function: truthy
+
+  operation-tags-required:
+    message: Every operation should have at least one tag
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete,head,options]
+    then:
+      field: tags
+      function: truthy
+
+  # ─── PARAMETERS ─────────────────────────────────────────────────────────────
+
+  parameter-description-required:
+    message: All parameters must have descriptions
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete,head,options].parameters[*]
+    then:
+      field: description
+      function: truthy
+
+  parameter-schema-required:
+    message: All parameters must have a schema
+    severity: error
+    given: $.paths[*][get,post,put,patch,delete,head,options].parameters[*]
+    then:
+      field: schema
+      function: truthy
+
+  # ─── REQUEST BODIES ──────────────────────────────────────────────────────────
+
+  request-body-description:
+    message: Request bodies should have a description
+    severity: warn
+    given: $.paths[*][post,put,patch].requestBody
+    then:
+      field: description
+      function: truthy
+
+  request-body-json-content:
+    message: Request bodies should define application/json content
+    severity: warn
+    given: $.paths[*][post,put,patch].requestBody.content
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          minProperties: 1
+
+  # ─── RESPONSES ───────────────────────────────────────────────────────────────
+
+  response-success-required:
+    message: Every operation must define at least one 2xx success response
+    severity: error
+    given: $.paths[*][get,post,put,patch,delete]
+    then:
+      field: responses
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          patternProperties:
+            "^2[0-9]{2}$": {}
+          minProperties: 1
+
+  response-description-required:
+    message: All responses must have a description
+    severity: error
+    given: $.paths[*][get,post,put,patch,delete].responses[*]
+    then:
+      field: description
+      function: truthy
+
+  response-401-unauthorized:
+    message: Authenticated APIs should define a 401 response
+    severity: warn
+    given: $.paths[*][post,get]
+    then:
+      field: responses.401
+      function: truthy
+
+  response-429-rate-limit:
+    message: APIs with rate limits should define a 429 response
+    severity: info
+    given: $.paths[*][post,get]
+    then:
+      field: responses.429
+      function: truthy
+
+  # ─── SCHEMAS — PROPERTY NAMING ───────────────────────────────────────────────
+
+  schema-property-camel-case:
+    message: Schema properties should use camelCase (Uniswap convention)
+    severity: info
+    given: $.components.schemas[*].properties[*]~
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[a-z][a-zA-Z0-9]*$"
+
+  schema-type-defined:
+    message: Schema objects should define a type
+    severity: warn
+    given: $.components.schemas[*]
+    then:
+      field: type
+      function: truthy
+
+  # ─── SECURITY ────────────────────────────────────────────────────────────────
+
+  security-schemes-defined:
+    message: Security schemes must be defined
+    severity: error
+    given: $.components
+    then:
+      field: securitySchemes
+      function: truthy
+
+  security-api-key-header:
+    message: API key should be passed in x-api-key header (not as a query param)
+    severity: error
+    given: $.components.securitySchemes[*][?(@.type=='apiKey')]
+    then:
+      field: in
+      function: enumeration
+      functionOptions:
+        values:
+          - header
+
+  # ─── HTTP METHOD CONVENTIONS ─────────────────────────────────────────────────
+
+  get-no-request-body:
+    message: GET operations must not have a request body
+    severity: error
+    given: $.paths[*].get
+    then:
+      field: requestBody
+      function: falsy
+
+  delete-no-request-body:
+    message: DELETE operations should not have a request body
+    severity: warn
+    given: $.paths[*].delete
+    then:
+      field: requestBody
+      function: falsy
+
+  post-should-have-request-body:
+    message: POST operations should typically include a request body
+    severity: info
+    given: $.paths[*].post
+    then:
+      field: requestBody
+      function: truthy
+
+  # ─── GENERAL QUALITY ─────────────────────────────────────────────────────────
+
+  no-empty-descriptions:
+    message: Descriptions must not be empty strings
+    severity: warn
+    given: $..description
+    then:
+      function: pattern
+      functionOptions:
+        match: ".+"
+
+  components-schemas-defined:
+    message: Components schemas section should be defined for reusable types
+    severity: info
+    given: $.components
+    then:
+      field: schemas
+      function: truthy

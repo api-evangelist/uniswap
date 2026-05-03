@@ -1,0 +1,633 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "Uniswap Trading API"
+  description: "REST API for token swaps, gasless orders, LP position management, and execution planning across 25+ EVM chains."
+  tags:
+    - Uniswap
+    - DeFi
+    - Blockchain
+    - Swaps
+    - Liquidity
+  created: "2026-05-03"
+  modified: "2026-05-03"
+
+binds:
+  - namespace: env
+    keys:
+      UNISWAP_API_KEY: UNISWAP_API_KEY
+
+capability:
+  consumes:
+    - type: http
+      namespace: uniswap-trading
+      baseUri: https://trade-api.gateway.uniswap.org/v1
+      description: "Uniswap Labs trading API for token swaps, bridging, and LP management."
+      authentication:
+        type: apikey
+        key: x-api-key
+        value: "{{UNISWAP_API_KEY}}"
+        placement: header
+      resources:
+        - name: approvals
+          path: /check_approval
+          description: "Token approval management"
+          operations:
+            - name: check-token-approval
+              method: POST
+              description: "Check if token approval is required for a transaction"
+              inputParameters:
+                - name: walletAddress
+                  in: body
+                  type: string
+                  required: true
+                  description: "Ethereum address initiating the transaction"
+                - name: token
+                  in: body
+                  type: string
+                  required: true
+                  description: "Token contract address"
+                - name: amount
+                  in: body
+                  type: string
+                  required: true
+                  description: "Token amount in base units"
+                - name: chainId
+                  in: body
+                  type: integer
+                  required: false
+                  description: "Blockchain chain ID (default: 1 for Ethereum)"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: quotes
+          path: /quote
+          description: "Swap quote generation"
+          operations:
+            - name: get-swap-quote
+              method: POST
+              description: "Get a quote for a swap, bridge, or wrap/unwrap"
+              inputParameters:
+                - name: type
+                  in: body
+                  type: string
+                  required: true
+                  description: "Quote type: EXACT_INPUT or EXACT_OUTPUT"
+                - name: tokenInChainId
+                  in: body
+                  type: integer
+                  required: true
+                  description: "Source chain ID"
+                - name: tokenOutChainId
+                  in: body
+                  type: integer
+                  required: true
+                  description: "Destination chain ID"
+                - name: tokenIn
+                  in: body
+                  type: string
+                  required: true
+                  description: "Input token contract address"
+                - name: tokenOut
+                  in: body
+                  type: string
+                  required: true
+                  description: "Output token contract address"
+                - name: amount
+                  in: body
+                  type: string
+                  required: true
+                  description: "Token amount in base units"
+                - name: slippageTolerance
+                  in: body
+                  type: string
+                  required: false
+                  description: "Slippage tolerance as a percentage"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: swaps
+          path: /swap
+          description: "Swap transaction execution"
+          operations:
+            - name: create-swap-transaction
+              method: POST
+              description: "Generate calldata for a swap transaction"
+              inputParameters:
+                - name: type
+                  in: body
+                  type: string
+                  required: true
+                  description: "Swap type: EXACT_INPUT or EXACT_OUTPUT"
+                - name: tokenIn
+                  in: body
+                  type: string
+                  required: true
+                  description: "Input token address"
+                - name: tokenOut
+                  in: body
+                  type: string
+                  required: true
+                  description: "Output token address"
+                - name: amount
+                  in: body
+                  type: string
+                  required: true
+                  description: "Token amount in base units"
+                - name: swapper
+                  in: body
+                  type: string
+                  required: true
+                  description: "Swapper wallet address"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: get-swap-status
+              method: GET
+              description: "Get the status of a swap or bridge transaction"
+              inputParameters:
+                - name: txHash
+                  in: query
+                  type: string
+                  required: false
+                  description: "Transaction hash to look up"
+                - name: chainId
+                  in: query
+                  type: integer
+                  required: false
+                  description: "Chain ID"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: orders
+          path: /order
+          description: "Gasless UniswapX order management"
+          operations:
+            - name: create-gasless-order
+              method: POST
+              description: "Submit a gasless UniswapX intent order"
+              inputParameters:
+                - name: encodedOrder
+                  in: body
+                  type: string
+                  required: true
+                  description: "ABI-encoded signed order"
+                - name: orderType
+                  in: body
+                  type: string
+                  required: true
+                  description: "Order type (e.g., Dutch_V2)"
+                - name: signature
+                  in: body
+                  type: string
+                  required: true
+                  description: "EIP-712 signature over the order"
+                - name: chainId
+                  in: body
+                  type: integer
+                  required: true
+                  description: "Chain ID"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: list-gasless-orders
+              method: GET
+              description: "Retrieve gasless orders"
+              inputParameters:
+                - name: swapper
+                  in: query
+                  type: string
+                  required: false
+                  description: "Filter by swapper address"
+                - name: chainId
+                  in: query
+                  type: integer
+                  required: false
+                  description: "Filter by chain ID"
+                - name: orderStatus
+                  in: query
+                  type: string
+                  required: false
+                  description: "Filter by order status"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: limit-orders
+          path: /limit_order_quote
+          description: "Limit order quotes"
+          operations:
+            - name: get-limit-order-quote
+              method: POST
+              description: "Get a limit order quote"
+              inputParameters:
+                - name: chainId
+                  in: body
+                  type: integer
+                  required: true
+                  description: "Chain ID"
+                - name: tokenIn
+                  in: body
+                  type: string
+                  required: true
+                  description: "Input token address"
+                - name: tokenOut
+                  in: body
+                  type: string
+                  required: true
+                  description: "Output token address"
+                - name: amount
+                  in: body
+                  type: string
+                  required: true
+                  description: "Input amount in base units"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: lp-positions
+          path: /lp
+          description: "Liquidity provider position management"
+          operations:
+            - name: check-lp-approval
+              method: POST
+              description: "Check LP token approval requirements"
+              inputParameters:
+                - name: walletAddress
+                  in: body
+                  type: string
+                  required: true
+                  description: "LP wallet address"
+                - name: token
+                  in: body
+                  type: string
+                  required: true
+                  description: "Token address"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: create-lp-position
+              method: POST
+              description: "Create a V3 or V4 LP position"
+              inputParameters:
+                - name: chainId
+                  in: body
+                  type: integer
+                  required: true
+                  description: "Chain ID"
+                - name: walletAddress
+                  in: body
+                  type: string
+                  required: true
+                  description: "LP wallet address"
+                - name: token0
+                  in: body
+                  type: string
+                  required: true
+                  description: "First token address"
+                - name: token1
+                  in: body
+                  type: string
+                  required: true
+                  description: "Second token address"
+                - name: fee
+                  in: body
+                  type: integer
+                  required: true
+                  description: "Fee tier (e.g., 500 = 0.05%)"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: increase-lp-position
+              method: POST
+              description: "Increase liquidity in an LP position"
+              inputParameters:
+                - name: chainId
+                  in: body
+                  type: integer
+                  required: true
+                  description: "Chain ID"
+                - name: positionId
+                  in: body
+                  type: string
+                  required: true
+                  description: "LP position token ID"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: decrease-lp-position
+              method: POST
+              description: "Decrease liquidity in an LP position"
+              inputParameters:
+                - name: chainId
+                  in: body
+                  type: integer
+                  required: true
+                  description: "Chain ID"
+                - name: positionId
+                  in: body
+                  type: string
+                  required: true
+                  description: "LP position token ID"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: claim-lp-fees
+              method: POST
+              description: "Claim accumulated fees from an LP position"
+              inputParameters:
+                - name: chainId
+                  in: body
+                  type: integer
+                  required: true
+                  description: "Chain ID"
+                - name: positionId
+                  in: body
+                  type: string
+                  required: true
+                  description: "LP position token ID"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: get-pool-information
+              method: POST
+              description: "Fetch pool information"
+              inputParameters:
+                - name: chainId
+                  in: body
+                  type: integer
+                  required: true
+                  description: "Chain ID"
+                - name: token0
+                  in: body
+                  type: string
+                  required: true
+                  description: "First token address"
+                - name: token1
+                  in: body
+                  type: string
+                  required: true
+                  description: "Second token address"
+                - name: fee
+                  in: body
+                  type: integer
+                  required: false
+                  description: "Fee tier"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: tokens
+          path: /swappable_tokens
+          description: "Token discovery"
+          operations:
+            - name: list-swappable-tokens
+              method: GET
+              description: "List bridgable tokens for a given token and chain"
+              inputParameters:
+                - name: token
+                  in: query
+                  type: string
+                  required: false
+                  description: "Token address to find bridgable pairs for"
+                - name: chainId
+                  in: query
+                  type: integer
+                  required: false
+                  description: "Source chain ID"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: execution-plans
+          path: /plan
+          description: "Multi-step execution plans"
+          operations:
+            - name: create-execution-plan
+              method: POST
+              description: "Create a multi-step execution plan"
+              inputParameters:
+                - name: chainId
+                  in: body
+                  type: integer
+                  required: true
+                  description: "Chain ID"
+                - name: steps
+                  in: body
+                  type: array
+                  required: true
+                  description: "Array of steps in the plan"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: get-execution-plan
+              method: GET
+              description: "Retrieve an execution plan by ID"
+              inputParameters:
+                - name: planId
+                  in: path
+                  type: string
+                  required: true
+                  description: "Execution plan ID"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+  exposes:
+    - type: rest
+      port: 8100
+      namespace: uniswap-trading-api
+      resources:
+        - path: /v1/approvals
+          name: approvals
+          description: "Token approval management"
+          operations:
+            - method: POST
+              name: check-token-approval
+              description: "Check if token approval is required"
+        - path: /v1/quotes
+          name: quotes
+          description: "Swap quote generation"
+          operations:
+            - method: POST
+              name: get-swap-quote
+              description: "Get a swap, bridge, or wrap quote"
+        - path: /v1/swaps
+          name: swaps
+          description: "Swap execution"
+          operations:
+            - method: POST
+              name: create-swap-transaction
+              description: "Create swap transaction calldata"
+            - method: GET
+              name: get-swap-status
+              description: "Get swap transaction status"
+        - path: /v1/orders
+          name: orders
+          description: "Gasless order management"
+          operations:
+            - method: POST
+              name: create-gasless-order
+              description: "Submit a gasless UniswapX order"
+            - method: GET
+              name: list-gasless-orders
+              description: "List gasless orders"
+        - path: /v1/limit-orders
+          name: limit-orders
+          description: "Limit orders"
+          operations:
+            - method: POST
+              name: get-limit-order-quote
+              description: "Get limit order quote"
+        - path: /v1/lp-positions
+          name: lp-positions
+          description: "LP position management"
+          operations:
+            - method: POST
+              name: create-lp-position
+              description: "Create LP position"
+        - path: /v1/tokens
+          name: tokens
+          description: "Token discovery"
+          operations:
+            - method: GET
+              name: list-swappable-tokens
+              description: "List swappable/bridgable tokens"
+
+    - type: mcp
+      port: 9100
+      namespace: uniswap-trading-mcp
+      transport: http
+      tools:
+        - name: check-token-approval
+          description: "Check if token approval is required for a swap"
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "uniswap-trading.check-token-approval"
+          with:
+            walletAddress: "tools.walletAddress"
+            token: "tools.token"
+            amount: "tools.amount"
+            chainId: "tools.chainId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-swap-quote
+          description: "Get a quote for a token swap or bridge"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "uniswap-trading.get-swap-quote"
+          with:
+            type: "tools.type"
+            tokenIn: "tools.tokenIn"
+            tokenOut: "tools.tokenOut"
+            amount: "tools.amount"
+            chainId: "tools.chainId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: create-swap-transaction
+          description: "Generate calldata for executing a token swap"
+          hints:
+            readOnly: false
+            destructive: false
+            idempotent: false
+          call: "uniswap-trading.create-swap-transaction"
+          with:
+            type: "tools.type"
+            tokenIn: "tools.tokenIn"
+            tokenOut: "tools.tokenOut"
+            amount: "tools.amount"
+            swapper: "tools.swapper"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-gasless-orders
+          description: "List UniswapX gasless orders"
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "uniswap-trading.list-gasless-orders"
+          with:
+            swapper: "tools.swapper"
+            chainId: "tools.chainId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-limit-order-quote
+          description: "Get a limit order quote for a token pair"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "uniswap-trading.get-limit-order-quote"
+          with:
+            chainId: "tools.chainId"
+            tokenIn: "tools.tokenIn"
+            tokenOut: "tools.tokenOut"
+            amount: "tools.amount"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-swappable-tokens
+          description: "List tokens available for swapping or bridging"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "uniswap-trading.list-swappable-tokens"
+          with:
+            token: "tools.token"
+            chainId: "tools.chainId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-pool-information
+          description: "Fetch information about a Uniswap liquidity pool"
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "uniswap-trading.get-pool-information"
+          with:
+            chainId: "tools.chainId"
+            token0: "tools.token0"
+            token1: "tools.token1"
+            fee: "tools.fee"
+          outputParameters:
+            - type: object
+              mapping: "$."

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-pool-info-response-schema.json",
+  "title": "PoolInfoResponse",
+  "description": "PoolInfoResponse schema from Uniswap Trading API",
+  "type": "object",
+  "properties": {
+    "requestId": {
+      "$ref": "#/components/schemas/RequestId"
+    },
+    "pools": {
+      "type": "array",
+      "description": "Array of pool information objects.",
+      "items": {
+        "$ref": "#/components/schemas/PoolInformation"
+      }
+    },
+    "pageSize": {
+      "type": "number"
+    },
+    "currentPage": {
+      "type": "number"
+    }
+  }
+}

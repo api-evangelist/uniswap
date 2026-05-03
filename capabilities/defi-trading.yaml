@@ -1,0 +1,430 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "Uniswap DeFi Trading"
+  description: >-
+    Unified DeFi trading workflow for swap execution, gasless orders, liquidity management,
+    and token discovery. Used by DeFi developers, trading bots, and portfolio managers
+    building on the Uniswap protocol. Combines quote generation, swap execution,
+    UniswapX gasless orders, LP position management, and execution planning into a
+    single capability surface.
+  tags:
+    - Uniswap
+    - DeFi
+    - Blockchain
+    - Swaps
+    - Liquidity Provider
+    - Trading
+  created: "2026-05-03"
+  modified: "2026-05-03"
+
+binds:
+  - namespace: env
+    keys:
+      UNISWAP_API_KEY: UNISWAP_API_KEY
+
+capability:
+  consumes:
+    - import: uniswap-trading
+      location: ./shared/trading-api.yaml
+
+  exposes:
+    - type: rest
+      port: 8080
+      namespace: uniswap-defi-trading-api
+      description: "Unified REST API for DeFi trading via the Uniswap protocol."
+      resources:
+        - path: /v1/approvals
+          name: approvals
+          description: "Check token approval status before executing swaps"
+          operations:
+            - method: POST
+              name: check-token-approval
+              description: "Check if token approval is required for a swap"
+              call: "uniswap-trading.check-token-approval"
+              with:
+                walletAddress: "rest.walletAddress"
+                token: "rest.token"
+                amount: "rest.amount"
+                chainId: "rest.chainId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/quotes
+          name: quotes
+          description: "Get quotes for token swaps and bridges"
+          operations:
+            - method: POST
+              name: get-swap-quote
+              description: "Get the best quote for a token swap or cross-chain bridge"
+              call: "uniswap-trading.get-swap-quote"
+              with:
+                type: "rest.type"
+                tokenInChainId: "rest.tokenInChainId"
+                tokenOutChainId: "rest.tokenOutChainId"
+                tokenIn: "rest.tokenIn"
+                tokenOut: "rest.tokenOut"
+                amount: "rest.amount"
+                slippageTolerance: "rest.slippageTolerance"
+                swapper: "rest.swapper"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/swaps
+          name: swaps
+          description: "Execute token swaps"
+          operations:
+            - method: POST
+              name: create-swap-transaction
+              description: "Generate calldata for executing a token swap"
+              call: "uniswap-trading.create-swap-transaction"
+              with:
+                type: "rest.type"
+                tokenIn: "rest.tokenIn"
+                tokenOut: "rest.tokenOut"
+                amount: "rest.amount"
+                swapper: "rest.swapper"
+                slippageTolerance: "rest.slippageTolerance"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: GET
+              name: get-swap-status
+              description: "Get the status of a swap or bridge transaction"
+              call: "uniswap-trading.get-swap-status"
+              with:
+                txHash: "rest.txHash"
+                chainId: "rest.chainId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/orders
+          name: orders
+          description: "Gasless UniswapX order management"
+          operations:
+            - method: POST
+              name: create-gasless-order
+              description: "Submit a gasless UniswapX intent order"
+              call: "uniswap-trading.create-gasless-order"
+              with:
+                encodedOrder: "rest.encodedOrder"
+                orderType: "rest.orderType"
+                signature: "rest.signature"
+                chainId: "rest.chainId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: GET
+              name: list-gasless-orders
+              description: "List gasless orders with optional filtering"
+              call: "uniswap-trading.list-gasless-orders"
+              with:
+                swapper: "rest.swapper"
+                chainId: "rest.chainId"
+                orderStatus: "rest.orderStatus"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/limit-orders
+          name: limit-orders
+          description: "Limit order quotes and execution"
+          operations:
+            - method: POST
+              name: get-limit-order-quote
+              description: "Get a limit order quote for a token pair"
+              call: "uniswap-trading.get-limit-order-quote"
+              with:
+                chainId: "rest.chainId"
+                tokenIn: "rest.tokenIn"
+                tokenOut: "rest.tokenOut"
+                amount: "rest.amount"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/lp-positions
+          name: lp-positions
+          description: "Liquidity provider position lifecycle management"
+          operations:
+            - method: POST
+              name: create-lp-position
+              description: "Create a new V3 or V4 liquidity position"
+              call: "uniswap-trading.create-lp-position"
+              with:
+                chainId: "rest.chainId"
+                walletAddress: "rest.walletAddress"
+                token0: "rest.token0"
+                token1: "rest.token1"
+                fee: "rest.fee"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: PUT
+              name: increase-lp-position
+              description: "Add liquidity to an existing position"
+              call: "uniswap-trading.increase-lp-position"
+              with:
+                chainId: "rest.chainId"
+                positionId: "rest.positionId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: DELETE
+              name: decrease-lp-position
+              description: "Remove liquidity from an existing position"
+              call: "uniswap-trading.decrease-lp-position"
+              with:
+                chainId: "rest.chainId"
+                positionId: "rest.positionId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: claim-lp-fees
+              description: "Claim accumulated fees from an LP position"
+              call: "uniswap-trading.claim-lp-fees"
+              with:
+                chainId: "rest.chainId"
+                positionId: "rest.positionId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/pools
+          name: pools
+          description: "Liquidity pool discovery and information"
+          operations:
+            - method: POST
+              name: get-pool-information
+              description: "Fetch information about a Uniswap pool"
+              call: "uniswap-trading.get-pool-information"
+              with:
+                chainId: "rest.chainId"
+                token0: "rest.token0"
+                token1: "rest.token1"
+                fee: "rest.fee"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/tokens
+          name: tokens
+          description: "Token discovery for swaps and bridges"
+          operations:
+            - method: GET
+              name: list-swappable-tokens
+              description: "List tokens available for swapping or bridging"
+              call: "uniswap-trading.list-swappable-tokens"
+              with:
+                token: "rest.token"
+                chainId: "rest.chainId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9080
+      namespace: uniswap-defi-trading-mcp
+      transport: http
+      description: "MCP server for AI-assisted DeFi trading on Uniswap."
+      tools:
+        - name: check-token-approval
+          description: "Check if a wallet has sufficient token approval for a swap transaction"
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "uniswap-trading.check-token-approval"
+          with:
+            walletAddress: "tools.walletAddress"
+            token: "tools.token"
+            amount: "tools.amount"
+            chainId: "tools.chainId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-swap-quote
+          description: "Get the best available quote for swapping one token for another, including gas estimates and price impact"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "uniswap-trading.get-swap-quote"
+          with:
+            type: "tools.type"
+            tokenInChainId: "tools.tokenInChainId"
+            tokenOutChainId: "tools.tokenOutChainId"
+            tokenIn: "tools.tokenIn"
+            tokenOut: "tools.tokenOut"
+            amount: "tools.amount"
+            slippageTolerance: "tools.slippageTolerance"
+            swapper: "tools.swapper"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: create-swap-transaction
+          description: "Generate the calldata needed to execute a token swap on-chain"
+          hints:
+            readOnly: false
+            destructive: false
+            idempotent: false
+          call: "uniswap-trading.create-swap-transaction"
+          with:
+            type: "tools.type"
+            tokenIn: "tools.tokenIn"
+            tokenOut: "tools.tokenOut"
+            amount: "tools.amount"
+            swapper: "tools.swapper"
+            slippageTolerance: "tools.slippageTolerance"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-swap-status
+          description: "Check the status of a submitted swap or bridge transaction"
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "uniswap-trading.get-swap-status"
+          with:
+            txHash: "tools.txHash"
+            chainId: "tools.chainId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: create-gasless-order
+          description: "Submit a gasless UniswapX intent order where fillers compete to fill it"
+          hints:
+            readOnly: false
+            destructive: false
+            idempotent: false
+          call: "uniswap-trading.create-gasless-order"
+          with:
+            encodedOrder: "tools.encodedOrder"
+            orderType: "tools.orderType"
+            signature: "tools.signature"
+            chainId: "tools.chainId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-gasless-orders
+          description: "List UniswapX gasless orders for a wallet with optional status filtering"
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "uniswap-trading.list-gasless-orders"
+          with:
+            swapper: "tools.swapper"
+            chainId: "tools.chainId"
+            orderStatus: "tools.orderStatus"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-limit-order-quote
+          description: "Get a quote for a limit order that executes when price conditions are met"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "uniswap-trading.get-limit-order-quote"
+          with:
+            chainId: "tools.chainId"
+            tokenIn: "tools.tokenIn"
+            tokenOut: "tools.tokenOut"
+            amount: "tools.amount"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-swappable-tokens
+          description: "List all tokens available for swapping or bridging from a given token"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "uniswap-trading.list-swappable-tokens"
+          with:
+            token: "tools.token"
+            chainId: "tools.chainId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-pool-information
+          description: "Get detailed information about a Uniswap liquidity pool including TVL, fees, and tick data"
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "uniswap-trading.get-pool-information"
+          with:
+            chainId: "tools.chainId"
+            token0: "tools.token0"
+            token1: "tools.token1"
+            fee: "tools.fee"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: create-lp-position
+          description: "Create a new concentrated liquidity position in a Uniswap V3 or V4 pool"
+          hints:
+            readOnly: false
+            destructive: false
+            idempotent: false
+          call: "uniswap-trading.create-lp-position"
+          with:
+            chainId: "tools.chainId"
+            walletAddress: "tools.walletAddress"
+            token0: "tools.token0"
+            token1: "tools.token1"
+            fee: "tools.fee"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: increase-lp-position
+          description: "Add more liquidity to an existing LP position"
+          hints:
+            readOnly: false
+            destructive: false
+            idempotent: false
+          call: "uniswap-trading.increase-lp-position"
+          with:
+            chainId: "tools.chainId"
+            positionId: "tools.positionId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: decrease-lp-position
+          description: "Remove liquidity from an LP position"
+          hints:
+            readOnly: false
+            destructive: true
+            idempotent: true
+          call: "uniswap-trading.decrease-lp-position"
+          with:
+            chainId: "tools.chainId"
+            positionId: "tools.positionId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: claim-lp-fees
+          description: "Claim accumulated trading fees from a liquidity position"
+          hints:
+            readOnly: false
+            destructive: false
+            idempotent: false
+          call: "uniswap-trading.claim-lp-fees"
+          with:
+            chainId: "tools.chainId"
+            positionId: "tools.positionId"
+          outputParameters:
+            - type: object
+              mapping: "$."

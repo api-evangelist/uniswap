@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CreateSwapResponse Structure",
+  "description": "JSON Structure for CreateSwapResponse from Uniswap Trading API",
+  "structure": {
+    "type": "object",
+    "properties": {
+      "requestId": {
+        "type": "string",
+        "description": "A unique ID for the request."
+      },
+      "swap": {
+        "type": "object",
+        "properties": {
+          "to": {
+            "$ref": "receiverWalletAddress"
+          },
+          "from": {
+            "$ref": "senderWalletAddress"
+          },
+          "data": {
+            "type": "string",
+            "description": "The calldata for the transaction."
+          },
+          "value": {
+            "type": "string",
+            "description": "The quantity of ETH tokens approved for spending by the transaction, denominated in wei. Note that by default Uniswap Labs sets this to the maximum approvable spend."
+          },
+          "gasLimit": {
+            "$ref": "gasLimit"
+          },
+          "chainId": {
+            "$ref": "ChainId"
+          },
+          "maxFeePerGas": {
+            "$ref": "maxFeePerGas"
+          },
+          "maxPriorityFeePerGas": {
+            "$ref": "maxPriorityFeePerGas"
+          },
+          "gasPrice": {
+            "$ref": "gasPrice"
+          }
+        },
+        "required": [
+          "to",
+          "from",
+          "data",
+          "value",
+          "chainId"
+        ]
+      },
+      "gasFee": {
+        "type": "string",
+        "description": "The total estimated gas cost of this transaction (eg. `gasLimit` multiplied by `maxFeePerGas`) in the base unit of the chain."
+      }
+    },
+    "required": [
+      "requestId",
+      "swap"
+    ]
+  }
+}

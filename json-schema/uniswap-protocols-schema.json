@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-protocols-schema.json",
+  "title": "Protocols",
+  "description": "The protocols to use for the swap/order. If the `protocols` field is defined, then you can only set the `routingPreference` to `BEST_PRICE`. Note that the value `UNISWAPX` is deprecated and will be removed in a future release.",
+  "type": "array",
+  "items": {
+    "$ref": "#/components/schemas/ProtocolItems"
+  }
+}

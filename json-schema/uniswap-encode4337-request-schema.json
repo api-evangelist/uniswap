@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-encode4337-request-schema.json",
+  "title": "Encode4337Request",
+  "description": "Request body for encoding an ERC-4337 UserOperation.",
+  "type": "object",
+  "properties": {
+    "calls": {
+      "type": "array",
+      "description": "Batch of transactions to encode into the UserOperation.",
+      "items": {
+        "$ref": "#/components/schemas/TransactionRequest5792"
+      },
+      "minItems": 1
+    },
+    "sender": {
+      "$ref": "#/components/schemas/Address",
+      "description": "Smart account address that will execute the operation."
+    },
+    "chainId": {
+      "$ref": "#/components/schemas/ChainId"
+    },
+    "paymasterUrl": {
+      "type": "string",
+      "format": "uri",
+      "description": "JSON-RPC URL of a paymaster service for gas sponsorship."
+    },
+    "paymasterServiceContext": {
+      "type": "object",
+      "description": "Opaque context forwarded to the paymaster (e.g. `{ \"policyId\": \"...\" }`)."
+    },
+    "eip7702Auth": {
+      "$ref": "#/components/schemas/Eip7702Authorization"
+    }
+  },
+  "required": [
+    "calls",
+    "sender",
+    "chainId"
+  ]
+}

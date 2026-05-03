@@ -1,0 +1,47 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://trade-api.gateway.uniswap.org/v1/swap",
+    "headers": {
+      "Content-Type": "application/json",
+      "x-api-key": "YOUR_API_KEY"
+    },
+    "body": {
+      "type": "EXACT_INPUT",
+      "tokenInChainId": 1,
+      "tokenOutChainId": 1,
+      "tokenIn": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+      "tokenOut": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+      "amount": "1000000000000000000",
+      "slippageTolerance": "0.5",
+      "swapper": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
+      "protocols": ["V3"],
+      "routingPreference": "BEST_PRICE",
+      "urgency": "normal"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "swap": {
+        "to": "0x3fC91A3afd70395Cd496C647d5a6CC9D4B2b7FAD",
+        "data": "0x3593564c...",
+        "value": "0x0",
+        "gasLimit": "250000",
+        "gasPrice": "15000000000",
+        "chainId": 1
+      },
+      "quote": {
+        "input": {
+          "token": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+          "amount": "1000000000000000000"
+        },
+        "output": {
+          "token": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+          "amount": "2498123456"
+        }
+      },
+      "requestId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    }
+  }
+}

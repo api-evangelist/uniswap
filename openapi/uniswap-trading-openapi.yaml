@@ -1,0 +1,5331 @@
+components:
+  parameters:
+    bridgeTokenInChainIdParam:
+      example: 1
+      in: query
+      name: tokenInChainId
+      required: true
+      schema:
+        $ref: '#/components/schemas/ChainId'
+    chainIdParam:
+      in: query
+      name: chainId
+      required: false
+      schema:
+        $ref: '#/components/schemas/ChainId'
+    cursorParam:
+      in: query
+      name: cursor
+      required: false
+      schema:
+        type: string
+    erc20EthEnabledHeader:
+      description: Enable native ETH input support for UniswapX via ERC20-ETH (EIP-7914).
+        When set to true and `tokenIn` is the native currency address (e.g. `0x0000000000000000000000000000000000000000`),
+        the API may return UniswapX routes that spend native ETH for supported wallets.
+      in: header
+      name: x-erc20eth-enabled
+      required: false
+      schema:
+        default: false
+        type: boolean
+    fillerParam:
+      description: Filter by filler address.
+      in: query
+      name: filler
+      required: false
+      schema:
+        $ref: '#/components/schemas/Address'
+    limitParam:
+      in: query
+      name: limit
+      required: false
+      schema:
+        type: number
+    orderIdParam:
+      description: A transaction hash for an order. `orderId` or `orderIds` must be
+        provided, but not both.
+      in: query
+      name: orderId
+      required: false
+      schema:
+        $ref: '#/components/schemas/orderId'
+    orderIdsParam:
+      description: A list of comma separated orderIds (transaction hashes). `orderId`
+        or `orderIds` must be provided, but not both.
+      in: query
+      name: orderIds
+      required: false
+      schema:
+        $ref: '#/components/schemas/OrderIds'
+    orderStatusParam:
+      description: Filter by order status.
+      in: query
+      name: orderStatus
+      required: false
+      schema:
+        $ref: '#/components/schemas/OrderStatus'
+    orderTypeParam:
+      description: The UniswapX order type to retrieve.
+      in: query
+      name: orderType
+      required: false
+      schema:
+        $ref: '#/components/schemas/OrderTypeQuery'
+    permit2DisabledHeader:
+      description: Disables the Permit2 approval flow. When set to `true`, `permitData`
+        is returned as `null` and the header is forwarded to the routing layer for
+        correct gas simulation against the Proxy Universal Router contract. When `false`
+        or omitted, the standard Permit2 approval flow is used. This header is intended
+        for integrators whose infrastructure uses a direct approval-then-swap pattern
+        without Permit2.
+      in: header
+      name: x-permit2-disabled
+      required: false
+      schema:
+        default: false
+        type: boolean
+    sortKeyParam:
+      description: Order the query results by the sort key.
+      in: query
+      name: sortKey
+      required: false
+      schema:
+        $ref: '#/components/schemas/SortKey'
+    sortParam:
+      description: 'Sort query. For example: `sort=gt(UNIX_TIMESTAMP)`, `sort=between(1675872827,
+        1675872930)`, or `lt(1675872930)`.'
+      in: query
+      name: sort
+      required: false
+      schema:
+        type: string
+    swapperParam:
+      description: Filter by swapper address.
+      in: query
+      name: swapper
+      required: false
+      schema:
+        $ref: '#/components/schemas/Address'
+    tokenInParam:
+      example: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48'
+      in: query
+      name: tokenIn
+      required: true
+      schema:
+        $ref: '#/components/schemas/Address'
+    transactionHashesParam:
+      description: On-chain transaction hashes. At least one of `txHashes` or `userOpHashes`
+        must be provided.
+      example:
+      - '0xc286f0adc6a9d6d26d6114df251d9b09d8bfafb2e00af5953193f6af92e110db'
+      explode: false
+      in: query
+      name: txHashes
+      required: false
+      schema:
+        items:
+          $ref: '#/components/schemas/TransactionHash'
+        type: array
+      style: form
+    universalRouterVersionHeader:
+      description: The version of the Universal Router to use for the swap journey.
+        *MUST* be consistent throughout the API calls.
+      in: header
+      name: x-universal-router-version
+      required: false
+      schema:
+        $ref: '#/components/schemas/UniversalRouterVersion'
+    userOpHashesParam:
+      description: ERC-4337 UserOperation hashes. At least one of `txHashes` or `userOpHashes`
+        must be provided.
+      example:
+      - '0xd47b609961a02483c9516d1f326244357e7e0b1d91569ebb4d119dff17e47330'
+      explode: false
+      in: query
+      name: userOpHashes
+      required: false
+      schema:
+        items:
+          $ref: '#/components/schemas/TransactionHash'
+        type: array
+      style: form
+  responses:
+    ApprovalNotFound404:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err404'
+      description: ResourceNotFound eg. Token allowance not found or Gas info not
+        found.
+    ApprovalSuccess200:
+      content:
+        application/json:
+          example:
+            approval:
+              chainId: 1
+              data: 0x095ea7b300...
+              from: '0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421'
+              gasLimit: '56344'
+              maxFeePerGas: '4656513686'
+              maxPriorityFeePerGas: '2000000000'
+              to: '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599'
+              value: '0x00'
+            cancel: null
+            gasFee: '262366607123984'
+            requestId: e63f1e1e-b9e9-411a-bcc8-ff18ce4e77cf
+          schema:
+            $ref: '#/components/schemas/ApprovalResponse'
+      description: Check approval successful.
+    ApprovalUnauthorized401:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err401'
+      description: UnauthorizedError eg. Account is blocked.
+    BadRequest400:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err400'
+      description: RequestValidationError, Bad Input
+    ClaimFeesSuccess200:
+      content:
+        application/json:
+          example:
+            claim:
+              chainId: 130
+              data: 0xdd46508f00...
+              from: '0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421'
+              to: '0x4529A01c7A0410167c5740C487A8DE60232617bf'
+              value: '0x00'
+            requestId: cMIoDgRSiYcEJEA=
+            token0:
+              amount: '15372648576927'
+              tokenAddress: '0x0000000000000000000000000000000000000000'
+            token1:
+              amount: '33625'
+              tokenAddress: '0x078D782b760474a361dDA0AF3839290b0EF57AD6'
+          schema:
+            $ref: '#/components/schemas/ClaimFeesResponse'
+      description: Claim fees successful.
+    CreateClassicPositionSuccess200:
+      content:
+        application/json:
+          example:
+            create:
+              chainId: 130
+              data: 0xf305d71900...
+              from: '0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421'
+              to: '0x284F11109359a7e1306C3e447ef14D38400063FF'
+              value: '0x045c9632c3901e'
+            dependentToken:
+              amount: '1227700073369630'
+              tokenAddress: '0x0000000000000000000000000000000000000000'
+            independentToken:
+              amount: '1000000000000000'
+              tokenAddress: '0xc02fE7317D4eb8753a02c35fe019786854A92001'
+            requestId: cMJXBil3CYcEJjQ=
+          schema:
+            $ref: '#/components/schemas/CreateClassicPositionResponse'
+      description: Create classic (V2) position successful.
+    CreatePlanSuccess200:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PlanResponse'
+      description: Create plan successful.
+    CreatePositionSuccess200:
+      content:
+        application/json:
+          example:
+            adjustedMaxPrice: '0.000000002470095393846743765417492756'
+            adjustedMinPrice: '0.000000002291623505250648965031523285'
+            create:
+              chainId: 8453
+              data: 0xdd46508f00...
+              from: '0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421'
+              to: '0x7C5f5A4bBd8fD63184577525326123B519429bDc'
+              value: '0x0370d2117653fe'
+            requestId: 3e7960b1-496d-4810-b071-a989fc6c82c3
+            tickLower: -198950
+            tickUpper: -198200
+            token0:
+              amount: '953604746993169'
+              tokenAddress: '0x0000000000000000000000000000000000000000'
+            token1:
+              amount: '3000000'
+              tokenAddress: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'
+          schema:
+            $ref: '#/components/schemas/CreatePositionResponse'
+      description: Create V3/V4 position successful.
+    CreateSendSuccess200:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreateSendResponse'
+      description: Create send successful.
+    CreateSwap5792Success200:
+      content:
+        application/json:
+          example:
+            calls:
+            - data: 0x095ea7b300...
+              to: '0x624e2e7fDc8903165F64891672267AB0FCB98831'
+              value: '0x00'
+            - data: 0x87517c4500...
+              to: '0x000000000022D473030F116dDEE9F6B43aC78BA3'
+              value: '0x00'
+            - data: 0x3593564c00...
+              to: '0x6fF5693b99212Da76ad316178A184AB56D299b43'
+              value: '0x00'
+            chainId: 8453
+            from: '0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421'
+            gasFee: '1831080624586'
+            requestId: cOkpchwvCYcEMhA=
+          schema:
+            $ref: '#/components/schemas/CreateSwap5792Response'
+      description: Create 5792 swap successful.
+    CreateSwap7702Success200:
+      content:
+        application/json:
+          example:
+            gasFee: '1631928838652'
+            requestId: cOnyIgrpiYcEJYg=
+            swap:
+              chainId: 8453
+              data: 0x99e1d01600...
+              from: '0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421'
+              gasLimit: '225580'
+              gasPrice: '6000000'
+              to: '0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421'
+              value: '0x0'
+          schema:
+            $ref: '#/components/schemas/CreateSwap7702Response'
+      description: Create 7702 swap successful.
+    CreateSwapSuccess200:
+      content:
+        application/json:
+          example:
+            gasFee: '859698802733460'
+            requestId: dfc1bd88-c741-4cdb-b118-0dddb690bfef
+            swap:
+              chainId: 1
+              data: 0x3593564c00...
+              from: '0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421'
+              gasLimit: '179302'
+              maxFeePerGas: '4794697230'
+              maxPriorityFeePerGas: '2000000000'
+              to: '0x66a9893cc07d91d95644aedd05d03f95e1dba8af'
+              value: '0x00'
+          schema:
+            $ref: '#/components/schemas/CreateSwapResponse'
+      description: Create swap successful.
+    DecreasePositionSuccess200:
+      content:
+        application/json:
+          example:
+            decrease:
+              chainId: 130
+              data: 0xdd46508f00...
+              from: '0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421'
+              to: '0x4529A01c7A0410167c5740C487A8DE60232617bf'
+              value: '0x00'
+            requestId: cMHfBjMJCYcEJQg=
+            token0:
+              amount: '218729726079859'
+              tokenAddress: '0x0000000000000000000000000000000000000000'
+            token1:
+              amount: '506124'
+              tokenAddress: '0x078D782b760474a361dDA0AF3839290b0EF57AD6'
+          schema:
+            $ref: '#/components/schemas/DecreasePositionResponse'
+      description: Decrease position successful.
+    GetPlanSuccess200:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PlanResponse'
+      description: Get plan successful.
+    GetSwappableTokensSuccess200:
+      content:
+        application/json:
+          example:
+            requestId: cL_1ih66iYcEJ2g=
+            tokens:
+            - address: '0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85'
+              chainId: 10
+              decimals: 6
+              name: USD Coin
+              project:
+                isSpam: false
+                logo:
+                  url: https://coin-images.coingecko.com/coins/images/6319/large/USDC.png?1769615602
+                safetyLevel: VERIFIED
+              symbol: USDC
+            - address: '0x7F5c764cBc14f9669B88837ca1490cCa17c31607'
+              chainId: 10
+              decimals: 6
+              name: Bridged USDC
+              project:
+                isSpam: false
+                logo:
+                  url: https://coin-images.coingecko.com/coins/images/31580/large/USDC-icon.png?1696530397
+                safetyLevel: VERIFIED
+              symbol: USDC.e
+            - address: '0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359'
+              chainId: 137
+              decimals: 6
+              name: USD Coin
+              project:
+                isSpam: false
+                logo:
+                  url: https://coin-images.coingecko.com/coins/images/6319/large/USDC.png?1769615602
+                safetyLevel: VERIFIED
+              symbol: USDC
+          schema:
+            $ref: '#/components/schemas/GetSwappableTokensResponse'
+      description: Get swappable tokens successful.
+    GetSwapsSuccess200:
+      content:
+        application/json:
+          example:
+            requestId: cL8S8hNtCYcEJLg=
+            swaps:
+            - status: SUCCESS
+              swapType: CLASSIC
+              txHash: '0xc286f0adc6a9d6d26d6114df251d9b09d8bfafb2e00af5953193f6af92e110db'
+          schema:
+            $ref: '#/components/schemas/GetSwapsResponse'
+      description: Get swap successful.
+    IncreasePositionSuccess200:
+      content:
+        application/json:
+          example:
+            gasFee: '2668712200733'
+            increase:
+              chainId: 8453
+              data: 0xac9650d800...
+              from: '0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421'
+              gasLimit: '288938'
+              gasPrice: '9000000'
+              to: '0x03a520b32C04BF3bEEf7BEb72E919cf822Ed34f1'
+              value: '0x034828c18ec9f4'
+            requestId: ff287fc0-3a81-42a2-a2fd-cce6a5f16821
+            token0:
+              amount: '923764813384463'
+              tokenAddress: '0x4200000000000000000000000000000000000006'
+            token1:
+              amount: '3000000'
+              tokenAddress: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'
+          schema:
+            $ref: '#/components/schemas/IncreasePositionResponse'
+      description: Increase position successful.
+    InternalErr500:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err500'
+      description: Unexpected error
+    LPApprovalSuccess200:
+      content:
+        application/json:
+          example:
+            requestId: cMDelitrCYcEJow=
+            transactions:
+            - action: CREATE
+              cancelApproval: false
+              transaction:
+                chainId: 1
+                data: 0x095ea7b300...
+                from: '0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421'
+                to: '0x455e53CBB86018Ac2B8092FdCd39d8444aFFC3F6'
+                value: '0x00'
+            - action: CREATE
+              cancelApproval: false
+              transaction:
+                chainId: 1
+                data: 0x095ea7b300...
+                from: '0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421'
+                to: '0xdAC17F958D2ee523a2206206994597C13D831ec7'
+                value: '0x00'
+          schema:
+            $ref: '#/components/schemas/LPApprovalResponse'
+      description: LP approval check successful.
+    LPNotFound404:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err404'
+      description: ResourceNotFound eg. Cant Find LP Position.
+    LimitOrderQuoteSuccess200:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/LimitOrderQuoteResponse'
+      description: Limit Order Quote request successful.
+    OrderSuccess201:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OrderResponse'
+      description: Encoded order submitted.
+    OrderUnavailable503:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err503'
+      description: Failed to post order to the upstream UniswapX service.
+    OrdersBadRequest400:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err400'
+      description: RequestValidationError eg. Token allowance not valid or Insufficient
+        Funds.
+    OrdersNotFound404:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err404'
+      description: Orders not found.
+    OrdersSuccess200:
+      content:
+        application/json:
+          example:
+            orders:
+            - chainId: 1
+              cosignature: 0x29979349ca...
+              cosignerData:
+                decayEndTime: 1774555306
+                decayStartTime: 1774555246
+                exclusiveFiller: '0x8392876883Cf0e9e7ee24d9b1F606ED88644f23B'
+                inputOverride: '0'
+                outputOverrides:
+                - '3306647558219378950381'
+                - '0'
+              createdAt: 1774555222
+              encodedOrder: 0x0000000000...
+              input:
+                endAmount: '1211000000'
+                startAmount: '1211000000'
+                token: '0xdAC17F958D2ee523a2206206994597C13D831ec7'
+              nonce: '1993350603649363012805190338010060803841095487773749076708031661332198422531'
+              orderId: '0x7030883e6b34144d7f5e731bde66e23eb124f160f857cc5bc33c5c280fa63701'
+              orderStatus: cancelled
+              outputs:
+              - endAmount: '3285166798696516713309'
+                recipient: '0xb659Bb7b4B3fEc43F071F6f95cF975E1Aa89C6Ed'
+                startAmount: '3301675174569363530964'
+                token: '0x45e02bc2875A2914C4f585bBF92a6F28bc07CB70'
+              - endAmount: '8233500748612823842'
+                recipient: '0x12c280eE47dDf0372B86E29a7065880108895fe7'
+                startAmount: '8274875124233993811'
+                token: '0x45e02bc2875A2914C4f585bBF92a6F28bc07CB70'
+              quoteId: 3a0200d7-be0c-46d5-b19e-82a6c2719480
+              settledAmounts:
+              - amountIn: '1211000000'
+                amountOut: '3306647558219378950381'
+                tokenIn: '0xdAC17F958D2ee523a2206206994597C13D831ec7'
+                tokenOut: '0x45e02bc2875A2914C4f585bBF92a6F28bc07CB70'
+              signature: 0xcc803880b7...
+              swapper: '0xb659Bb7b4B3fEc43F071F6f95cF975E1Aa89C6Ed'
+              txHash: '0x0b12fb61cd06dc179f270c4525584d07fc08911f78c4a940997981d01037fff7'
+              type: Dutch_V2
+            requestId: cOVivj_DiYcEPqQ=
+          schema:
+            $ref: '#/components/schemas/GetOrdersResponse'
+      description: The request orders matching the query parameters.
+    OrdersUnavailable503:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err503'
+      description: Upstream UniswapX service unavailable while fetching orders.
+    PoolInfoNotFound404:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err404'
+      description: ResourceNotFound eg. No pool information on given chain
+    PoolInfoResponse200:
+      content:
+        application/json:
+          example:
+            currentPage: 1
+            pageSize: 1
+            pools:
+            - chainId: 1
+              currentTick: -198932
+              fee: 3000
+              hookAddress: '0x0000000000000000000000000000000000000000'
+              poolLiquidity: '1007803497966589811'
+              poolProtocol: V4
+              poolReferenceIdentifier: '0xdce6394339af00981949f5f3baf27e3610c76326a700af57e4b3e3ae4977f78d'
+              sqrtRatioX96: '3796141369585623258184840'
+              tickSpacing: 60
+              tokenAddressA: '0x0000000000000000000000000000000000000000'
+              tokenAddressB: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
+              tokenDecimalsA: '18'
+              tokenDecimalsB: '6'
+            requestId: 1b68b6fa-3946-4c5b-ac60-e5fb9d614a1b
+          schema:
+            $ref: '#/components/schemas/PoolInfoResponse'
+      description: Pool information response successful.
+    QuoteNotFound404:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err404'
+      description: ResourceNotFound eg. No quotes available or Gas fee/price not available
+    QuoteSuccess200:
+      content:
+        application/json:
+          example:
+            permitData:
+              domain:
+                chainId: 1
+                name: Permit2
+                verifyingContract: '0x000000000022D473030F116dDEE9F6B43aC78BA3'
+              types:
+                PermitDetails:
+                - name: token
+                  type: address
+                - name: amount
+                  type: uint160
+                - name: expiration
+                  type: uint48
+                - name: nonce
+                  type: uint48
+                PermitSingle:
+                - name: details
+                  type: PermitDetails
+                - name: spender
+                  type: address
+                - name: sigDeadline
+                  type: uint256
+              values:
+                details:
+                  amount: '1461501637330902918203684832716283019655932542975'
+                  expiration: '1749845047'
+                  nonce: '1'
+                  token: '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599'
+                sigDeadline: '1747254847'
+                spender: '0x66a9893cc07d91d95644aedd05d03f95e1dba8af'
+            permitTransaction: null
+            quote:
+              aggregatedOutputs:
+              - amount: '993829944455360'
+                bps: 9975
+                minAmount: '993829944455360'
+                recipient: '0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421'
+                token: '0x0000000000000000000000000000000000000000'
+              - amount: '2490801865802'
+                bps: 25
+                minAmount: '2490801865802'
+                recipient: '0x000000fee13a103A10D593b9AE06b3e05F2E7E1c'
+                token: '0x0000000000000000000000000000000000000000'
+              blockNumber: '22483653'
+              chainId: 1
+              gasFee: '489108586810000'
+              gasFeeQuote: '489108586810000'
+              gasFeeUSD: '1.27511942409885062'
+              gasUseEstimate: '180350'
+              input:
+                amount: '2516'
+                token: '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599'
+              maxFeePerGas: '4656513686'
+              maxPriorityFeePerGas: '2000000000'
+              output:
+                amount: '996320746321162'
+                recipient: '0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421'
+                token: '0x0000000000000000000000000000000000000000'
+              portionAmount: '2490801865802'
+              portionBips: 25
+              portionRecipient: '0x000000fee13a103A10D593b9AE06b3e05F2E7E1c'
+              priceImpact: 0.14
+              quoteId: 62e83902-9455-405d-8c62-cdf8ee9e2042
+              route:
+              - - address: '0x599326d9cd5e1ea0893305c87d5ec3199e7f05e94d72159f35dea381479a615e'
+                  amountIn: '2516'
+                  amountOut: '993829944455359'
+                  fee: '500'
+                  hooks: '0x0000000000000000000000000000000000000000'
+                  liquidity: '82781860385007263'
+                  sqrtRatioX96: '125814565506407615477027'
+                  tickCurrent: '-267075'
+                  tickSpacing: '10'
+                  tokenIn:
+                    address: '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599'
+                    chainId: 1
+                    decimals: '8'
+                    symbol: WBTC
+                  tokenOut:
+                    address: '0x0000000000000000000000000000000000000000'
+                    chainId: 1
+                    decimals: '18'
+                    symbol: ETH
+                  type: v4-pool
+              routeString: '[V4] 100.00% = WBTC -- 0.05% [0x599326d9cd5e1ea0893305c87d5ec3199e7f05e94d72159f35dea381479a615e]ETH'
+              slippage: 5.5
+              swapper: '0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421'
+              tradeType: EXACT_INPUT
+              txFailureReasons: []
+            requestId: 34784ef4-065a-4fa2-b77c-521f785fc068
+            routing: CLASSIC
+          schema:
+            $ref: '#/components/schemas/QuoteResponse'
+      description: Quote request successful.
+    RateLimitedErr429:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err429'
+      description: Ratelimited
+    SendNotFound404:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err404'
+      description: ResourceNotFound eg. Gas fee not available
+    SwapBadRequest400:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err400'
+      description: RequestValidationError, Bad Input
+    SwapNotFound404:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err404'
+      description: ResourceNotFound eg. No quotes available or Gas fee/price not available
+    SwapUnauthorized401:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err401'
+      description: UnauthorizedError eg. Account is blocked or  Fee is not enabled.
+    Timeout504:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err504'
+      description: Request duration limit reached.
+    Unauthorized401:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err401'
+      description: UnauthorizedError eg. Account is blocked.
+    UnprocessableEntity422:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err422'
+      description: UnprocessableEntity eg. Plan is already completed and cannot be
+        updated.
+    UpdatePlanSuccess200:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PlanResponse'
+      description: Update plan successful.
+    WalletCheckDelegationSuccess200:
+      content:
+        application/json:
+          example:
+            delegationDetails:
+              '0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421':
+                '1':
+                  currentDelegationAddress: '0x000000009b1d0af20d8c6d0a44e162d11f9b8f00'
+                  isWalletDelegatedToUniswap: true
+                  latestDelegationAddress: '0x000000009b1d0af20d8c6d0a44e162d11f9b8f00'
+                '8453':
+                  currentDelegationAddress: '0x000000009b1d0af20d8c6d0a44e162d11f9b8f00'
+                  isWalletDelegatedToUniswap: true
+                  latestDelegationAddress: '0x000000009b1d0af20d8c6d0a44e162d11f9b8f00'
+            requestId: cOxNNjs6iYcEJEA=
+          schema:
+            $ref: '#/components/schemas/WalletCheckDelegationResponseBody'
+      description: Wallet delegation info request successful.
+    WalletEncode7702Success200:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Encode7702ResponseBody'
+      description: Encode 7702 wallet transactions successful.
+  schemas:
+    Address:
+      pattern: ^(0x)?[0-9a-fA-F]{40}$
+      type: string
+    AggregatedOutput:
+      description: An array of all outputs of the proposed transaction. This includes
+        the swap as well as any fees collected by the API integrator. This does not
+        include pool fees when routing is through a Uniswap Protocol pool.
+      properties:
+        amount:
+          $ref: '#/components/schemas/tokenAmount'
+        bps:
+          $ref: '#/components/schemas/bps'
+        minAmount:
+          $ref: '#/components/schemas/minAmount'
+        recipient:
+          $ref: '#/components/schemas/receiverWalletAddress'
+        token:
+          $ref: '#/components/schemas/outputToken'
+      type: object
+    ApprovalRequest:
+      properties:
+        amount:
+          $ref: '#/components/schemas/tokenAmount'
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        includeGasInfo:
+          $ref: '#/components/schemas/includeGasInfo'
+        token:
+          $ref: '#/components/schemas/inputToken'
+        tokenOut:
+          $ref: '#/components/schemas/outputToken'
+        tokenOutChainId:
+          $ref: '#/components/schemas/ChainId'
+        urgency:
+          $ref: '#/components/schemas/Urgency'
+        walletAddress:
+          $ref: '#/components/schemas/senderWalletAddress'
+      required:
+      - walletAddress
+      - token
+      - amount
+      - chainId
+      type: object
+    ApprovalResponse:
+      properties:
+        approval:
+          $ref: '#/components/schemas/TransactionRequest'
+        cancel:
+          $ref: '#/components/schemas/TransactionRequest'
+        cancelGasFee:
+          $ref: '#/components/schemas/gasFee'
+        gasFee:
+          $ref: '#/components/schemas/gasFee'
+        requestId:
+          $ref: '#/components/schemas/RequestId'
+      required:
+      - requestId
+      - approval
+      - cancel
+      type: object
+    ApprovalTransactionRequest:
+      description: An approval transaction with metadata about whether it is a cancellation
+        and which LP action it supports.
+      properties:
+        action:
+          $ref: '#/components/schemas/LPAction'
+        cancelApproval:
+          description: Whether this transaction cancels a previous approval.
+          type: boolean
+        gasFee:
+          $ref: '#/components/schemas/gasFee'
+        transaction:
+          $ref: '#/components/schemas/TransactionRequest'
+      required:
+      - transaction
+      - cancelApproval
+      - action
+      type: object
+    AutoSlippage:
+      description: 'The auto slippage strategy to employ. For Uniswap Protocols (v2,
+        v3, v4) the auto slippage will be automatically calculated when this field
+        is set to `DEFAULT`. Auto slippage cannot be calculated for UniswapX swaps.
+
+
+        Note that if the trade type is `EXACT_INPUT`, then the slippage is in terms
+        of the output token. If the trade type is `EXACT_OUTPUT`, then the slippage
+        is in terms of the input token.
+
+
+        When submitting a request, `autoSlippage` may not be set when `slippageTolerance`
+        is defined. One of `slippageTolerance` or `autoSlippage` must be defined.'
+      enum:
+      - DEFAULT
+      type: string
+    BridgeQuote:
+      properties:
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        destinationChainId:
+          $ref: '#/components/schemas/ChainId'
+        estimatedFillTimeMs:
+          description: The estimated time it will take to fill the order in milliseconds.
+          type: number
+        exclusiveRelayer:
+          description: The address of the exclusive filler (the relayer).
+          pattern: ^(0x)?[0-9a-fA-F]{40}$
+          type: string
+        exclusivityDeadline:
+          description: The deadline (unix timestamp) by which the exclusive relayer
+            must fill the order before other relayers can fill it.
+          type: number
+        fillDeadline:
+          description: The deadline by which, if the order is not filled, the order
+            will be reverted.
+          type: number
+        gasFee:
+          $ref: '#/components/schemas/gasFee'
+        gasFeeUSD:
+          $ref: '#/components/schemas/gasFeeUSD'
+        gasPrice:
+          $ref: '#/components/schemas/gasPrice'
+        gasUseEstimate:
+          $ref: '#/components/schemas/gasLimit'
+        input:
+          $ref: '#/components/schemas/ClassicInput'
+        maxFeePerGas:
+          $ref: '#/components/schemas/maxFeePerGas'
+        maxPriorityFeePerGas:
+          $ref: '#/components/schemas/maxPriorityFeePerGas'
+        output:
+          $ref: '#/components/schemas/ClassicOutput'
+        portionAmount:
+          $ref: '#/components/schemas/portionAmount'
+        portionBips:
+          $ref: '#/components/schemas/portionBips'
+        portionRecipient:
+          $ref: '#/components/schemas/portionAmountReceiverAddress'
+        quoteId:
+          $ref: '#/components/schemas/quoteId'
+        quoteTimestamp:
+          type: number
+        swapper:
+          $ref: '#/components/schemas/receiverWalletAddress'
+        tradeType:
+          $ref: '#/components/schemas/TradeType'
+      title: Bridge Quote
+      type: object
+    ChainDelegationMap:
+      additionalProperties:
+        $ref: '#/components/schemas/DelegationDetails'
+      description: Map of chain IDs to delegation details for a specific wallet.
+      type: object
+    ChainId:
+      default: 1
+      description: The unique ID of the blockchain. For a list of supported chains
+        see the [FAQ](https://api-docs.uniswap.org/guides/faqs).
+      enum:
+      - 1
+      - 10
+      - 56
+      - 130
+      - 137
+      - 143
+      - 196
+      - 324
+      - 480
+      - 1868
+      - 4217
+      - 8453
+      - 10143
+      - 42161
+      - 42220
+      - 43114
+      - 59144
+      - 81457
+      - 7777777
+      - 1301
+      - 84532
+      - 11155111
+      type: number
+    ChainedQuote:
+      description: A quote for a chained transaction flow that spans multiple steps,
+        potentially across multiple chains.
+      properties:
+        autoSlippage:
+          $ref: '#/components/schemas/AutoSlippage'
+        gasEstimates:
+          description: Gas estimates for each step in the chained flow.
+          items:
+            description: Gas estimation details for a specific step.
+            type: object
+          type: array
+        gasFee:
+          $ref: '#/components/schemas/gasFee'
+        gasFeeQuote:
+          $ref: '#/components/schemas/gasFeeInCurrency'
+        gasFeeUSD:
+          $ref: '#/components/schemas/gasFeeUSD'
+        gasPrice:
+          $ref: '#/components/schemas/gasPrice'
+        gasStrategies:
+          description: Gas strategies for the chained flow.
+          items:
+            $ref: '#/components/schemas/GasStrategy'
+          type: array
+        gasUseEstimate:
+          $ref: '#/components/schemas/gasLimit'
+        hooksOptions:
+          $ref: '#/components/schemas/HooksOptions'
+        input:
+          $ref: '#/components/schemas/ClassicInput'
+        maxFeePerGas:
+          $ref: '#/components/schemas/maxFeePerGas'
+        maxPriorityFeePerGas:
+          $ref: '#/components/schemas/maxPriorityFeePerGas'
+        output:
+          $ref: '#/components/schemas/ClassicOutput'
+        protocols:
+          $ref: '#/components/schemas/Protocols'
+        quoteId:
+          $ref: '#/components/schemas/quoteId'
+        slippageTolerance:
+          $ref: '#/components/schemas/slippageTolerance'
+        steps:
+          description: Truncated plan steps for the chained transaction flow.
+          items:
+            $ref: '#/components/schemas/TruncatedPlanStep'
+          type: array
+        swapper:
+          $ref: '#/components/schemas/senderWalletAddress'
+        timeEstimateMs:
+          description: Estimated time in milliseconds to complete the entire chained
+            flow.
+          type: number
+        tokenInChainId:
+          $ref: '#/components/schemas/ChainId'
+        tokenOutChainId:
+          $ref: '#/components/schemas/ChainId'
+        tradeType:
+          $ref: '#/components/schemas/TradeType'
+      required:
+      - swapper
+      - input
+      - output
+      - tokenInChainId
+      - tokenOutChainId
+      - tradeType
+      - quoteId
+      - gasStrategies
+      title: Chained Quote
+      type: object
+    ClaimFeesRequest:
+      properties:
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        collectAsWeth:
+          description: If true, native tokens will be collected as WETH instead of
+            unwrapping to ETH.
+          type: boolean
+        protocol:
+          $ref: '#/components/schemas/ProtocolItems'
+        simulateTransaction:
+          description: If true, the response will include the gas fee.
+          type: boolean
+        tokenId:
+          description: The NFT token ID identifying the position.
+          type: string
+        walletAddress:
+          $ref: '#/components/schemas/Address'
+      required:
+      - protocol
+      - walletAddress
+      - chainId
+      - tokenId
+      type: object
+    ClaimFeesResponse:
+      properties:
+        claim:
+          $ref: '#/components/schemas/TransactionRequest'
+        gasFee:
+          $ref: '#/components/schemas/gasFee'
+        requestId:
+          $ref: '#/components/schemas/RequestId'
+        token0:
+          $ref: '#/components/schemas/LPToken'
+        token1:
+          $ref: '#/components/schemas/LPToken'
+      required:
+      - requestId
+      - token0
+      - token1
+      - claim
+      type: object
+    ClassicGasUseEstimateUSD:
+      description: The gas fee you would pay if you opted for a CLASSIC swap over
+        a Uniswap X order in terms of USD.
+      type: string
+    ClassicInput:
+      properties:
+        amount:
+          $ref: '#/components/schemas/tokenAmount'
+        token:
+          $ref: '#/components/schemas/inputToken'
+      type: object
+    ClassicOutput:
+      properties:
+        amount:
+          $ref: '#/components/schemas/tokenAmount'
+        recipient:
+          $ref: '#/components/schemas/receiverWalletAddress'
+        token:
+          $ref: '#/components/schemas/outputToken'
+      type: object
+    ClassicQuote:
+      properties:
+        aggregatedOutputs:
+          items:
+            $ref: '#/components/schemas/AggregatedOutput'
+          type: array
+        blockNumber:
+          description: The current block number.
+          type: string
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        gasFee:
+          $ref: '#/components/schemas/gasFee'
+        gasFeeQuote:
+          $ref: '#/components/schemas/gasFeeInCurrency'
+        gasFeeUSD:
+          $ref: '#/components/schemas/gasFeeUSD'
+        gasPrice:
+          $ref: '#/components/schemas/gasPrice'
+        gasUseEstimate:
+          description: The estimated gas use. It does NOT include the additional gas
+            for token approvals.
+          type: string
+        input:
+          $ref: '#/components/schemas/ClassicInput'
+        maxFeePerGas:
+          $ref: '#/components/schemas/maxFeePerGas'
+        maxPriorityFeePerGas:
+          $ref: '#/components/schemas/maxPriorityFeePerGas'
+        output:
+          $ref: '#/components/schemas/ClassicOutput'
+        portionAmount:
+          $ref: '#/components/schemas/portionAmount'
+        portionBips:
+          $ref: '#/components/schemas/portionBips'
+        portionRecipient:
+          $ref: '#/components/schemas/portionAmountReceiverAddress'
+        priceImpact:
+          description: The impact the trade has on the market price of the pool, between
+            0-100 percent
+          type: number
+        quoteId:
+          $ref: '#/components/schemas/quoteId'
+        route:
+          items:
+            items:
+              oneOf:
+              - $ref: '#/components/schemas/V2PoolInRoute'
+              - $ref: '#/components/schemas/V3PoolInRoute'
+              - $ref: '#/components/schemas/V4PoolInRoute'
+            type: array
+          type: array
+        routeString:
+          description: The route in string format.
+          type: string
+        slippage:
+          $ref: '#/components/schemas/slippageTolerance'
+        swapper:
+          $ref: '#/components/schemas/senderWalletAddress'
+        tradeType:
+          $ref: '#/components/schemas/TradeType'
+        txFailureReasons:
+          description: The reason(s) why the transaction failed during simulation.
+          items:
+            $ref: '#/components/schemas/TransactionFailureReason'
+          type: array
+      title: Classic Quote
+      type: object
+    ClientContext:
+      description: Uni client-specific context describing how this wallet integrates
+        with the application.
+      properties:
+        directPrivateKeyAccess:
+          description: Whether the wallet has direct private key access.
+          type: boolean
+        nextEvmUpgradeAddress:
+          description: Address for the next EVM upgrade.
+          type: string
+      type: object
+    CosignerData:
+      properties:
+        decayEndTime:
+          description: The unix timestamp at which the order will no longer be eligible
+            to be filled by alternate fillers.
+          type: number
+        decayStartTime:
+          description: The unix timestamp at which the order will be eligible to be
+            filled by alternate fillers at a lower price. Noted that the fill amount
+            will not be lower than the output `endAmount`.
+          type: number
+        exclusiveFiller:
+          description: The address of the filler who has priority to fill the order
+            by the `decayStartTime`.
+          type: string
+        inputOverride:
+          type: string
+        outputOverrides:
+          items:
+            type: string
+          type: array
+      type: object
+    CreateClassicPositionRequest:
+      description: Request to create a full-range V2 liquidity position.
+      properties:
+        deadline:
+          description: Transaction deadline in seconds.
+          type: integer
+        dependentToken:
+          $ref: '#/components/schemas/LPToken'
+        includeApprovalSimulation:
+          description: If true, the response will include approval simulation data.
+          type: boolean
+        independentToken:
+          $ref: '#/components/schemas/LPToken'
+        poolParameters:
+          $ref: '#/components/schemas/V2PoolParameters'
+        simulateTransaction:
+          description: If true, the response will include the gas fee.
+          type: boolean
+        slippageTolerance:
+          description: Slippage tolerance as a decimal (e.g., 0.5 for 0.5%).
+          type: number
+        urgency:
+          $ref: '#/components/schemas/GasUrgency'
+        walletAddress:
+          $ref: '#/components/schemas/Address'
+      required:
+      - walletAddress
+      - poolParameters
+      - independentToken
+      type: object
+    CreateClassicPositionResponse:
+      properties:
+        create:
+          $ref: '#/components/schemas/TransactionRequest'
+        dependentToken:
+          $ref: '#/components/schemas/LPToken'
+        gasFee:
+          $ref: '#/components/schemas/gasFee'
+        independentToken:
+          $ref: '#/components/schemas/LPToken'
+        requestId:
+          $ref: '#/components/schemas/RequestId'
+      required:
+      - requestId
+      - independentToken
+      - dependentToken
+      - create
+      type: object
+    CreatePlanRequest:
+      properties:
+        quote:
+          $ref: '#/components/schemas/ChainedQuote'
+        routing:
+          description: The routing type for the plan. Currently only CHAINED is supported
+            for multi-step execution plans.
+          enum:
+          - CHAINED
+          type: string
+        walletExecutionContext:
+          $ref: '#/components/schemas/WalletExecutionContext'
+      required:
+      - routing
+      - quote
+      type: object
+    CreatePoolParameters:
+      description: Parameters for creating a new pool along with a position.
+      properties:
+        fee:
+          description: The pool fee in basis points.
+          type: integer
+        hooks:
+          allOf:
+          - $ref: '#/components/schemas/Address'
+          description: Optional hooks contract address (V4 only).
+        initialPrice:
+          description: The initial price of the pool (token1 per token0).
+          type: string
+        tickSpacing:
+          description: The tick spacing for the pool.
+          type: integer
+        token0Address:
+          $ref: '#/components/schemas/Address'
+        token1Address:
+          $ref: '#/components/schemas/Address'
+      required:
+      - token0Address
+      - token1Address
+      - fee
+      - tickSpacing
+      - initialPrice
+      type: object
+    CreatePositionExistingPoolParameters:
+      description: Parameters for creating a position in an existing pool.
+      properties:
+        poolReference:
+          description: The pool address (V3) or pool ID (V4) identifying the existing
+            pool.
+          type: string
+        token0Address:
+          $ref: '#/components/schemas/Address'
+        token1Address:
+          $ref: '#/components/schemas/Address'
+      required:
+      - token0Address
+      - token1Address
+      - poolReference
+      type: object
+    CreatePositionRequest:
+      properties:
+        batchPermitData:
+          allOf:
+          - $ref: '#/components/schemas/NullablePermit'
+          description: Batch permit data for V4 positions.
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        deadline:
+          description: Unix timestamp after which the transaction will revert.
+          type: integer
+        dependentToken:
+          allOf:
+          - $ref: '#/components/schemas/CreateToken'
+          description: The other token. The server computes the required amount. If
+            provided, the amount is used as a maximum.
+        existingPool:
+          allOf:
+          - $ref: '#/components/schemas/CreatePositionExistingPoolParameters'
+          description: Parameters for an existing pool. Provide either existingPool
+            or newPool, not both.
+        independentToken:
+          allOf:
+          - $ref: '#/components/schemas/CreateToken'
+          description: The token whose amount you are specifying.
+        nativeTokenBalance:
+          description: The wallet's native token balance, used for wrapping calculations
+            when one of the tokens is the native token.
+          type: string
+        newPool:
+          allOf:
+          - $ref: '#/components/schemas/CreatePoolParameters'
+          description: Parameters for creating a new pool. Provide either existingPool
+            or newPool, not both.
+        priceBounds:
+          allOf:
+          - $ref: '#/components/schemas/PositionPriceBounds'
+          description: Price bounds for the position range. Provide either priceBounds
+            or tickBounds, not both.
+        protocol:
+          $ref: '#/components/schemas/ProtocolItems'
+        signature:
+          description: The signed permit.
+          type: string
+        simulateTransaction:
+          description: If true, the response will include the gas fee.
+          type: boolean
+        slippageTolerance:
+          description: Slippage tolerance as a decimal (e.g., 0.5 for 0.5%).
+          type: number
+        tickBounds:
+          allOf:
+          - $ref: '#/components/schemas/PositionTickBounds'
+          description: Tick bounds for the position range. Provide either priceBounds
+            or tickBounds, not both.
+        urgency:
+          $ref: '#/components/schemas/GasUrgency'
+        walletAddress:
+          $ref: '#/components/schemas/Address'
+      required:
+      - walletAddress
+      - chainId
+      - protocol
+      - independentToken
+      type: object
+    CreatePositionResponse:
+      properties:
+        adjustedMaxPrice:
+          description: The actual maximum price after tick adjustment.
+          type: string
+        adjustedMinPrice:
+          description: The actual minimum price after tick adjustment.
+          type: string
+        create:
+          $ref: '#/components/schemas/TransactionRequest'
+        gasFee:
+          $ref: '#/components/schemas/gasFee'
+        requestId:
+          $ref: '#/components/schemas/RequestId'
+        tickLower:
+          description: The adjusted lower tick.
+          type: integer
+        tickUpper:
+          description: The adjusted upper tick.
+          type: integer
+        token0:
+          $ref: '#/components/schemas/LPToken'
+        token1:
+          $ref: '#/components/schemas/LPToken'
+      required:
+      - requestId
+      - token0
+      - token1
+      - adjustedMinPrice
+      - adjustedMaxPrice
+      - tickLower
+      - tickUpper
+      - create
+      type: object
+    CreateSendRequest:
+      properties:
+        amount:
+          $ref: '#/components/schemas/tokenAmount'
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        recipient:
+          $ref: '#/components/schemas/receiverWalletAddress'
+        sender:
+          $ref: '#/components/schemas/senderWalletAddress'
+        token:
+          $ref: '#/components/schemas/inputToken'
+        urgency:
+          $ref: '#/components/schemas/Urgency'
+      required:
+      - sender
+      - recipient
+      - token
+      - amount
+      - chainId
+      type: object
+    CreateSendResponse:
+      properties:
+        gasFee:
+          $ref: '#/components/schemas/gasFee'
+        gasFeeUSD:
+          $ref: '#/components/schemas/gasFeeUSD'
+        requestId:
+          $ref: '#/components/schemas/RequestId'
+        send:
+          $ref: '#/components/schemas/TransactionRequest'
+      required:
+      - requestId
+      - send
+      type: object
+    CreateSwap5792Request:
+      properties:
+        deadline:
+          $ref: '#/components/schemas/deadline'
+        permitData:
+          $ref: '#/components/schemas/NullablePermit'
+        quote:
+          oneOf:
+          - $ref: '#/components/schemas/ClassicQuote'
+          - $ref: '#/components/schemas/WrapUnwrapQuote'
+          - $ref: '#/components/schemas/BridgeQuote'
+        urgency:
+          $ref: '#/components/schemas/Urgency'
+      required:
+      - quote
+      type: object
+    CreateSwap5792Response:
+      properties:
+        calls:
+          items:
+            $ref: '#/components/schemas/TransactionRequest5792'
+          type: array
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        from:
+          $ref: '#/components/schemas/Address'
+        gasFee:
+          $ref: '#/components/schemas/gasFee'
+        requestId:
+          $ref: '#/components/schemas/RequestId'
+      required:
+      - requestId
+      - from
+      - chainId
+      - calls
+      type: object
+    CreateSwap7702Request:
+      properties:
+        deadline:
+          $ref: '#/components/schemas/deadline'
+        includeGasInfo:
+          default: false
+          type: boolean
+        permitData:
+          $ref: '#/components/schemas/NullablePermit'
+        quote:
+          oneOf:
+          - $ref: '#/components/schemas/ClassicQuote'
+          - $ref: '#/components/schemas/WrapUnwrapQuote'
+          - $ref: '#/components/schemas/BridgeQuote'
+        simulateTransaction:
+          type: boolean
+        smartContractDelegationAddress:
+          $ref: '#/components/schemas/Address'
+        urgency:
+          $ref: '#/components/schemas/Urgency'
+      required:
+      - quote
+      type: object
+    CreateSwap7702Response:
+      properties:
+        gasFee:
+          $ref: '#/components/schemas/gasFee'
+        requestId:
+          $ref: '#/components/schemas/RequestId'
+        swap:
+          $ref: '#/components/schemas/TransactionRequest'
+      required:
+      - requestId
+      - swap
+      type: object
+    CreateSwapRequest:
+      description: The parameters **signature** and **permitData** should only be
+        included if *permitData* was returned from **/quote**.
+      properties:
+        deadline:
+          $ref: '#/components/schemas/deadline'
+        includeGasInfo:
+          default: false
+          deprecated: true
+          description: Use `refreshGasPrice` instead.
+          type: boolean
+        permitData:
+          allOf:
+          - $ref: '#/components/schemas/Permit'
+        quote:
+          oneOf:
+          - $ref: '#/components/schemas/ClassicQuote'
+          - $ref: '#/components/schemas/WrapUnwrapQuote'
+          - $ref: '#/components/schemas/BridgeQuote'
+        refreshGasPrice:
+          default: false
+          description: If true, the gas price will be re-fetched from the network.
+          type: boolean
+        safetyMode:
+          $ref: '#/components/schemas/SwapSafetyMode'
+        signature:
+          description: The signed permit.
+          type: string
+        simulateTransaction:
+          default: false
+          description: If true, the transaction will be simulated. If the simulation
+            results on an onchain error, endpoint will return an error.
+          type: boolean
+        urgency:
+          $ref: '#/components/schemas/Urgency'
+      required:
+      - quote
+      type: object
+    CreateSwapResponse:
+      properties:
+        gasFee:
+          $ref: '#/components/schemas/gasFee'
+        requestId:
+          $ref: '#/components/schemas/RequestId'
+        swap:
+          $ref: '#/components/schemas/TransactionRequest'
+      required:
+      - requestId
+      - swap
+      type: object
+    CreateToken:
+      description: A token address and amount used in position creation.
+      properties:
+        amount:
+          description: The token amount in raw (base unit) format.
+          type: string
+        tokenAddress:
+          $ref: '#/components/schemas/Address'
+      required:
+      - tokenAddress
+      - amount
+      type: object
+    Curve:
+      properties:
+        relativeAmounts:
+          items:
+            type: string
+          type: array
+        relativeBlocks:
+          items:
+            type: number
+          type: array
+      required:
+      - type
+      type: object
+    DecreasePositionRequest:
+      properties:
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        deadline:
+          description: Unix timestamp after which the transaction will revert.
+          type: integer
+        liquidityPercentageToDecrease:
+          description: The percentage of liquidity to remove (1-100).
+          type: integer
+        nftTokenId:
+          description: The NFT token ID for V3/V4 positions. Not required for V2.
+          type: string
+        protocol:
+          $ref: '#/components/schemas/ProtocolItems'
+        simulateTransaction:
+          description: If true, the response will include the gas fee.
+          type: boolean
+        slippageTolerance:
+          description: Slippage tolerance as a decimal (e.g., 0.5 for 0.5%).
+          type: number
+        token0Address:
+          $ref: '#/components/schemas/Address'
+        token1Address:
+          $ref: '#/components/schemas/Address'
+        urgency:
+          $ref: '#/components/schemas/GasUrgency'
+        walletAddress:
+          $ref: '#/components/schemas/Address'
+        withdrawAsWeth:
+          description: If true, native tokens will be withdrawn as WETH instead of
+            unwrapping to ETH.
+          type: boolean
+      required:
+      - walletAddress
+      - chainId
+      - protocol
+      - token0Address
+      - token1Address
+      - liquidityPercentageToDecrease
+      type: object
+    DecreasePositionResponse:
+      properties:
+        decrease:
+          $ref: '#/components/schemas/TransactionRequest'
+        gasFee:
+          $ref: '#/components/schemas/gasFee'
+        requestId:
+          $ref: '#/components/schemas/RequestId'
+        token0:
+          $ref: '#/components/schemas/LPToken'
+        token1:
+          $ref: '#/components/schemas/LPToken'
+      required:
+      - requestId
+      - token0
+      - token1
+      - decrease
+      type: object
+    DelegationDetails:
+      properties:
+        currentDelegationAddress:
+          description: The current delegation address of the wallet. May be null if
+            the wallet does not currently delegate to any address.
+          nullable: true
+          type: string
+        isWalletDelegatedToUniswap:
+          description: Whether the current delegation address is a Uniswap delegation
+            address.
+          type: boolean
+        latestDelegationAddress:
+          description: The latest delegation address that the wallet could upgrade
+            to.
+          type: string
+      required:
+      - isWalletDelegatedToUniswap
+      - currentDelegationAddress
+      - latestDelegationAddress
+      type: object
+    DutchInput:
+      properties:
+        endAmount:
+          $ref: '#/components/schemas/endAmount'
+        startAmount:
+          $ref: '#/components/schemas/startAmount'
+        token:
+          $ref: '#/components/schemas/inputToken'
+      required:
+      - startAmount
+      - endAmount
+      - type
+      type: object
+    DutchInputV3:
+      properties:
+        adjustmentPerGweiBaseFee:
+          type: string
+        curve:
+          $ref: '#/components/schemas/Curve'
+        maxAmount:
+          type: string
+        startAmount:
+          $ref: '#/components/schemas/startAmount'
+        token:
+          $ref: '#/components/schemas/inputToken'
+      required:
+      - startAmount
+      - maxAmount
+      - adjustmentPerGweiBaseFee
+      - curve
+      - token
+      type: object
+    DutchOrderInfo:
+      properties:
+        additionalValidationContract:
+          $ref: '#/components/schemas/additionalValidationContract'
+        additionalValidationData:
+          $ref: '#/components/schemas/additionalValidationData'
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        deadline:
+          $ref: '#/components/schemas/deadline'
+        decayEndTime:
+          description: The unix timestamp at which the order will no longer be eligible
+            to be filled by alternate fillers.
+          type: number
+        decayStartTime:
+          description: The unix timestamp at which the order will be eligible to be
+            filled by alternate fillers at a lower price. Noted that the fill amount
+            will not be lower than the output `endAmount`.
+          type: number
+        exclusiveFiller:
+          description: The address of the filler who has priority to fill the order
+            by the `decayStartTime`.
+          type: string
+        exclusivityOverrideBps:
+          description: The portion of the order which is eligible to be filled by
+            the `exclusiveFiller`, specified in basis points.
+          type: string
+        input:
+          $ref: '#/components/schemas/DutchInput'
+        nonce:
+          $ref: '#/components/schemas/nonce'
+        outputs:
+          items:
+            $ref: '#/components/schemas/DutchOutput'
+          type: array
+        reactor:
+          $ref: '#/components/schemas/contractAddress'
+        swapper:
+          $ref: '#/components/schemas/receiverWalletAddress'
+      required:
+      - chainId
+      - nonce
+      - reactor
+      - swapper
+      - deadline
+      - validationContract
+      - validationData
+      - startTime
+      - endTime
+      - exclusiveFiller
+      - exclusivityOverrideBps
+      - input
+      - outputs
+      type: object
+    DutchOrderInfoV2:
+      properties:
+        additionalValidationContract:
+          $ref: '#/components/schemas/additionalValidationContract'
+        additionalValidationData:
+          $ref: '#/components/schemas/additionalValidationData'
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        cosigner:
+          $ref: '#/components/schemas/cosignerAddress'
+        deadline:
+          $ref: '#/components/schemas/deadline'
+        input:
+          $ref: '#/components/schemas/DutchInput'
+        nonce:
+          $ref: '#/components/schemas/nonce'
+        outputs:
+          items:
+            $ref: '#/components/schemas/DutchOutput'
+          type: array
+        reactor:
+          $ref: '#/components/schemas/contractAddress'
+        swapper:
+          $ref: '#/components/schemas/receiverWalletAddress'
+      required:
+      - chainId
+      - nonce
+      - reactor
+      - swapper
+      - deadline
+      - validationContract
+      - validationData
+      - startTime
+      - endTime
+      - exclusiveFiller
+      - exclusivityOverrideBps
+      - input
+      - outputs
+      type: object
+    DutchOrderInfoV3:
+      properties:
+        additionalValidationContract:
+          $ref: '#/components/schemas/additionalValidationContract'
+        additionalValidationData:
+          $ref: '#/components/schemas/additionalValidationData'
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        cosigner:
+          $ref: '#/components/schemas/cosignerAddress'
+        deadline:
+          $ref: '#/components/schemas/deadline'
+        input:
+          $ref: '#/components/schemas/DutchInputV3'
+        nonce:
+          $ref: '#/components/schemas/nonce'
+        outputs:
+          items:
+            $ref: '#/components/schemas/DutchOutputV3'
+          type: array
+        reactor:
+          $ref: '#/components/schemas/contractAddress'
+        startingBaseFee:
+          type: string
+        swapper:
+          $ref: '#/components/schemas/receiverWalletAddress'
+      required:
+      - chainId
+      - nonce
+      - reactor
+      - swapper
+      - deadline
+      - validationContract
+      - validationData
+      - startTime
+      - endTime
+      - exclusiveFiller
+      - exclusivityOverrideBps
+      - input
+      - outputs
+      type: object
+    DutchOutput:
+      properties:
+        endAmount:
+          $ref: '#/components/schemas/endAmount'
+        recipient:
+          $ref: '#/components/schemas/receiverWalletAddress'
+        startAmount:
+          $ref: '#/components/schemas/startAmount'
+        token:
+          $ref: '#/components/schemas/outputToken'
+      required:
+      - startAmount
+      - endAmount
+      - token
+      - recipient
+      type: object
+    DutchOutputV3:
+      properties:
+        adjustmentPerGweiBaseFee:
+          type: string
+        curve:
+          $ref: '#/components/schemas/Curve'
+        minAmount:
+          $ref: '#/components/schemas/minAmount'
+        recipient:
+          $ref: '#/components/schemas/receiverWalletAddress'
+        startAmount:
+          $ref: '#/components/schemas/startAmount'
+        token:
+          $ref: '#/components/schemas/outputToken'
+      required:
+      - startAmount
+      - maxAmount
+      - adjustmentPerGweiBaseFee
+      - curve
+      - token
+      - recipient
+      type: object
+    DutchQuote:
+      properties:
+        aggregatedOutputs:
+          items:
+            $ref: '#/components/schemas/AggregatedOutput'
+          type: array
+        classicGasUseEstimateUSD:
+          $ref: '#/components/schemas/ClassicGasUseEstimateUSD'
+        encodedOrder:
+          $ref: '#/components/schemas/encodedOrder'
+        orderId:
+          $ref: '#/components/schemas/orderId'
+        orderInfo:
+          $ref: '#/components/schemas/DutchOrderInfo'
+        portionAmount:
+          $ref: '#/components/schemas/portionAmount'
+        portionBips:
+          $ref: '#/components/schemas/portionBips'
+        portionRecipient:
+          $ref: '#/components/schemas/portionAmountReceiverAddress'
+        quoteId:
+          $ref: '#/components/schemas/quoteId'
+        slippageTolerance:
+          $ref: '#/components/schemas/slippageTolerance'
+      required:
+      - encodedOrder
+      - orderInfo
+      - orderId
+      type: object
+    DutchQuoteV2:
+      properties:
+        aggregatedOutputs:
+          items:
+            $ref: '#/components/schemas/AggregatedOutput'
+          type: array
+        classicGasUseEstimateUSD:
+          $ref: '#/components/schemas/ClassicGasUseEstimateUSD'
+        deadlineBufferSecs:
+          type: number
+        encodedOrder:
+          $ref: '#/components/schemas/encodedOrder'
+        orderId:
+          $ref: '#/components/schemas/orderId'
+        orderInfo:
+          $ref: '#/components/schemas/DutchOrderInfoV2'
+        portionAmount:
+          $ref: '#/components/schemas/portionAmount'
+        portionBips:
+          $ref: '#/components/schemas/portionBips'
+        portionRecipient:
+          $ref: '#/components/schemas/portionAmountReceiverAddress'
+        quoteId:
+          $ref: '#/components/schemas/quoteId'
+        slippageTolerance:
+          $ref: '#/components/schemas/slippageTolerance'
+      required:
+      - encodedOrder
+      - orderInfo
+      - orderId
+      title: UniswapX V2 Quote
+      type: object
+    DutchQuoteV3:
+      properties:
+        aggregatedOutputs:
+          items:
+            $ref: '#/components/schemas/AggregatedOutput'
+          type: array
+        classicGasUseEstimateUSD:
+          $ref: '#/components/schemas/ClassicGasUseEstimateUSD'
+        deadlineBufferSecs:
+          type: number
+        encodedOrder:
+          $ref: '#/components/schemas/encodedOrder'
+        expectedAmountIn:
+          type: string
+        expectedAmountOut:
+          type: string
+        orderId:
+          $ref: '#/components/schemas/orderId'
+        orderInfo:
+          $ref: '#/components/schemas/DutchOrderInfoV3'
+        portionAmount:
+          $ref: '#/components/schemas/portionAmount'
+        portionBips:
+          $ref: '#/components/schemas/portionBips'
+        portionRecipient:
+          $ref: '#/components/schemas/portionAmountReceiverAddress'
+        quoteId:
+          $ref: '#/components/schemas/quoteId'
+        slippageTolerance:
+          $ref: '#/components/schemas/slippageTolerance'
+      required:
+      - encodedOrder
+      - orderInfo
+      - orderId
+      title: UniswapX V3 Quote
+      type: object
+    Eip7702Authorization:
+      description: Signed EIP-7702 authorization tuple.
+      properties:
+        address:
+          description: Contract address to delegate to.
+          type: string
+        chainId:
+          description: Hex-encoded chain ID.
+          type: string
+        nonce:
+          description: Hex-encoded nonce.
+          type: string
+        r:
+          description: ECDSA r value.
+          type: string
+        s:
+          description: ECDSA s value.
+          type: string
+        yParity:
+          description: ECDSA y parity.
+          type: string
+      required:
+      - address
+      - chainId
+      - nonce
+      - r
+      - s
+      - yParity
+      type: object
+    Encode4337Request:
+      description: Request body for encoding an ERC-4337 UserOperation.
+      properties:
+        calls:
+          description: Batch of transactions to encode into the UserOperation.
+          items:
+            $ref: '#/components/schemas/TransactionRequest5792'
+          minItems: 1
+          type: array
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        eip7702Auth:
+          $ref: '#/components/schemas/Eip7702Authorization'
+        paymasterServiceContext:
+          description: 'Opaque context forwarded to the paymaster (e.g. `{ "policyId":
+            "..." }`).'
+          type: object
+        paymasterUrl:
+          description: JSON-RPC URL of a paymaster service for gas sponsorship.
+          format: uri
+          type: string
+        sender:
+          $ref: '#/components/schemas/Address'
+          description: Smart account address that will execute the operation.
+      required:
+      - calls
+      - sender
+      - chainId
+      type: object
+    Encode4337Response:
+      description: Response containing the encoded ERC-4337 UserOperation with gas
+        and sponsorship details.
+      properties:
+        gasSponsored:
+          description: Whether gas for this operation is sponsored by a paymaster.
+          type: boolean
+        gasSponsorshipRejectionReason:
+          description: Reason gas sponsorship was not granted. Present only when `gasSponsored`
+            is `false`.
+          type: string
+        requestId:
+          description: Unique identifier for this request.
+          type: string
+        sponsorMetadata:
+          $ref: '#/components/schemas/Encode4337SponsorMetadata'
+        userOperation:
+          $ref: '#/components/schemas/UserOperation'
+      required:
+      - requestId
+      - userOperation
+      - gasSponsored
+      type: object
+    Encode4337SponsorMetadata:
+      description: Display information about the sponsor covering gas fees.
+      properties:
+        icon:
+          description: URL of the sponsor's logo or icon.
+          type: string
+        name:
+          description: Display name of the sponsor.
+          type: string
+      required:
+      - name
+      type: object
+    Encode7702ResponseBody:
+      properties:
+        encoded:
+          $ref: '#/components/schemas/TransactionRequest'
+        requestId:
+          $ref: '#/components/schemas/RequestId'
+      required:
+      - requestId
+      - encoded
+      type: object
+    Err400:
+      properties:
+        detail:
+          type: string
+        errorCode:
+          default: RequestValidationError
+          type: string
+      type: object
+    Err401:
+      properties:
+        detail:
+          type: string
+        errorCode:
+          default: UnauthorizedError
+          type: string
+      type: object
+    Err404:
+      properties:
+        detail:
+          type: string
+        errorCode:
+          enum:
+          - ResourceNotFound
+          - QuoteAmountTooLowError
+          - TokenBalanceNotAvailable
+          - InsufficientBalance
+          type: string
+      type: object
+    Err422:
+      properties:
+        detail:
+          type: string
+        errorCode:
+          default: UnprocessableEntity
+          type: string
+      type: object
+    Err429:
+      properties:
+        detail:
+          type: string
+        errorCode:
+          default: Ratelimited
+          type: string
+      type: object
+    Err500:
+      properties:
+        detail:
+          type: string
+        errorCode:
+          default: InternalServerError
+          type: string
+      type: object
+    Err503:
+      properties:
+        detail:
+          type: string
+        errorCode:
+          default: ServiceUnavailable
+          type: string
+      type: object
+    Err504:
+      properties:
+        detail:
+          type: string
+        errorCode:
+          default: Timeout
+          type: string
+      type: object
+    GasStrategy:
+      description: Gas strategy configuration for transaction fee estimation.
+      properties:
+        baseFeeHistoryWindow:
+          description: Number of blocks to consider for base fee history.
+          type: number
+        baseFeeMultiplier:
+          description: Multiplier for the base fee.
+          type: number
+        limitInflationFactor:
+          description: Factor to inflate the gas limit estimate.
+          type: number
+        maxPriorityFeeGwei:
+          description: Maximum priority fee in Gwei.
+          type: number
+        minPriorityFeeGwei:
+          description: Minimum priority fee in Gwei.
+          type: number
+        minPriorityFeeRatioOfBaseFee:
+          description: Minimum priority fee as a ratio of base fee.
+          type: number
+        percentileThresholdFor1559Fee:
+          description: Percentile threshold for EIP-1559 fee calculation.
+          type: number
+        priceInflationFactor:
+          description: Factor to inflate the gas price estimate.
+          type: number
+        thresholdToInflateLastBlockBaseFee:
+          description: Threshold to inflate the last block base fee.
+          type: number
+      required:
+      - limitInflationFactor
+      - priceInflationFactor
+      - percentileThresholdFor1559Fee
+      type: object
+    GasUrgency:
+      description: The urgency level for gas price estimation. Higher urgency results
+        in higher gas price and faster transaction inclusion. Defaults to URGENT if
+        not provided.
+      enum:
+      - NORMAL
+      - FAST
+      - URGENT
+      type: string
+    GetOrdersResponse:
+      properties:
+        cursor:
+          type: string
+        orders:
+          items:
+            $ref: '#/components/schemas/UniswapXOrder'
+          type: array
+        requestId:
+          $ref: '#/components/schemas/RequestId'
+      required:
+      - orders
+      - requestId
+      type: object
+    GetSwappableTokensResponse:
+      properties:
+        requestId:
+          $ref: '#/components/schemas/RequestId'
+        tokens:
+          items:
+            properties:
+              address:
+                $ref: '#/components/schemas/Address'
+              chainId:
+                $ref: '#/components/schemas/ChainId'
+              decimals:
+                description: The number of decimals supported by the token. This number
+                  is used to convert token amounts to the token's common representation.
+                type: number
+              isSpam:
+                $ref: '#/components/schemas/isSpam'
+              name:
+                description: The name of the token.
+                type: string
+              project:
+                $ref: '#/components/schemas/TokenProject'
+              symbol:
+                $ref: '#/components/schemas/tokenSymbol'
+            required:
+            - address
+            - chainId
+            - name
+            - symbol
+            - project
+            - decimals
+            type: object
+          type: array
+      required:
+      - requestId
+      - tokens
+      type: object
+    GetSwapsResponse:
+      properties:
+        requestId:
+          $ref: '#/components/schemas/RequestId'
+        swaps:
+          items:
+            properties:
+              hashType:
+                description: Identifies whether the row was resolved from a transaction
+                  hash or a userOperation hash. Omitted on transaction rows; absence
+                  is equivalent to `TX`.
+                enum:
+                - TX
+                - USER_OP
+                type: string
+              status:
+                $ref: '#/components/schemas/SwapStatus'
+              swapId:
+                type: string
+              swapType:
+                $ref: '#/components/schemas/Routing'
+              txHash:
+                $ref: '#/components/schemas/TransactionHash'
+                description: On-chain transaction hash. Present for transaction queries
+                  and for userOperation queries once the userOp has been included
+                  on-chain.
+              userOpHash:
+                $ref: '#/components/schemas/TransactionHash'
+                description: ERC-4337 userOperation hash. Present only when the row
+                  corresponds to a userOperation query.
+            type: object
+          type: array
+      required:
+      - requestId
+      - status
+      type: object
+    HooksOptions:
+      description: The hook options to use for V4 pool quotes. `V4_HOOKS_INCLUSIVE`
+        will get quotes for V4 pools with or without hooks. `V4_HOOKS_ONLY` will only
+        get quotes for V4 pools with hooks. `V4_NO_HOOKS` will only get quotes for
+        V4 pools without hooks. Defaults to `V4_HOOKS_INCLUSIVE` if `V4` is included
+        in `protocols` and `hookOptions` is not set. This field is ignored if `V4`
+        is not passed in `protocols`.
+      enum:
+      - V4_HOOKS_INCLUSIVE
+      - V4_HOOKS_ONLY
+      - V4_NO_HOOKS
+      type: string
+    IncreasePositionRequest:
+      properties:
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        deadline:
+          description: Unix timestamp after which the transaction will revert.
+          type: integer
+        independentToken:
+          allOf:
+          - $ref: '#/components/schemas/LPToken'
+          description: The token whose amount you are specifying.
+        nftTokenId:
+          description: The NFT token ID for V3/V4 positions. Not required for V2.
+          type: string
+        protocol:
+          $ref: '#/components/schemas/ProtocolItems'
+        signature:
+          description: The signed permit.
+          type: string
+        simulateTransaction:
+          description: If true, the response will include the gas fee.
+          type: boolean
+        slippageTolerance:
+          description: Slippage tolerance as a decimal (e.g., 0.5 for 0.5%).
+          type: number
+        token0Address:
+          $ref: '#/components/schemas/Address'
+        token1Address:
+          $ref: '#/components/schemas/Address'
+        urgency:
+          $ref: '#/components/schemas/GasUrgency'
+        v4BatchPermitData:
+          allOf:
+          - $ref: '#/components/schemas/NullablePermit'
+          description: Batch permit data for V4 positions.
+        walletAddress:
+          $ref: '#/components/schemas/Address'
+      required:
+      - walletAddress
+      - chainId
+      - protocol
+      - token0Address
+      - token1Address
+      - independentToken
+      type: object
+    IncreasePositionResponse:
+      properties:
+        gasFee:
+          $ref: '#/components/schemas/gasFee'
+        increase:
+          $ref: '#/components/schemas/TransactionRequest'
+        requestId:
+          $ref: '#/components/schemas/RequestId'
+        token0:
+          $ref: '#/components/schemas/LPToken'
+        token1:
+          $ref: '#/components/schemas/LPToken'
+      required:
+      - requestId
+      - token0
+      - token1
+      - increase
+      type: object
+    IntegratorFee:
+      description: A fee configuration specifying the fee amount in basis points and
+        the recipient address.
+      properties:
+        bips:
+          description: Fee amount in basis points (1 bip = 0.01%). Must be greater
+            than 0 and at most 500.
+          exclusiveMinimum: true
+          maximum: 500
+          minimum: 0
+          type: number
+        recipient:
+          description: Ethereum address that receives the fee.
+          pattern: ^0x[a-fA-F0-9]{40}$
+          type: string
+      required:
+      - bips
+      - recipient
+      type: object
+    LPAction:
+      description: The LP operation that the approval is needed for.
+      enum:
+      - CREATE
+      - INCREASE
+      - DECREASE
+      - MIGRATE
+      type: string
+    LPApprovalRequest:
+      properties:
+        action:
+          $ref: '#/components/schemas/LPAction'
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        generatePermitAsTransaction:
+          description: If true, permits are returned as on-chain transactions rather
+            than off-chain signatures.
+          type: boolean
+        includeGasInfo:
+          description: If true, the response will include gas fee estimates for each
+            approval transaction.
+          type: boolean
+        lpTokens:
+          description: The tokens requiring approval, each with address and amount.
+          items:
+            $ref: '#/components/schemas/LPToken'
+          type: array
+        protocol:
+          $ref: '#/components/schemas/ProtocolItems'
+        simulateTransaction:
+          description: If true, approval transactions will be simulated to verify
+            they succeed.
+          type: boolean
+        urgency:
+          $ref: '#/components/schemas/GasUrgency'
+        v3NftTokenId:
+          description: The V3 NFT position token ID. Required when approving a V3
+            position for migration.
+          type: integer
+        walletAddress:
+          $ref: '#/components/schemas/Address'
+      required:
+      - walletAddress
+      - protocol
+      - chainId
+      - lpTokens
+      - action
+      type: object
+    LPApprovalResponse:
+      properties:
+        requestId:
+          $ref: '#/components/schemas/RequestId'
+        transactions:
+          description: The approval transactions needed. Empty if all approvals are
+            already in place.
+          items:
+            $ref: '#/components/schemas/ApprovalTransactionRequest'
+          type: array
+        v3NftPermitData:
+          allOf:
+          - $ref: '#/components/schemas/NullablePermit'
+          description: NFT permit data for V3 positions, if applicable.
+        v4BatchPermitData:
+          allOf:
+          - $ref: '#/components/schemas/NullablePermit'
+          description: Batch permit data for V4 positions, if applicable.
+      required:
+      - requestId
+      type: object
+    LPToken:
+      description: A token with its address and amount, used in LP operations.
+      properties:
+        amount:
+          $ref: '#/components/schemas/tokenAmount'
+        tokenAddress:
+          $ref: '#/components/schemas/Address'
+      required:
+      - tokenAddress
+      - amount
+      type: object
+    LimitOrderQuoteRequest:
+      properties:
+        amount:
+          $ref: '#/components/schemas/tokenAmount'
+        limitPrice:
+          type: string
+        orderDeadline:
+          type: number
+        swapper:
+          $ref: '#/components/schemas/receiverWalletAddress'
+        tokenIn:
+          $ref: '#/components/schemas/inputToken'
+        tokenInChainId:
+          $ref: '#/components/schemas/ChainId'
+        tokenOut:
+          $ref: '#/components/schemas/outputToken'
+        tokenOutChainId:
+          $ref: '#/components/schemas/ChainId'
+        type:
+          $ref: '#/components/schemas/TradeType'
+      required:
+      - swapper
+      - type
+      - amount
+      - tokenIn
+      - tokenOut
+      - tokenInChainId
+      - tokenOutChainId
+      type: object
+    LimitOrderQuoteResponse:
+      properties:
+        permitData:
+          $ref: '#/components/schemas/NullablePermit'
+        quote:
+          $ref: '#/components/schemas/DutchQuote'
+        requestId:
+          $ref: '#/components/schemas/RequestId'
+        routing:
+          enum:
+          - LIMIT_ORDER
+          type: string
+      required:
+      - routing
+      - quote
+      - permitData
+      - requestId
+      type: object
+    NullablePermit:
+      description: the permit2 message object for the customer to sign to permit spending
+        by the permit2 contract.
+      nullable: true
+      properties:
+        domain:
+          type: object
+        types:
+          type: object
+        values:
+          type: object
+      type: object
+    OrderIds:
+      type: string
+    OrderInput:
+      properties:
+        endAmount:
+          $ref: '#/components/schemas/endAmount'
+        startAmount:
+          $ref: '#/components/schemas/startAmount'
+        token:
+          $ref: '#/components/schemas/inputToken'
+      required:
+      - token
+      type: object
+    OrderOutput:
+      properties:
+        endAmount:
+          $ref: '#/components/schemas/endAmount'
+        isFeeOutput:
+          type: boolean
+        recipient:
+          $ref: '#/components/schemas/receiverWalletAddress'
+        startAmount:
+          $ref: '#/components/schemas/startAmount'
+        token:
+          $ref: '#/components/schemas/outputToken'
+      required:
+      - token
+      type: object
+    OrderRequest:
+      properties:
+        quote:
+          oneOf:
+          - $ref: '#/components/schemas/DutchQuoteV2'
+          - $ref: '#/components/schemas/DutchQuoteV3'
+          - $ref: '#/components/schemas/PriorityQuote'
+        routing:
+          $ref: '#/components/schemas/Routing'
+        signature:
+          description: The signed permit.
+          type: string
+      required:
+      - signature
+      - quote
+      type: object
+    OrderResponse:
+      properties:
+        orderId:
+          $ref: '#/components/schemas/orderId'
+        orderStatus:
+          $ref: '#/components/schemas/OrderStatus'
+        requestId:
+          $ref: '#/components/schemas/RequestId'
+      required:
+      - requestId
+      - orderId
+      - orderStatus
+      type: object
+    OrderStatus:
+      description: "The status of the order. Note that all of these are final states\
+        \ with the exception of Open, meaning that no further state changes will occur.\
+        \ \n Open - order is not yet filled by a filler.\n Expired - order has expired\
+        \ without being filled and is no longer fillable.\n Error - a catchall for\
+        \ other final states which are not otherwise specified, where the order will\
+        \ not be filled.\n Cancelled - order is cancelled. Note that to cancel an\
+        \ order, a new order must be placed with the same nonce as the prior open\
+        \ order and it must be placed within the same block as the original order.\n\
+        \ Filled - order is filled.\n Insufficient-funds - the swapper (you) do not\
+        \ have enough funds for the order to be completed and the order is cancelled\
+        \ and will not be filled.\n Unverified - order has not been verified yet."
+      enum:
+      - open
+      - expired
+      - error
+      - cancelled
+      - filled
+      - unverified
+      - insufficient-funds
+      type: string
+    OrderType:
+      enum:
+      - DutchLimit
+      - Dutch
+      - Dutch_V2
+      - Dutch_V3
+      - Priority
+      type: string
+    OrderTypeQuery:
+      enum:
+      - Dutch_V2
+      - Dutch_V3
+      - Limit
+      - Priority
+      type: string
+    Permit:
+      description: the permit2 message object for the customer to sign to permit spending
+        by the permit2 contract.
+      properties:
+        domain:
+          type: object
+        types:
+          type: object
+        values:
+          type: object
+      type: object
+    PermitAmount:
+      default: FULL
+      description: For Uniswap Protocols (v2, v3, v4) swaps, specify the input token
+        spend allowance (e.g. quantity) to be set in the permit. `FULL` can be used
+        to specify an unlimited token quantity, and may prevent the wallet from needing
+        to sign another permit for the same token in the future. `EXACT` can be used
+        to specify the exact input token quantity for this request. Defaults to `FULL`.
+      enum:
+      - FULL
+      - EXACT
+      type: string
+    PlanResponse:
+      properties:
+        autoSlippage:
+          $ref: '#/components/schemas/AutoSlippage'
+        completedAt:
+          description: Timestamp when the plan completed.
+          format: date-time
+          type: string
+        createdAt:
+          description: Timestamp when the plan was created.
+          format: date-time
+          type: string
+        currentStepIndex:
+          description: The index of the current step that needs to be executed (0-based).
+          type: number
+        expectedOutput:
+          $ref: '#/components/schemas/tokenAmount'
+        gasFee:
+          $ref: '#/components/schemas/gasFee'
+        gasFeeQuote:
+          $ref: '#/components/schemas/gasFeeInCurrency'
+        gasFeeUSD:
+          $ref: '#/components/schemas/gasFeeUSD'
+        gasStrategies:
+          description: Gas strategies used for the plan.
+          items:
+            $ref: '#/components/schemas/GasStrategy'
+          type: array
+        gasUseEstimate:
+          $ref: '#/components/schemas/gasLimit'
+        hooksOptions:
+          $ref: '#/components/schemas/HooksOptions'
+        lastUserActionAt:
+          description: Timestamp of the last user action on this plan.
+          format: date-time
+          type: string
+        planId:
+          description: A unique identifier for this execution plan.
+          type: string
+        protocols:
+          $ref: '#/components/schemas/Protocols'
+        quoteId:
+          $ref: '#/components/schemas/quoteId'
+        recipient:
+          $ref: '#/components/schemas/receiverWalletAddress'
+        requestId:
+          $ref: '#/components/schemas/RequestId'
+        slippageTolerance:
+          $ref: '#/components/schemas/slippageTolerance'
+        status:
+          $ref: '#/components/schemas/PlanStatus'
+        steps:
+          description: The sequential steps that need to be executed to complete the
+            plan.
+          items:
+            $ref: '#/components/schemas/PlanStep'
+          type: array
+        swapper:
+          $ref: '#/components/schemas/senderWalletAddress'
+        timeEstimateMs:
+          description: Estimated time in milliseconds to complete the entire plan.
+          type: number
+        updatedAt:
+          description: Timestamp when the plan was last updated.
+          format: date-time
+          type: string
+        walletExecutionContext:
+          $ref: '#/components/schemas/WalletExecutionContext'
+      required:
+      - requestId
+      - planId
+      - swapper
+      - recipient
+      - quoteId
+      - status
+      - steps
+      - currentStepIndex
+      - expectedOutput
+      type: object
+    PlanStatus:
+      description: The overall status of the plan execution. ACTIVE means the plan
+        is ready to begin (all steps NOT_READY). AWAITING_ACTION means at least one
+        step requires user action. IN_PROGRESS means at least one step is executing.
+        COMPLETED means all steps have been successfully executed. FAILED means the
+        plan cannot be completed.
+      enum:
+      - ACTIVE
+      - AWAITING_ACTION
+      - IN_PROGRESS
+      - COMPLETED
+      - FAILED
+      type: string
+    PlanStep:
+      properties:
+        gasFee:
+          $ref: '#/components/schemas/gasFee'
+        gasFeeQuote:
+          $ref: '#/components/schemas/gasFeeInCurrency'
+        gasFeeUSD:
+          $ref: '#/components/schemas/gasFeeUSD'
+        gasPrice:
+          $ref: '#/components/schemas/gasPrice'
+        gasUseEstimate:
+          $ref: '#/components/schemas/gasLimit'
+        maxFeePerGas:
+          $ref: '#/components/schemas/maxFeePerGas'
+        maxPriorityFeePerGas:
+          $ref: '#/components/schemas/maxPriorityFeePerGas'
+        method:
+          $ref: '#/components/schemas/PlanStepMethod'
+        payload:
+          description: The payload data for this step. The structure depends on the
+            payloadType.
+          type: object
+        payloadType:
+          $ref: '#/components/schemas/PlanStepPayloadType'
+        proof:
+          $ref: '#/components/schemas/PlanStepProof'
+        recipient:
+          $ref: '#/components/schemas/receiverWalletAddress'
+        routingStepKey:
+          description: An optional key identifying the routing strategy used for this
+            step.
+          type: string
+        slippage:
+          $ref: '#/components/schemas/slippageTolerance'
+        status:
+          $ref: '#/components/schemas/PlanStepStatus'
+        stepIndex:
+          description: The index of this step in the plan (0-based).
+          type: number
+        stepType:
+          $ref: '#/components/schemas/PlanStepType'
+        swapper:
+          $ref: '#/components/schemas/senderWalletAddress'
+        tokenIn:
+          $ref: '#/components/schemas/inputToken'
+        tokenInAmount:
+          $ref: '#/components/schemas/tokenAmount'
+        tokenInChainId:
+          $ref: '#/components/schemas/ChainId'
+        tokenOut:
+          $ref: '#/components/schemas/outputToken'
+        tokenOutAmount:
+          $ref: '#/components/schemas/tokenAmount'
+        tokenOutChainId:
+          $ref: '#/components/schemas/ChainId'
+      required:
+      - stepIndex
+      - method
+      - payloadType
+      - payload
+      - status
+      type: object
+    PlanStepMethod:
+      description: The execution method for the step. SEND_TX is a standard transaction.
+        SIGN_MSG is for signing a message (e.g., permit). SEND_CALLS is for batch
+        transaction execution (EIP-5792).
+      enum:
+      - SEND_TX
+      - SIGN_MSG
+      - SEND_CALLS
+      type: string
+    PlanStepPayloadType:
+      description: The type of payload data. TX is a standard transaction object.
+        EIP_712 is a typed structured data for signing. EIP_5792 is a batch of transaction
+        calls.
+      enum:
+      - TX
+      - EIP_712
+      - EIP_5792
+      type: string
+    PlanStepProof:
+      description: Proof of execution for a plan step, provided after the step is
+        completed.
+      properties:
+        orderId:
+          description: The order ID for a gasless order step.
+          type: string
+        signature:
+          description: The signature for a message signing step.
+          type: string
+        txHash:
+          $ref: '#/components/schemas/TransactionHash'
+      type: object
+    PlanStepStatus:
+      description: The status of an individual step. NOT_READY means prerequisites
+        are not met. AWAITING_ACTION means the step is ready for user action. IN_PROGRESS
+        means the step is being executed. COMPLETE means the step finished successfully.
+        STEP_ERROR means the step failed.
+      enum:
+      - NOT_READY
+      - AWAITING_ACTION
+      - IN_PROGRESS
+      - COMPLETE
+      - STEP_ERROR
+      type: string
+    PlanStepType:
+      description: The type of step in a plan, including swap types and approval types.
+      enum:
+      - DUTCH_LIMIT
+      - CLASSIC
+      - DUTCH_V2
+      - LIMIT_ORDER
+      - WRAP
+      - UNWRAP
+      - BRIDGE
+      - PRIORITY
+      - DUTCH_V3
+      - QUICKROUTE
+      - CHAINED
+      - APPROVAL_TXN
+      - APPROVAL_PERMIT
+      - RESET_APPROVAL_TXN
+      type: string
+    PoolInfoRequest:
+      properties:
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        currentPage:
+          type: number
+        pageSize:
+          type: number
+        poolParameters:
+          $ref: '#/components/schemas/PoolParameters'
+        poolReferences:
+          description: Array of pool reference identifiers to query. Each reference
+            should include the protocol, chainId, and either the pool address (V3),
+            pool id (V4), or pair address (V2).
+          items:
+            $ref: '#/components/schemas/PoolReferenceByProtocol'
+          type: array
+        protocol:
+          $ref: '#/components/schemas/Protocols'
+      required:
+      - protocol
+      type: object
+    PoolInfoResponse:
+      properties:
+        currentPage:
+          type: number
+        pageSize:
+          type: number
+        pools:
+          description: Array of pool information objects.
+          items:
+            $ref: '#/components/schemas/PoolInformation'
+          type: array
+        requestId:
+          $ref: '#/components/schemas/RequestId'
+      type: object
+    PoolInformation:
+      properties:
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        currentTick:
+          $ref: '#/components/schemas/lpTickCurrent'
+        fee:
+          $ref: '#/components/schemas/poolFee'
+        hookAddress:
+          description: The address of the hook for the pool, if any.
+          type: string
+        poolLiquidity:
+          $ref: '#/components/schemas/liquidity'
+        poolProtocol:
+          $ref: '#/components/schemas/Protocols'
+        poolReferenceIdentifier:
+          description: The unique identifier for the pool reference, which can be
+            a pool address, pool id, or pair address depending on the protocol.
+          type: string
+        sqrtRatioX96:
+          $ref: '#/components/schemas/sqrtRatioX96'
+        tickSpacing:
+          $ref: '#/components/schemas/tickSpacing'
+        tokenAReserves:
+          $ref: '#/components/schemas/tokenAmount'
+        tokenAddressA:
+          pattern: ^(0x)?[0-9a-fA-F]{40}$
+          type: string
+        tokenAddressB:
+          pattern: ^(0x)?[0-9a-fA-F]{40}$
+          type: string
+        tokenAmountA:
+          $ref: '#/components/schemas/tokenAmount'
+        tokenAmountB:
+          $ref: '#/components/schemas/tokenAmount'
+        tokenBReserves:
+          $ref: '#/components/schemas/tokenAmount'
+        tokenDecimalsA:
+          description: The number of decimals for token A.
+          type: number
+        tokenDecimalsB:
+          description: The number of decimals for token B.
+          type: number
+      type: object
+    PoolParameters:
+      properties:
+        fee:
+          description: The fee of the pool, if the pool has a fee value.
+          type: number
+        hookAddress:
+          description: The address of the hook for the pool, if any.
+          type: string
+        tickSpacing:
+          $ref: '#/components/schemas/tickSpacing'
+        tokenAddressA:
+          description: The address of the first token in the pair.
+          pattern: ^(0x)?[0-9a-fA-F]{40}$
+          type: string
+        tokenAddressB:
+          description: The address of the second token in the pair.
+          pattern: ^(0x)?[0-9a-fA-F]{40}$
+          type: string
+      type: object
+    PoolReferenceByProtocol:
+      properties:
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        protocol:
+          $ref: '#/components/schemas/Protocols'
+        referenceIdentifier:
+          pattern: ^(0x)?[0-9a-fA-F]
+          type: string
+      required:
+      - protocol
+      - poolAddress
+      - chainId
+      type: object
+    PositionPriceBounds:
+      description: Price bounds for a concentrated liquidity position.
+      properties:
+        maxPrice:
+          description: The maximum price (token1 per token0) for the position range.
+          type: string
+        minPrice:
+          description: The minimum price (token1 per token0) for the position range.
+          type: string
+      required:
+      - minPrice
+      - maxPrice
+      type: object
+    PositionTickBounds:
+      description: Tick bounds for a concentrated liquidity position.
+      properties:
+        tickLower:
+          description: The lower tick of the position range.
+          type: integer
+        tickUpper:
+          description: The upper tick of the position range.
+          type: integer
+      required:
+      - tickLower
+      - tickUpper
+      type: object
+    PriorityInput:
+      properties:
+        amount:
+          $ref: '#/components/schemas/tokenAmount'
+        mpsPerPriorityFeeWei:
+          type: string
+        token:
+          $ref: '#/components/schemas/inputToken'
+      required:
+      - amount
+      - token
+      - mpsPerPriorityFeeWei
+      type: object
+    PriorityOrderInfo:
+      properties:
+        additionalValidationContract:
+          $ref: '#/components/schemas/additionalValidationContract'
+        additionalValidationData:
+          $ref: '#/components/schemas/additionalValidationData'
+        auctionStartBlock:
+          type: string
+        baselinePriorityFeeWei:
+          type: string
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        cosigner:
+          $ref: '#/components/schemas/cosignerAddress'
+        deadline:
+          $ref: '#/components/schemas/deadline'
+        input:
+          $ref: '#/components/schemas/PriorityInput'
+        nonce:
+          $ref: '#/components/schemas/nonce'
+        outputs:
+          items:
+            $ref: '#/components/schemas/PriorityOutput'
+          type: array
+        reactor:
+          $ref: '#/components/schemas/contractAddress'
+        swapper:
+          $ref: '#/components/schemas/receiverWalletAddress'
+      required:
+      - chainId
+      - nonce
+      - reactor
+      - swapper
+      - deadline
+      - validationContract
+      - validationData
+      - auctionStartBlock
+      - baselinePriorityFeeWei
+      - input
+      - outputs
+      - cosigner
+      type: object
+    PriorityOutput:
+      properties:
+        amount:
+          $ref: '#/components/schemas/tokenAmount'
+        mpsPerPriorityFeeWei:
+          description: The scaling factor of the priority fee based on the output
+            token amount.
+          type: string
+        recipient:
+          $ref: '#/components/schemas/receiverWalletAddress'
+        token:
+          $ref: '#/components/schemas/outputToken'
+      required:
+      - amount
+      - token
+      - recipient
+      - mpsPerPriorityFeeWei
+      type: object
+    PriorityQuote:
+      properties:
+        aggregatedOutputs:
+          items:
+            $ref: '#/components/schemas/AggregatedOutput'
+          type: array
+        classicGasUseEstimateUSD:
+          $ref: '#/components/schemas/ClassicGasUseEstimateUSD'
+        deadlineBufferSecs:
+          type: number
+        encodedOrder:
+          $ref: '#/components/schemas/encodedOrder'
+        expectedAmountIn:
+          $ref: '#/components/schemas/tokenAmount'
+        expectedAmountOut:
+          $ref: '#/components/schemas/tokenAmount'
+        orderId:
+          $ref: '#/components/schemas/orderId'
+        orderInfo:
+          $ref: '#/components/schemas/PriorityOrderInfo'
+        portionAmount:
+          $ref: '#/components/schemas/portionAmount'
+        portionBips:
+          $ref: '#/components/schemas/portionBips'
+        portionRecipient:
+          $ref: '#/components/schemas/portionAmountReceiverAddress'
+        quoteId:
+          $ref: '#/components/schemas/quoteId'
+        slippageTolerance:
+          $ref: '#/components/schemas/slippageTolerance'
+      required:
+      - encodedOrder
+      - orderInfo
+      - orderId
+      title: UniswapX Priority Quote
+      type: object
+    ProtocolItems:
+      description: The protocol to use for the swap/order.
+      enum:
+      - V2
+      - V3
+      - V4
+      - UNISWAPX
+      - UNISWAPX_V2
+      - UNISWAPX_V3
+      type: string
+    Protocols:
+      description: The protocols to use for the swap/order. If the `protocols` field
+        is defined, then you can only set the `routingPreference` to `BEST_PRICE`.
+        Note that the value `UNISWAPX` is deprecated and will be removed in a future
+        release.
+      items:
+        $ref: '#/components/schemas/ProtocolItems'
+      type: array
+    Quote:
+      oneOf:
+      - $ref: '#/components/schemas/DutchQuote'
+      - $ref: '#/components/schemas/ClassicQuote'
+      - $ref: '#/components/schemas/WrapUnwrapQuote'
+      - $ref: '#/components/schemas/DutchQuoteV2'
+      - $ref: '#/components/schemas/DutchQuoteV3'
+      - $ref: '#/components/schemas/BridgeQuote'
+      - $ref: '#/components/schemas/PriorityQuote'
+      - $ref: '#/components/schemas/ChainedQuote'
+    QuoteRequest:
+      properties:
+        amount:
+          $ref: '#/components/schemas/tokenAmount'
+        autoSlippage:
+          $ref: '#/components/schemas/AutoSlippage'
+        generatePermitAsTransaction:
+          $ref: '#/components/schemas/generatePermitAsTransaction'
+        hooksOptions:
+          $ref: '#/components/schemas/HooksOptions'
+        integratorFees:
+          description: Optional integrator fee configuration. When provided, the specified
+            fee is applied to the swap instead of the default partner fee service.
+            Only one fee entry is currently supported.
+          items:
+            $ref: '#/components/schemas/IntegratorFee'
+          maxItems: 1
+          minItems: 1
+          type: array
+        permitAmount:
+          $ref: '#/components/schemas/PermitAmount'
+        protocols:
+          $ref: '#/components/schemas/Protocols'
+        routingPreference:
+          $ref: '#/components/schemas/RoutingPreference'
+        slippageTolerance:
+          $ref: '#/components/schemas/slippageTolerance'
+        spreadOptimization:
+          $ref: '#/components/schemas/SpreadOptimization'
+        swapper:
+          $ref: '#/components/schemas/senderWalletAddress'
+        tokenIn:
+          $ref: '#/components/schemas/inputToken'
+        tokenInChainId:
+          $ref: '#/components/schemas/ChainId'
+        tokenOut:
+          $ref: '#/components/schemas/outputToken'
+        tokenOutChainId:
+          $ref: '#/components/schemas/ChainId'
+        type:
+          $ref: '#/components/schemas/TradeType'
+        urgency:
+          $ref: '#/components/schemas/Urgency'
+        walletExecutionContext:
+          $ref: '#/components/schemas/WalletExecutionContext'
+      required:
+      - type
+      - amount
+      - tokenInChainId
+      - tokenOutChainId
+      - tokenIn
+      - tokenOut
+      - swapper
+      type: object
+    QuoteResponse:
+      properties:
+        permitData:
+          $ref: '#/components/schemas/NullablePermit'
+        permitGasFee:
+          $ref: '#/components/schemas/gasFee'
+        permitTransaction:
+          $ref: '#/components/schemas/TransactionRequest'
+        quote:
+          $ref: '#/components/schemas/Quote'
+        requestId:
+          $ref: '#/components/schemas/RequestId'
+        routing:
+          $ref: '#/components/schemas/Routing'
+        sponsorshipInfo:
+          $ref: '#/components/schemas/SponsorshipInfo'
+      required:
+      - routing
+      - quote
+      - permitData
+      - requestId
+      type: object
+    RequestId:
+      description: A unique ID for the request.
+      type: string
+    Routing:
+      description: The routing for the proposed transaction.
+      enum:
+      - CLASSIC
+      - DUTCH_LIMIT
+      - DUTCH_V2
+      - DUTCH_V3
+      - BRIDGE
+      - LIMIT_ORDER
+      - PRIORITY
+      - WRAP
+      - UNWRAP
+      - CHAINED
+      type: string
+    RoutingPreference:
+      default: BEST_PRICE
+      description: The `routingPreference` specifies the preferred strategy to determine
+        the quote. If the `routingPreference` is `BEST_PRICE`, then the quote will
+        propose a route through the specified whitelisted protocols (or all, if none
+        are specified) that provides the best price. When the `routingPreference`
+        is `FASTEST`, the quote will propose the first route which is found to complete
+        the swap.
+      enum:
+      - BEST_PRICE
+      - FASTEST
+      type: string
+    SafetyLevel:
+      enum:
+      - BLOCKED
+      - MEDIUM_WARNING
+      - STRONG_WARNING
+      - VERIFIED
+      type: string
+    ScopeData:
+      description: Data defining a wallet scope including accounts, methods, capabilities,
+        chains, and client context.
+      properties:
+        accounts:
+          description: Array of account addresses associated with this scope.
+          items:
+            type: string
+          type: array
+        capabilities:
+          additionalProperties: true
+          description: Additional capabilities for this scope.
+          type: object
+        chains:
+          description: Array of chain identifiers allowed in this scope.
+          items:
+            type: string
+          type: array
+        clientContext:
+          $ref: '#/components/schemas/ClientContext'
+        methods:
+          description: Array of methods allowed in this scope.
+          items:
+            type: string
+          type: array
+      required:
+      - accounts
+      - methods
+      type: object
+    SettledAmount:
+      properties:
+        amountIn:
+          $ref: '#/components/schemas/tokenAmount'
+        amountOut:
+          $ref: '#/components/schemas/tokenAmount'
+        tokenIn:
+          $ref: '#/components/schemas/inputToken'
+        tokenOut:
+          $ref: '#/components/schemas/outputToken'
+      type: object
+    SortKey:
+      enum:
+      - createdAt
+      type: string
+    SponsorSummary:
+      description: Display information about the sponsor covering gas fees for the
+        swap.
+      properties:
+        logoUrl:
+          description: URL of the sponsor's logo.
+          type: string
+        name:
+          description: Display name of the sponsor.
+          type: string
+      type: object
+    SponsorshipInfo:
+      description: Gas sponsorship information for the quoted swap. When `sponsored`
+        is `true`, gas fees for executing this swap will be covered by the `sponsor`.
+        When `sponsored` is `false`, `rejectionReason` describes why sponsorship was
+        not granted.
+      properties:
+        rejectionReason:
+          description: Reason gas sponsorship was not granted. Present only when `sponsored`
+            is `false`.
+          type: string
+        sponsor:
+          $ref: '#/components/schemas/SponsorSummary'
+        sponsored:
+          description: Whether gas for this swap is sponsored.
+          type: boolean
+      type: object
+    SpreadOptimization:
+      default: EXECUTION
+      description: For UniswapX swaps, when set to `EXECUTION`, quotes optimize for
+        looser spreads at higher fill rates. When set to `PRICE`, quotes optimize
+        for tighter spreads at lower fill rates. This field is not applicable to Uniswap
+        Protocols (v2, v3, v4), bridging, or wrapping/unwrapping and will be ignored
+        if set.
+      enum:
+      - EXECUTION
+      - PRICE
+      type: string
+    StepUpdate:
+      description: 'Represents a single step update with proof. Note: orderId is not
+        accepted in update requests; it is system-generated after receiving a signature.'
+      properties:
+        proof:
+          description: Proof of step completion. Must provide either txHash or signature.
+          properties:
+            signature:
+              description: The signature for a message signing step.
+              pattern: ^0x[a-fA-F0-9]{130}$
+              type: string
+            txHash:
+              $ref: '#/components/schemas/TransactionHash'
+          type: object
+        stepIndex:
+          description: The index of the step being updated (0-based).
+          type: number
+      required:
+      - stepIndex
+      - proof
+      type: object
+    SwapSafetyMode:
+      description: Swap safety mode will automatically sweep the transaction for the
+        native token and return it to the sender wallet address. This is to prevent
+        accidental loss of funds in the event that the token amount is set in the
+        transaction value instead of as part of the calldata.
+      enum:
+      - SAFE
+      type: string
+    SwapStatus:
+      enum:
+      - PENDING
+      - SUCCESS
+      - NOT_FOUND
+      - FAILED
+      - EXPIRED
+      type: string
+    TokenInRoute:
+      properties:
+        address:
+          $ref: '#/components/schemas/inputToken'
+        buyFeeBps:
+          $ref: '#/components/schemas/bpsFee'
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        decimals:
+          description: The number of decimals supported by the token. This number
+            is used to convert token amounts to the token's common representation.
+          type: string
+        sellFeeBps:
+          $ref: '#/components/schemas/bpsFee'
+        symbol:
+          $ref: '#/components/schemas/tokenSymbol'
+      type: object
+    TokenProject:
+      properties:
+        isSpam:
+          $ref: '#/components/schemas/isSpam'
+        logo:
+          $ref: '#/components/schemas/TokenProjectLogo'
+          nullable: true
+        safetyLevel:
+          $ref: '#/components/schemas/SafetyLevel'
+      required:
+      - logo
+      - safetyLevel
+      - isSpam
+      type: object
+    TokenProjectLogo:
+      properties:
+        url:
+          type: string
+      required:
+      - url
+      type: object
+    TradeType:
+      default: EXACT_INPUT
+      description: The handling of the `amount` field. `EXACT_INPUT` means the requester
+        will send the specified `amount` of input tokens and get a quote with a variable
+        quantity of output tokens. `EXACT_OUTPUT` means the requester will receive
+        the specified `amount` of output tokens and get a quote with a variable quantity
+        of input tokens.
+      enum:
+      - EXACT_INPUT
+      - EXACT_OUTPUT
+      type: string
+    TransactionFailureReason:
+      enum:
+      - SIMULATION_ERROR
+      - UNSUPPORTED_SIMULATION
+      - SIMULATION_UNAVAILABLE
+      - SLIPPAGE_TOO_LOW
+      - TRANSFER_FROM_FAILED
+      type: string
+    TransactionHash:
+      description: The unique hash of the transaction.
+      pattern: ^(0x)?[0-9a-fA-F]{64}$
+      type: string
+    TransactionRequest:
+      properties:
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        data:
+          description: The calldata for the transaction.
+          type: string
+        from:
+          $ref: '#/components/schemas/senderWalletAddress'
+        gasLimit:
+          $ref: '#/components/schemas/gasLimit'
+        gasPrice:
+          $ref: '#/components/schemas/gasPrice'
+        maxFeePerGas:
+          $ref: '#/components/schemas/maxFeePerGas'
+        maxPriorityFeePerGas:
+          $ref: '#/components/schemas/maxPriorityFeePerGas'
+        to:
+          $ref: '#/components/schemas/receiverWalletAddress'
+        value:
+          description: The quantity of ETH tokens approved for spending by the transaction,
+            denominated in wei. Note that by default Uniswap Labs sets this to the
+            maximum approvable spend.
+          type: string
+      required:
+      - to
+      - from
+      - data
+      - value
+      - chainId
+      type: object
+    TransactionRequest5792:
+      properties:
+        data:
+          description: The calldata for the transaction.
+          type: string
+        gasLimit:
+          $ref: '#/components/schemas/gasLimit'
+        gasPrice:
+          $ref: '#/components/schemas/gasPrice'
+        maxFeePerGas:
+          $ref: '#/components/schemas/maxFeePerGas'
+        maxPriorityFeePerGas:
+          $ref: '#/components/schemas/maxPriorityFeePerGas'
+        to:
+          $ref: '#/components/schemas/receiverWalletAddress'
+        value:
+          description: The quantity of ETH tokens approved for spending by the transaction,
+            denominated in wei. Note that by default Uniswap Labs sets this to the
+            maximum approvable spend.
+          type: string
+      required:
+      - to
+      - data
+      - value
+      - chainId
+      type: object
+    TruncatedPlanStep:
+      description: A truncated representation of a plan step containing only routing
+        information.
+      properties:
+        slippage:
+          $ref: '#/components/schemas/slippageTolerance'
+        stepType:
+          $ref: '#/components/schemas/PlanStepType'
+        tokenIn:
+          $ref: '#/components/schemas/inputToken'
+        tokenInChainId:
+          $ref: '#/components/schemas/ChainId'
+        tokenOut:
+          $ref: '#/components/schemas/outputToken'
+        tokenOutChainId:
+          $ref: '#/components/schemas/ChainId'
+      required:
+      - stepType
+      type: object
+    UniswapXOrder:
+      properties:
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        cosignature:
+          type: string
+        cosignerData:
+          $ref: '#/components/schemas/CosignerData'
+        encodedOrder:
+          $ref: '#/components/schemas/encodedOrder'
+        input:
+          $ref: '#/components/schemas/OrderInput'
+        nonce:
+          $ref: '#/components/schemas/nonce'
+        orderId:
+          $ref: '#/components/schemas/orderId'
+        orderStatus:
+          $ref: '#/components/schemas/OrderStatus'
+        outputs:
+          items:
+            $ref: '#/components/schemas/OrderOutput'
+          type: array
+        quoteId:
+          $ref: '#/components/schemas/quoteId'
+        settledAmounts:
+          items:
+            $ref: '#/components/schemas/SettledAmount'
+          type: array
+        signature:
+          type: string
+        swapper:
+          $ref: '#/components/schemas/receiverWalletAddress'
+        txHash:
+          $ref: '#/components/schemas/TransactionHash'
+        type:
+          $ref: '#/components/schemas/OrderType'
+      required:
+      - encodedOrder
+      - signature
+      - nonce
+      - orderId
+      - orderStatus
+      - chainId
+      - type
+      type: object
+    UniversalRouterVersion:
+      default: '2.0'
+      enum:
+      - '1.2'
+      - '2.0'
+      - 2.1.1
+      type: string
+    UpdatePlanRequest:
+      properties:
+        steps:
+          description: Array of steps with proofs to attach. Only steps being updated
+            need to be included.
+          items:
+            $ref: '#/components/schemas/StepUpdate'
+          minItems: 1
+          type: array
+      required:
+      - steps
+      type: object
+    Urgency:
+      default: urgent
+      description: The urgency impacts the estimated gas price of the transaction.
+        The higher the urgency, the higher the gas price, and the faster the transaction
+        is likely to be selected from the mempool. The default value is `urgent`.
+      enum:
+      - normal
+      - fast
+      - urgent
+      type: string
+    UserOperation:
+      description: ERC-4337 v0.8 UserOperation.
+      properties:
+        callData:
+          description: ABI-encoded call data for the batch execution.
+          type: string
+        callGasLimit:
+          description: Gas limit for the main execution call.
+          type: string
+        eip7702Auth:
+          $ref: '#/components/schemas/Eip7702Authorization'
+        factory:
+          description: Account factory address (present for first-time account deployment).
+          type: string
+        factoryData:
+          description: Calldata for the account factory.
+          type: string
+        maxFeePerGas:
+          description: EIP-1559 max fee per gas.
+          type: string
+        maxPriorityFeePerGas:
+          description: EIP-1559 max priority fee per gas.
+          type: string
+        nonce:
+          description: Anti-replay nonce from the EntryPoint.
+          type: string
+        paymaster:
+          description: Paymaster contract address (present when gas is sponsored).
+          type: string
+        paymasterData:
+          description: Paymaster-specific data.
+          type: string
+        paymasterPostOpGasLimit:
+          description: Gas limit for paymaster post-operation.
+          type: string
+        paymasterVerificationGasLimit:
+          description: Gas limit for paymaster verification.
+          type: string
+        preVerificationGas:
+          description: Gas to cover bundler overhead and L1 data costs.
+          type: string
+        sender:
+          description: Smart account address that will execute the operation.
+          type: string
+        signature:
+          description: Dummy signature placeholder; the client signs the UserOperation
+            after receiving this response.
+          type: string
+        verificationGasLimit:
+          description: Gas limit for the verification step.
+          type: string
+      required:
+      - sender
+      - nonce
+      - callData
+      - callGasLimit
+      - verificationGasLimit
+      - preVerificationGas
+      - maxFeePerGas
+      - maxPriorityFeePerGas
+      - signature
+      type: object
+    V2PoolInRoute:
+      properties:
+        address:
+          $ref: '#/components/schemas/contractAddress'
+        amountIn:
+          $ref: '#/components/schemas/tokenAmount'
+        amountOut:
+          $ref: '#/components/schemas/tokenAmount'
+        reserve0:
+          $ref: '#/components/schemas/V2Reserve'
+        reserve1:
+          $ref: '#/components/schemas/V2Reserve'
+        tokenIn:
+          $ref: '#/components/schemas/TokenInRoute'
+        tokenOut:
+          $ref: '#/components/schemas/TokenInRoute'
+        type:
+          default: v2-pool
+          type: string
+      title: V2 Route
+      type: object
+    V2PoolParameters:
+      description: Parameters identifying a V2 pool.
+      properties:
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        token0Address:
+          $ref: '#/components/schemas/Address'
+        token1Address:
+          $ref: '#/components/schemas/Address'
+      required:
+      - token0Address
+      - token1Address
+      - chainId
+      type: object
+    V2Reserve:
+      description: The remaining reserve of this token in the pool.
+      properties:
+        quotient:
+          description: The quantity of this token remaining in the pool, specified
+            in the base units of the token.
+          type: string
+        token:
+          $ref: '#/components/schemas/TokenInRoute'
+      type: object
+    V3PoolInRoute:
+      properties:
+        address:
+          $ref: '#/components/schemas/contractAddress'
+        amountIn:
+          $ref: '#/components/schemas/tokenAmount'
+        amountOut:
+          $ref: '#/components/schemas/tokenAmount'
+        fee:
+          $ref: '#/components/schemas/poolFee'
+        liquidity:
+          $ref: '#/components/schemas/liquidity'
+        sqrtRatioX96:
+          $ref: '#/components/schemas/sqrtRatioX96'
+        tickCurrent:
+          $ref: '#/components/schemas/tickCurrent'
+        tokenIn:
+          $ref: '#/components/schemas/TokenInRoute'
+        tokenOut:
+          $ref: '#/components/schemas/TokenInRoute'
+        type:
+          default: v3-pool
+          type: string
+      title: V3 Route
+      type: object
+    V4PoolInRoute:
+      properties:
+        address:
+          $ref: '#/components/schemas/contractAddress'
+        amountIn:
+          $ref: '#/components/schemas/tokenAmount'
+        amountOut:
+          $ref: '#/components/schemas/tokenAmount'
+        fee:
+          $ref: '#/components/schemas/poolFee'
+        hooks:
+          description: The address of the hook for the pool, if any. If the pool has
+            no hook, this field will be the null address (e.g. 0x0000000000000000000000000000000000000000).
+          type: string
+        liquidity:
+          $ref: '#/components/schemas/liquidity'
+        sqrtRatioX96:
+          $ref: '#/components/schemas/sqrtRatioX96'
+        tickCurrent:
+          $ref: '#/components/schemas/tickCurrent'
+        tickSpacing:
+          $ref: '#/components/schemas/tickSpacing'
+        tokenIn:
+          $ref: '#/components/schemas/TokenInRoute'
+        tokenOut:
+          $ref: '#/components/schemas/TokenInRoute'
+        type:
+          default: v4-pool
+          type: string
+      required:
+      - type
+      - address
+      - tokenIn
+      - tokenOut
+      - sqrtRatioX96
+      - liquidity
+      - tickCurrent
+      - fee
+      - tickSpacing
+      - hooks
+      title: V4 Route
+      type: object
+    WalletCheckDelegationRequestBody:
+      properties:
+        chainIds:
+          description: Array of chain IDs to check delegation status for.
+          items:
+            $ref: '#/components/schemas/ChainId'
+          type: array
+        walletAddresses:
+          description: Array of wallet addresses to check delegation status for.
+          items:
+            $ref: '#/components/schemas/Address'
+          type: array
+      required:
+      - walletAddress
+      - chainIds
+      type: object
+    WalletCheckDelegationResponseBody:
+      properties:
+        delegationDetails:
+          additionalProperties:
+            $ref: '#/components/schemas/ChainDelegationMap'
+          description: Map of wallet addresses to chain IDs to delegation details.
+          type: object
+        requestId:
+          $ref: '#/components/schemas/RequestId'
+      required:
+      - requestId
+      - delegationDetails
+      type: object
+    WalletEncode7702RequestBody:
+      properties:
+        calls:
+          description: Array of transaction requests to be encoded. All transactions
+            must have the same chainId.
+          items:
+            $ref: '#/components/schemas/TransactionRequest'
+          type: array
+        smartContractDelegationAddress:
+          $ref: '#/components/schemas/Address'
+          description: The address of the smart contract delegation implementation
+            to use.
+        walletAddress:
+          $ref: '#/components/schemas/Address'
+          description: The address of the wallet for which the transactions will be
+            encoded.
+      required:
+      - calls
+      - smartContractDelegationAddress
+      - walletAddress
+      type: object
+    WalletExecutionContext:
+      description: Wallet execution context based on CAIP-25 Standard. Provides information
+        about wallet capabilities and scopes.
+      properties:
+        properties:
+          $ref: '#/components/schemas/WalletProperties'
+        scopes:
+          additionalProperties:
+            $ref: '#/components/schemas/ScopeData'
+          description: Map of scope identifiers to their scope data.
+          type: object
+      required:
+      - scopes
+      type: object
+    WalletInfo:
+      description: Information about the wallet.
+      properties:
+        name:
+          description: Name of the wallet.
+          type: string
+        rdns:
+          description: Reverse domain name identifier for the wallet.
+          type: string
+        uuid:
+          description: Unique identifier for the wallet.
+          type: string
+      type: object
+    WalletProperties:
+      description: Properties describing the wallet.
+      properties:
+        walletInfo:
+          $ref: '#/components/schemas/WalletInfo'
+      type: object
+    WrapUnwrapQuote:
+      properties:
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        gasFee:
+          $ref: '#/components/schemas/gasFee'
+        gasFeeQuote:
+          $ref: '#/components/schemas/gasFeeInCurrency'
+        gasFeeUSD:
+          $ref: '#/components/schemas/gasFeeUSD'
+        gasPrice:
+          $ref: '#/components/schemas/gasPrice'
+        gasUseEstimate:
+          $ref: '#/components/schemas/gasLimit'
+        input:
+          $ref: '#/components/schemas/ClassicInput'
+        maxFeePerGas:
+          $ref: '#/components/schemas/maxFeePerGas'
+        maxPriorityFeePerGas:
+          $ref: '#/components/schemas/maxPriorityFeePerGas'
+        output:
+          $ref: '#/components/schemas/ClassicOutput'
+        swapper:
+          $ref: '#/components/schemas/receiverWalletAddress'
+        tradeType:
+          $ref: '#/components/schemas/TradeType'
+      title: Wrap/Unwrap Quote
+      type: object
+    additionalValidationContract:
+      default: '0x0000000000000000000000000000000000000000'
+      deprecated: true
+      description: Unused and deprecated.
+      type: string
+    additionalValidationData:
+      default: 0x
+      deprecated: true
+      description: Unused and deprecated.
+      type: string
+    bps:
+      description: The portion of the swap stated in basis points. Fractional basis
+        points are supported with up to two decimal places (e.g. 12.5).
+      multipleOf: 0.01
+      type: number
+    bpsFee:
+      description: A fee charged by the token specified in basis points. Field is
+        not present if the token does not charge a fee.
+      type: string
+    contractAddress:
+      description: The address of a contract which will be used to facilitate the
+        swap.
+      pattern: ^(0x)?[0-9a-fA-F]{40}$
+      type: string
+    cosignerAddress:
+      description: The address of a cosigner who will run the auction and ensure the
+        best executable price within the given parameters. Currently the cosigner
+        is always Uniswap Labs.
+      pattern: ^(0x)?[0-9a-fA-F]{40}$
+      type: string
+    deadline:
+      description: The unix timestamp at which the order will be reverted if not filled.
+      type: number
+    encodedOrder:
+      description: An encoded copy of the order details which will be submitted to
+        the filler network along with the signed permit.
+      type: string
+    endAmount:
+      description: The worst case quantity of tokens resulting from this swap.
+      type: string
+    gasFee:
+      description: The total estimated gas cost of this transaction (eg. `gasLimit`
+        multiplied by `maxFeePerGas`) in the base unit of the chain.
+      type: string
+    gasFeeInCurrency:
+      description: The total estimated gas cost of this transaction (eg. gasLimit
+        multiplied by maxFeePerGas) in the quoted currency (e.g. output token) in
+        the base units of the quoted currency.
+      type: string
+    gasFeeUSD:
+      description: The total estimated gas cost of this transaction (eg. `gasLimit`
+        multiplied by `maxFeePerGas`) denominated in USDC.
+      type: string
+    gasLimit:
+      description: The maximum units of gas that will be consumed by this transaction.
+      type: string
+    gasPrice:
+      description: The cost per unit of gas.
+      type: string
+    generatePermitAsTransaction:
+      default: false
+      description: Indicates whether you want to receive a permit2 transaction to
+        sign and submit onchain, or a permit message to sign. When set to `true`,
+        the quote response returns the Permit2 as a calldata which the user signs
+        and broadcasts. When set to `false` (the default), the quote response returns
+        the Permit2 as a message which the user signs but does not need to broadcast.
+        When using a 7702-delegated wallet, set this field to `true`. Except for this
+        scenario, it is recommended that this field is set to false. Note that a Permit2
+        calldata (e.g. `true`), will provide indefinite permission for Permit2 to
+        spend a token, in contrast to a Permit2 message (e.g. `false`) which is only
+        valid for 30 days. Further, a Permit2 calldata (e.g. `true`) requires the
+        user to pay gas to submit the transaction, whereas the Permit2 message (e.g.
+        `false` ) does not require the user to submit a transaction and requires no
+        gas.
+      type: boolean
+    includeGasInfo:
+      default: false
+      description: If set to `true`, the response will include the estimated gas fee
+        for the proposed transaction.
+      type: boolean
+    inputToken:
+      description: The token which will be sent, specified by its token address. For
+        a list of supported tokens, see the [FAQ](https://api-docs.uniswap.org/guides/faqs).
+      pattern: ^(0x)?[0-9a-fA-F]{40}$
+      type: string
+    isSpam:
+      description: Whether the token is considered a spam token.
+      type: boolean
+    liquidity:
+      description: The amount of liquidity in the pool at a given tick. For more information
+        see the [Uniswap V3 Whitepaper](https://app.uniswap.org/whitepaper-v3.pdf).
+      type: string
+    lpTickCurrent:
+      description: The current tick of the pool. For more information see the [Uniswap
+        V3 Whitepaper](https://app.uniswap.org/whitepaper-v3.pdf).
+      type: number
+    maxFeePerGas:
+      description: The sum of the base fee and priority fee. Subtracting `maxPriorityFeePerGas`
+        from this value will yield the base fee to be paid for this transaction.
+      type: string
+    maxPriorityFeePerGas:
+      description: The maximum tip to the block builder. Adjusted based upon the urgency
+        specified in the request.
+      type: string
+    minAmount:
+      description: The minimum portion of the swap, stated in the base unit of the
+        token, which will be output to the recipient.
+      type: string
+    nonce:
+      description: A unique nonce for this order.
+      type: string
+    orderId:
+      description: A unique ID for the order. Used to track the order's status.
+      type: string
+    outputToken:
+      description: The token which will be received, specified by its token address.
+        For a list of supported tokens, see the [FAQ](https://api-docs.uniswap.org/guides/faqs).
+      pattern: ^(0x)?[0-9a-fA-F]{40}$
+      type: string
+    poolFee:
+      description: The fee of the pool in basis points.
+      type: string
+    portionAmount:
+      description: The portion of the swap that will be taken as a fee in the base
+        units of the token. The fee will be taken from the output token.
+      type: string
+    portionAmountReceiverAddress:
+      description: The wallet address which will receive the fee.
+      type: string
+    portionBips:
+      description: The portion of the swap that will be taken as a fee stated in basis
+        points. Fractional basis points are supported with up to two decimal places
+        (e.g. 87.5 for 0.875%). The fee will be taken from the output token.
+      multipleOf: 0.01
+      type: number
+    quoteId:
+      description: A unique ID for the quote.
+      type: string
+    receiverWalletAddress:
+      description: The wallet address which will receive the token.
+      pattern: ^(0x)?[0-9a-fA-F]{40}$
+      type: string
+    senderWalletAddress:
+      description: The wallet address which will be used to send the token.
+      pattern: ^(0x)?[0-9a-fA-F]{40}$
+      type: string
+    slippageTolerance:
+      description: 'The slippage tolerance as a percentage up to a maximum of two
+        decimal places. For Uniswap Protocols (v2, v3, v4), the slippage tolerance
+        is the maximum amount the price can change between the time the transaction
+        is submitted and the time it is executed. The slippage tolerance is a percentage
+        of the total value of the swap.
+
+
+        When submitting a quote, note that slippage tolerance works differently in
+        UniswapX swaps where it does not set a limit on the Spread in an order. See
+        [here](https://api-docs.uniswap.org/guides/faqs#why-do-uniswapx-quotes-have-more-slippage-than-the-tolerance-i-set)
+        for more information.
+
+
+        Note that if the trade type is `EXACT_INPUT`, then the slippage is in terms
+        of the output token. If the trade type is `EXACT_OUTPUT`, then the slippage
+        is in terms of the input token.
+
+
+        When submitting a request, `slippageTolerance` may not be set when `autoSlippage`
+        is defined. One of `slippageTolerance` or `autoSlippage` must be defined.'
+      pattern: ^[0-9]{0,3}\.?[0-9]{0,2}$
+      type: number
+    sqrtRatioX96:
+      description: The square root of the ratio of the token0 and token1 in the pool,
+        as a Q64.64 number. For more information see the [Uniswap V3 Whitepaper](https://app.uniswap.org/whitepaper-v3.pdf).
+      type: string
+    startAmount:
+      description: The intended execution quantity of tokens resulting from this swap.
+      type: string
+    tickCurrent:
+      description: The current tick of the pool. For more information see the [Uniswap
+        V3 Whitepaper](https://app.uniswap.org/whitepaper-v3.pdf).
+      type: string
+    tickSpacing:
+      description: The width of ticks in this pool (e.g. the price range between two
+        ticks) specified in basis points. For more information see the [Uniswap V3
+        Whitepaper](https://app.uniswap.org/whitepaper-v3.pdf).
+      type: number
+    tokenAmount:
+      description: The quantity of tokens denominated in the token's base units. (For
+        example, for an ERC20 token one token is 1x10^18 base units. For one USDC
+        token one token is 1x10^6 base units.) This value must be greater than 0.
+      pattern: ^[0-9]+$
+      type: string
+    tokenSymbol:
+      description: The symbol of the token.
+      type: string
+  securitySchemes:
+    apiKey:
+      in: header
+      name: x-api-key
+      type: apiKey
+info:
+  description: 'Uniswap Labs trading APIs.
+
+
+    Each operation may include the vendor extension `x-public-endpoint` (boolean):
+    `true` when the operation is available on the public gateway for standard API
+    keys, `false` when it is not publicly exposed. See the [OpenAPI specification
+    extensions](https://swagger.io/docs/specification/v3_0/openapi-extensions/) definition
+    of `x-` fields.'
+  title: Token Trading
+  version: 1.0.0
+openapi: 3.0.0
+paths:
+  /check_approval:
+    post:
+      description: 'Allows the requestor to check if the `walletAddress` has the required
+        approval to transact the `token` up to the `amount` specified. If the `walletAddress`
+        does not have the required approval, the response will include a transaction
+        to approve the token spend. If the `walletAddress` has the required approval,
+        the response will return the approval with a `null` value. If the parameter
+        `includeGasInfo` is set to `true` and an approval is needed, then the response
+        will include both the transaction and the gas fee for the approval transaction.
+
+
+        Certain tokens may require that approval be reset before approving a new spend
+        amount. If this condition is detected for the `walletAddress` and `token`,
+        the response will include the necessary approval cancellation in the `cancel`
+        paragraph. When `cancel` is not applicable, the paragraph will have a `null`
+        value.'
+      operationId: check_approval
+      parameters:
+      - $ref: '#/components/parameters/permit2DisabledHeader'
+      requestBody:
+        content:
+          application/json:
+            example:
+              amount: '2516'
+              chainId: 1
+              includeGasInfo: true
+              token: '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599'
+              urgency: urgent
+              walletAddress: '0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421'
+            schema:
+              $ref: '#/components/schemas/ApprovalRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/ApprovalSuccess200'
+        '400':
+          $ref: '#/components/responses/BadRequest400'
+        '401':
+          $ref: '#/components/responses/ApprovalUnauthorized401'
+        '404':
+          $ref: '#/components/responses/ApprovalNotFound404'
+        '429':
+          $ref: '#/components/responses/RateLimitedErr429'
+        '500':
+          $ref: '#/components/responses/InternalErr500'
+        '504':
+          $ref: '#/components/responses/Timeout504'
+      security:
+      - apiKey: []
+      summary: Check Token Approval
+      tags:
+      - Approval
+      x-public-endpoint: true
+  /limit_order_quote:
+    post:
+      description: Get a quote for a limit order according to the provided configuration.
+      operationId: get_limit_order_quote
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LimitOrderQuoteRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/LimitOrderQuoteSuccess200'
+        '400':
+          $ref: '#/components/responses/BadRequest400'
+        '401':
+          $ref: '#/components/responses/Unauthorized401'
+        '404':
+          $ref: '#/components/responses/QuoteNotFound404'
+        '429':
+          $ref: '#/components/responses/RateLimitedErr429'
+        '500':
+          $ref: '#/components/responses/InternalErr500'
+        '504':
+          $ref: '#/components/responses/Timeout504'
+      summary: Get Limit Order Quote
+      tags:
+      - LimitOrderQuote
+      x-public-endpoint: false
+  /lp/check_approval:
+    post:
+      description: 'Checks whether the wallet has the required token approvals to
+        perform an LP action (create, increase, decrease, or migrate). Returns any
+        needed approval transactions. If `simulateTransaction` is set to `true`, the
+        response will include gas fees for the approval transactions.
+
+
+        The `action` field specifies which LP operation the approval is for. Different
+        actions may require different approvals (e.g., V2 decrease requires approval
+        of the LP token, V3 migrate requires approval of the V3 NFT).'
+      operationId: check_lp_approval
+      requestBody:
+        content:
+          application/json:
+            example:
+              action: CREATE
+              chainId: 1
+              lpTokens:
+              - amount: '1000000000000000000'
+                tokenAddress: '0x455e53cbb86018ac2b8092fdcd39d8444affc3f6'
+              - amount: '100650'
+                tokenAddress: '0xdac17f958d2ee523a2206206994597c13d831ec7'
+              protocol: V2
+              walletAddress: 0x...
+            schema:
+              $ref: '#/components/schemas/LPApprovalRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/LPApprovalSuccess200'
+        '400':
+          $ref: '#/components/responses/BadRequest400'
+        '401':
+          $ref: '#/components/responses/ApprovalUnauthorized401'
+        '404':
+          $ref: '#/components/responses/ApprovalNotFound404'
+        '429':
+          $ref: '#/components/responses/RateLimitedErr429'
+        '500':
+          $ref: '#/components/responses/InternalErr500'
+        '504':
+          $ref: '#/components/responses/Timeout504'
+      security:
+      - apiKey: []
+      summary: Check LP Token Approval
+      tags:
+      - Liquidity
+      x-public-endpoint: true
+    servers:
+    - description: Uniswap LP API
+      url: https://liquidity.api.uniswap.org/
+  /lp/claim_fees:
+    post:
+      description: 'Claims accumulated trading fees from a V3 or V4 LP position. If
+        `simulateTransaction` is set to `true`, the response will include the gas
+        fee for the claim transaction.
+
+
+        Note: V2 positions do not have claimable fees. V2 trading fees are automatically
+        added to your LP token balance.'
+      operationId: claim_fees
+      requestBody:
+        content:
+          application/json:
+            example:
+              chainId: 130
+              protocol: V4
+              simulateTransaction: false
+              tokenId: '1833079'
+              walletAddress: 0x...
+            schema:
+              $ref: '#/components/schemas/ClaimFeesRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/ClaimFeesSuccess200'
+        '400':
+          $ref: '#/components/responses/BadRequest400'
+        '401':
+          $ref: '#/components/responses/ApprovalUnauthorized401'
+        '404':
+          $ref: '#/components/responses/LPNotFound404'
+        '429':
+          $ref: '#/components/responses/RateLimitedErr429'
+        '500':
+          $ref: '#/components/responses/InternalErr500'
+        '504':
+          $ref: '#/components/responses/Timeout504'
+      security:
+      - apiKey: []
+      summary: Claim LP Fees
+      tags:
+      - Liquidity
+      x-public-endpoint: true
+    servers:
+    - description: Uniswap LP API
+      url: https://liquidity.api.uniswap.org/
+  /lp/create:
+    post:
+      description: Creates a new LP position in a V3 or V4 pool (including full-range
+        positions). You can create a position in an existing pool by providing `existingPool`
+        parameters, or create a new pool by providing `newPool` parameters (fee, tick
+        spacing, initial price, and optionally hooks for V4). The position's price
+        range is specified via either `priceBounds` or `tickBounds`. The server computes
+        the dependent token amount. If `simulateTransaction` is set to `true`, the
+        response will include the gas fee.
+      operationId: create_position
+      requestBody:
+        content:
+          application/json:
+            example:
+              chainId: 8453
+              dependentToken:
+                amount: '952630553245231'
+                tokenAddress: '0x0000000000000000000000000000000000000000'
+              existingPool:
+                poolReference: '0x96d4b53a38337a5733179751781178a2613306063c511b78cd02684739288c0a'
+                token0Address: '0x0000000000000000000000000000000000000000'
+                token1Address: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913'
+              independentToken:
+                amount: '3000000'
+                tokenAddress: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913'
+              nativeTokenBalance: '19345734941139696'
+              protocol: V4
+              simulateTransaction: false
+              tickBounds:
+                tickLower: -198950
+                tickUpper: -198200
+              walletAddress: '0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421'
+            schema:
+              $ref: '#/components/schemas/CreatePositionRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/CreatePositionSuccess200'
+        '400':
+          $ref: '#/components/responses/BadRequest400'
+        '401':
+          $ref: '#/components/responses/ApprovalUnauthorized401'
+        '404':
+          $ref: '#/components/responses/LPNotFound404'
+        '429':
+          $ref: '#/components/responses/RateLimitedErr429'
+        '500':
+          $ref: '#/components/responses/InternalErr500'
+        '504':
+          $ref: '#/components/responses/Timeout504'
+      security:
+      - apiKey: []
+      summary: Create LP Position
+      tags:
+      - Liquidity
+      x-public-endpoint: true
+    servers:
+    - description: Uniswap LP API
+      url: https://liquidity.api.uniswap.org/
+  /lp/create_classic:
+    post:
+      description: Creates a full-range liquidity position in a Uniswap V2 pool. Specify
+        the independent token and amount; the server computes the dependent token
+        amount based on the current pool ratio. If `simulateTransaction` is set to
+        `true`, the response will include the gas fee for the creation transaction.
+      operationId: create_classic_position
+      requestBody:
+        content:
+          application/json:
+            example:
+              dependentToken:
+                amount: '1227700073369630'
+                tokenAddress: '0x0000000000000000000000000000000000000000'
+              independentToken:
+                amount: '1000000000000000'
+                tokenAddress: '0xc02fe7317d4eb8753a02c35fe019786854a92001'
+              poolParameters:
+                chainId: 130
+                token0Address: '0x0000000000000000000000000000000000000000'
+                token1Address: '0xc02fe7317d4eb8753a02c35fe019786854a92001'
+              simulateTransaction: false
+              walletAddress: 0x...
+            schema:
+              $ref: '#/components/schemas/CreateClassicPositionRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/CreateClassicPositionSuccess200'
+        '400':
+          $ref: '#/components/responses/BadRequest400'
+        '401':
+          $ref: '#/components/responses/ApprovalUnauthorized401'
+        '404':
+          $ref: '#/components/responses/LPNotFound404'
+        '429':
+          $ref: '#/components/responses/RateLimitedErr429'
+        '500':
+          $ref: '#/components/responses/InternalErr500'
+        '504':
+          $ref: '#/components/responses/Timeout504'
+      security:
+      - apiKey: []
+      summary: Create Classic LP Position
+      tags:
+      - Liquidity
+      x-public-endpoint: true
+    servers:
+    - description: Uniswap LP API
+      url: https://liquidity.api.uniswap.org/
+  /lp/decrease:
+    post:
+      description: Decreases liquidity in an existing position by a specified percentage.
+        The server derives all position state (liquidity, fees, ticks) from on-chain
+        data. Supports V2 (by token pair), V3, and V4 (by NFT token ID). If `simulateTransaction`
+        is set to `true`, the response will include the gas fee.
+      operationId: decrease_position
+      requestBody:
+        content:
+          application/json:
+            example:
+              chainId: 130
+              liquidityPercentageToDecrease: 25
+              nftTokenId: '1833079'
+              protocol: V4
+              simulateTransaction: false
+              token0Address: '0x0000000000000000000000000000000000000000'
+              token1Address: '0x078D782b760474a361dDA0AF3839290b0EF57AD6'
+              walletAddress: 0x...
+            schema:
+              $ref: '#/components/schemas/DecreasePositionRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/DecreasePositionSuccess200'
+        '400':
+          $ref: '#/components/responses/BadRequest400'
+        '401':
+          $ref: '#/components/responses/ApprovalUnauthorized401'
+        '404':
+          $ref: '#/components/responses/LPNotFound404'
+        '429':
+          $ref: '#/components/responses/RateLimitedErr429'
+        '500':
+          $ref: '#/components/responses/InternalErr500'
+        '504':
+          $ref: '#/components/responses/Timeout504'
+      security:
+      - apiKey: []
+      summary: Decrease LP Position
+      tags:
+      - Liquidity
+      x-public-endpoint: true
+    servers:
+    - description: Uniswap LP API
+      url: https://liquidity.api.uniswap.org/
+  /lp/increase:
+    post:
+      description: Increases liquidity in an existing position. Specify the independent
+        token and amount; the server derives the dependent token amount from the current
+        pool state. Supports V2 (by token pair), V3, and V4 (by NFT token ID). If
+        `simulateTransaction` is set to `true`, the response will include the gas
+        fee.
+      operationId: increase_position
+      requestBody:
+        content:
+          application/json:
+            example:
+              chainId: 8453
+              independentToken:
+                amount: '3000000'
+                tokenAddress: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'
+              nftTokenId: '4986936'
+              protocol: V3
+              simulateTransaction: true
+              token0Address: '0x0000000000000000000000000000000000000000'
+              token1Address: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'
+              walletAddress: '0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421'
+            schema:
+              $ref: '#/components/schemas/IncreasePositionRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/IncreasePositionSuccess200'
+        '400':
+          $ref: '#/components/responses/BadRequest400'
+        '401':
+          $ref: '#/components/responses/ApprovalUnauthorized401'
+        '404':
+          $ref: '#/components/responses/LPNotFound404'
+        '429':
+          $ref: '#/components/responses/RateLimitedErr429'
+        '500':
+          $ref: '#/components/responses/InternalErr500'
+        '504':
+          $ref: '#/components/responses/Timeout504'
+      security:
+      - apiKey: []
+      summary: Increase LP Position
+      tags:
+      - Liquidity
+      x-public-endpoint: true
+    servers:
+    - description: Uniswap LP API
+      url: https://liquidity.api.uniswap.org/
+  /lp/pool_info:
+    post:
+      description: 'Fetches detailed information about one or more liquidity pools
+        across Uniswap V2, V3, and V4. Returns pool state including token addresses,
+        reserves, liquidity, current tick, sqrtRatioX96, fee tier, tick spacing, and
+        hook addresses (V4).
+
+
+        Provide one of `poolParameters` or `poolReferences` (not both):
+
+        - `poolParameters`: Look up pools by token pair. Provide token addresses and
+        optional fee/tickSpacing/hooks to find matching pools.
+
+        - `poolReferences`: Look up specific known pools by their reference identifier
+        (pool address for V3, pool ID for V4, pair address for V2).'
+      operationId: pool_info
+      requestBody:
+        content:
+          application/json:
+            example:
+              chainId: 1
+              poolParameters:
+                fee: 3000
+                tickSpacing: 60
+                tokenAddressA: '0x0000000000000000000000000000000000000000'
+                tokenAddressB: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48'
+              protocol: V4
+            schema:
+              $ref: '#/components/schemas/PoolInfoRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/PoolInfoResponse200'
+        '400':
+          $ref: '#/components/responses/BadRequest400'
+        '401':
+          $ref: '#/components/responses/ApprovalUnauthorized401'
+        '404':
+          $ref: '#/components/responses/PoolInfoNotFound404'
+        '429':
+          $ref: '#/components/responses/RateLimitedErr429'
+        '500':
+          $ref: '#/components/responses/InternalErr500'
+        '504':
+          $ref: '#/components/responses/Timeout504'
+      security:
+      - apiKey: []
+      summary: Get Pool Information
+      tags:
+      - Liquidity
+      x-public-endpoint: true
+    servers:
+    - description: Uniswap LP API
+      url: https://liquidity.api.uniswap.org/
+  /order:
+    post:
+      description: 'The order endpoint is used to submit a UniswapX intent. If the
+        `routing` field in the response to a quote is any of `DUTCH_V2`, `DUTCH_V3`,
+        `LIMIT_ORDER`, or `PRIORITY` this endpoint is used to submit your order to
+        the UniswapX protocol to be filled by the filler network. These orders are
+        gasless because the filler will pay the gas to complete the transaction.
+
+
+        The order will be validated and, if valid, will be submitted to the filler
+        network. The network will try to fill the order at the quoted `startAmount`.
+        If the order is not filled at the `startAmount` by the `deadline`, the amount
+        will start decaying until the `endAmount` is reached. The order will remain
+        `open` until it is either filled, canceled, or has expired by remaining unfilled
+        beyond the `decayEndTime`.
+
+
+        For simplicity, the order request is identical to the quote response except
+        for the addition of the signed permit.
+
+
+        Native ETH on UniswapX: If the quote you are submitting uses native ETH as
+        the input token (e.g. `tokenIn` is `0x0000000000000000000000000000000000000000`),
+        include `x-erc20eth-enabled: true`. Native ETH input on UniswapX requires
+        wallet support for EIP-7914 and sufficient native allowance. For 7702-delegated
+        smart contract wallets, you can generate the required approval call(s) via
+        `/swap_7702` when needed.'
+      operationId: post_order
+      parameters:
+      - $ref: '#/components/parameters/erc20EthEnabledHeader'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderRequest'
+      responses:
+        '201':
+          $ref: '#/components/responses/OrderSuccess201'
+        '400':
+          $ref: '#/components/responses/BadRequest400'
+        '401':
+          $ref: '#/components/responses/Unauthorized401'
+        '429':
+          $ref: '#/components/responses/RateLimitedErr429'
+        '500':
+          $ref: '#/components/responses/InternalErr500'
+        '503':
+          $ref: '#/components/responses/OrderUnavailable503'
+        '504':
+          $ref: '#/components/responses/Timeout504'
+      security:
+      - apiKey: []
+      summary: Create Gasless Order
+      tags:
+      - Order
+      x-public-endpoint: true
+  /orders:
+    get:
+      description: 'Retrieve one or more gasless orders filtered, optionally filered
+        by query param(s). The request must at minimum include one of the following
+        parameters: `orderId`, `orderIds`, `orderStatus`, `swapper`, or `filler`.'
+      operationId: get_order
+      parameters:
+      - $ref: '#/components/parameters/orderTypeParam'
+      - $ref: '#/components/parameters/orderIdParam'
+      - $ref: '#/components/parameters/orderIdsParam'
+      - $ref: '#/components/parameters/limitParam'
+      - $ref: '#/components/parameters/orderStatusParam'
+      - $ref: '#/components/parameters/swapperParam'
+      - $ref: '#/components/parameters/sortKeyParam'
+      - $ref: '#/components/parameters/sortParam'
+      - $ref: '#/components/parameters/fillerParam'
+      - $ref: '#/components/parameters/cursorParam'
+      responses:
+        '200':
+          $ref: '#/components/responses/OrdersSuccess200'
+        '400':
+          $ref: '#/components/responses/OrdersBadRequest400'
+        '404':
+          $ref: '#/components/responses/OrdersNotFound404'
+        '429':
+          $ref: '#/components/responses/RateLimitedErr429'
+        '500':
+          $ref: '#/components/responses/InternalErr500'
+        '503':
+          $ref: '#/components/responses/OrdersUnavailable503'
+        '504':
+          $ref: '#/components/responses/Timeout504'
+      security:
+      - apiKey: []
+      summary: List Gasless Orders
+      tags:
+      - Order
+      x-public-endpoint: true
+  /plan:
+    post:
+      description: Creates a multi-step execution plan for chained transactions. The
+        plan breaks down complex multi-chain or multi-transaction flows into sequential
+        steps that can be executed by the client. Each step includes the method (transaction,
+        message signature, or batch calls), payload, and current status. The response
+        includes the current step index to track progress through the plan.
+      operationId: create_plan
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePlanRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/CreatePlanSuccess200'
+        '400':
+          $ref: '#/components/responses/BadRequest400'
+        '401':
+          $ref: '#/components/responses/Unauthorized401'
+        '404':
+          $ref: '#/components/responses/QuoteNotFound404'
+        '429':
+          $ref: '#/components/responses/RateLimitedErr429'
+        '500':
+          $ref: '#/components/responses/InternalErr500'
+        '504':
+          $ref: '#/components/responses/Timeout504'
+      security:
+      - apiKey: []
+      summary: Create Execution Plan
+      tags:
+      - Plan
+      x-public-endpoint: false
+  /plan/{planId}:
+    get:
+      description: 'Retrieves an existing execution plan by its ID. Returns the full
+        plan with current status and all steps. If forceRefresh is set to true, the
+        plan will be refreshed to check for any updates to step statuses. Note: Completed
+        plans cannot be refreshed.'
+      operationId: get_plan
+      parameters:
+      - description: The unique identifier of the plan to retrieve.
+        in: path
+        name: planId
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - description: Whether to force refresh the plan status. Defaults to false.
+          Completed plans cannot be refreshed.
+        in: query
+        name: forceRefresh
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '200':
+          $ref: '#/components/responses/GetPlanSuccess200'
+        '400':
+          $ref: '#/components/responses/BadRequest400'
+        '401':
+          $ref: '#/components/responses/Unauthorized401'
+        '404':
+          $ref: '#/components/responses/QuoteNotFound404'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity422'
+        '429':
+          $ref: '#/components/responses/RateLimitedErr429'
+        '500':
+          $ref: '#/components/responses/InternalErr500'
+        '504':
+          $ref: '#/components/responses/Timeout504'
+      security:
+      - apiKey: []
+      summary: Get Execution Plan
+      tags:
+      - Plan
+      x-public-endpoint: false
+    patch:
+      description: 'Updates an existing execution plan by submitting proof of completed
+        plan steps (transaction hashes or signatures). The endpoint retrieves the
+        existing plan, attaches proofs to specified steps, verifies the proofs, and
+        potentially regenerates remaining steps if needed. Returns the full updated
+        plan with current status. Note: Order IDs are not accepted in requests; they
+        are system-generated after receiving a signature.'
+      operationId: update_plan
+      parameters:
+      - description: The unique identifier of the plan to update.
+        in: path
+        name: planId
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePlanRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/UpdatePlanSuccess200'
+        '400':
+          $ref: '#/components/responses/BadRequest400'
+        '401':
+          $ref: '#/components/responses/Unauthorized401'
+        '404':
+          $ref: '#/components/responses/QuoteNotFound404'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity422'
+        '429':
+          $ref: '#/components/responses/RateLimitedErr429'
+        '500':
+          $ref: '#/components/responses/InternalErr500'
+        '504':
+          $ref: '#/components/responses/Timeout504'
+      security:
+      - apiKey: []
+      summary: Update Execution Plan
+      x-public-endpoint: false
+  /quote:
+    post:
+      description: 'Requests a quote according to the specified swap parameters. This
+        endpoint may be used to get a quote for a swap, a bridge, or a wrap/unwrap.
+        The resulting response includes a quote for the swap and the proposed route
+        by which the quote was achieved. The response will also include estimated
+        gas fees for the proposed quote route. If the proposed route is via a Uniswap
+        Protocol pool, the response may include a permit2 message for the swapper
+        to sign prior to making a /swap request. The proposed route will also be simulated.
+        If the simulation fails, the response will include an error message or `txFailureReason`.
+
+
+        Certain routing options may be whitelisted by the requestor through the use
+        of the `protocols` field. Further, the requestor may ask for the best price
+        route or for the fastest price route through the ''routingPreference'' field.
+        Note that the fastest price route refers to the speed with which a quote is
+        returned, not the number of transactions that may be required to get from
+        the input token and chain to the output token and chain. Further note that
+        all `routingPreference` values except for `FASTEST` and `BEST_PRICE` are deprecated.
+        For more information on the `protocols` and `routingPreference` fields, see
+        the [Token Trading Workflow](https://uniswap-docs.readme.io/reference/trading-flow#swap-routing)
+        explanation of Swap Routing.
+
+
+        API integrators using this API for the benefit of customer end users may request
+        a service fee be taken from the output token and deposited to a fee collection
+        address. To request this, please reach out to your Uniswap Labs contact. This
+        optional fee is associated to the API key and is always taken from the output
+        token. Note if there is a fee and the `type` is `EXACT_INPUT`, the output
+        amount quoted will **not** include the fee subtraction. If there is a fee
+        and the `type` is `EXACT_OUTPUT`, the input amount quoted will **not** include
+        the fee addition. Instead, in both cases, the fee will be recorded in the
+        `portionBips` and `portionAmount` fields.
+
+
+        Native ETH on UniswapX: UniswapX routes (e.g. `DUTCH_V2`, `DUTCH_V3`, `PRIORITY`)
+        can use native ETH as the input token by setting `tokenIn` to the native currency
+        address (e.g. `0x0000000000000000000000000000000000000000`) and passing `x-erc20eth-enabled:
+        true`. Native ETH input on UniswapX requires wallet support for EIP-7914,
+        a smart wallet activated on your desired network, and a sufficient native
+        allowance (set via /swap_7702 if x-erc20eth-enabled header is set to `true`).
+        If these requirements are not met, UniswapX quotes for native input may be
+        omitted and the response may fall back to `CLASSIC` routing instead.'
+      operationId: aggregator_quote
+      parameters:
+      - $ref: '#/components/parameters/universalRouterVersionHeader'
+      - $ref: '#/components/parameters/erc20EthEnabledHeader'
+      - $ref: '#/components/parameters/permit2DisabledHeader'
+      requestBody:
+        content:
+          application/json:
+            example:
+              amount: '2516'
+              autoSlippage: DEFAULT
+              generatePermitAsTransaction: false
+              permitAmount: FULL
+              protocols:
+              - UNISWAPX_V2
+              - V4
+              - V3
+              - V2
+              routingPreference: BEST_PRICE
+              spreadOptimization: EXECUTION
+              swapper: '0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421'
+              tokenIn: '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599'
+              tokenInChainId: 1
+              tokenOut: '0x0000000000000000000000000000000000000000'
+              tokenOutChainId: 1
+              type: EXACT_INPUT
+              urgency: normal
+            schema:
+              $ref: '#/components/schemas/QuoteRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/QuoteSuccess200'
+        '400':
+          $ref: '#/components/responses/BadRequest400'
+        '401':
+          $ref: '#/components/responses/Unauthorized401'
+        '404':
+          $ref: '#/components/responses/QuoteNotFound404'
+        '429':
+          $ref: '#/components/responses/RateLimitedErr429'
+        '500':
+          $ref: '#/components/responses/InternalErr500'
+        '504':
+          $ref: '#/components/responses/Timeout504'
+      security:
+      - apiKey: []
+      summary: Get Swap Quote
+      tags:
+      - Quote
+      x-public-endpoint: true
+  /send:
+    post:
+      description: This endpoint will generate a calldata for a send transaction based
+        on the inputs. The calldata may be signed by the `sender` to cause the specified
+        `amount` of the `token` to be transfered from the `sender` to the `recipient`.
+        The successful response always includes estimated gas for the transaction.
+      operationId: create_send
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSendRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/CreateSendSuccess200'
+        '400':
+          $ref: '#/components/responses/BadRequest400'
+        '401':
+          $ref: '#/components/responses/Unauthorized401'
+        '404':
+          $ref: '#/components/responses/SendNotFound404'
+        '429':
+          $ref: '#/components/responses/RateLimitedErr429'
+        '500':
+          $ref: '#/components/responses/InternalErr500'
+        '504':
+          $ref: '#/components/responses/Timeout504'
+      security:
+      - apiKey: []
+      summary: Create Send Transaction
+      tags:
+      - Send
+      x-public-endpoint: false
+  /swap:
+    post:
+      description: Create the calldata for a swap transaction (including wrap/unwrap)
+        against the Uniswap Protocols. If the `quote` parameter includes the fee parameters,
+        then the calldata will include the fee disbursement. The gas estimates will
+        be **more precise** when the the response calldata would be valid if submitted
+        on-chain.
+      operationId: create_swap_transaction
+      parameters:
+      - $ref: '#/components/parameters/universalRouterVersionHeader'
+      - $ref: '#/components/parameters/permit2DisabledHeader'
+      requestBody:
+        content:
+          application/json:
+            example:
+              permitData:
+                domain:
+                  chainId: 1
+                  name: Permit2
+                  verifyingContract: '0x000000000022D473030F116dDEE9F6B43aC78BA3'
+                types:
+                  PermitDetails:
+                  - name: token
+                    type: address
+                  - name: amount
+                    type: uint160
+                  - name: expiration
+                    type: uint48
+                  - name: nonce
+                    type: uint48
+                  PermitSingle:
+                  - name: details
+                    type: PermitDetails
+                  - name: spender
+                    type: address
+                  - name: sigDeadline
+                    type: uint256
+                values:
+                  details:
+                    amount: '1461501637330902918203684832716283019655932542975'
+                    expiration: '1749845047'
+                    nonce: '1'
+                    token: '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599'
+                  sigDeadline: '1747254847'
+                  spender: '0x66a9893cc07d91d95644aedd05d03f95e1dba8af'
+              quote:
+                aggregatedOutputs:
+                - amount: '993829944455360'
+                  bps: 9975
+                  minAmount: '993829944455360'
+                  recipient: '0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421'
+                  token: '0x0000000000000000000000000000000000000000'
+                - amount: '2490801865802'
+                  bps: 25
+                  minAmount: '2490801865802'
+                  recipient: '0x000000fee13a103A10D593b9AE06b3e05F2E7E1c'
+                  token: '0x0000000000000000000000000000000000000000'
+                blockNumber: '22483653'
+                chainId: 1
+                gasFee: '489108586810000'
+                gasFeeQuote: '489108586810000'
+                gasFeeUSD: '1.27511942409885062'
+                gasUseEstimate: '180350'
+                input:
+                  amount: '2516'
+                  token: '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599'
+                maxFeePerGas: '4656513686'
+                maxPriorityFeePerGas: '2000000000'
+                output:
+                  amount: '996320746321162'
+                  recipient: '0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421'
+                  token: '0x0000000000000000000000000000000000000000'
+                portionAmount: '2490801865802'
+                portionBips: 25
+                portionRecipient: '0x000000fee13a103A10D593b9AE06b3e05F2E7E1c'
+                priceImpact: 0.14
+                quoteId: 62e83902-9455-405d-8c62-cdf8ee9e2042
+                route:
+                - - address: '0x599326d9cd5e1ea0893305c87d5ec3199e7f05e94d72159f35dea381479a615e'
+                    amountIn: '2516'
+                    amountOut: '993829944455359'
+                    fee: '500'
+                    hooks: '0x0000000000000000000000000000000000000000'
+                    liquidity: '82781860385007263'
+                    sqrtRatioX96: '125814565506407615477027'
+                    tickCurrent: '-267075'
+                    tickSpacing: '10'
+                    tokenIn:
+                      address: '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599'
+                      chainId: 1
+                      decimals: '8'
+                      symbol: WBTC
+                    tokenOut:
+                      address: '0x0000000000000000000000000000000000000000'
+                      chainId: 1
+                      decimals: '18'
+                      symbol: ETH
+                    type: v4-pool
+                routeString: '[V4] 100.00% = WBTC -- 0.05% [0x599326d9cd5e1ea0893305c87d5ec3199e7f05e94d72159f35dea381479a615e]ETH'
+                slippage: 5.5
+                swapper: '0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421'
+                tradeType: EXACT_INPUT
+                txFailureReasons: []
+              refreshGasPrice: true
+              safetyMode: SAFE
+              signature: 0xb22e7f47d8...
+              simulateTransaction: true
+              urgency: normal
+            schema:
+              $ref: '#/components/schemas/CreateSwapRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/CreateSwapSuccess200'
+        '400':
+          $ref: '#/components/responses/BadRequest400'
+        '401':
+          $ref: '#/components/responses/SwapUnauthorized401'
+        '404':
+          $ref: '#/components/responses/SwapNotFound404'
+        '429':
+          $ref: '#/components/responses/RateLimitedErr429'
+        '500':
+          $ref: '#/components/responses/InternalErr500'
+        '504':
+          $ref: '#/components/responses/Timeout504'
+      security:
+      - apiKey: []
+      summary: Create Swap Transaction
+      tags:
+      - Swap
+      x-public-endpoint: true
+  /swap_5792:
+    post:
+      description: Create the EIP 5792 calldata for a swap transaction (including
+        wrap/unwrap and bridging) against the Uniswap Protocols. If the `quote` parameter
+        includes the fee parameters, then the calldata will include the fee disbursement.
+        The gas estimates will be **more precise** when the response calldata would
+        be valid if submitted on-chain.
+      operationId: create_swap_5792_transaction
+      parameters:
+      - $ref: '#/components/parameters/universalRouterVersionHeader'
+      requestBody:
+        content:
+          application/json:
+            example:
+              permitData:
+                domain:
+                  chainId: 8453
+                  name: Permit2
+                  verifyingContract: '0x000000000022D473030F116dDEE9F6B43aC78BA3'
+                types:
+                  PermitDetails:
+                  - name: token
+                    type: address
+                  - name: amount
+                    type: uint160
+                  - name: expiration
+                    type: uint48
+                  - name: nonce
+                    type: uint48
+                  PermitSingle:
+                  - name: details
+                    type: PermitDetails
+                  - name: spender
+                    type: address
+                  - name: sigDeadline
+                    type: uint256
+                values:
+                  details:
+                    amount: '1461501637330902918203684832716283019655932542975'
+                    expiration: '1779463380'
+                    nonce: '0'
+                    token: '0x624e2e7fDc8903165F64891672267AB0FCB98831'
+                  sigDeadline: '1776873180'
+                  spender: '0x6ff5693b99212da76ad316178a184ab56d299b43'
+              quote:
+                aggregatedOutputs:
+                - amount: '1999890'
+                  bps: 10000
+                  minAmount: '1949892'
+                  recipient: '0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421'
+                  token: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'
+                blockNumber: '45041016'
+                chainId: 8453
+                gasFee: '1664618749624'
+                gasFeeQuote: '2335'
+                gasFeeUSD: '0.002335228716641861'
+                gasPrice: '9000000'
+                gasUseEstimate: '162169'
+                input:
+                  amount: '4666414752365827583'
+                  token: '0x624e2e7fDc8903165F64891672267AB0FCB98831'
+                output:
+                  amount: '1999890'
+                  recipient: '0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421'
+                  token: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'
+                priceImpact: 0.01
+                quoteId: dccb2b4f-3b0c-46be-8e17-9fb103d44990
+                route:
+                - - address: '0x636da53e0251b3cb0b4d10dbaff488b294f97bd5212b7e2a7c1bc3fb57fd6e31'
+                    amountIn: '4666414752365827583'
+                    amountOut: '1999890'
+                    fee: '1'
+                    hooks: '0x0000000000000000000000000000000000000000'
+                    liquidity: '60642987270239502'
+                    sqrtRatioX96: '51868315841017165286814'
+                    tickCurrent: '-284797'
+                    tickSpacing: '1'
+                    tokenIn:
+                      address: '0x624e2e7fDc8903165F64891672267AB0FCB98831'
+                      chainId: 8453
+                      decimals: '18'
+                      symbol: SOSO
+                    tokenOut:
+                      address: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'
+                      chainId: 8453
+                      decimals: '6'
+                      symbol: USDC
+                    type: v4-pool
+                routeString: '[v4] 100.00% = [0.0001%] [1] [0x0000000000000000000000000000000000000000]
+                  0x636da53e0251b3cb0b4d10dbaff488b294f97bd5212b7e2a7c1bc3fb57fd6e31'
+                slippage: 2.5
+                swapper: '0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421'
+                tradeType: EXACT_INPUT
+                txFailureReasons: []
+              urgency: normal
+            schema:
+              $ref: '#/components/schemas/CreateSwap5792Request'
+      responses:
+        '200':
+          $ref: '#/components/responses/CreateSwap5792Success200'
+        '400':
+          $ref: '#/components/responses/BadRequest400'
+        '401':
+          $ref: '#/components/responses/SwapUnauthorized401'
+        '404':
+          $ref: '#/components/responses/SwapNotFound404'
+        '429':
+          $ref: '#/components/responses/RateLimitedErr429'
+        '500':
+          $ref: '#/components/responses/InternalErr500'
+        '504':
+          $ref: '#/components/responses/Timeout504'
+      security:
+      - apiKey: []
+      summary: Create EIP-5792 Swap
+      tags:
+      - Swap
+      x-public-endpoint: true
+  /swap_7702:
+    post:
+      description: 'Create the EIP 7702 calldata for a swap transaction (including
+        wrap/unwrap and bridging) against the Uniswap Protocols. If the `quote` parameter
+        includes the fee parameters, then the calldata will include the fee disbursement.
+        The gas estimates will be **more precise** when the the response calldata
+        would be valid if submitted on-chain.
+
+
+        Native ETH / UniswapX setup: When `x-erc20eth-enabled` is `true` and the input
+        token is native ETH, the response may include an additional native approval
+        call (e.g. an `approveNative` step) to enable ERC20-ETH (EIP-7914) spending
+        for the wallet. This native allowance is a prerequisite for native ETH input
+        on UniswapX (`/quote` → `/order`) for supported wallets.'
+      operationId: create_swap_7702_transaction
+      parameters:
+      - $ref: '#/components/parameters/universalRouterVersionHeader'
+      - $ref: '#/components/parameters/erc20EthEnabledHeader'
+      requestBody:
+        content:
+          application/json:
+            example:
+              permitData:
+                domain:
+                  chainId: 8453
+                  name: Permit2
+                  verifyingContract: '0x000000000022D473030F116dDEE9F6B43aC78BA3'
+                types:
+                  PermitDetails:
+                  - name: token
+                    type: address
+                  - name: amount
+                    type: uint160
+                  - name: expiration
+                    type: uint48
+                  - name: nonce
+                    type: uint48
+                  PermitSingle:
+                  - name: details
+                    type: PermitDetails
+                  - name: spender
+                    type: address
+                  - name: sigDeadline
+                    type: uint256
+                values:
+                  details:
+                    amount: '1461501637330902918203684832716283019655932542975'
+                    expiration: '1779464665'
+                    nonce: '0'
+                    token: '0x624e2e7fDc8903165F64891672267AB0FCB98831'
+                  sigDeadline: '1776874465'
+                  spender: '0x6ff5693b99212da76ad316178a184ab56d299b43'
+              quote:
+                aggregatedOutputs:
+                - amount: '1999890'
+                  bps: 10000
+                  minAmount: '1949892'
+                  recipient: '0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421'
+                  token: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'
+                blockNumber: '45041659'
+                chainId: 8453
+                gasFee: '1636896419348'
+                gasFeeQuote: '2335'
+                gasFeeUSD: '0.002335228716641861'
+                gasPrice: '9000000'
+                gasUseEstimate: '162169'
+                input:
+                  amount: '4666414752365827583'
+                  token: '0x624e2e7fDc8903165F64891672267AB0FCB98831'
+                output:
+                  amount: '1999890'
+                  recipient: '0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421'
+                  token: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'
+                priceImpact: 0.01
+                quoteId: ce44f65c-b16a-46e3-a3cf-23cadea6110b
+                route:
+                - - address: '0x636da53e0251b3cb0b4d10dbaff488b294f97bd5212b7e2a7c1bc3fb57fd6e31'
+                    amountIn: '4666414752365827583'
+                    amountOut: '1999890'
+                    fee: '1'
+                    hooks: '0x0000000000000000000000000000000000000000'
+                    liquidity: '60642987270239502'
+                    sqrtRatioX96: '51868315841017165286814'
+                    tickCurrent: '-284797'
+                    tickSpacing: '1'
+                    tokenIn:
+                      address: '0x624e2e7fDc8903165F64891672267AB0FCB98831'
+                      chainId: 8453
+                      decimals: '18'
+                      symbol: SOSO
+                    tokenOut:
+                      address: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'
+                      chainId: 8453
+                      decimals: '6'
+                      symbol: USDC
+                    type: v4-pool
+                routeString: '[v4] 100.00% = [0.0001%] [1] [0x0000000000000000000000000000000000000000]
+                  0x636da53e0251b3cb0b4d10dbaff488b294f97bd5212b7e2a7c1bc3fb57fd6e31'
+                slippage: 2.5
+                swapper: '0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421'
+                tradeType: EXACT_INPUT
+                txFailureReasons: []
+              smartContractDelegationAddress: '0x000000009b1d0af20d8c6d0a44e162d11f9b8f00'
+            schema:
+              $ref: '#/components/schemas/CreateSwap7702Request'
+      responses:
+        '200':
+          $ref: '#/components/responses/CreateSwap7702Success200'
+        '400':
+          $ref: '#/components/responses/BadRequest400'
+        '401':
+          $ref: '#/components/responses/SwapUnauthorized401'
+        '404':
+          $ref: '#/components/responses/SwapNotFound404'
+        '429':
+          $ref: '#/components/responses/RateLimitedErr429'
+        '500':
+          $ref: '#/components/responses/InternalErr500'
+        '504':
+          $ref: '#/components/responses/Timeout504'
+      security:
+      - apiKey: []
+      summary: Create EIP-7702 Swap
+      tags:
+      - Swap
+      x-public-endpoint: true
+  /swappable_tokens:
+    get:
+      description: Returns the list of destination bridge chains for a given token
+        on a given chain.
+      operationId: get_swappable_tokens
+      parameters:
+      - $ref: '#/components/parameters/tokenInParam'
+      - $ref: '#/components/parameters/bridgeTokenInChainIdParam'
+      responses:
+        '200':
+          $ref: '#/components/responses/GetSwappableTokensSuccess200'
+        '400':
+          $ref: '#/components/responses/BadRequest400'
+        '401':
+          $ref: '#/components/responses/Unauthorized401'
+        '404':
+          $ref: '#/components/responses/QuoteNotFound404'
+        '429':
+          $ref: '#/components/responses/RateLimitedErr429'
+        '500':
+          $ref: '#/components/responses/InternalErr500'
+        '504':
+          $ref: '#/components/responses/Timeout504'
+      security:
+      - apiKey: []
+      summary: List Swappable Tokens
+      tags:
+      - SwappableTokens
+      x-public-endpoint: true
+  /swaps:
+    get:
+      description: Get the status of swap or bridge transactions. Accepts on-chain
+        transaction hashes (`txHashes`), ERC-4337 userOperation hashes (`userOpHashes`),
+        or both. At least one of the two must contain at least one item.
+      operationId: get_swaps
+      parameters:
+      - $ref: '#/components/parameters/transactionHashesParam'
+      - $ref: '#/components/parameters/userOpHashesParam'
+      - $ref: '#/components/parameters/chainIdParam'
+      responses:
+        '200':
+          $ref: '#/components/responses/GetSwapsSuccess200'
+        '400':
+          $ref: '#/components/responses/BadRequest400'
+        '404':
+          $ref: '#/components/responses/SwapNotFound404'
+        '429':
+          $ref: '#/components/responses/RateLimitedErr429'
+        '500':
+          $ref: '#/components/responses/InternalErr500'
+        '504':
+          $ref: '#/components/responses/Timeout504'
+      security:
+      - apiKey: []
+      summary: Get Swap Status
+      tags:
+      - Swap
+      x-public-endpoint: true
+  /wallet/check_delegation:
+    post:
+      description: Gets the current delegation status and message for a smart contract
+        wallet across different chains. Returns delegation information for each chain
+        ID in the request.
+      operationId: wallet_check_delegation
+      requestBody:
+        content:
+          application/json:
+            example:
+              chainIds:
+              - 1
+              - 8453
+              walletAddresses:
+              - '0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421'
+            schema:
+              $ref: '#/components/schemas/WalletCheckDelegationRequestBody'
+      responses:
+        '200':
+          $ref: '#/components/responses/WalletCheckDelegationSuccess200'
+        '400':
+          $ref: '#/components/responses/BadRequest400'
+        '401':
+          $ref: '#/components/responses/Unauthorized401'
+        '404':
+          $ref: '#/components/responses/QuoteNotFound404'
+        '429':
+          $ref: '#/components/responses/RateLimitedErr429'
+        '500':
+          $ref: '#/components/responses/InternalErr500'
+        '504':
+          $ref: '#/components/responses/Timeout504'
+      security:
+      - apiKey: []
+      summary: Get Wallet Delegation
+      tags:
+      - WalletCheckDelegation
+      x-public-endpoint: true
+  /wallet/encode_4337:
+    post:
+      description: Builds and returns a fully-populated ERC-4337 v0.8 UserOperation
+        for the given batch of calls. When a `paymasterUrl` is provided the endpoint
+        attempts gas sponsorship via the paymaster; the response indicates whether
+        sponsorship was granted and includes sponsor metadata when available.
+      operationId: encode_4337
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Encode4337Request'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Encode4337Response'
+          description: UserOperation encoded successfully.
+        '400':
+          $ref: '#/components/responses/BadRequest400'
+        '401':
+          $ref: '#/components/responses/Unauthorized401'
+        '429':
+          $ref: '#/components/responses/RateLimitedErr429'
+        '500':
+          $ref: '#/components/responses/InternalErr500'
+        '504':
+          $ref: '#/components/responses/Timeout504'
+      security:
+      - apiKey: []
+      summary: Encode ERC-4337 User Operation
+      tags:
+      - Wallet
+      x-public-endpoint: false
+  /wallet/encode_7702:
+    post:
+      description: Encodes a list of transactions into a single transaction for smart
+        contract wallet execution. All transactions must have the same chainId.
+      operationId: wallet_encode_7702
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WalletEncode7702RequestBody'
+      responses:
+        '200':
+          $ref: '#/components/responses/WalletEncode7702Success200'
+        '400':
+          $ref: '#/components/responses/BadRequest400'
+        '401':
+          $ref: '#/components/responses/Unauthorized401'
+        '404':
+          $ref: '#/components/responses/QuoteNotFound404'
+        '429':
+          $ref: '#/components/responses/RateLimitedErr429'
+        '500':
+          $ref: '#/components/responses/InternalErr500'
+        '504':
+          $ref: '#/components/responses/Timeout504'
+      security:
+      - apiKey: []
+      summary: Encode Wallet Transactions
+      tags:
+      - WalletEncode7702
+      x-public-endpoint: true
+security:
+- apiKey: []
+servers:
+- description: Uniswap Trading API
+  url: https://trade-api.gateway.uniswap.org/v1

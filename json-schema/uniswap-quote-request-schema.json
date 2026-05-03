@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-quote-request-schema.json",
+  "title": "QuoteRequest",
+  "description": "QuoteRequest schema from Uniswap Trading API",
+  "type": "object",
+  "properties": {
+    "type": {
+      "$ref": "#/components/schemas/TradeType"
+    },
+    "amount": {
+      "$ref": "#/components/schemas/tokenAmount"
+    },
+    "tokenInChainId": {
+      "$ref": "#/components/schemas/ChainId"
+    },
+    "tokenOutChainId": {
+      "$ref": "#/components/schemas/ChainId"
+    },
+    "tokenIn": {
+      "$ref": "#/components/schemas/inputToken"
+    },
+    "tokenOut": {
+      "$ref": "#/components/schemas/outputToken"
+    },
+    "generatePermitAsTransaction": {
+      "$ref": "#/components/schemas/generatePermitAsTransaction"
+    },
+    "swapper": {
+      "$ref": "#/components/schemas/senderWalletAddress"
+    },
+    "slippageTolerance": {
+      "$ref": "#/components/schemas/slippageTolerance"
+    },
+    "autoSlippage": {
+      "$ref": "#/components/schemas/AutoSlippage"
+    },
+    "routingPreference": {
+      "$ref": "#/components/schemas/RoutingPreference"
+    },
+    "protocols": {
+      "$ref": "#/components/schemas/Protocols"
+    },
+    "hooksOptions": {
+      "$ref": "#/components/schemas/HooksOptions"
+    },
+    "spreadOptimization": {
+      "$ref": "#/components/schemas/SpreadOptimization"
+    },
+    "urgency": {
+      "$ref": "#/components/schemas/Urgency"
+    },
+    "permitAmount": {
+      "$ref": "#/components/schemas/PermitAmount"
+    },
+    "integratorFees": {
+      "type": "array",
+      "description": "Optional integrator fee configuration. When provided, the specified fee is applied to the swap instead of the default partner fee service. Only one fee entry is currently supported.",
+      "items": {
+        "$ref": "#/components/schemas/IntegratorFee"
+      },
+      "minItems": 1,
+      "maxItems": 1
+    },
+    "walletExecutionContext": {
+      "$ref": "#/components/schemas/WalletExecutionContext"
+    }
+  },
+  "required": [
+    "type",
+    "amount",
+    "tokenInChainId",
+    "tokenOutChainId",
+    "tokenIn",
+    "tokenOut",
+    "swapper"
+  ]
+}

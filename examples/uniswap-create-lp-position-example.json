@@ -1,0 +1,39 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://trade-api.gateway.uniswap.org/v1/lp/create",
+    "headers": {
+      "Content-Type": "application/json",
+      "x-api-key": "YOUR_API_KEY"
+    },
+    "body": {
+      "chainId": 1,
+      "walletAddress": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
+      "token0": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+      "token1": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+      "fee": 500,
+      "tickLower": -887272,
+      "tickUpper": 887272,
+      "amount0Desired": "1000000000000000000",
+      "amount1Desired": "2500000000",
+      "amount0Min": "990000000000000000",
+      "amount1Min": "2475000000",
+      "deadline": 1745000000,
+      "protocol": "V3"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "create": {
+        "to": "0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
+        "data": "0x88316456...",
+        "value": "0x0",
+        "gasLimit": "350000",
+        "chainId": 1
+      },
+      "approve0": null,
+      "approve1": null
+    }
+  }
+}

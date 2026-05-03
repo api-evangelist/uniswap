@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-quote-response-schema.json",
+  "title": "QuoteResponse",
+  "description": "QuoteResponse schema from Uniswap Trading API",
+  "type": "object",
+  "properties": {
+    "requestId": {
+      "$ref": "#/components/schemas/RequestId"
+    },
+    "quote": {
+      "$ref": "#/components/schemas/Quote"
+    },
+    "routing": {
+      "$ref": "#/components/schemas/Routing"
+    },
+    "permitTransaction": {
+      "$ref": "#/components/schemas/TransactionRequest"
+    },
+    "permitData": {
+      "$ref": "#/components/schemas/NullablePermit"
+    },
+    "permitGasFee": {
+      "$ref": "#/components/schemas/gasFee"
+    },
+    "sponsorshipInfo": {
+      "$ref": "#/components/schemas/SponsorshipInfo"
+    }
+  },
+  "required": [
+    "routing",
+    "quote",
+    "permitData",
+    "requestId"
+  ]
+}

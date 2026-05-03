@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-create-position-request-schema.json",
+  "title": "CreatePositionRequest",
+  "description": "CreatePositionRequest schema from Uniswap Trading API",
+  "type": "object",
+  "properties": {
+    "walletAddress": {
+      "$ref": "#/components/schemas/Address"
+    },
+    "existingPool": {
+      "allOf": [
+        {
+          "$ref": "#/components/schemas/CreatePositionExistingPoolParameters"
+        }
+      ],
+      "description": "Parameters for an existing pool. Provide either existingPool or newPool, not both."
+    },
+    "newPool": {
+      "allOf": [
+        {
+          "$ref": "#/components/schemas/CreatePoolParameters"
+        }
+      ],
+      "description": "Parameters for creating a new pool. Provide either existingPool or newPool, not both."
+    },
+    "chainId": {
+      "$ref": "#/components/schemas/ChainId"
+    },
+    "protocol": {
+      "$ref": "#/components/schemas/ProtocolItems"
+    },
+    "independentToken": {
+      "allOf": [
+        {
+          "$ref": "#/components/schemas/CreateToken"
+        }
+      ],
+      "description": "The token whose amount you are specifying."
+    },
+    "dependentToken": {
+      "allOf": [
+        {
+          "$ref": "#/components/schemas/CreateToken"
+        }
+      ],
+      "description": "The other token. The server computes the required amount. If provided, the amount is used as a maximum."
+    },
+    "priceBounds": {
+      "allOf": [
+        {
+          "$ref": "#/components/schemas/PositionPriceBounds"
+        }
+      ],
+      "description": "Price bounds for the position range. Provide either priceBounds or tickBounds, not both."
+    },
+    "tickBounds": {
+      "allOf": [
+        {
+          "$ref": "#/components/schemas/PositionTickBounds"
+        }
+      ],
+      "description": "Tick bounds for the position range. Provide either priceBounds or tickBounds, not both."
+    },
+    "slippageTolerance": {
+      "type": "number",
+      "description": "Slippage tolerance as a decimal (e.g., 0.5 for 0.5%)."
+    },
+    "deadline": {
+      "type": "integer",
+      "description": "Unix timestamp after which the transaction will revert."
+    },
+    "simulateTransaction": {
+      "type": "boolean",
+      "description": "If true, the response will include the gas fee."
+    },
+    "urgency": {
+      "$ref": "#/components/schemas/GasUrgency"
+    },
+    "batchPermitData": {
+      "allOf": [
+        {
+          "$ref": "#/components/schemas/NullablePermit"
+        }
+      ],
+      "description": "Batch permit data for V4 positions."
+    },
+    "signature": {
+      "type": "string",
+      "description": "The signed permit."
+    },
+    "nativeTokenBalance": {
+      "type": "string",
+      "description": "The wallet's native token balance, used for wrapping calculations when one of the tokens is the native token."
+    }
+  },
+  "required": [
+    "walletAddress",
+    "chainId",
+    "protocol",
+    "independentToken"
+  ]
+}

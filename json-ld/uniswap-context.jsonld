@@ -1,0 +1,110 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "uniswap": "https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-ld/uniswap-context.jsonld#",
+
+    "Token": {
+      "@id": "uniswap:Token",
+      "@type": "schema:Thing"
+    },
+    "Pool": {
+      "@id": "uniswap:Pool",
+      "@type": "schema:Thing"
+    },
+    "SwapOrder": {
+      "@id": "uniswap:SwapOrder",
+      "@type": "schema:Order"
+    },
+    "LimitOrder": {
+      "@id": "uniswap:LimitOrder",
+      "@type": "schema:Order"
+    },
+    "LPPosition": {
+      "@id": "uniswap:LPPosition",
+      "@type": "schema:Thing"
+    },
+    "ExecutionPlan": {
+      "@id": "uniswap:ExecutionPlan",
+      "@type": "schema:Thing"
+    },
+
+    "tokenAddress": {
+      "@id": "uniswap:tokenAddress",
+      "@type": "xsd:string"
+    },
+    "tokenSymbol": {
+      "@id": "uniswap:tokenSymbol",
+      "@type": "xsd:string"
+    },
+    "tokenAmount": {
+      "@id": "uniswap:tokenAmount",
+      "@type": "xsd:string"
+    },
+    "chainId": {
+      "@id": "uniswap:chainId",
+      "@type": "xsd:integer"
+    },
+    "walletAddress": {
+      "@id": "uniswap:walletAddress",
+      "@type": "xsd:string"
+    },
+    "inputToken": {
+      "@id": "uniswap:inputToken",
+      "@type": "uniswap:Token"
+    },
+    "outputToken": {
+      "@id": "uniswap:outputToken",
+      "@type": "uniswap:Token"
+    },
+    "slippageTolerance": {
+      "@id": "uniswap:slippageTolerance",
+      "@type": "xsd:string"
+    },
+    "swapStatus": {
+      "@id": "uniswap:swapStatus",
+      "@type": "xsd:string"
+    },
+    "gasEstimate": {
+      "@id": "uniswap:gasEstimate",
+      "@type": "xsd:string"
+    },
+    "priceImpact": {
+      "@id": "uniswap:priceImpact",
+      "@type": "xsd:decimal"
+    },
+    "protocols": {
+      "@id": "uniswap:protocols",
+      "@type": "xsd:string"
+    },
+    "feeAmount": {
+      "@id": "uniswap:feeAmount",
+      "@type": "xsd:integer"
+    },
+    "tickLower": {
+      "@id": "uniswap:tickLower",
+      "@type": "xsd:integer"
+    },
+    "tickUpper": {
+      "@id": "uniswap:tickUpper",
+      "@type": "xsd:integer"
+    },
+    "liquidity": {
+      "@id": "uniswap:liquidity",
+      "@type": "xsd:string"
+    },
+    "requestId": {
+      "@id": "schema:identifier",
+      "@type": "xsd:string"
+    },
+    "orderId": {
+      "@id": "schema:identifier",
+      "@type": "xsd:string"
+    },
+    "deadline": {
+      "@id": "schema:expires",
+      "@type": "xsd:integer"
+    }
+  }
+}

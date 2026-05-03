@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-create-swap-request-schema.json",
+  "title": "CreateSwapRequest",
+  "description": "The parameters **signature** and **permitData** should only be included if *permitData* was returned from **/quote**.",
+  "type": "object",
+  "properties": {
+    "quote": {
+      "oneOf": [
+        {
+          "$ref": "#/components/schemas/ClassicQuote"
+        },
+        {
+          "$ref": "#/components/schemas/WrapUnwrapQuote"
+        },
+        {
+          "$ref": "#/components/schemas/BridgeQuote"
+        }
+      ]
+    },
+    "signature": {
+      "type": "string",
+      "description": "The signed permit."
+    },
+    "includeGasInfo": {
+      "type": "boolean",
+      "default": false,
+      "deprecated": true,
+      "description": "Use `refreshGasPrice` instead."
+    },
+    "refreshGasPrice": {
+      "type": "boolean",
+      "default": false,
+      "description": "If true, the gas price will be re-fetched from the network."
+    },
+    "simulateTransaction": {
+      "type": "boolean",
+      "default": false,
+      "description": "If true, the transaction will be simulated. If the simulation results on an onchain error, endpoint will return an error."
+    },
+    "permitData": {
+      "allOf": [
+        {
+          "$ref": "#/components/schemas/Permit"
+        }
+      ]
+    },
+    "safetyMode": {
+      "$ref": "#/components/schemas/SwapSafetyMode"
+    },
+    "deadline": {
+      "$ref": "#/components/schemas/deadline"
+    },
+    "urgency": {
+      "$ref": "#/components/schemas/Urgency"
+    }
+  },
+  "required": [
+    "quote"
+  ]
+}

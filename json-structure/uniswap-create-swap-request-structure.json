@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CreateSwapRequest Structure",
+  "description": "JSON Structure for CreateSwapRequest from Uniswap Trading API",
+  "structure": {
+    "type": "object",
+    "description": "The parameters **signature** and **permitData** should only be included if *permitData* was returned from **/quote**.",
+    "properties": {
+      "quote": {
+        "type": "object"
+      },
+      "signature": {
+        "type": "string",
+        "description": "The signed permit."
+      },
+      "includeGasInfo": {
+        "type": "boolean",
+        "description": "Use `refreshGasPrice` instead."
+      },
+      "refreshGasPrice": {
+        "type": "boolean",
+        "description": "If true, the gas price will be re-fetched from the network."
+      },
+      "simulateTransaction": {
+        "type": "boolean",
+        "description": "If true, the transaction will be simulated. If the simulation results on an onchain error, endpoint will return an error."
+      },
+      "permitData": {
+        "type": "object"
+      },
+      "safetyMode": {
+        "type": "string",
+        "description": "Swap safety mode will automatically sweep the transaction for the native token and return it to the sender wallet address. This is to prevent accidental loss of funds in the event that the token amount is set in the transaction value instead of as part of the calldata.",
+        "enum": [
+          "SAFE"
+        ]
+      },
+      "deadline": {
+        "type": "number",
+        "description": "The unix timestamp at which the order will be reverted if not filled."
+      },
+      "urgency": {
+        "type": "string",
+        "description": "The urgency impacts the estimated gas price of the transaction. The higher the urgency, the higher the gas price, and the faster the transaction is likely to be selected from the mempool. The default value is `urgent`.",
+        "enum": [
+          "normal",
+          "fast",
+          "urgent"
+        ]
+      }
+    },
+    "required": [
+      "quote"
+    ]
+  }
+}

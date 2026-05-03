@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LimitOrderQuoteResponse Structure",
+  "description": "JSON Structure for LimitOrderQuoteResponse from Uniswap Trading API",
+  "structure": {
+    "type": "object",
+    "properties": {
+      "requestId": {
+        "type": "string",
+        "description": "A unique ID for the request."
+      },
+      "quote": {
+        "type": "object",
+        "properties": {
+          "encodedOrder": {
+            "$ref": "encodedOrder"
+          },
+          "orderId": {
+            "$ref": "orderId"
+          },
+          "orderInfo": {
+            "$ref": "DutchOrderInfo"
+          },
+          "portionBips": {
+            "$ref": "portionBips"
+          },
+          "portionAmount": {
+            "$ref": "portionAmount"
+          },
+          "portionRecipient": {
+            "$ref": "portionAmountReceiverAddress"
+          },
+          "quoteId": {
+            "$ref": "quoteId"
+          },
+          "slippageTolerance": {
+            "$ref": "slippageTolerance"
+          },
+          "classicGasUseEstimateUSD": {
+            "$ref": "ClassicGasUseEstimateUSD"
+          },
+          "aggregatedOutputs": {
+            "type": "array",
+            "items": {
+              "type": "..."
+            }
+          }
+        },
+        "required": [
+          "encodedOrder",
+          "orderInfo",
+          "orderId"
+        ]
+      },
+      "routing": {
+        "type": "string",
+        "enum": [
+          "LIMIT_ORDER"
+        ]
+      },
+      "permitData": {
+        "type": "object",
+        "description": "the permit2 message object for the customer to sign to permit spending by the permit2 contract.",
+        "properties": {
+          "domain": {
+            "type": "object"
+          },
+          "values": {
+            "type": "object"
+          },
+          "types": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "required": [
+      "routing",
+      "quote",
+      "permitData",
+      "requestId"
+    ]
+  }
+}

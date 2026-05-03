@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-get-swaps-response-schema.json",
+  "title": "GetSwapsResponse",
+  "description": "GetSwapsResponse schema from Uniswap Trading API",
+  "type": "object",
+  "properties": {
+    "requestId": {
+      "$ref": "#/components/schemas/RequestId"
+    },
+    "swaps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "swapType": {
+            "$ref": "#/components/schemas/Routing"
+          },
+          "status": {
+            "$ref": "#/components/schemas/SwapStatus"
+          },
+          "txHash": {
+            "$ref": "#/components/schemas/TransactionHash",
+            "description": "On-chain transaction hash. Present for transaction queries and for userOperation queries once the userOp has been included on-chain."
+          },
+          "swapId": {
+            "type": "string"
+          },
+          "userOpHash": {
+            "$ref": "#/components/schemas/TransactionHash",
+            "description": "ERC-4337 userOperation hash. Present only when the row corresponds to a userOperation query."
+          },
+          "hashType": {
+            "type": "string",
+            "enum": [
+              "TX",
+              "USER_OP"
+            ],
+            "description": "Identifies whether the row was resolved from a transaction hash or a userOperation hash. Omitted on transaction rows; absence is equivalent to `TX`."
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "requestId",
+    "status"
+  ]
+}

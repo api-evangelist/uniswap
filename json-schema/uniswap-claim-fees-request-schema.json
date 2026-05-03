@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-claim-fees-request-schema.json",
+  "title": "ClaimFeesRequest",
+  "description": "ClaimFeesRequest schema from Uniswap Trading API",
+  "type": "object",
+  "properties": {
+    "protocol": {
+      "$ref": "#/components/schemas/ProtocolItems"
+    },
+    "walletAddress": {
+      "$ref": "#/components/schemas/Address"
+    },
+    "chainId": {
+      "$ref": "#/components/schemas/ChainId"
+    },
+    "tokenId": {
+      "type": "string",
+      "description": "The NFT token ID identifying the position."
+    },
+    "simulateTransaction": {
+      "type": "boolean",
+      "description": "If true, the response will include the gas fee."
+    },
+    "collectAsWeth": {
+      "type": "boolean",
+      "description": "If true, native tokens will be collected as WETH instead of unwrapping to ETH."
+    }
+  },
+  "required": [
+    "protocol",
+    "walletAddress",
+    "chainId",
+    "tokenId"
+  ]
+}

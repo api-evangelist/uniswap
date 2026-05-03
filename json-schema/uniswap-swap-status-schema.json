@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-swap-status-schema.json",
+  "title": "SwapStatus",
+  "description": "SwapStatus schema from Uniswap Trading API",
+  "type": "string",
+  "enum": [
+    "PENDING",
+    "SUCCESS",
+    "NOT_FOUND",
+    "FAILED",
+    "EXPIRED"
+  ]
+}

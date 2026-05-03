@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-urgency-schema.json",
+  "title": "Urgency",
+  "description": "The urgency impacts the estimated gas price of the transaction. The higher the urgency, the higher the gas price, and the faster the transaction is likely to be selected from the mempool. The default value is `urgent`.",
+  "type": "string",
+  "enum": [
+    "normal",
+    "fast",
+    "urgent"
+  ],
+  "default": "urgent"
+}

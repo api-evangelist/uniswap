@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GetSwapsResponse Structure",
+  "description": "JSON Structure for GetSwapsResponse from Uniswap Trading API",
+  "structure": {
+    "type": "object",
+    "properties": {
+      "requestId": {
+        "type": "string",
+        "description": "A unique ID for the request."
+      },
+      "swaps": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "swapType": {
+              "$ref": "Routing"
+            },
+            "status": {
+              "$ref": "SwapStatus"
+            },
+            "txHash": {
+              "$ref": "TransactionHash"
+            },
+            "swapId": {
+              "type": "string"
+            },
+            "userOpHash": {
+              "$ref": "TransactionHash"
+            },
+            "hashType": {
+              "type": "string",
+              "description": "Identifies whether the row was resolved from a transaction hash or a userOperation hash. Omitted on transaction rows; absence is equivalent to `TX`.",
+              "enum": [
+                "TX",
+                "USER_OP"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "required": [
+      "requestId",
+      "status"
+    ]
+  }
+}

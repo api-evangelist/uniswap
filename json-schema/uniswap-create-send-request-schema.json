@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-create-send-request-schema.json",
+  "title": "CreateSendRequest",
+  "description": "CreateSendRequest schema from Uniswap Trading API",
+  "type": "object",
+  "properties": {
+    "sender": {
+      "$ref": "#/components/schemas/senderWalletAddress"
+    },
+    "recipient": {
+      "$ref": "#/components/schemas/receiverWalletAddress"
+    },
+    "token": {
+      "$ref": "#/components/schemas/inputToken"
+    },
+    "amount": {
+      "$ref": "#/components/schemas/tokenAmount"
+    },
+    "chainId": {
+      "$ref": "#/components/schemas/ChainId"
+    },
+    "urgency": {
+      "$ref": "#/components/schemas/Urgency"
+    }
+  },
+  "required": [
+    "sender",
+    "recipient",
+    "token",
+    "amount",
+    "chainId"
+  ]
+}

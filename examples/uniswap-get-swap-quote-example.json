@@ -1,0 +1,45 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://trade-api.gateway.uniswap.org/v1/quote",
+    "headers": {
+      "Content-Type": "application/json",
+      "x-api-key": "YOUR_API_KEY"
+    },
+    "body": {
+      "type": "EXACT_INPUT",
+      "tokenInChainId": 1,
+      "tokenOutChainId": 1,
+      "tokenIn": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+      "tokenOut": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+      "amount": "1000000000000000000",
+      "slippageTolerance": "0.5",
+      "swapper": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
+      "protocols": ["V3", "V4"],
+      "routingPreference": "BEST_PRICE"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "routing": "CLASSIC",
+      "requestId": "f3c5e2d1-b4a6-4c8f-9e0d-1a2b3c4d5e6f",
+      "quote": {
+        "chainId": 1,
+        "input": {
+          "token": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+          "amount": "1000000000000000000"
+        },
+        "output": {
+          "token": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+          "amount": "2498123456",
+          "recipient": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e"
+        },
+        "slippage": 0.5,
+        "priceImpact": 0.12,
+        "gasFeeUSD": "3.21",
+        "routeString": "[V3] 100.00% WETH — 0.05% — USDC"
+      }
+    }
+  }
+}

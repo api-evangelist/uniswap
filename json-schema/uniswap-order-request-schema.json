@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-order-request-schema.json",
+  "title": "OrderRequest",
+  "description": "OrderRequest schema from Uniswap Trading API",
+  "type": "object",
+  "properties": {
+    "signature": {
+      "type": "string",
+      "description": "The signed permit."
+    },
+    "quote": {
+      "oneOf": [
+        {
+          "$ref": "#/components/schemas/DutchQuoteV2"
+        },
+        {
+          "$ref": "#/components/schemas/DutchQuoteV3"
+        },
+        {
+          "$ref": "#/components/schemas/PriorityQuote"
+        }
+      ]
+    },
+    "routing": {
+      "$ref": "#/components/schemas/Routing"
+    }
+  },
+  "required": [
+    "signature",
+    "quote"
+  ]
+}

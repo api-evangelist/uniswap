@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-create-send-response-schema.json",
+  "title": "CreateSendResponse",
+  "description": "CreateSendResponse schema from Uniswap Trading API",
+  "type": "object",
+  "properties": {
+    "requestId": {
+      "$ref": "#/components/schemas/RequestId"
+    },
+    "send": {
+      "$ref": "#/components/schemas/TransactionRequest"
+    },
+    "gasFee": {
+      "$ref": "#/components/schemas/gasFee"
+    },
+    "gasFeeUSD": {
+      "$ref": "#/components/schemas/gasFeeUSD"
+    }
+  },
+  "required": [
+    "requestId",
+    "send"
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-decrease-position-request-schema.json",
+  "title": "DecreasePositionRequest",
+  "description": "DecreasePositionRequest schema from Uniswap Trading API",
+  "type": "object",
+  "properties": {
+    "walletAddress": {
+      "$ref": "#/components/schemas/Address"
+    },
+    "chainId": {
+      "$ref": "#/components/schemas/ChainId"
+    },
+    "protocol": {
+      "$ref": "#/components/schemas/ProtocolItems"
+    },
+    "token0Address": {
+      "$ref": "#/components/schemas/Address"
+    },
+    "token1Address": {
+      "$ref": "#/components/schemas/Address"
+    },
+    "nftTokenId": {
+      "type": "string",
+      "description": "The NFT token ID for V3/V4 positions. Not required for V2."
+    },
+    "liquidityPercentageToDecrease": {
+      "type": "integer",
+      "description": "The percentage of liquidity to remove (1-100)."
+    },
+    "slippageTolerance": {
+      "type": "number",
+      "description": "Slippage tolerance as a decimal (e.g., 0.5 for 0.5%)."
+    },
+    "deadline": {
+      "type": "integer",
+      "description": "Unix timestamp after which the transaction will revert."
+    },
+    "simulateTransaction": {
+      "type": "boolean",
+      "description": "If true, the response will include the gas fee."
+    },
+    "withdrawAsWeth": {
+      "type": "boolean",
+      "description": "If true, native tokens will be withdrawn as WETH instead of unwrapping to ETH."
+    },
+    "urgency": {
+      "$ref": "#/components/schemas/GasUrgency"
+    }
+  },
+  "required": [
+    "walletAddress",
+    "chainId",
+    "protocol",
+    "token0Address",
+    "token1Address",
+    "liquidityPercentageToDecrease"
+  ]
+}

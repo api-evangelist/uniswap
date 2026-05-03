@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-order-response-schema.json",
+  "title": "OrderResponse",
+  "description": "OrderResponse schema from Uniswap Trading API",
+  "type": "object",
+  "properties": {
+    "requestId": {
+      "$ref": "#/components/schemas/RequestId"
+    },
+    "orderId": {
+      "$ref": "#/components/schemas/orderId"
+    },
+    "orderStatus": {
+      "$ref": "#/components/schemas/OrderStatus"
+    }
+  },
+  "required": [
+    "requestId",
+    "orderId",
+    "orderStatus"
+  ]
+}

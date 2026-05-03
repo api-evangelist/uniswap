@@ -1,0 +1,403 @@
+vocabulary: "1.0.0"
+
+info:
+  provider: "Uniswap"
+  description: >-
+    Unified vocabulary mapping Uniswap's operational API surface (Trading API, Subgraphs)
+    and capability workflows (DeFi Trading) into a cohesive taxonomy for developers,
+    trading bots, and DeFi integrators.
+  created: "2026-05-03"
+  modified: "2026-05-03"
+
+# OPERATIONAL DIMENSION (from OpenAPI)
+operational:
+  apis:
+    - namespace: uniswap-trading
+      name: Uniswap Trading API
+      version: "1.0.0"
+      baseUrl: https://trade-api.gateway.uniswap.org/v1
+      status: active
+    - namespace: uniswap-subgraph
+      name: Uniswap Subgraph API
+      version: v4
+      baseUrl: https://gateway.thegraph.com/api
+      status: active
+
+  resources:
+    - name: quotes
+      description: Token swap and bridge price quotes with routing
+      apis:
+        - uniswap-trading
+      actions:
+        - get-swap-quote
+        - get-limit-order-quote
+
+    - name: swaps
+      description: Token swap transaction generation and status tracking
+      apis:
+        - uniswap-trading
+      actions:
+        - create-swap-transaction
+        - get-swap-status
+
+    - name: orders
+      description: Gasless UniswapX intent-based swap orders
+      apis:
+        - uniswap-trading
+      actions:
+        - create-gasless-order
+        - list-gasless-orders
+
+    - name: approvals
+      description: ERC-20 token approval management for swap execution
+      apis:
+        - uniswap-trading
+      actions:
+        - check-token-approval
+        - check-lp-approval
+
+    - name: lp-positions
+      description: Concentrated liquidity provider positions on V3 and V4 pools
+      apis:
+        - uniswap-trading
+      actions:
+        - create-lp-position
+        - increase-lp-position
+        - decrease-lp-position
+        - claim-lp-fees
+
+    - name: pools
+      description: Uniswap liquidity pool information and metadata
+      apis:
+        - uniswap-trading
+      actions:
+        - get-pool-information
+
+    - name: tokens
+      description: ERC-20 tokens available for swapping or bridging
+      apis:
+        - uniswap-trading
+      actions:
+        - list-swappable-tokens
+
+    - name: execution-plans
+      description: Multi-step execution plans for complex DeFi workflows
+      apis:
+        - uniswap-trading
+      actions:
+        - create-execution-plan
+        - get-execution-plan
+        - update-execution-plan
+
+  actions:
+    - name: get
+      httpMethod: GET
+      pattern: read
+      description: Retrieve an existing resource by ID or filter
+    - name: list
+      httpMethod: GET
+      pattern: read
+      description: List a collection of resources with optional filters
+    - name: create
+      httpMethod: POST
+      pattern: write
+      description: Create a new resource or generate transaction calldata
+    - name: check
+      httpMethod: POST
+      pattern: read
+      description: Validate a condition (e.g., token approval status)
+    - name: claim
+      httpMethod: POST
+      pattern: write
+      description: Claim accumulated rewards or fees
+    - name: update
+      httpMethod: PATCH
+      pattern: write
+      description: Update an existing resource (e.g., execution plan step proof)
+    - name: increase
+      httpMethod: POST
+      pattern: write
+      description: Increase the size of a resource (e.g., LP position liquidity)
+    - name: decrease
+      httpMethod: POST
+      pattern: write
+      description: Decrease the size of a resource (e.g., LP position liquidity)
+
+  schemas:
+    core:
+      - name: QuoteRequest
+        description: Request body for obtaining a swap or bridge quote
+        properties:
+          - type
+          - tokenInChainId
+          - tokenOutChainId
+          - tokenIn
+          - tokenOut
+          - amount
+          - slippageTolerance
+          - swapper
+          - protocols
+      - name: QuoteResponse
+        description: Response containing routing quote and gas estimates
+        properties:
+          - routing
+          - requestId
+          - quote
+      - name: CreateSwapRequest
+        description: Request body for generating swap transaction calldata
+        properties:
+          - type
+          - tokenIn
+          - tokenOut
+          - amount
+          - swapper
+          - slippageTolerance
+          - urgency
+      - name: CreateSwapResponse
+        description: Response containing swap calldata for on-chain execution
+        properties:
+          - swap
+          - quote
+          - requestId
+      - name: OrderRequest
+        description: Request body for submitting a gasless UniswapX order
+        properties:
+          - encodedOrder
+          - orderType
+          - signature
+          - chainId
+      - name: OrderResponse
+        description: Individual gasless order record
+        properties:
+          - orderId
+          - orderStatus
+          - encodedOrder
+          - chainId
+          - swapper
+      - name: UserOperation
+        description: ERC-4337 UserOperation for account abstraction
+        properties:
+          - sender
+          - nonce
+          - callData
+          - callGasLimit
+          - verificationGasLimit
+          - paymasterAndData
+          - signature
+
+  parameters:
+    identifiers:
+      - name: chainId
+        type: integer
+        description: EVM chain identifier (1=Ethereum, 137=Polygon, 42161=Arbitrum)
+      - name: txHash
+        type: string
+        description: Transaction hash for swap status lookup
+      - name: planId
+        type: string
+        description: Execution plan ID
+      - name: orderId
+        type: string
+        description: Gasless order ID
+    filters:
+      - name: swapper
+        type: string
+        description: Wallet address filter for orders and swaps
+      - name: orderStatus
+        type: string
+        description: Filter orders by status (open, filled, cancelled, expired)
+      - name: orderType
+        type: string
+        description: Filter by order type (Dutch_V2, Dutch_V1_2, Limit)
+    tokens:
+      - name: tokenIn
+        type: string
+        description: Input token contract address
+      - name: tokenOut
+        type: string
+        description: Output token contract address
+      - name: token
+        type: string
+        description: Token contract address
+      - name: amount
+        type: string
+        description: Token amount in base units (wei for ETH)
+      - name: slippageTolerance
+        type: string
+        description: Maximum acceptable slippage as a percentage
+
+  enums:
+    swap-types:
+      - EXACT_INPUT
+      - EXACT_OUTPUT
+    protocols:
+      - V1
+      - V2
+      - V3
+      - V4
+      - MIXED
+    order-types:
+      - Dutch_V2
+      - Dutch_V1_2
+      - Limit
+    order-statuses:
+      - open
+      - filled
+      - cancelled
+      - expired
+      - insufficient-funds
+    urgency:
+      - low
+      - normal
+      - fast
+
+  authentication:
+    schemes:
+      - type: apiKey
+        in: header
+        name: x-api-key
+        description: API key obtained from the Uniswap Developer Portal
+    rateLimits:
+      default: 3 requests per second
+      elevated: Available on request via developer portal
+
+# CAPABILITY DIMENSION (from Naftiko)
+capability:
+  workflows:
+    - name: DeFi Trading
+      file: capabilities/defi-trading.yaml
+      description: >-
+        Unified DeFi trading workflow combining swap quotes, execution, gasless orders,
+        LP management, and token discovery for developers building on Uniswap.
+      apisConsumed:
+        - Uniswap Trading API
+      toolCount: 14
+      personas:
+        - DeFi Developer
+        - Trading Bot Engineer
+        - LP Manager
+
+  personas:
+    - id: defi-developer
+      name: DeFi Developer
+      description: >-
+        Developers building DApps, wallets, and DeFi protocols that embed Uniswap
+        swap functionality. Primarily uses the Trading API for quotes and swap execution.
+      workflows:
+        - DeFi Trading
+
+    - id: trading-bot-engineer
+      name: Trading Bot Engineer
+      description: >-
+        Engineers building automated trading systems, arbitrage bots, and MEV
+        strategies using Uniswap's liquidity. Uses gasless UniswapX orders and
+        limit orders for automated execution.
+      workflows:
+        - DeFi Trading
+
+    - id: lp-manager
+      name: LP Manager
+      description: >-
+        Liquidity providers managing concentrated LP positions on V3/V4, optimizing
+        fee income through active position management (create, rebalance, close).
+      workflows:
+        - DeFi Trading
+
+  domains:
+    - name: Token Swapping
+      description: Exchange tokens at best available price via AMM routing
+      resources:
+        - quotes
+        - swaps
+      workflows:
+        - DeFi Trading
+    - name: Gasless Execution
+      description: Sign-and-submit intent orders filled by competing fillers
+      resources:
+        - orders
+        - approvals
+      workflows:
+        - DeFi Trading
+    - name: Liquidity Management
+      description: Provide and manage concentrated liquidity in Uniswap pools
+      resources:
+        - lp-positions
+        - pools
+      workflows:
+        - DeFi Trading
+
+  namespaces:
+    - name: uniswap-trading
+      type: consumed
+      baseUri: https://trade-api.gateway.uniswap.org/v1
+    - name: uniswap-defi-trading-api
+      type: rest-exposed
+      port: 8080
+    - name: uniswap-defi-trading-mcp
+      type: mcp-exposed
+      port: 9080
+
+  binds:
+    - name: UNISWAP_API_KEY
+      description: API key for the Uniswap Trading API
+      workflows:
+        - DeFi Trading
+
+# CROSS-REFERENCE
+crossReference:
+  - resource: quotes
+    operations:
+      - get-swap-quote
+      - get-limit-order-quote
+    workflows:
+      - DeFi Trading
+    personas:
+      - DeFi Developer
+      - Trading Bot Engineer
+
+  - resource: swaps
+    operations:
+      - create-swap-transaction
+      - get-swap-status
+    workflows:
+      - DeFi Trading
+    personas:
+      - DeFi Developer
+      - Trading Bot Engineer
+
+  - resource: orders
+    operations:
+      - create-gasless-order
+      - list-gasless-orders
+    workflows:
+      - DeFi Trading
+    personas:
+      - Trading Bot Engineer
+
+  - resource: lp-positions
+    operations:
+      - create-lp-position
+      - increase-lp-position
+      - decrease-lp-position
+      - claim-lp-fees
+    workflows:
+      - DeFi Trading
+    personas:
+      - LP Manager
+
+  - resource: pools
+    operations:
+      - get-pool-information
+    workflows:
+      - DeFi Trading
+    personas:
+      - DeFi Developer
+      - LP Manager
+
+  - resource: tokens
+    operations:
+      - list-swappable-tokens
+    workflows:
+      - DeFi Trading
+    personas:
+      - DeFi Developer
