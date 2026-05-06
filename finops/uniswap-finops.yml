@@ -1,153 +1,86 @@
 specification: FinOps Framework
 specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Uniswap
+providerId: uniswap
+created: '2026-05-04'
+modified: '2026-05-05'
+reconciled: true
+tags:
+  - Blockchain
+  - DeFi
+  - FinOps
+  - FOCUS
+description: FOCUS-aligned FinOps for Uniswap consumers - on-chain trading cost is dominated by Ethereum
+  / L2 gas plus pool fees that flow to liquidity providers, while data access cost is dominated by
+  subgraph query usage billed through The Graph Network.
+sources:
+  - https://developers.uniswap.org/api/subgraph/overview
+  - https://thegraph.com/docs/en/subgraphs/billing/
+  - https://thegraph.com/studio-pricing/
 alignedWith:
   framework: FinOps Foundation Framework
   frameworkUrl: https://www.finops.org/framework/
   dataSpec: FOCUS
   dataSpecVersion: '1.3'
   dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
-provider: Uniswap
-providerId: uniswap
-publisherName: Uniswap
-serviceCategory: API
-created: '2026-05-04'
-modified: '2026-05-04'
-tags:
-  - Blockchain
-  - Cryptocurrency
-  - DeFi
-  - Decentralized Exchange
-  - Liquidity
-  - Swaps
-  - FinOps
-  - Cost Management
-  - FOCUS
-description: FinOps framework definition for the Uniswap API surface. Provides a FOCUS-aligned mapping
-  for cost allocation, usage measurement, and unit-economics reporting across the provider's APIs.
-principles:
-  - name: Visibility
-    description: Make API consumption costs visible to engineering, product, and finance teams in near
-      real-time.
-  - name: Allocation
-    description: Tag every chargeable API call with the consuming team, environment, application, and
-      feature so cost can be allocated.
-  - name: Optimization
-    description: Continuously evaluate request patterns, caching, batching, and tier selection to reduce
-      cost per useful unit of work.
-  - name: Accountability
-    description: Establish budget owners and chargeback or showback flows for each consuming team.
-domains:
-  - name: Understand Usage and Cost
-    capabilities:
-      - Data Ingestion
-      - Allocation
-      - Reporting and Analytics
-      - Anomaly Management
-  - name: Quantify Business Value
-    capabilities:
-      - Planning and Estimating
-      - Forecasting
-      - Budgeting
-      - Benchmarking
-      - Unit Economics
-  - name: Optimize Usage and Cost
-    capabilities:
-      - Architecting for Cloud
-      - Rate Optimization
-      - Workload Optimization
-      - Cloud Sustainability
-      - Licensing and SaaS
-  - name: Manage the FinOps Practice
-    capabilities:
-      - FinOps Practice Operations
-      - FinOps Education and Enablement
-      - Invoicing and Chargeback
-      - Onboarding Workloads
-      - Intersecting Disciplines
+publisherName: Uniswap Labs (protocol); The Graph (subgraph queries)
+serviceCategory: DeFi / On-Chain Data
 billingModel:
-  pricingCategory: Usage-Based
-  billingFrequency: Monthly
-  billingCurrency: USD
+  pricingCategory: Pay-As-You-Go
+  billingFrequency: Monthly (subgraph) + On-Demand (gas)
+  billingCurrency: USD/ETH/GRT
   chargeCategories:
     - Usage
     - Purchase
-    - Tax
-    - Credit
-    - Adjustment
-  chargeFrequency: Recurring
 focusColumns:
   ServiceName: Uniswap
-  ServiceCategory: Developer Tools / API
+  ServiceCategory: DeFi
   ProviderName: Uniswap
-  PublisherName: Uniswap
-  InvoiceIssuerName: Uniswap
-  PricingCategory: Usage-Based
-  PricingUnit: request
+  PublisherName: Uniswap Labs
+  InvoiceIssuerName: The Graph (subgraph queries); on-chain costs are paid in network gas
   BillingCurrency: USD
-  ChargeCategory: Usage
 meters:
-  - name: api_requests
-    description: Count of billable API requests
-    unit: request
+  - name: subgraph_queries
+    description: GraphQL queries against Uniswap subgraphs on The Graph Network; billed at $2 per
+      100K beyond the free tier.
+    unit: query
     aggregation: sum
     dimensions:
-      - api
-      - endpoint
-      - tier
-      - region
-      - consumer
-  - name: data_egress
-    description: Bytes returned over the network in API responses
-    unit: GB
+      - subgraph
+      - api_key
+  - name: network_gas
+    description: Gas consumed by on-chain Uniswap protocol interactions, paid in the underlying network's
+      gas token.
+    unit: gas
     aggregation: sum
     dimensions:
-      - api
-      - region
-      - consumer
-  - name: compute_seconds
-    description: Server-side compute consumed by the request, where applicable
-    unit: second
+      - chain
+      - tx_type
+  - name: pool_fee_volume
+    description: Notional swap volume passing through a Uniswap pool; pool fee tier (0.01% / 0.05%
+      / 0.30% / 1.00%) determines LP payout.
+    unit: trade_volume
     aggregation: sum
     dimensions:
-      - api
-      - endpoint
-      - tier
-apis:
-  - name: Uniswap Trading API
-    baseURL: ''
-    tags:
-      - Blockchain
-      - Cryptocurrency
-      - DeFi
-      - Liquidity
-      - Swaps
-    serviceName: Uniswap Trading API
-    serviceCategory: API
-  - name: Uniswap Subgraph API
-    baseURL: ''
-    tags:
-      - Blockchain
-      - DeFi
-      - GraphQL
-      - On-Chain Data
-    serviceName: Uniswap Subgraph API
-    serviceCategory: API
-  - name: UniswapX API
-    baseURL: ''
-    tags:
-      - Blockchain
-      - DeFi
-      - Gasless
-      - Intent Orders
-    serviceName: UniswapX API
-    serviceCategory: API
-unitEconomics:
-  - name: Cost per 1K Requests
-    metric: billed_cost / (api_requests / 1000)
-    target: TBD
-  - name: Cost per Active Consumer
-    metric: billed_cost / active_consumers
-    target: TBD
+      - chain
+      - pool
+      - fee_tier
+principles:
+  - name: Visibility
+    description: Track subgraph query volume in The Graph Studio per API key; track on-chain gas
+      and routing efficiency by indexing Uniswap router contract events per wallet or smart-account.
+  - name: Allocation
+    description: Issue separate Graph Studio API keys per consuming team, environment, or product
+      to attribute subgraph spend; tag wallets/relayers used for on-chain calls so gas can be allocated
+      per workload.
+  - name: Optimization
+    description: Cache subgraph results, prefer batched queries, and self-host high-volume subgraphs
+      using the official repos to escape per-query pricing. For trading, route via UniswapX or auto-router
+      to reduce gas and slippage; choose appropriate fee tier and L2 deployment for the trade size.
+  - name: Accountability
+    description: Set Graph Studio billing alerts ahead of monthly query budgets; for on-chain workloads
+      assign wallet ownership and gas budgets per integration to detect runaway transactions.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
