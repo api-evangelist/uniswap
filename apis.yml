@@ -96,7 +96,7 @@ tags:
   - Decentralized Exchange
   - Liquidity
   - Swaps
-type: Contract
+kind: contract
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 access: 3rd-Party
 created: '2024-12-16'
@@ -162,7 +162,7 @@ common:
   - name: Uniswap JSON-LD Context
     url: >-
       https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-ld/uniswap-context.jsonld
-    type: JSON-LD
+    type: JSONLD
   - name: Uniswap Features
     type: Features
     data:
