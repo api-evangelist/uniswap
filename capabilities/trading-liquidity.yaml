@@ -1,0 +1,334 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Token Trading — Liquidity
+  description: 'Token Trading — Liquidity. 7 operations. Lead operation: Check LP token approvals. Self-contained Naftiko
+    capability covering one Uniswap business surface.'
+  tags:
+  - Uniswap
+  - Liquidity
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    UNISWAP_API_KEY: UNISWAP_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: trading-liquidity
+    baseUri: https://trade-api.gateway.uniswap.org/v1
+    description: Token Trading — Liquidity business capability. Self-contained, no shared references.
+    resources:
+    - name: lp-check_approval
+      path: /lp/check_approval
+      operations:
+      - name: checklpapproval
+        method: POST
+        description: Check LP token approvals
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: lp-claim_fees
+      path: /lp/claim_fees
+      operations:
+      - name: claimfees
+        method: POST
+        description: Claim LP position fees
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: lp-create
+      path: /lp/create
+      operations:
+      - name: createposition
+        method: POST
+        description: Create a V3 or V4 LP position
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: lp-create_classic
+      path: /lp/create_classic
+      operations:
+      - name: createclassicposition
+        method: POST
+        description: Create a classic (V2) LP position
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: lp-decrease
+      path: /lp/decrease
+      operations:
+      - name: decreaseposition
+        method: POST
+        description: Decrease an LP position
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: lp-increase
+      path: /lp/increase
+      operations:
+      - name: increaseposition
+        method: POST
+        description: Increase an LP position
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: lp-pool_info
+      path: /lp/pool_info
+      operations:
+      - name: poolinfo
+        method: POST
+        description: Fetch Pool Information
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: x-api-key
+      value: '{{env.UNISWAP_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: trading-liquidity-rest
+    port: 8080
+    description: REST adapter for Token Trading — Liquidity. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/lp/check-approval
+      name: lp-check-approval
+      description: REST surface for lp-check_approval.
+      operations:
+      - method: POST
+        name: checklpapproval
+        description: Check LP token approvals
+        call: trading-liquidity.checklpapproval
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/lp/claim-fees
+      name: lp-claim-fees
+      description: REST surface for lp-claim_fees.
+      operations:
+      - method: POST
+        name: claimfees
+        description: Claim LP position fees
+        call: trading-liquidity.claimfees
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/lp/create
+      name: lp-create
+      description: REST surface for lp-create.
+      operations:
+      - method: POST
+        name: createposition
+        description: Create a V3 or V4 LP position
+        call: trading-liquidity.createposition
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/lp/create-classic
+      name: lp-create-classic
+      description: REST surface for lp-create_classic.
+      operations:
+      - method: POST
+        name: createclassicposition
+        description: Create a classic (V2) LP position
+        call: trading-liquidity.createclassicposition
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/lp/decrease
+      name: lp-decrease
+      description: REST surface for lp-decrease.
+      operations:
+      - method: POST
+        name: decreaseposition
+        description: Decrease an LP position
+        call: trading-liquidity.decreaseposition
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/lp/increase
+      name: lp-increase
+      description: REST surface for lp-increase.
+      operations:
+      - method: POST
+        name: increaseposition
+        description: Increase an LP position
+        call: trading-liquidity.increaseposition
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/lp/pool-info
+      name: lp-pool-info
+      description: REST surface for lp-pool_info.
+      operations:
+      - method: POST
+        name: poolinfo
+        description: Fetch Pool Information
+        call: trading-liquidity.poolinfo
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: trading-liquidity-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Token Trading — Liquidity. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: check-lp-token-approvals
+      description: Check LP token approvals
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: trading-liquidity.checklpapproval
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: claim-lp-position-fees
+      description: Claim LP position fees
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: trading-liquidity.claimfees
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-v3-v4-lp-position
+      description: Create a V3 or V4 LP position
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: trading-liquidity.createposition
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-classic-v2-lp-position
+      description: Create a classic (V2) LP position
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: trading-liquidity.createclassicposition
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: decrease-lp-position
+      description: Decrease an LP position
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: trading-liquidity.decreaseposition
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: increase-lp-position
+      description: Increase an LP position
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: trading-liquidity.increaseposition
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: fetch-pool-information
+      description: Fetch Pool Information
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: trading-liquidity.poolinfo
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

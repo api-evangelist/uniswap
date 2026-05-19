@@ -1,0 +1,130 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Token Trading — Plan
+  description: 'Token Trading — Plan. 2 operations. Lead operation: Create an execution plan. Self-contained Naftiko capability
+    covering one Uniswap business surface.'
+  tags:
+  - Uniswap
+  - Plan
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    UNISWAP_API_KEY: UNISWAP_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: trading-plan
+    baseUri: https://trade-api.gateway.uniswap.org/v1
+    description: Token Trading — Plan business capability. Self-contained, no shared references.
+    resources:
+    - name: plan
+      path: /plan
+      operations:
+      - name: createplan
+        method: POST
+        description: Create an execution plan
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: plan-planId
+      path: /plan/{planId}
+      operations:
+      - name: getplan
+        method: GET
+        description: Get an execution plan
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: planId
+          in: path
+          type: string
+          description: The unique identifier of the plan to retrieve.
+          required: true
+        - name: forceRefresh
+          in: query
+          type: boolean
+          description: Whether to force refresh the plan status. Defaults to false. Completed plans cannot be refreshed.
+    authentication:
+      type: apikey
+      key: x-api-key
+      value: '{{env.UNISWAP_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: trading-plan-rest
+    port: 8080
+    description: REST adapter for Token Trading — Plan. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/plan
+      name: plan
+      description: REST surface for plan.
+      operations:
+      - method: POST
+        name: createplan
+        description: Create an execution plan
+        call: trading-plan.createplan
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/plan/{planid}
+      name: plan-planid
+      description: REST surface for plan-planId.
+      operations:
+      - method: GET
+        name: getplan
+        description: Get an execution plan
+        call: trading-plan.getplan
+        with:
+          planId: rest.planId
+          forceRefresh: rest.forceRefresh
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: trading-plan-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Token Trading — Plan. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: create-execution-plan
+      description: Create an execution plan
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: trading-plan.createplan
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-execution-plan
+      description: Get an execution plan
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: trading-plan.getplan
+      with:
+        planId: tools.planId
+        forceRefresh: tools.forceRefresh
+      outputParameters:
+      - type: object
+        mapping: $.

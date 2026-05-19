@@ -1,0 +1,82 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Token Trading — LimitOrderQuote
+  description: 'Token Trading — LimitOrderQuote. 1 operations. Lead operation: Get a limit order quote. Self-contained Naftiko
+    capability covering one Uniswap business surface.'
+  tags:
+  - Uniswap
+  - LimitOrderQuote
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    UNISWAP_API_KEY: UNISWAP_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: trading-limitorderquote
+    baseUri: https://trade-api.gateway.uniswap.org/v1
+    description: Token Trading — LimitOrderQuote business capability. Self-contained, no shared references.
+    resources:
+    - name: limit_order_quote
+      path: /limit_order_quote
+      operations:
+      - name: getlimitorderquote
+        method: POST
+        description: Get a limit order quote
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: x-api-key
+      value: '{{env.UNISWAP_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: trading-limitorderquote-rest
+    port: 8080
+    description: REST adapter for Token Trading — LimitOrderQuote. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/limit-order-quote
+      name: limit-order-quote
+      description: REST surface for limit_order_quote.
+      operations:
+      - method: POST
+        name: getlimitorderquote
+        description: Get a limit order quote
+        call: trading-limitorderquote.getlimitorderquote
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: trading-limitorderquote-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Token Trading — LimitOrderQuote. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: get-limit-order-quote
+      description: Get a limit order quote
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: trading-limitorderquote.getlimitorderquote
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

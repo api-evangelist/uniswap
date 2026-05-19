@@ -1,0 +1,72 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Token Trading — SwappableTokens
+  description: 'Token Trading — SwappableTokens. 1 operations. Lead operation: Get bridgable tokens. Self-contained Naftiko
+    capability covering one Uniswap business surface.'
+  tags:
+  - Uniswap
+  - SwappableTokens
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    UNISWAP_API_KEY: UNISWAP_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: trading-swappabletokens
+    baseUri: https://trade-api.gateway.uniswap.org/v1
+    description: Token Trading — SwappableTokens business capability. Self-contained, no shared references.
+    resources:
+    - name: swappable_tokens
+      path: /swappable_tokens
+      operations:
+      - name: getswappabletokens
+        method: GET
+        description: Get bridgable tokens
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: x-api-key
+      value: '{{env.UNISWAP_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: trading-swappabletokens-rest
+    port: 8080
+    description: REST adapter for Token Trading — SwappableTokens. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/swappable-tokens
+      name: swappable-tokens
+      description: REST surface for swappable_tokens.
+      operations:
+      - method: GET
+        name: getswappabletokens
+        description: Get bridgable tokens
+        call: trading-swappabletokens.getswappabletokens
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: trading-swappabletokens-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Token Trading — SwappableTokens. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: get-bridgable-tokens
+      description: Get bridgable tokens
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: trading-swappabletokens.getswappabletokens
+      outputParameters:
+      - type: object
+        mapping: $.
