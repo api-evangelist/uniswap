@@ -218,3 +218,5 @@ common:
       description: Uniswap v3 and v4 deployed on Base (Coinbase's L2 network).
     - name: UniswapX Fillers
       description: Third-party filler bots compete to fill UniswapX gasless orders for best execution.
+  - type: LLMsTxt
+    url: https://developers.uniswap.org/llms.txt
