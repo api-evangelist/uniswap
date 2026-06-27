@@ -14,7 +14,7 @@ apis:
   - url: https://developers.uniswap.org/
     type: Documentation
   - url: https://developers.uniswap.org/dashboard
-    type: SignUp
+    type: Signup
   - url: https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/openapi/uniswap-trading-openapi.yaml
     type: OpenAPI
   - url: >-
@@ -37,16 +37,16 @@ apis:
     type: JSONSchema
   - url: >-
       https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-get-swap-quote-example.json
-    type: Example
+    type: Examples
   - url: >-
       https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-create-swap-transaction-example.json
-    type: Example
+    type: Examples
   - url: >-
       https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-create-gasless-order-example.json
-    type: Example
+    type: Examples
   - url: >-
       https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-create-lp-position-example.json
-    type: Example
+    type: Examples
   description: >-
     The Uniswap Trading API provides REST endpoints for token swaps, bridges, liquidity management, and execution
     planning across 25+ blockchain networks. It supports swap quoting, gasless UniswapX orders, LP position
@@ -137,13 +137,13 @@ common:
   type: X
 - name: Uniswap Core TypeScript SDK
   url: https://www.npmjs.com/package/@uniswap/sdk-core
-  type: SDK
+  type: SDKs
 - name: Uniswap v3 TypeScript SDK
   url: https://www.npmjs.com/package/@uniswap/v3-sdk
-  type: SDK
+  type: SDKs
 - name: Uniswap v4 TypeScript SDK
   url: https://developers.uniswap.org/docs/sdks/v4/overview
-  type: SDK
+  type: SDKs
 - name: Uniswap Spectral Rules
   url: https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/rules/uniswap-spectral-rules.yml
   type: SpectralRules
@@ -216,5 +216,5 @@ common:
     description: Uniswap v3 and v4 deployed on Base (Coinbase's L2 network).
   - name: UniswapX Fillers
     description: Third-party filler bots compete to fill UniswapX gasless orders for best execution.
-- type: LLMsTxt
+- type: LlmsText
   url: https://developers.uniswap.org/llms.txt
