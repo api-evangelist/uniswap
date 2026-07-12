@@ -1,0 +1,16 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/uniswap-trading-openapi.json, openapi/uniswap-trading-openapi.yaml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: apiKey
+  type: apiKey
+  in: header
+  parameter: x-api-key
+  sources:
+  - openapi/uniswap-trading-openapi.json
+  - openapi/uniswap-trading-openapi.yaml

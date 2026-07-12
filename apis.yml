@@ -112,6 +112,10 @@ maintainers:
   email: kin@apievangelist.com
 specificationVersion: '0.19'
 common:
+- type: DomainSecurity
+  url: security/uniswap-domain-security.yml
+- type: Authentication
+  url: authentication/uniswap-authentication.yml
 - type: LinkedIn
   url: https://www.linkedin.com/company/uniswaporg
 - name: Uniswap Developer Portal
