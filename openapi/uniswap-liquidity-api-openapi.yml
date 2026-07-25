@@ -1,0 +1,1336 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Token Trading Approval Liquidity API
+  description: 'Uniswap Labs trading APIs.
+
+
+    Each operation may include the vendor extension `x-public-endpoint` (boolean): `true` when the operation is available on the public gateway for standard API keys, `false` when it is not publicly exposed. See the [OpenAPI specification extensions](https://swagger.io/docs/specification/v3_0/openapi-extensions/) definition of `x-` fields.'
+servers:
+- description: Uniswap Trading API
+  url: https://trade-api.gateway.uniswap.org/v1
+security:
+- apiKey: []
+tags:
+- name: Liquidity
+paths:
+  /lp/check_approval:
+    servers:
+    - description: Uniswap LP API
+      url: https://liquidity.api.uniswap.org/
+    post:
+      tags:
+      - Liquidity
+      summary: Check LP token approvals
+      description: 'Checks whether the wallet has the required token approvals to perform an LP action (create, increase, decrease, or migrate). Returns any needed approval transactions. If `simulateTransaction` is set to `true`, the response will include gas fees for the approval transactions.
+
+
+        The `action` field specifies which LP operation the approval is for. Different actions may require different approvals (e.g., V2 decrease requires approval of the LP token, V3 migrate requires approval of the V3 NFT).'
+      operationId: check_lp_approval
+      security:
+      - apiKey: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LPApprovalRequest'
+            example:
+              walletAddress: 0x...
+              protocol: V2
+              chainId: 1
+              lpTokens:
+              - tokenAddress: '0x455e53cbb86018ac2b8092fdcd39d8444affc3f6'
+                amount: '1000000000000000000'
+              - tokenAddress: '0xdac17f958d2ee523a2206206994597c13d831ec7'
+                amount: '100650'
+              action: CREATE
+      responses:
+        '200':
+          $ref: '#/components/responses/LPApprovalSuccess200'
+        '400':
+          $ref: '#/components/responses/BadRequest400'
+        '401':
+          $ref: '#/components/responses/ApprovalUnauthorized401'
+        '404':
+          $ref: '#/components/responses/ApprovalNotFound404'
+        '429':
+          $ref: '#/components/responses/RateLimitedErr429'
+        '500':
+          $ref: '#/components/responses/InternalErr500'
+        '504':
+          $ref: '#/components/responses/Timeout504'
+      x-public-endpoint: true
+  /lp/create:
+    servers:
+    - description: Uniswap LP API
+      url: https://liquidity.api.uniswap.org/
+    post:
+      tags:
+      - Liquidity
+      summary: Create a V3 or V4 LP position
+      description: Creates a new LP position in a V3 or V4 pool (including full-range positions). You can create a position in an existing pool by providing `existingPool` parameters, or create a new pool by providing `newPool` parameters (fee, tick spacing, initial price, and optionally hooks for V4). The position's price range is specified via either `priceBounds` or `tickBounds`. The server computes the dependent token amount. If `simulateTransaction` is set to `true`, the response will include the gas fee.
+      operationId: create_position
+      security:
+      - apiKey: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePositionRequest'
+            example:
+              walletAddress: '0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421'
+              existingPool:
+                token0Address: '0x0000000000000000000000000000000000000000'
+                token1Address: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913'
+                poolReference: '0x96d4b53a38337a5733179751781178a2613306063c511b78cd02684739288c0a'
+              chainId: 8453
+              protocol: V4
+              independentToken:
+                tokenAddress: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913'
+                amount: '3000000'
+              dependentToken:
+                tokenAddress: '0x0000000000000000000000000000000000000000'
+                amount: '952630553245231'
+              tickBounds:
+                tickLower: -198950
+                tickUpper: -198200
+              simulateTransaction: false
+              nativeTokenBalance: '19345734941139696'
+      responses:
+        '200':
+          $ref: '#/components/responses/CreatePositionSuccess200'
+        '400':
+          $ref: '#/components/responses/BadRequest400'
+        '401':
+          $ref: '#/components/responses/ApprovalUnauthorized401'
+        '404':
+          $ref: '#/components/responses/LPNotFound404'
+        '429':
+          $ref: '#/components/responses/RateLimitedErr429'
+        '500':
+          $ref: '#/components/responses/InternalErr500'
+        '504':
+          $ref: '#/components/responses/Timeout504'
+      x-public-endpoint: true
+  /lp/increase:
+    servers:
+    - description: Uniswap LP API
+      url: https://liquidity.api.uniswap.org/
+    post:
+      tags:
+      - Liquidity
+      summary: Increase an LP position
+      description: Increases liquidity in an existing position. Specify the independent token and amount; the server derives the dependent token amount from the current pool state. Supports V2 (by token pair), V3, and V4 (by NFT token ID). If `simulateTransaction` is set to `true`, the response will include the gas fee.
+      operationId: increase_position
+      security:
+      - apiKey: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IncreasePositionRequest'
+            example:
+              walletAddress: '0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421'
+              chainId: 8453
+              protocol: V3
+              token0Address: '0x0000000000000000000000000000000000000000'
+              token1Address: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'
+              nftTokenId: '4986936'
+              independentToken:
+                tokenAddress: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'
+                amount: '3000000'
+              simulateTransaction: true
+      responses:
+        '200':
+          $ref: '#/components/responses/IncreasePositionSuccess200'
+        '400':
+          $ref: '#/components/responses/BadRequest400'
+        '401':
+          $ref: '#/components/responses/ApprovalUnauthorized401'
+        '404':
+          $ref: '#/components/responses/LPNotFound404'
+        '429':
+          $ref: '#/components/responses/RateLimitedErr429'
+        '500':
+          $ref: '#/components/responses/InternalErr500'
+        '504':
+          $ref: '#/components/responses/Timeout504'
+      x-public-endpoint: true
+  /lp/decrease:
+    servers:
+    - description: Uniswap LP API
+      url: https://liquidity.api.uniswap.org/
+    post:
+      tags:
+      - Liquidity
+      summary: Decrease an LP position
+      description: Decreases liquidity in an existing position by a specified percentage. The server derives all position state (liquidity, fees, ticks) from on-chain data. Supports V2 (by token pair), V3, and V4 (by NFT token ID). If `simulateTransaction` is set to `true`, the response will include the gas fee.
+      operationId: decrease_position
+      security:
+      - apiKey: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DecreasePositionRequest'
+            example:
+              walletAddress: 0x...
+              chainId: 130
+              protocol: V4
+              token0Address: '0x0000000000000000000000000000000000000000'
+              token1Address: '0x078D782b760474a361dDA0AF3839290b0EF57AD6'
+              nftTokenId: '1833079'
+              liquidityPercentageToDecrease: 25
+              simulateTransaction: false
+      responses:
+        '200':
+          $ref: '#/components/responses/DecreasePositionSuccess200'
+        '400':
+          $ref: '#/components/responses/BadRequest400'
+        '401':
+          $ref: '#/components/responses/ApprovalUnauthorized401'
+        '404':
+          $ref: '#/components/responses/LPNotFound404'
+        '429':
+          $ref: '#/components/responses/RateLimitedErr429'
+        '500':
+          $ref: '#/components/responses/InternalErr500'
+        '504':
+          $ref: '#/components/responses/Timeout504'
+      x-public-endpoint: true
+  /lp/claim_fees:
+    servers:
+    - description: Uniswap LP API
+      url: https://liquidity.api.uniswap.org/
+    post:
+      tags:
+      - Liquidity
+      summary: Claim LP position fees
+      description: 'Claims accumulated trading fees from a V3 or V4 LP position. If `simulateTransaction` is set to `true`, the response will include the gas fee for the claim transaction.
+
+
+        Note: V2 positions do not have claimable fees. V2 trading fees are automatically added to your LP token balance.'
+      operationId: claim_fees
+      security:
+      - apiKey: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClaimFeesRequest'
+            example:
+              protocol: V4
+              walletAddress: 0x...
+              chainId: 130
+              tokenId: '1833079'
+              simulateTransaction: false
+      responses:
+        '200':
+          $ref: '#/components/responses/ClaimFeesSuccess200'
+        '400':
+          $ref: '#/components/responses/BadRequest400'
+        '401':
+          $ref: '#/components/responses/ApprovalUnauthorized401'
+        '404':
+          $ref: '#/components/responses/LPNotFound404'
+        '429':
+          $ref: '#/components/responses/RateLimitedErr429'
+        '500':
+          $ref: '#/components/responses/InternalErr500'
+        '504':
+          $ref: '#/components/responses/Timeout504'
+      x-public-endpoint: true
+  /lp/create_classic:
+    servers:
+    - description: Uniswap LP API
+      url: https://liquidity.api.uniswap.org/
+    post:
+      tags:
+      - Liquidity
+      summary: Create a classic (V2) LP position
+      description: Creates a full-range liquidity position in a Uniswap V2 pool. Specify the independent token and amount; the server computes the dependent token amount based on the current pool ratio. If `simulateTransaction` is set to `true`, the response will include the gas fee for the creation transaction.
+      operationId: create_classic_position
+      security:
+      - apiKey: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateClassicPositionRequest'
+            example:
+              walletAddress: 0x...
+              poolParameters:
+                token0Address: '0x0000000000000000000000000000000000000000'
+                token1Address: '0xc02fe7317d4eb8753a02c35fe019786854a92001'
+                chainId: 130
+              independentToken:
+                tokenAddress: '0xc02fe7317d4eb8753a02c35fe019786854a92001'
+                amount: '1000000000000000'
+              dependentToken:
+                tokenAddress: '0x0000000000000000000000000000000000000000'
+                amount: '1227700073369630'
+              simulateTransaction: false
+      responses:
+        '200':
+          $ref: '#/components/responses/CreateClassicPositionSuccess200'
+        '400':
+          $ref: '#/components/responses/BadRequest400'
+        '401':
+          $ref: '#/components/responses/ApprovalUnauthorized401'
+        '404':
+          $ref: '#/components/responses/LPNotFound404'
+        '429':
+          $ref: '#/components/responses/RateLimitedErr429'
+        '500':
+          $ref: '#/components/responses/InternalErr500'
+        '504':
+          $ref: '#/components/responses/Timeout504'
+      x-public-endpoint: true
+  /lp/pool_info:
+    servers:
+    - description: Uniswap LP API
+      url: https://liquidity.api.uniswap.org/
+    post:
+      tags:
+      - Liquidity
+      summary: Fetch Pool Information
+      description: 'Fetches detailed information about one or more liquidity pools across Uniswap V2, V3, and V4. Returns pool state including token addresses, reserves, liquidity, current tick, sqrtRatioX96, fee tier, tick spacing, and hook addresses (V4).
+
+
+        Provide one of `poolParameters` or `poolReferences` (not both):
+
+        - `poolParameters`: Look up pools by token pair. Provide token addresses and optional fee/tickSpacing/hooks to find matching pools.
+
+        - `poolReferences`: Look up specific known pools by their reference identifier (pool address for V3, pool ID for V4, pair address for V2).'
+      operationId: pool_info
+      security:
+      - apiKey: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PoolInfoRequest'
+            example:
+              protocol: V4
+              chainId: 1
+              poolParameters:
+                tokenAddressA: '0x0000000000000000000000000000000000000000'
+                tokenAddressB: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48'
+                fee: 3000
+                tickSpacing: 60
+      responses:
+        '200':
+          $ref: '#/components/responses/PoolInfoResponse200'
+        '400':
+          $ref: '#/components/responses/BadRequest400'
+        '401':
+          $ref: '#/components/responses/ApprovalUnauthorized401'
+        '404':
+          $ref: '#/components/responses/PoolInfoNotFound404'
+        '429':
+          $ref: '#/components/responses/RateLimitedErr429'
+        '500':
+          $ref: '#/components/responses/InternalErr500'
+        '504':
+          $ref: '#/components/responses/Timeout504'
+      x-public-endpoint: true
+components:
+  schemas:
+    CreatePoolParameters:
+      type: object
+      description: Parameters for creating a new pool along with a position.
+      properties:
+        token0Address:
+          $ref: '#/components/schemas/Address'
+        token1Address:
+          $ref: '#/components/schemas/Address'
+        fee:
+          type: integer
+          description: The pool fee in basis points.
+        tickSpacing:
+          type: integer
+          description: The tick spacing for the pool.
+        hooks:
+          allOf:
+          - $ref: '#/components/schemas/Address'
+          description: Optional hooks contract address (V4 only).
+        initialPrice:
+          type: string
+          description: The initial price of the pool (token1 per token0).
+      required:
+      - token0Address
+      - token1Address
+      - fee
+      - tickSpacing
+      - initialPrice
+    CreatePositionResponse:
+      type: object
+      properties:
+        requestId:
+          $ref: '#/components/schemas/RequestId'
+        token0:
+          $ref: '#/components/schemas/LPToken'
+        token1:
+          $ref: '#/components/schemas/LPToken'
+        adjustedMinPrice:
+          type: string
+          description: The actual minimum price after tick adjustment.
+        adjustedMaxPrice:
+          type: string
+          description: The actual maximum price after tick adjustment.
+        tickLower:
+          type: integer
+          description: The adjusted lower tick.
+        tickUpper:
+          type: integer
+          description: The adjusted upper tick.
+        create:
+          $ref: '#/components/schemas/TransactionRequest'
+        gasFee:
+          $ref: '#/components/schemas/gasFee'
+      required:
+      - requestId
+      - token0
+      - token1
+      - adjustedMinPrice
+      - adjustedMaxPrice
+      - tickLower
+      - tickUpper
+      - create
+    lpTickCurrent:
+      type: number
+      description: The current tick of the pool. For more information see the [Uniswap V3 Whitepaper](https://app.uniswap.org/whitepaper-v3.pdf).
+    PoolInformation:
+      type: object
+      properties:
+        poolReferenceIdentifier:
+          type: string
+          description: The unique identifier for the pool reference, which can be a pool address, pool id, or pair address depending on the protocol.
+        poolProtocol:
+          $ref: '#/components/schemas/Protocols'
+        tokenAddressA:
+          type: string
+          pattern: ^(0x)?[0-9a-fA-F]{40}$
+        tokenAddressB:
+          type: string
+          pattern: ^(0x)?[0-9a-fA-F]{40}$
+        tickSpacing:
+          $ref: '#/components/schemas/tickSpacing'
+        fee:
+          $ref: '#/components/schemas/poolFee'
+        hookAddress:
+          type: string
+          description: The address of the hook for the pool, if any.
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        tokenAmountA:
+          $ref: '#/components/schemas/tokenAmount'
+        tokenAmountB:
+          $ref: '#/components/schemas/tokenAmount'
+        tokenDecimalsA:
+          type: number
+          description: The number of decimals for token A.
+        tokenDecimalsB:
+          type: number
+          description: The number of decimals for token B.
+        poolLiquidity:
+          $ref: '#/components/schemas/liquidity'
+        sqrtRatioX96:
+          $ref: '#/components/schemas/sqrtRatioX96'
+        currentTick:
+          $ref: '#/components/schemas/lpTickCurrent'
+        tokenAReserves:
+          $ref: '#/components/schemas/tokenAmount'
+        tokenBReserves:
+          $ref: '#/components/schemas/tokenAmount'
+    tokenAmount:
+      type: string
+      description: The quantity of tokens denominated in the token's base units. (For example, for an ERC20 token one token is 1x10^18 base units. For one USDC token one token is 1x10^6 base units.) This value must be greater than 0.
+      pattern: ^[0-9]+$
+    CreateClassicPositionRequest:
+      type: object
+      description: Request to create a full-range V2 liquidity position.
+      properties:
+        walletAddress:
+          $ref: '#/components/schemas/Address'
+        poolParameters:
+          $ref: '#/components/schemas/V2PoolParameters'
+        independentToken:
+          $ref: '#/components/schemas/LPToken'
+        dependentToken:
+          $ref: '#/components/schemas/LPToken'
+        slippageTolerance:
+          type: number
+          description: Slippage tolerance as a decimal (e.g., 0.5 for 0.5%).
+        deadline:
+          type: integer
+          description: Transaction deadline in seconds.
+        simulateTransaction:
+          type: boolean
+          description: If true, the response will include the gas fee.
+        urgency:
+          $ref: '#/components/schemas/GasUrgency'
+        includeApprovalSimulation:
+          type: boolean
+          description: If true, the response will include approval simulation data.
+      required:
+      - walletAddress
+      - poolParameters
+      - independentToken
+    NullablePermit:
+      description: the permit2 message object for the customer to sign to permit spending by the permit2 contract.
+      type: object
+      nullable: true
+      properties:
+        domain:
+          type: object
+        values:
+          type: object
+        types:
+          type: object
+    Protocols:
+      type: array
+      items:
+        $ref: '#/components/schemas/ProtocolItems'
+      description: The protocols to use for the swap/order. If the `protocols` field is defined, then you can only set the `routingPreference` to `BEST_PRICE`. Note that the value `UNISWAPX` is deprecated and will be removed in a future release.
+    CreatePositionRequest:
+      type: object
+      properties:
+        walletAddress:
+          $ref: '#/components/schemas/Address'
+        existingPool:
+          allOf:
+          - $ref: '#/components/schemas/CreatePositionExistingPoolParameters'
+          description: Parameters for an existing pool. Provide either existingPool or newPool, not both.
+        newPool:
+          allOf:
+          - $ref: '#/components/schemas/CreatePoolParameters'
+          description: Parameters for creating a new pool. Provide either existingPool or newPool, not both.
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        protocol:
+          $ref: '#/components/schemas/ProtocolItems'
+        independentToken:
+          allOf:
+          - $ref: '#/components/schemas/CreateToken'
+          description: The token whose amount you are specifying.
+        dependentToken:
+          allOf:
+          - $ref: '#/components/schemas/CreateToken'
+          description: The other token. The server computes the required amount. If provided, the amount is used as a maximum.
+        priceBounds:
+          allOf:
+          - $ref: '#/components/schemas/PositionPriceBounds'
+          description: Price bounds for the position range. Provide either priceBounds or tickBounds, not both.
+        tickBounds:
+          allOf:
+          - $ref: '#/components/schemas/PositionTickBounds'
+          description: Tick bounds for the position range. Provide either priceBounds or tickBounds, not both.
+        slippageTolerance:
+          type: number
+          description: Slippage tolerance as a decimal (e.g., 0.5 for 0.5%).
+        deadline:
+          type: integer
+          description: Unix timestamp after which the transaction will revert.
+        simulateTransaction:
+          type: boolean
+          description: If true, the response will include the gas fee.
+        urgency:
+          $ref: '#/components/schemas/GasUrgency'
+        batchPermitData:
+          allOf:
+          - $ref: '#/components/schemas/NullablePermit'
+          description: Batch permit data for V4 positions.
+        signature:
+          type: string
+          description: The signed permit.
+        nativeTokenBalance:
+          type: string
+          description: The wallet's native token balance, used for wrapping calculations when one of the tokens is the native token.
+      required:
+      - walletAddress
+      - chainId
+      - protocol
+      - independentToken
+    DecreasePositionRequest:
+      type: object
+      properties:
+        walletAddress:
+          $ref: '#/components/schemas/Address'
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        protocol:
+          $ref: '#/components/schemas/ProtocolItems'
+        token0Address:
+          $ref: '#/components/schemas/Address'
+        token1Address:
+          $ref: '#/components/schemas/Address'
+        nftTokenId:
+          type: string
+          description: The NFT token ID for V3/V4 positions. Not required for V2.
+        liquidityPercentageToDecrease:
+          type: integer
+          description: The percentage of liquidity to remove (1-100).
+        slippageTolerance:
+          type: number
+          description: Slippage tolerance as a decimal (e.g., 0.5 for 0.5%).
+        deadline:
+          type: integer
+          description: Unix timestamp after which the transaction will revert.
+        simulateTransaction:
+          type: boolean
+          description: If true, the response will include the gas fee.
+        withdrawAsWeth:
+          type: boolean
+          description: If true, native tokens will be withdrawn as WETH instead of unwrapping to ETH.
+        urgency:
+          $ref: '#/components/schemas/GasUrgency'
+      required:
+      - walletAddress
+      - chainId
+      - protocol
+      - token0Address
+      - token1Address
+      - liquidityPercentageToDecrease
+    PoolReferenceByProtocol:
+      type: object
+      properties:
+        protocol:
+          $ref: '#/components/schemas/Protocols'
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        referenceIdentifier:
+          type: string
+          pattern: ^(0x)?[0-9a-fA-F]
+      required:
+      - protocol
+      - poolAddress
+      - chainId
+    tickSpacing:
+      type: number
+      description: The width of ticks in this pool (e.g. the price range between two ticks) specified in basis points. For more information see the [Uniswap V3 Whitepaper](https://app.uniswap.org/whitepaper-v3.pdf).
+    ChainId:
+      description: The unique ID of the blockchain. For a list of supported chains see the [FAQ](https://api-docs.uniswap.org/guides/faqs).
+      type: number
+      enum:
+      - 1
+      - 10
+      - 56
+      - 130
+      - 137
+      - 143
+      - 196
+      - 324
+      - 480
+      - 1868
+      - 4217
+      - 8453
+      - 10143
+      - 42161
+      - 42220
+      - 43114
+      - 59144
+      - 81457
+      - 7777777
+      - 1301
+      - 84532
+      - 11155111
+      default: 1
+    LPApprovalRequest:
+      type: object
+      properties:
+        walletAddress:
+          $ref: '#/components/schemas/Address'
+        protocol:
+          $ref: '#/components/schemas/ProtocolItems'
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        lpTokens:
+          type: array
+          description: The tokens requiring approval, each with address and amount.
+          items:
+            $ref: '#/components/schemas/LPToken'
+        action:
+          $ref: '#/components/schemas/LPAction'
+        includeGasInfo:
+          type: boolean
+          description: If true, the response will include gas fee estimates for each approval transaction.
+        simulateTransaction:
+          type: boolean
+          description: If true, approval transactions will be simulated to verify they succeed.
+        generatePermitAsTransaction:
+          type: boolean
+          description: If true, permits are returned as on-chain transactions rather than off-chain signatures.
+        urgency:
+          $ref: '#/components/schemas/GasUrgency'
+        v3NftTokenId:
+          type: integer
+          description: The V3 NFT position token ID. Required when approving a V3 position for migration.
+      required:
+      - walletAddress
+      - protocol
+      - chainId
+      - lpTokens
+      - action
+    PositionPriceBounds:
+      type: object
+      description: Price bounds for a concentrated liquidity position.
+      properties:
+        minPrice:
+          type: string
+          description: The minimum price (token1 per token0) for the position range.
+        maxPrice:
+          type: string
+          description: The maximum price (token1 per token0) for the position range.
+      required:
+      - minPrice
+      - maxPrice
+    LPToken:
+      type: object
+      description: A token with its address and amount, used in LP operations.
+      properties:
+        tokenAddress:
+          $ref: '#/components/schemas/Address'
+        amount:
+          $ref: '#/components/schemas/tokenAmount'
+      required:
+      - tokenAddress
+      - amount
+    Err500:
+      type: object
+      properties:
+        errorCode:
+          default: InternalServerError
+          type: string
+        detail:
+          type: string
+    ClaimFeesRequest:
+      type: object
+      properties:
+        protocol:
+          $ref: '#/components/schemas/ProtocolItems'
+        walletAddress:
+          $ref: '#/components/schemas/Address'
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        tokenId:
+          type: string
+          description: The NFT token ID identifying the position.
+        simulateTransaction:
+          type: boolean
+          description: If true, the response will include the gas fee.
+        collectAsWeth:
+          type: boolean
+          description: If true, native tokens will be collected as WETH instead of unwrapping to ETH.
+      required:
+      - protocol
+      - walletAddress
+      - chainId
+      - tokenId
+    LPAction:
+      type: string
+      enum:
+      - CREATE
+      - INCREASE
+      - DECREASE
+      - MIGRATE
+      description: The LP operation that the approval is needed for.
+    ProtocolItems:
+      type: string
+      enum:
+      - V2
+      - V3
+      - V4
+      - UNISWAPX
+      - UNISWAPX_V2
+      - UNISWAPX_V3
+      description: The protocol to use for the swap/order.
+    liquidity:
+      type: string
+      description: The amount of liquidity in the pool at a given tick. For more information see the [Uniswap V3 Whitepaper](https://app.uniswap.org/whitepaper-v3.pdf).
+    senderWalletAddress:
+      type: string
+      description: The wallet address which will be used to send the token.
+      pattern: ^(0x)?[0-9a-fA-F]{40}$
+    ApprovalTransactionRequest:
+      type: object
+      description: An approval transaction with metadata about whether it is a cancellation and which LP action it supports.
+      properties:
+        transaction:
+          $ref: '#/components/schemas/TransactionRequest'
+        cancelApproval:
+          type: boolean
+          description: Whether this transaction cancels a previous approval.
+        action:
+          $ref: '#/components/schemas/LPAction'
+        gasFee:
+          $ref: '#/components/schemas/gasFee'
+      required:
+      - transaction
+      - cancelApproval
+      - action
+    RequestId:
+      type: string
+      description: A unique ID for the request.
+    Err404:
+      type: object
+      properties:
+        errorCode:
+          enum:
+          - ResourceNotFound
+          - QuoteAmountTooLowError
+          - TokenBalanceNotAvailable
+          - InsufficientBalance
+          type: string
+        detail:
+          type: string
+    CreateClassicPositionResponse:
+      type: object
+      properties:
+        requestId:
+          $ref: '#/components/schemas/RequestId'
+        independentToken:
+          $ref: '#/components/schemas/LPToken'
+        dependentToken:
+          $ref: '#/components/schemas/LPToken'
+        create:
+          $ref: '#/components/schemas/TransactionRequest'
+        gasFee:
+          $ref: '#/components/schemas/gasFee'
+      required:
+      - requestId
+      - independentToken
+      - dependentToken
+      - create
+    poolFee:
+      type: string
+      description: The fee of the pool in basis points.
+    Address:
+      type: string
+      pattern: ^(0x)?[0-9a-fA-F]{40}$
+    CreatePositionExistingPoolParameters:
+      type: object
+      description: Parameters for creating a position in an existing pool.
+      properties:
+        token0Address:
+          $ref: '#/components/schemas/Address'
+        token1Address:
+          $ref: '#/components/schemas/Address'
+        poolReference:
+          type: string
+          description: The pool address (V3) or pool ID (V4) identifying the existing pool.
+      required:
+      - token0Address
+      - token1Address
+      - poolReference
+    Err504:
+      type: object
+      properties:
+        errorCode:
+          default: Timeout
+          type: string
+        detail:
+          type: string
+    DecreasePositionResponse:
+      type: object
+      properties:
+        requestId:
+          $ref: '#/components/schemas/RequestId'
+        token0:
+          $ref: '#/components/schemas/LPToken'
+        token1:
+          $ref: '#/components/schemas/LPToken'
+        decrease:
+          $ref: '#/components/schemas/TransactionRequest'
+        gasFee:
+          $ref: '#/components/schemas/gasFee'
+      required:
+      - requestId
+      - token0
+      - token1
+      - decrease
+    gasFee:
+      type: string
+      description: The total estimated gas cost of this transaction (eg. `gasLimit` multiplied by `maxFeePerGas`) in the base unit of the chain.
+    PoolInfoResponse:
+      type: object
+      properties:
+        requestId:
+          $ref: '#/components/schemas/RequestId'
+        pools:
+          type: array
+          description: Array of pool information objects.
+          items:
+            $ref: '#/components/schemas/PoolInformation'
+        pageSize:
+          type: number
+        currentPage:
+          type: number
+    V2PoolParameters:
+      type: object
+      description: Parameters identifying a V2 pool.
+      properties:
+        token0Address:
+          $ref: '#/components/schemas/Address'
+        token1Address:
+          $ref: '#/components/schemas/Address'
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+      required:
+      - token0Address
+      - token1Address
+      - chainId
+    GasUrgency:
+      type: string
+      enum:
+      - NORMAL
+      - FAST
+      - URGENT
+      description: The urgency level for gas price estimation. Higher urgency results in higher gas price and faster transaction inclusion. Defaults to URGENT if not provided.
+    TransactionRequest:
+      type: object
+      properties:
+        to:
+          $ref: '#/components/schemas/receiverWalletAddress'
+        from:
+          $ref: '#/components/schemas/senderWalletAddress'
+        data:
+          type: string
+          description: The calldata for the transaction.
+        value:
+          type: string
+          description: The quantity of ETH tokens approved for spending by the transaction, denominated in wei. Note that by default Uniswap Labs sets this to the maximum approvable spend.
+        gasLimit:
+          $ref: '#/components/schemas/gasLimit'
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        maxFeePerGas:
+          $ref: '#/components/schemas/maxFeePerGas'
+        maxPriorityFeePerGas:
+          $ref: '#/components/schemas/maxPriorityFeePerGas'
+        gasPrice:
+          $ref: '#/components/schemas/gasPrice'
+      required:
+      - to
+      - from
+      - data
+      - value
+      - chainId
+    ClaimFeesResponse:
+      type: object
+      properties:
+        requestId:
+          $ref: '#/components/schemas/RequestId'
+        token0:
+          $ref: '#/components/schemas/LPToken'
+        token1:
+          $ref: '#/components/schemas/LPToken'
+        claim:
+          $ref: '#/components/schemas/TransactionRequest'
+        gasFee:
+          $ref: '#/components/schemas/gasFee'
+      required:
+      - requestId
+      - token0
+      - token1
+      - claim
+    PoolParameters:
+      type: object
+      properties:
+        tokenAddressA:
+          type: string
+          description: The address of the first token in the pair.
+          pattern: ^(0x)?[0-9a-fA-F]{40}$
+        tokenAddressB:
+          type: string
+          description: The address of the second token in the pair.
+          pattern: ^(0x)?[0-9a-fA-F]{40}$
+        fee:
+          type: number
+          description: The fee of the pool, if the pool has a fee value.
+        tickSpacing:
+          $ref: '#/components/schemas/tickSpacing'
+        hookAddress:
+          type: string
+          description: The address of the hook for the pool, if any.
+    sqrtRatioX96:
+      type: string
+      description: The square root of the ratio of the token0 and token1 in the pool, as a Q64.64 number. For more information see the [Uniswap V3 Whitepaper](https://app.uniswap.org/whitepaper-v3.pdf).
+    maxFeePerGas:
+      type: string
+      description: The sum of the base fee and priority fee. Subtracting `maxPriorityFeePerGas` from this value will yield the base fee to be paid for this transaction.
+    Err400:
+      type: object
+      properties:
+        errorCode:
+          default: RequestValidationError
+          type: string
+        detail:
+          type: string
+    gasLimit:
+      type: string
+      description: The maximum units of gas that will be consumed by this transaction.
+    IncreasePositionRequest:
+      type: object
+      properties:
+        walletAddress:
+          $ref: '#/components/schemas/Address'
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        protocol:
+          $ref: '#/components/schemas/ProtocolItems'
+        token0Address:
+          $ref: '#/components/schemas/Address'
+        token1Address:
+          $ref: '#/components/schemas/Address'
+        nftTokenId:
+          type: string
+          description: The NFT token ID for V3/V4 positions. Not required for V2.
+        independentToken:
+          allOf:
+          - $ref: '#/components/schemas/LPToken'
+          description: The token whose amount you are specifying.
+        slippageTolerance:
+          type: number
+          description: Slippage tolerance as a decimal (e.g., 0.5 for 0.5%).
+        deadline:
+          type: integer
+          description: Unix timestamp after which the transaction will revert.
+        simulateTransaction:
+          type: boolean
+          description: If true, the response will include the gas fee.
+        v4BatchPermitData:
+          allOf:
+          - $ref: '#/components/schemas/NullablePermit'
+          description: Batch permit data for V4 positions.
+        signature:
+          type: string
+          description: The signed permit.
+        urgency:
+          $ref: '#/components/schemas/GasUrgency'
+      required:
+      - walletAddress
+      - chainId
+      - protocol
+      - token0Address
+      - token1Address
+      - independentToken
+    PositionTickBounds:
+      type: object
+      description: Tick bounds for a concentrated liquidity position.
+      properties:
+        tickLower:
+          type: integer
+          description: The lower tick of the position range.
+        tickUpper:
+          type: integer
+          description: The upper tick of the position range.
+      required:
+      - tickLower
+      - tickUpper
+    receiverWalletAddress:
+      type: string
+      description: The wallet address which will receive the token.
+      pattern: ^(0x)?[0-9a-fA-F]{40}$
+    LPApprovalResponse:
+      type: object
+      properties:
+        requestId:
+          $ref: '#/components/schemas/RequestId'
+        transactions:
+          type: array
+          description: The approval transactions needed. Empty if all approvals are already in place.
+          items:
+            $ref: '#/components/schemas/ApprovalTransactionRequest'
+        v4BatchPermitData:
+          allOf:
+          - $ref: '#/components/schemas/NullablePermit'
+          description: Batch permit data for V4 positions, if applicable.
+        v3NftPermitData:
+          allOf:
+          - $ref: '#/components/schemas/NullablePermit'
+          description: NFT permit data for V3 positions, if applicable.
+      required:
+      - requestId
+    Err401:
+      type: object
+      properties:
+        errorCode:
+          default: UnauthorizedError
+          type: string
+        detail:
+          type: string
+    gasPrice:
+      type: string
+      description: The cost per unit of gas.
+    IncreasePositionResponse:
+      type: object
+      properties:
+        requestId:
+          $ref: '#/components/schemas/RequestId'
+        token0:
+          $ref: '#/components/schemas/LPToken'
+        token1:
+          $ref: '#/components/schemas/LPToken'
+        increase:
+          $ref: '#/components/schemas/TransactionRequest'
+        gasFee:
+          $ref: '#/components/schemas/gasFee'
+      required:
+      - requestId
+      - token0
+      - token1
+      - increase
+    PoolInfoRequest:
+      type: object
+      properties:
+        protocol:
+          $ref: '#/components/schemas/Protocols'
+        poolParameters:
+          $ref: '#/components/schemas/PoolParameters'
+        poolReferences:
+          type: array
+          description: Array of pool reference identifiers to query. Each reference should include the protocol, chainId, and either the pool address (V3), pool id (V4), or pair address (V2).
+          items:
+            $ref: '#/components/schemas/PoolReferenceByProtocol'
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        pageSize:
+          type: number
+        currentPage:
+          type: number
+      required:
+      - protocol
+    Err429:
+      type: object
+      properties:
+        errorCode:
+          default: Ratelimited
+          type: string
+        detail:
+          type: string
+    CreateToken:
+      type: object
+      description: A token address and amount used in position creation.
+      properties:
+        tokenAddress:
+          $ref: '#/components/schemas/Address'
+        amount:
+          type: string
+          description: The token amount in raw (base unit) format.
+      required:
+      - tokenAddress
+      - amount
+    maxPriorityFeePerGas:
+      type: string
+      description: The maximum tip to the block builder. Adjusted based upon the urgency specified in the request.
+  responses:
+    ApprovalNotFound404:
+      description: ResourceNotFound eg. Token allowance not found or Gas info not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err404'
+    PoolInfoResponse200:
+      description: Pool information response successful.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PoolInfoResponse'
+          example:
+            requestId: 1b68b6fa-3946-4c5b-ac60-e5fb9d614a1b
+            pools:
+            - poolReferenceIdentifier: '0xdce6394339af00981949f5f3baf27e3610c76326a700af57e4b3e3ae4977f78d'
+              poolProtocol: V4
+              tokenAddressA: '0x0000000000000000000000000000000000000000'
+              tokenAddressB: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
+              tickSpacing: 60
+              fee: 3000
+              hookAddress: '0x0000000000000000000000000000000000000000'
+              chainId: 1
+              tokenDecimalsA: '18'
+              tokenDecimalsB: '6'
+              poolLiquidity: '1007803497966589811'
+              sqrtRatioX96: '3796141369585623258184840'
+              currentTick: -198932
+            currentPage: 1
+            pageSize: 1
+    PoolInfoNotFound404:
+      description: ResourceNotFound eg. No pool information on given chain
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err404'
+    CreateClassicPositionSuccess200:
+      description: Create classic (V2) position successful.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreateClassicPositionResponse'
+          example:
+            requestId: cMJXBil3CYcEJjQ=
+            independentToken:
+              tokenAddress: '0xc02fE7317D4eb8753a02c35fe019786854A92001'
+              amount: '1000000000000000'
+            dependentToken:
+              tokenAddress: '0x0000000000000000000000000000000000000000'
+              amount: '1227700073369630'
+            create:
+              to: '0x284F11109359a7e1306C3e447ef14D38400063FF'
+              from: '0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421'
+              data: 0xf305d71900...
+              value: '0x045c9632c3901e'
+              chainId: 130
+    RateLimitedErr429:
+      description: Ratelimited
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err429'
+    ApprovalUnauthorized401:
+      description: UnauthorizedError eg. Account is blocked.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err401'
+    BadRequest400:
+      description: RequestValidationError, Bad Input
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err400'
+    ClaimFeesSuccess200:
+      description: Claim fees successful.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ClaimFeesResponse'
+          example:
+            requestId: cMIoDgRSiYcEJEA=
+            token0:
+              tokenAddress: '0x0000000000000000000000000000000000000000'
+              amount: '15372648576927'
+            token1:
+              tokenAddress: '0x078D782b760474a361dDA0AF3839290b0EF57AD6'
+              amount: '33625'
+            claim:
+              to: '0x4529A01c7A0410167c5740C487A8DE60232617bf'
+              from: '0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421'
+              data: 0xdd46508f00...
+              value: '0x00'
+              chainId: 130
+    IncreasePositionSuccess200:
+      description: Increase position successful.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/IncreasePositionResponse'
+          example:
+            requestId: ff287fc0-3a81-42a2-a2fd-cce6a5f16821
+            token0:
+              tokenAddress: '0x4200000000000000000000000000000000000006'
+              amount: '923764813384463'
+            token1:
+              tokenAddress: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'
+              amount: '3000000'
+            increase:
+              to: '0x03a520b32C04BF3bEEf7BEb72E919cf822Ed34f1'
+              from: '0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421'
+              data: 0xac9650d800...
+              value: '0x034828c18ec9f4'
+              chainId: 8453
+              gasLimit: '288938'
+              gasPrice: '9000000'
+            gasFee: '2668712200733'
+    Timeout504:
+      description: Request duration limit reached.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err504'
+    LPApprovalSuccess200:
+      description: LP approval check successful.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/LPApprovalResponse'
+          example:
+            requestId: cMDelitrCYcEJow=
+            transactions:
+            - transaction:
+                to: '0x455e53CBB86018Ac2B8092FdCd39d8444aFFC3F6'
+                from: '0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421'
+                data: 0x095ea7b300...
+                value: '0x00'
+                chainId: 1
+              cancelApproval: false
+              action: CREATE
+            - transaction:
+                to: '0xdAC17F958D2ee523a2206206994597C13D831ec7'
+                from: '0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421'
+                data: 0x095ea7b300...
+                value: '0x00'
+                chainId: 1
+              cancelApproval: false
+              action: CREATE
+    LPNotFound404:
+      description: ResourceNotFound eg. Cant Find LP Position.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err404'
+    CreatePositionSuccess200:
+      description: Create V3/V4 position successful.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreatePositionResponse'
+          example:
+            requestId: 3e7960b1-496d-4810-b071-a989fc6c82c3
+            token0:
+              tokenAddress: '0x0000000000000000000000000000000000000000'
+              amount: '953604746993169'
+            token1:
+              tokenAddress: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'
+              amount: '3000000'
+            adjustedMinPrice: '0.000000002291623505250648965031523285'
+            adjustedMaxPrice: '0.000000002470095393846743765417492756'
+            tickLower: -198950
+            tickUpper: -198200
+            create:
+              to: '0x7C5f5A4bBd8fD63184577525326123B519429bDc'
+              from: '0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421'
+              data: 0xdd46508f00...
+              value: '0x0370d2117653fe'
+              chainId: 8453
+    InternalErr500:
+      description: Unexpected error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err500'
+    DecreasePositionSuccess200:
+      description: Decrease position successful.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DecreasePositionResponse'
+          example:
+            requestId: cMHfBjMJCYcEJQg=
+            token0:
+              tokenAddress: '0x0000000000000000000000000000000000000000'
+              amount: '218729726079859'
+            token1:
+              tokenAddress: '0x078D782b760474a361dDA0AF3839290b0EF57AD6'
+              amount: '506124'
+            decrease:
+              to: '0x4529A01c7A0410167c5740C487A8DE60232617bf'
+              from: '0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421'
+              data: 0xdd46508f00...
+              value: '0x00'
+              chainId: 130
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: x-api-key

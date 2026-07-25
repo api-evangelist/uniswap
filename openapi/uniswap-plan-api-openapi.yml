@@ -1,0 +1,839 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Token Trading Approval Plan API
+  description: 'Uniswap Labs trading APIs.
+
+
+    Each operation may include the vendor extension `x-public-endpoint` (boolean): `true` when the operation is available on the public gateway for standard API keys, `false` when it is not publicly exposed. See the [OpenAPI specification extensions](https://swagger.io/docs/specification/v3_0/openapi-extensions/) definition of `x-` fields.'
+servers:
+- description: Uniswap Trading API
+  url: https://trade-api.gateway.uniswap.org/v1
+security:
+- apiKey: []
+tags:
+- name: Plan
+paths:
+  /plan:
+    post:
+      tags:
+      - Plan
+      summary: Create an execution plan
+      description: Creates a multi-step execution plan for chained transactions. The plan breaks down complex multi-chain or multi-transaction flows into sequential steps that can be executed by the client. Each step includes the method (transaction, message signature, or batch calls), payload, and current status. The response includes the current step index to track progress through the plan.
+      operationId: create_plan
+      security:
+      - apiKey: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePlanRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/CreatePlanSuccess200'
+        '400':
+          $ref: '#/components/responses/BadRequest400'
+        '401':
+          $ref: '#/components/responses/Unauthorized401'
+        '404':
+          $ref: '#/components/responses/QuoteNotFound404'
+        '429':
+          $ref: '#/components/responses/RateLimitedErr429'
+        '500':
+          $ref: '#/components/responses/InternalErr500'
+        '504':
+          $ref: '#/components/responses/Timeout504'
+      x-public-endpoint: false
+  /plan/{planId}:
+    get:
+      tags:
+      - Plan
+      summary: Get an execution plan
+      description: 'Retrieves an existing execution plan by its ID. Returns the full plan with current status and all steps. If forceRefresh is set to true, the plan will be refreshed to check for any updates to step statuses. Note: Completed plans cannot be refreshed.'
+      operationId: get_plan
+      security:
+      - apiKey: []
+      parameters:
+      - name: planId
+        in: path
+        required: true
+        description: The unique identifier of the plan to retrieve.
+        schema:
+          type: string
+          format: uuid
+      - name: forceRefresh
+        in: query
+        required: false
+        description: Whether to force refresh the plan status. Defaults to false. Completed plans cannot be refreshed.
+        schema:
+          type: boolean
+      responses:
+        '200':
+          $ref: '#/components/responses/GetPlanSuccess200'
+        '400':
+          $ref: '#/components/responses/BadRequest400'
+        '401':
+          $ref: '#/components/responses/Unauthorized401'
+        '404':
+          $ref: '#/components/responses/QuoteNotFound404'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity422'
+        '429':
+          $ref: '#/components/responses/RateLimitedErr429'
+        '500':
+          $ref: '#/components/responses/InternalErr500'
+        '504':
+          $ref: '#/components/responses/Timeout504'
+      x-public-endpoint: false
+    patch:
+      summary: Update an existing plan with step proofs
+      description: 'Updates an existing execution plan by submitting proof of completed plan steps (transaction hashes or signatures). The endpoint retrieves the existing plan, attaches proofs to specified steps, verifies the proofs, and potentially regenerates remaining steps if needed. Returns the full updated plan with current status. Note: Order IDs are not accepted in requests; they are system-generated after receiving a signature.'
+      operationId: update_plan
+      security:
+      - apiKey: []
+      parameters:
+      - name: planId
+        in: path
+        required: true
+        description: The unique identifier of the plan to update.
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePlanRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/UpdatePlanSuccess200'
+        '400':
+          $ref: '#/components/responses/BadRequest400'
+        '401':
+          $ref: '#/components/responses/Unauthorized401'
+        '404':
+          $ref: '#/components/responses/QuoteNotFound404'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity422'
+        '429':
+          $ref: '#/components/responses/RateLimitedErr429'
+        '500':
+          $ref: '#/components/responses/InternalErr500'
+        '504':
+          $ref: '#/components/responses/Timeout504'
+      x-public-endpoint: false
+      tags:
+      - Plan
+components:
+  schemas:
+    CreatePlanRequest:
+      type: object
+      properties:
+        routing:
+          type: string
+          enum:
+          - CHAINED
+          description: The routing type for the plan. Currently only CHAINED is supported for multi-step execution plans.
+        quote:
+          $ref: '#/components/schemas/ChainedQuote'
+        walletExecutionContext:
+          $ref: '#/components/schemas/WalletExecutionContext'
+      required:
+      - routing
+      - quote
+    PlanResponse:
+      type: object
+      properties:
+        requestId:
+          $ref: '#/components/schemas/RequestId'
+        planId:
+          type: string
+          description: A unique identifier for this execution plan.
+        swapper:
+          $ref: '#/components/schemas/senderWalletAddress'
+        recipient:
+          $ref: '#/components/schemas/receiverWalletAddress'
+        quoteId:
+          $ref: '#/components/schemas/quoteId'
+        status:
+          $ref: '#/components/schemas/PlanStatus'
+        steps:
+          type: array
+          description: The sequential steps that need to be executed to complete the plan.
+          items:
+            $ref: '#/components/schemas/PlanStep'
+        currentStepIndex:
+          type: number
+          description: The index of the current step that needs to be executed (0-based).
+        expectedOutput:
+          $ref: '#/components/schemas/tokenAmount'
+        gasFee:
+          $ref: '#/components/schemas/gasFee'
+        gasFeeQuote:
+          $ref: '#/components/schemas/gasFeeInCurrency'
+        gasFeeUSD:
+          $ref: '#/components/schemas/gasFeeUSD'
+        gasUseEstimate:
+          $ref: '#/components/schemas/gasLimit'
+        timeEstimateMs:
+          type: number
+          description: Estimated time in milliseconds to complete the entire plan.
+        gasStrategies:
+          type: array
+          description: Gas strategies used for the plan.
+          items:
+            $ref: '#/components/schemas/GasStrategy'
+        protocols:
+          $ref: '#/components/schemas/Protocols'
+        hooksOptions:
+          $ref: '#/components/schemas/HooksOptions'
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the plan was created.
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the plan was last updated.
+        completedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the plan completed.
+        lastUserActionAt:
+          type: string
+          format: date-time
+          description: Timestamp of the last user action on this plan.
+        slippageTolerance:
+          $ref: '#/components/schemas/slippageTolerance'
+        autoSlippage:
+          $ref: '#/components/schemas/AutoSlippage'
+        walletExecutionContext:
+          $ref: '#/components/schemas/WalletExecutionContext'
+      required:
+      - requestId
+      - planId
+      - swapper
+      - recipient
+      - quoteId
+      - status
+      - steps
+      - currentStepIndex
+      - expectedOutput
+    ClientContext:
+      type: object
+      description: Uni client-specific context describing how this wallet integrates with the application.
+      properties:
+        directPrivateKeyAccess:
+          type: boolean
+          description: Whether the wallet has direct private key access.
+        nextEvmUpgradeAddress:
+          type: string
+          description: Address for the next EVM upgrade.
+    tokenAmount:
+      type: string
+      description: The quantity of tokens denominated in the token's base units. (For example, for an ERC20 token one token is 1x10^18 base units. For one USDC token one token is 1x10^6 base units.) This value must be greater than 0.
+      pattern: ^[0-9]+$
+    Protocols:
+      type: array
+      items:
+        $ref: '#/components/schemas/ProtocolItems'
+      description: The protocols to use for the swap/order. If the `protocols` field is defined, then you can only set the `routingPreference` to `BEST_PRICE`. Note that the value `UNISWAPX` is deprecated and will be removed in a future release.
+    ClassicOutput:
+      type: object
+      properties:
+        token:
+          $ref: '#/components/schemas/outputToken'
+        amount:
+          $ref: '#/components/schemas/tokenAmount'
+        recipient:
+          $ref: '#/components/schemas/receiverWalletAddress'
+    ChainId:
+      description: The unique ID of the blockchain. For a list of supported chains see the [FAQ](https://api-docs.uniswap.org/guides/faqs).
+      type: number
+      enum:
+      - 1
+      - 10
+      - 56
+      - 130
+      - 137
+      - 143
+      - 196
+      - 324
+      - 480
+      - 1868
+      - 4217
+      - 8453
+      - 10143
+      - 42161
+      - 42220
+      - 43114
+      - 59144
+      - 81457
+      - 7777777
+      - 1301
+      - 84532
+      - 11155111
+      default: 1
+    HooksOptions:
+      type: string
+      enum:
+      - V4_HOOKS_INCLUSIVE
+      - V4_HOOKS_ONLY
+      - V4_NO_HOOKS
+      description: The hook options to use for V4 pool quotes. `V4_HOOKS_INCLUSIVE` will get quotes for V4 pools with or without hooks. `V4_HOOKS_ONLY` will only get quotes for V4 pools with hooks. `V4_NO_HOOKS` will only get quotes for V4 pools without hooks. Defaults to `V4_HOOKS_INCLUSIVE` if `V4` is included in `protocols` and `hookOptions` is not set. This field is ignored if `V4` is not passed in `protocols`.
+    AutoSlippage:
+      type: string
+      enum:
+      - DEFAULT
+      description: 'The auto slippage strategy to employ. For Uniswap Protocols (v2, v3, v4) the auto slippage will be automatically calculated when this field is set to `DEFAULT`. Auto slippage cannot be calculated for UniswapX swaps.
+
+
+        Note that if the trade type is `EXACT_INPUT`, then the slippage is in terms of the output token. If the trade type is `EXACT_OUTPUT`, then the slippage is in terms of the input token.
+
+
+        When submitting a request, `autoSlippage` may not be set when `slippageTolerance` is defined. One of `slippageTolerance` or `autoSlippage` must be defined.'
+    PlanStatus:
+      type: string
+      enum:
+      - ACTIVE
+      - AWAITING_ACTION
+      - IN_PROGRESS
+      - COMPLETED
+      - FAILED
+      description: The overall status of the plan execution. ACTIVE means the plan is ready to begin (all steps NOT_READY). AWAITING_ACTION means at least one step requires user action. IN_PROGRESS means at least one step is executing. COMPLETED means all steps have been successfully executed. FAILED means the plan cannot be completed.
+    Err500:
+      type: object
+      properties:
+        errorCode:
+          default: InternalServerError
+          type: string
+        detail:
+          type: string
+    TruncatedPlanStep:
+      type: object
+      description: A truncated representation of a plan step containing only routing information.
+      properties:
+        stepType:
+          $ref: '#/components/schemas/PlanStepType'
+        tokenIn:
+          $ref: '#/components/schemas/inputToken'
+        tokenInChainId:
+          $ref: '#/components/schemas/ChainId'
+        tokenOut:
+          $ref: '#/components/schemas/outputToken'
+        tokenOutChainId:
+          $ref: '#/components/schemas/ChainId'
+        slippage:
+          $ref: '#/components/schemas/slippageTolerance'
+      required:
+      - stepType
+    ProtocolItems:
+      type: string
+      enum:
+      - V2
+      - V3
+      - V4
+      - UNISWAPX
+      - UNISWAPX_V2
+      - UNISWAPX_V3
+      description: The protocol to use for the swap/order.
+    ClassicInput:
+      type: object
+      properties:
+        token:
+          $ref: '#/components/schemas/inputToken'
+        amount:
+          $ref: '#/components/schemas/tokenAmount'
+    senderWalletAddress:
+      type: string
+      description: The wallet address which will be used to send the token.
+      pattern: ^(0x)?[0-9a-fA-F]{40}$
+    inputToken:
+      type: string
+      description: The token which will be sent, specified by its token address. For a list of supported tokens, see the [FAQ](https://api-docs.uniswap.org/guides/faqs).
+      pattern: ^(0x)?[0-9a-fA-F]{40}$
+    PlanStepStatus:
+      type: string
+      enum:
+      - NOT_READY
+      - AWAITING_ACTION
+      - IN_PROGRESS
+      - COMPLETE
+      - STEP_ERROR
+      description: The status of an individual step. NOT_READY means prerequisites are not met. AWAITING_ACTION means the step is ready for user action. IN_PROGRESS means the step is being executed. COMPLETE means the step finished successfully. STEP_ERROR means the step failed.
+    RequestId:
+      type: string
+      description: A unique ID for the request.
+    Err404:
+      type: object
+      properties:
+        errorCode:
+          enum:
+          - ResourceNotFound
+          - QuoteAmountTooLowError
+          - TokenBalanceNotAvailable
+          - InsufficientBalance
+          type: string
+        detail:
+          type: string
+    gasFeeInCurrency:
+      type: string
+      description: The total estimated gas cost of this transaction (eg. gasLimit multiplied by maxFeePerGas) in the quoted currency (e.g. output token) in the base units of the quoted currency.
+    PlanStepMethod:
+      type: string
+      enum:
+      - SEND_TX
+      - SIGN_MSG
+      - SEND_CALLS
+      description: The execution method for the step. SEND_TX is a standard transaction. SIGN_MSG is for signing a message (e.g., permit). SEND_CALLS is for batch transaction execution (EIP-5792).
+    Err504:
+      type: object
+      properties:
+        errorCode:
+          default: Timeout
+          type: string
+        detail:
+          type: string
+    gasFee:
+      type: string
+      description: The total estimated gas cost of this transaction (eg. `gasLimit` multiplied by `maxFeePerGas`) in the base unit of the chain.
+    TradeType:
+      type: string
+      enum:
+      - EXACT_INPUT
+      - EXACT_OUTPUT
+      description: The handling of the `amount` field. `EXACT_INPUT` means the requester will send the specified `amount` of input tokens and get a quote with a variable quantity of output tokens. `EXACT_OUTPUT` means the requester will receive the specified `amount` of output tokens and get a quote with a variable quantity of input tokens.
+      default: EXACT_INPUT
+    PlanStep:
+      type: object
+      properties:
+        stepIndex:
+          type: number
+          description: The index of this step in the plan (0-based).
+        method:
+          $ref: '#/components/schemas/PlanStepMethod'
+        payloadType:
+          $ref: '#/components/schemas/PlanStepPayloadType'
+        payload:
+          type: object
+          description: The payload data for this step. The structure depends on the payloadType.
+        status:
+          $ref: '#/components/schemas/PlanStepStatus'
+        proof:
+          $ref: '#/components/schemas/PlanStepProof'
+        tokenIn:
+          $ref: '#/components/schemas/inputToken'
+        tokenOut:
+          $ref: '#/components/schemas/outputToken'
+        tokenInChainId:
+          $ref: '#/components/schemas/ChainId'
+        tokenOutChainId:
+          $ref: '#/components/schemas/ChainId'
+        tokenInAmount:
+          $ref: '#/components/schemas/tokenAmount'
+        tokenOutAmount:
+          $ref: '#/components/schemas/tokenAmount'
+        swapper:
+          $ref: '#/components/schemas/senderWalletAddress'
+        recipient:
+          $ref: '#/components/schemas/receiverWalletAddress'
+        stepType:
+          $ref: '#/components/schemas/PlanStepType'
+        gasUseEstimate:
+          $ref: '#/components/schemas/gasLimit'
+        gasFeeUSD:
+          $ref: '#/components/schemas/gasFeeUSD'
+        gasFeeQuote:
+          $ref: '#/components/schemas/gasFeeInCurrency'
+        gasPrice:
+          $ref: '#/components/schemas/gasPrice'
+        maxFeePerGas:
+          $ref: '#/components/schemas/maxFeePerGas'
+        maxPriorityFeePerGas:
+          $ref: '#/components/schemas/maxPriorityFeePerGas'
+        gasFee:
+          $ref: '#/components/schemas/gasFee'
+        routingStepKey:
+          type: string
+          description: An optional key identifying the routing strategy used for this step.
+        slippage:
+          $ref: '#/components/schemas/slippageTolerance'
+      required:
+      - stepIndex
+      - method
+      - payloadType
+      - payload
+      - status
+    ScopeData:
+      type: object
+      description: Data defining a wallet scope including accounts, methods, capabilities, chains, and client context.
+      properties:
+        accounts:
+          type: array
+          description: Array of account addresses associated with this scope.
+          items:
+            type: string
+        methods:
+          type: array
+          description: Array of methods allowed in this scope.
+          items:
+            type: string
+        capabilities:
+          type: object
+          description: Additional capabilities for this scope.
+          additionalProperties: true
+        chains:
+          type: array
+          description: Array of chain identifiers allowed in this scope.
+          items:
+            type: string
+        clientContext:
+          $ref: '#/components/schemas/ClientContext'
+      required:
+      - accounts
+      - methods
+    PlanStepType:
+      type: string
+      enum:
+      - DUTCH_LIMIT
+      - CLASSIC
+      - DUTCH_V2
+      - LIMIT_ORDER
+      - WRAP
+      - UNWRAP
+      - BRIDGE
+      - PRIORITY
+      - DUTCH_V3
+      - QUICKROUTE
+      - CHAINED
+      - APPROVAL_TXN
+      - APPROVAL_PERMIT
+      - RESET_APPROVAL_TXN
+      description: The type of step in a plan, including swap types and approval types.
+    PlanStepPayloadType:
+      type: string
+      enum:
+      - TX
+      - EIP_712
+      - EIP_5792
+      description: The type of payload data. TX is a standard transaction object. EIP_712 is a typed structured data for signing. EIP_5792 is a batch of transaction calls.
+    WalletInfo:
+      type: object
+      description: Information about the wallet.
+      properties:
+        uuid:
+          type: string
+          description: Unique identifier for the wallet.
+        name:
+          type: string
+          description: Name of the wallet.
+        rdns:
+          type: string
+          description: Reverse domain name identifier for the wallet.
+    Err422:
+      type: object
+      properties:
+        errorCode:
+          default: UnprocessableEntity
+          type: string
+        detail:
+          type: string
+    WalletExecutionContext:
+      type: object
+      description: Wallet execution context based on CAIP-25 Standard. Provides information about wallet capabilities and scopes.
+      properties:
+        scopes:
+          type: object
+          description: Map of scope identifiers to their scope data.
+          additionalProperties:
+            $ref: '#/components/schemas/ScopeData'
+        properties:
+          $ref: '#/components/schemas/WalletProperties'
+      required:
+      - scopes
+    WalletProperties:
+      type: object
+      description: Properties describing the wallet.
+      properties:
+        walletInfo:
+          $ref: '#/components/schemas/WalletInfo'
+    slippageTolerance:
+      description: 'The slippage tolerance as a percentage up to a maximum of two decimal places. For Uniswap Protocols (v2, v3, v4), the slippage tolerance is the maximum amount the price can change between the time the transaction is submitted and the time it is executed. The slippage tolerance is a percentage of the total value of the swap.
+
+
+        When submitting a quote, note that slippage tolerance works differently in UniswapX swaps where it does not set a limit on the Spread in an order. See [here](https://api-docs.uniswap.org/guides/faqs#why-do-uniswapx-quotes-have-more-slippage-than-the-tolerance-i-set) for more information.
+
+
+        Note that if the trade type is `EXACT_INPUT`, then the slippage is in terms of the output token. If the trade type is `EXACT_OUTPUT`, then the slippage is in terms of the input token.
+
+
+        When submitting a request, `slippageTolerance` may not be set when `autoSlippage` is defined. One of `slippageTolerance` or `autoSlippage` must be defined.'
+      type: number
+      pattern: ^[0-9]{0,3}\.?[0-9]{0,2}$
+    maxFeePerGas:
+      type: string
+      description: The sum of the base fee and priority fee. Subtracting `maxPriorityFeePerGas` from this value will yield the base fee to be paid for this transaction.
+    Err400:
+      type: object
+      properties:
+        errorCode:
+          default: RequestValidationError
+          type: string
+        detail:
+          type: string
+    PlanStepProof:
+      type: object
+      description: Proof of execution for a plan step, provided after the step is completed.
+      properties:
+        txHash:
+          $ref: '#/components/schemas/TransactionHash'
+        signature:
+          type: string
+          description: The signature for a message signing step.
+        orderId:
+          type: string
+          description: The order ID for a gasless order step.
+    gasLimit:
+      type: string
+      description: The maximum units of gas that will be consumed by this transaction.
+    GasStrategy:
+      type: object
+      description: Gas strategy configuration for transaction fee estimation.
+      properties:
+        limitInflationFactor:
+          type: number
+          description: Factor to inflate the gas limit estimate.
+        priceInflationFactor:
+          type: number
+          description: Factor to inflate the gas price estimate.
+        percentileThresholdFor1559Fee:
+          type: number
+          description: Percentile threshold for EIP-1559 fee calculation.
+        thresholdToInflateLastBlockBaseFee:
+          type: number
+          description: Threshold to inflate the last block base fee.
+        baseFeeMultiplier:
+          type: number
+          description: Multiplier for the base fee.
+        baseFeeHistoryWindow:
+          type: number
+          description: Number of blocks to consider for base fee history.
+        minPriorityFeeRatioOfBaseFee:
+          type: number
+          description: Minimum priority fee as a ratio of base fee.
+        minPriorityFeeGwei:
+          type: number
+          description: Minimum priority fee in Gwei.
+        maxPriorityFeeGwei:
+          type: number
+          description: Maximum priority fee in Gwei.
+      required:
+      - limitInflationFactor
+      - priceInflationFactor
+      - percentileThresholdFor1559Fee
+    gasFeeUSD:
+      type: string
+      description: The total estimated gas cost of this transaction (eg. `gasLimit` multiplied by `maxFeePerGas`) denominated in USDC.
+    receiverWalletAddress:
+      type: string
+      description: The wallet address which will receive the token.
+      pattern: ^(0x)?[0-9a-fA-F]{40}$
+    StepUpdate:
+      type: object
+      description: 'Represents a single step update with proof. Note: orderId is not accepted in update requests; it is system-generated after receiving a signature.'
+      properties:
+        stepIndex:
+          type: number
+          description: The index of the step being updated (0-based).
+        proof:
+          type: object
+          description: Proof of step completion. Must provide either txHash or signature.
+          properties:
+            txHash:
+              $ref: '#/components/schemas/TransactionHash'
+            signature:
+              type: string
+              description: The signature for a message signing step.
+              pattern: ^0x[a-fA-F0-9]{130}$
+      required:
+      - stepIndex
+      - proof
+    gasPrice:
+      type: string
+      description: The cost per unit of gas.
+    UpdatePlanRequest:
+      type: object
+      properties:
+        steps:
+          type: array
+          description: Array of steps with proofs to attach. Only steps being updated need to be included.
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/StepUpdate'
+      required:
+      - steps
+    Err401:
+      type: object
+      properties:
+        errorCode:
+          default: UnauthorizedError
+          type: string
+        detail:
+          type: string
+    Err429:
+      type: object
+      properties:
+        errorCode:
+          default: Ratelimited
+          type: string
+        detail:
+          type: string
+    TransactionHash:
+      type: string
+      description: The unique hash of the transaction.
+      pattern: ^(0x)?[0-9a-fA-F]{64}$
+    ChainedQuote:
+      title: Chained Quote
+      type: object
+      description: A quote for a chained transaction flow that spans multiple steps, potentially across multiple chains.
+      properties:
+        swapper:
+          $ref: '#/components/schemas/senderWalletAddress'
+        input:
+          $ref: '#/components/schemas/ClassicInput'
+        output:
+          $ref: '#/components/schemas/ClassicOutput'
+        tokenInChainId:
+          $ref: '#/components/schemas/ChainId'
+        tokenOutChainId:
+          $ref: '#/components/schemas/ChainId'
+        tradeType:
+          $ref: '#/components/schemas/TradeType'
+        quoteId:
+          $ref: '#/components/schemas/quoteId'
+        gasEstimates:
+          type: array
+          description: Gas estimates for each step in the chained flow.
+          items:
+            type: object
+            description: Gas estimation details for a specific step.
+        timeEstimateMs:
+          type: number
+          description: Estimated time in milliseconds to complete the entire chained flow.
+        gasUseEstimate:
+          $ref: '#/components/schemas/gasLimit'
+        gasFeeUSD:
+          $ref: '#/components/schemas/gasFeeUSD'
+        gasFeeQuote:
+          $ref: '#/components/schemas/gasFeeInCurrency'
+        gasPrice:
+          $ref: '#/components/schemas/gasPrice'
+        maxFeePerGas:
+          $ref: '#/components/schemas/maxFeePerGas'
+        maxPriorityFeePerGas:
+          $ref: '#/components/schemas/maxPriorityFeePerGas'
+        gasFee:
+          $ref: '#/components/schemas/gasFee'
+        protocols:
+          $ref: '#/components/schemas/Protocols'
+        hooksOptions:
+          $ref: '#/components/schemas/HooksOptions'
+        gasStrategies:
+          type: array
+          description: Gas strategies for the chained flow.
+          items:
+            $ref: '#/components/schemas/GasStrategy'
+        steps:
+          type: array
+          description: Truncated plan steps for the chained transaction flow.
+          items:
+            $ref: '#/components/schemas/TruncatedPlanStep'
+        slippageTolerance:
+          $ref: '#/components/schemas/slippageTolerance'
+        autoSlippage:
+          $ref: '#/components/schemas/AutoSlippage'
+      required:
+      - swapper
+      - input
+      - output
+      - tokenInChainId
+      - tokenOutChainId
+      - tradeType
+      - quoteId
+      - gasStrategies
+    quoteId:
+      type: string
+      description: A unique ID for the quote.
+    outputToken:
+      type: string
+      description: The token which will be received, specified by its token address. For a list of supported tokens, see the [FAQ](https://api-docs.uniswap.org/guides/faqs).
+      pattern: ^(0x)?[0-9a-fA-F]{40}$
+    maxPriorityFeePerGas:
+      type: string
+      description: The maximum tip to the block builder. Adjusted based upon the urgency specified in the request.
+  responses:
+    UnprocessableEntity422:
+      description: UnprocessableEntity eg. Plan is already completed and cannot be updated.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err422'
+    RateLimitedErr429:
+      description: Ratelimited
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err429'
+    QuoteNotFound404:
+      description: ResourceNotFound eg. No quotes available or Gas fee/price not available
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err404'
+    Unauthorized401:
+      description: UnauthorizedError eg. Account is blocked.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err401'
+    BadRequest400:
+      description: RequestValidationError, Bad Input
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err400'
+    CreatePlanSuccess200:
+      description: Create plan successful.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PlanResponse'
+    Timeout504:
+      description: Request duration limit reached.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err504'
+    GetPlanSuccess200:
+      description: Get plan successful.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PlanResponse'
+    InternalErr500:
+      description: Unexpected error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err500'
+    UpdatePlanSuccess200:
+      description: Update plan successful.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PlanResponse'
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: x-api-key

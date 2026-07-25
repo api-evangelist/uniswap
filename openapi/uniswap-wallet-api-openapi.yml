@@ -1,0 +1,347 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Token Trading Approval Wallet API
+  description: 'Uniswap Labs trading APIs.
+
+
+    Each operation may include the vendor extension `x-public-endpoint` (boolean): `true` when the operation is available on the public gateway for standard API keys, `false` when it is not publicly exposed. See the [OpenAPI specification extensions](https://swagger.io/docs/specification/v3_0/openapi-extensions/) definition of `x-` fields.'
+servers:
+- description: Uniswap Trading API
+  url: https://trade-api.gateway.uniswap.org/v1
+security:
+- apiKey: []
+tags:
+- name: Wallet
+paths:
+  /wallet/encode_4337:
+    post:
+      tags:
+      - Wallet
+      summary: Encode ERC-4337 UserOperation
+      description: Builds and returns a fully-populated ERC-4337 v0.8 UserOperation for the given batch of calls. When a `paymasterUrl` is provided the endpoint attempts gas sponsorship via the paymaster; the response indicates whether sponsorship was granted and includes sponsor metadata when available.
+      operationId: encode_4337
+      security:
+      - apiKey: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Encode4337Request'
+      responses:
+        '200':
+          description: UserOperation encoded successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Encode4337Response'
+        '400':
+          $ref: '#/components/responses/BadRequest400'
+        '401':
+          $ref: '#/components/responses/Unauthorized401'
+        '429':
+          $ref: '#/components/responses/RateLimitedErr429'
+        '500':
+          $ref: '#/components/responses/InternalErr500'
+        '504':
+          $ref: '#/components/responses/Timeout504'
+      x-public-endpoint: false
+components:
+  schemas:
+    Eip7702Authorization:
+      type: object
+      description: Signed EIP-7702 authorization tuple.
+      properties:
+        address:
+          type: string
+          description: Contract address to delegate to.
+        chainId:
+          type: string
+          description: Hex-encoded chain ID.
+        nonce:
+          type: string
+          description: Hex-encoded nonce.
+        r:
+          type: string
+          description: ECDSA r value.
+        s:
+          type: string
+          description: ECDSA s value.
+        yParity:
+          type: string
+          description: ECDSA y parity.
+      required:
+      - address
+      - chainId
+      - nonce
+      - r
+      - s
+      - yParity
+    ChainId:
+      description: The unique ID of the blockchain. For a list of supported chains see the [FAQ](https://api-docs.uniswap.org/guides/faqs).
+      type: number
+      enum:
+      - 1
+      - 10
+      - 56
+      - 130
+      - 137
+      - 143
+      - 196
+      - 324
+      - 480
+      - 1868
+      - 4217
+      - 8453
+      - 10143
+      - 42161
+      - 42220
+      - 43114
+      - 59144
+      - 81457
+      - 7777777
+      - 1301
+      - 84532
+      - 11155111
+      default: 1
+    Err500:
+      type: object
+      properties:
+        errorCode:
+          default: InternalServerError
+          type: string
+        detail:
+          type: string
+    Encode4337SponsorMetadata:
+      type: object
+      description: Display information about the sponsor covering gas fees.
+      properties:
+        name:
+          type: string
+          description: Display name of the sponsor.
+        icon:
+          type: string
+          description: URL of the sponsor's logo or icon.
+      required:
+      - name
+    UserOperation:
+      type: object
+      description: ERC-4337 v0.8 UserOperation.
+      properties:
+        sender:
+          type: string
+          description: Smart account address that will execute the operation.
+        nonce:
+          type: string
+          description: Anti-replay nonce from the EntryPoint.
+        callData:
+          type: string
+          description: ABI-encoded call data for the batch execution.
+        callGasLimit:
+          type: string
+          description: Gas limit for the main execution call.
+        verificationGasLimit:
+          type: string
+          description: Gas limit for the verification step.
+        preVerificationGas:
+          type: string
+          description: Gas to cover bundler overhead and L1 data costs.
+        maxFeePerGas:
+          type: string
+          description: EIP-1559 max fee per gas.
+        maxPriorityFeePerGas:
+          type: string
+          description: EIP-1559 max priority fee per gas.
+        factory:
+          type: string
+          description: Account factory address (present for first-time account deployment).
+        factoryData:
+          type: string
+          description: Calldata for the account factory.
+        paymaster:
+          type: string
+          description: Paymaster contract address (present when gas is sponsored).
+        paymasterVerificationGasLimit:
+          type: string
+          description: Gas limit for paymaster verification.
+        paymasterPostOpGasLimit:
+          type: string
+          description: Gas limit for paymaster post-operation.
+        paymasterData:
+          type: string
+          description: Paymaster-specific data.
+        signature:
+          type: string
+          description: Dummy signature placeholder; the client signs the UserOperation after receiving this response.
+        eip7702Auth:
+          $ref: '#/components/schemas/Eip7702Authorization'
+      required:
+      - sender
+      - nonce
+      - callData
+      - callGasLimit
+      - verificationGasLimit
+      - preVerificationGas
+      - maxFeePerGas
+      - maxPriorityFeePerGas
+      - signature
+    Encode4337Response:
+      type: object
+      description: Response containing the encoded ERC-4337 UserOperation with gas and sponsorship details.
+      properties:
+        requestId:
+          type: string
+          description: Unique identifier for this request.
+        userOperation:
+          $ref: '#/components/schemas/UserOperation'
+        sponsorMetadata:
+          $ref: '#/components/schemas/Encode4337SponsorMetadata'
+        gasSponsored:
+          type: boolean
+          description: Whether gas for this operation is sponsored by a paymaster.
+        gasSponsorshipRejectionReason:
+          type: string
+          description: Reason gas sponsorship was not granted. Present only when `gasSponsored` is `false`.
+      required:
+      - requestId
+      - userOperation
+      - gasSponsored
+    Address:
+      type: string
+      pattern: ^(0x)?[0-9a-fA-F]{40}$
+    Err504:
+      type: object
+      properties:
+        errorCode:
+          default: Timeout
+          type: string
+        detail:
+          type: string
+    Encode4337Request:
+      type: object
+      description: Request body for encoding an ERC-4337 UserOperation.
+      properties:
+        calls:
+          type: array
+          description: Batch of transactions to encode into the UserOperation.
+          items:
+            $ref: '#/components/schemas/TransactionRequest5792'
+          minItems: 1
+        sender:
+          $ref: '#/components/schemas/Address'
+          description: Smart account address that will execute the operation.
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        paymasterUrl:
+          type: string
+          format: uri
+          description: JSON-RPC URL of a paymaster service for gas sponsorship.
+        paymasterServiceContext:
+          type: object
+          description: 'Opaque context forwarded to the paymaster (e.g. `{ "policyId": "..." }`).'
+        eip7702Auth:
+          $ref: '#/components/schemas/Eip7702Authorization'
+      required:
+      - calls
+      - sender
+      - chainId
+    maxFeePerGas:
+      type: string
+      description: The sum of the base fee and priority fee. Subtracting `maxPriorityFeePerGas` from this value will yield the base fee to be paid for this transaction.
+    Err400:
+      type: object
+      properties:
+        errorCode:
+          default: RequestValidationError
+          type: string
+        detail:
+          type: string
+    gasLimit:
+      type: string
+      description: The maximum units of gas that will be consumed by this transaction.
+    receiverWalletAddress:
+      type: string
+      description: The wallet address which will receive the token.
+      pattern: ^(0x)?[0-9a-fA-F]{40}$
+    Err401:
+      type: object
+      properties:
+        errorCode:
+          default: UnauthorizedError
+          type: string
+        detail:
+          type: string
+    gasPrice:
+      type: string
+      description: The cost per unit of gas.
+    TransactionRequest5792:
+      type: object
+      properties:
+        to:
+          $ref: '#/components/schemas/receiverWalletAddress'
+        data:
+          type: string
+          description: The calldata for the transaction.
+        value:
+          type: string
+          description: The quantity of ETH tokens approved for spending by the transaction, denominated in wei. Note that by default Uniswap Labs sets this to the maximum approvable spend.
+        gasLimit:
+          $ref: '#/components/schemas/gasLimit'
+        maxFeePerGas:
+          $ref: '#/components/schemas/maxFeePerGas'
+        maxPriorityFeePerGas:
+          $ref: '#/components/schemas/maxPriorityFeePerGas'
+        gasPrice:
+          $ref: '#/components/schemas/gasPrice'
+      required:
+      - to
+      - data
+      - value
+      - chainId
+    Err429:
+      type: object
+      properties:
+        errorCode:
+          default: Ratelimited
+          type: string
+        detail:
+          type: string
+    maxPriorityFeePerGas:
+      type: string
+      description: The maximum tip to the block builder. Adjusted based upon the urgency specified in the request.
+  responses:
+    RateLimitedErr429:
+      description: Ratelimited
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err429'
+    Unauthorized401:
+      description: UnauthorizedError eg. Account is blocked.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err401'
+    BadRequest400:
+      description: RequestValidationError, Bad Input
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err400'
+    Timeout504:
+      description: Request duration limit reached.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err504'
+    InternalErr500:
+      description: Unexpected error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err500'
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: x-api-key
