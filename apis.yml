@@ -1,57 +1,6 @@
 aid: uniswap
 url: https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/apis.yml
 apis:
-- aid: uniswap:uniswap-trading-api
-  name: Uniswap Trading API
-  tags:
-  - Blockchain
-  - Cryptocurrency
-  - DeFi
-  - Liquidity
-  - Swaps
-  humanURL: https://developers.uniswap.org/
-  properties:
-  - url: https://developers.uniswap.org/
-    type: Documentation
-  - url: https://developers.uniswap.org/dashboard
-    type: Signup
-  - url: https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/openapi/uniswap-trading-openapi.yaml
-    type: OpenAPI
-  - url: >-
-      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-quote-request-schema.json
-    type: JSONSchema
-  - url: >-
-      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-quote-response-schema.json
-    type: JSONSchema
-  - url: >-
-      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-create-swap-request-schema.json
-    type: JSONSchema
-  - url: >-
-      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-create-swap-response-schema.json
-    type: JSONSchema
-  - url: >-
-      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-order-request-schema.json
-    type: JSONSchema
-  - url: >-
-      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-order-response-schema.json
-    type: JSONSchema
-  - url: >-
-      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-get-swap-quote-example.json
-    type: Examples
-  - url: >-
-      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-create-swap-transaction-example.json
-    type: Examples
-  - url: >-
-      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-create-gasless-order-example.json
-    type: Examples
-  - url: >-
-      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-create-lp-position-example.json
-    type: Examples
-  description: >-
-    The Uniswap Trading API provides REST endpoints for token swaps, bridges, liquidity management, and execution
-    planning across 25+ blockchain networks. It supports swap quoting, gasless UniswapX orders, LP position
-    management, wallet operations (EIP-7702, ERC-4337), and multi-step execution plans. Authentication requires an API
-    key passed in the x-api-key header.
 - aid: uniswap:uniswap-subgraph-api
   name: Uniswap Subgraph API
   tags:
@@ -66,9 +15,9 @@ apis:
   - url: graphql/uniswap-graphql.md
     type: GraphQL
   description: >-
-    The Uniswap Subgraph API provides GraphQL endpoints for querying on-chain data across Uniswap protocol versions
-    v1, v2, v3, and v4. Powered by The Graph Protocol decentralized network, it supports queries for pools, positions,
-    swaps, ticks, and historical data. Requires an API key from The Graph Studio.
+    The Uniswap Subgraph API provides GraphQL endpoints for querying on-chain data across Uniswap protocol
+    versions v1, v2, v3, and v4. Powered by The Graph Protocol decentralized network, it supports queries
+    for pools, positions, swaps, ticks, and historical data. Requires an API key from The Graph Studio.
 - aid: uniswap:uniswap-x-api
   name: UniswapX API
   tags:
@@ -82,8 +31,524 @@ apis:
     type: Documentation
   description: >-
     UniswapX is a gasless, auction-based ERC20 swap settlement protocol that routes orders through a competitive
-    filler network. Swappers sign off-chain orders which are filled by fillers who compete to provide the best
-    execution. The API supports order creation, retrieval, and status tracking.
+    filler network. Swappers sign off-chain orders which are filled by fillers who compete to provide
+    the best execution. The API supports order creation, retrieval, and status tracking.
+- aid: uniswap:uniswap-approval-api
+  name: Uniswap Approval API
+  description: The Approval API from Uniswap — 1 operation(s) for approval.
+  humanURL: https://developers.uniswap.org/
+  tags:
+  - Approval
+  properties:
+  - type: OpenAPI
+    url: openapi/uniswap-approval-api-openapi.yml
+  - type: Documentation
+    url: https://developers.uniswap.org/
+  - type: Signup
+    url: https://developers.uniswap.org/dashboard
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-quote-request-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-quote-response-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-create-swap-request-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-create-swap-response-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-order-request-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-order-response-schema.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-get-swap-quote-example.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-create-swap-transaction-example.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-create-gasless-order-example.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-create-lp-position-example.json
+- aid: uniswap:uniswap-limitorderquote-api
+  name: Uniswap LimitOrderQuote API
+  description: The LimitOrderQuote API from Uniswap — 1 operation(s) for limitorderquote.
+  humanURL: https://developers.uniswap.org/
+  tags:
+  - LimitOrderQuote
+  properties:
+  - type: OpenAPI
+    url: openapi/uniswap-limitorderquote-api-openapi.yml
+  - type: Documentation
+    url: https://developers.uniswap.org/
+  - type: Signup
+    url: https://developers.uniswap.org/dashboard
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-quote-request-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-quote-response-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-create-swap-request-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-create-swap-response-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-order-request-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-order-response-schema.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-get-swap-quote-example.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-create-swap-transaction-example.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-create-gasless-order-example.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-create-lp-position-example.json
+- aid: uniswap:uniswap-liquidity-api
+  name: Uniswap Liquidity API
+  description: The Liquidity API from Uniswap — 7 operation(s) for liquidity.
+  humanURL: https://developers.uniswap.org/
+  tags:
+  - Liquidity
+  properties:
+  - type: OpenAPI
+    url: openapi/uniswap-liquidity-api-openapi.yml
+  - type: Documentation
+    url: https://developers.uniswap.org/
+  - type: Signup
+    url: https://developers.uniswap.org/dashboard
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-quote-request-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-quote-response-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-create-swap-request-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-create-swap-response-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-order-request-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-order-response-schema.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-get-swap-quote-example.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-create-swap-transaction-example.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-create-gasless-order-example.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-create-lp-position-example.json
+- aid: uniswap:uniswap-order-api
+  name: Uniswap Order API
+  description: The Order API from Uniswap — 2 operation(s) for order.
+  humanURL: https://developers.uniswap.org/
+  tags:
+  - Order
+  properties:
+  - type: OpenAPI
+    url: openapi/uniswap-order-api-openapi.yml
+  - type: Documentation
+    url: https://developers.uniswap.org/
+  - type: Signup
+    url: https://developers.uniswap.org/dashboard
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-quote-request-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-quote-response-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-create-swap-request-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-create-swap-response-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-order-request-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-order-response-schema.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-get-swap-quote-example.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-create-swap-transaction-example.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-create-gasless-order-example.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-create-lp-position-example.json
+- aid: uniswap:uniswap-plan-api
+  name: Uniswap Plan API
+  description: The Plan API from Uniswap — 2 operation(s) for plan.
+  humanURL: https://developers.uniswap.org/
+  tags:
+  - Plan
+  properties:
+  - type: OpenAPI
+    url: openapi/uniswap-plan-api-openapi.yml
+  - type: Documentation
+    url: https://developers.uniswap.org/
+  - type: Signup
+    url: https://developers.uniswap.org/dashboard
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-quote-request-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-quote-response-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-create-swap-request-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-create-swap-response-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-order-request-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-order-response-schema.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-get-swap-quote-example.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-create-swap-transaction-example.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-create-gasless-order-example.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-create-lp-position-example.json
+- aid: uniswap:uniswap-quote-api
+  name: Uniswap Quote API
+  description: The Quote API from Uniswap — 1 operation(s) for quote.
+  humanURL: https://developers.uniswap.org/
+  tags:
+  - Quote
+  properties:
+  - type: OpenAPI
+    url: openapi/uniswap-quote-api-openapi.yml
+  - type: Documentation
+    url: https://developers.uniswap.org/
+  - type: Signup
+    url: https://developers.uniswap.org/dashboard
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-quote-request-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-quote-response-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-create-swap-request-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-create-swap-response-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-order-request-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-order-response-schema.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-get-swap-quote-example.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-create-swap-transaction-example.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-create-gasless-order-example.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-create-lp-position-example.json
+- aid: uniswap:uniswap-send-api
+  name: Uniswap Send API
+  description: The Send API from Uniswap — 1 operation(s) for send.
+  humanURL: https://developers.uniswap.org/
+  tags:
+  - Send
+  properties:
+  - type: OpenAPI
+    url: openapi/uniswap-send-api-openapi.yml
+  - type: Documentation
+    url: https://developers.uniswap.org/
+  - type: Signup
+    url: https://developers.uniswap.org/dashboard
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-quote-request-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-quote-response-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-create-swap-request-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-create-swap-response-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-order-request-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-order-response-schema.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-get-swap-quote-example.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-create-swap-transaction-example.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-create-gasless-order-example.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-create-lp-position-example.json
+- aid: uniswap:uniswap-swap-api
+  name: Uniswap Swap API
+  description: The Swap API from Uniswap — 4 operation(s) for swap.
+  humanURL: https://developers.uniswap.org/
+  tags:
+  - Swap
+  properties:
+  - type: OpenAPI
+    url: openapi/uniswap-swap-api-openapi.yml
+  - type: Documentation
+    url: https://developers.uniswap.org/
+  - type: Signup
+    url: https://developers.uniswap.org/dashboard
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-quote-request-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-quote-response-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-create-swap-request-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-create-swap-response-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-order-request-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-order-response-schema.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-get-swap-quote-example.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-create-swap-transaction-example.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-create-gasless-order-example.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-create-lp-position-example.json
+- aid: uniswap:uniswap-swappabletokens-api
+  name: Uniswap SwappableTokens API
+  description: The SwappableTokens API from Uniswap — 1 operation(s) for swappabletokens.
+  humanURL: https://developers.uniswap.org/
+  tags:
+  - SwappableTokens
+  properties:
+  - type: OpenAPI
+    url: openapi/uniswap-swappabletokens-api-openapi.yml
+  - type: Documentation
+    url: https://developers.uniswap.org/
+  - type: Signup
+    url: https://developers.uniswap.org/dashboard
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-quote-request-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-quote-response-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-create-swap-request-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-create-swap-response-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-order-request-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-order-response-schema.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-get-swap-quote-example.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-create-swap-transaction-example.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-create-gasless-order-example.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-create-lp-position-example.json
+- aid: uniswap:uniswap-wallet-api
+  name: Uniswap Wallet API
+  description: The Wallet API from Uniswap — 1 operation(s) for wallet.
+  humanURL: https://developers.uniswap.org/
+  tags:
+  - Wallet
+  properties:
+  - type: OpenAPI
+    url: openapi/uniswap-wallet-api-openapi.yml
+  - type: Documentation
+    url: https://developers.uniswap.org/
+  - type: Signup
+    url: https://developers.uniswap.org/dashboard
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-quote-request-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-quote-response-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-create-swap-request-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-create-swap-response-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-order-request-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-order-response-schema.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-get-swap-quote-example.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-create-swap-transaction-example.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-create-gasless-order-example.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-create-lp-position-example.json
+- aid: uniswap:uniswap-walletcheckdelegation-api
+  name: Uniswap WalletCheckDelegation API
+  description: The WalletCheckDelegation API from Uniswap — 1 operation(s) for walletcheckdelegation.
+  humanURL: https://developers.uniswap.org/
+  tags:
+  - WalletCheckDelegation
+  properties:
+  - type: OpenAPI
+    url: openapi/uniswap-walletcheckdelegation-api-openapi.yml
+  - type: Documentation
+    url: https://developers.uniswap.org/
+  - type: Signup
+    url: https://developers.uniswap.org/dashboard
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-quote-request-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-quote-response-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-create-swap-request-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-create-swap-response-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-order-request-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-order-response-schema.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-get-swap-quote-example.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-create-swap-transaction-example.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-create-gasless-order-example.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-create-lp-position-example.json
+- aid: uniswap:uniswap-walletencode7702-api
+  name: Uniswap WalletEncode7702 API
+  description: The WalletEncode7702 API from Uniswap — 1 operation(s) for walletencode7702.
+  humanURL: https://developers.uniswap.org/
+  tags:
+  - WalletEncode7702
+  properties:
+  - type: OpenAPI
+    url: openapi/uniswap-walletencode7702-api-openapi.yml
+  - type: Documentation
+    url: https://developers.uniswap.org/
+  - type: Signup
+    url: https://developers.uniswap.org/dashboard
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-quote-request-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-quote-response-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-create-swap-request-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-create-swap-response-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-order-request-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/json-schema/uniswap-order-response-schema.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-get-swap-quote-example.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-create-swap-transaction-example.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-create-gasless-order-example.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/uniswap/refs/heads/main/examples/uniswap-create-lp-position-example.json
 name: Uniswap
 tags:
 - Blockchain
@@ -93,7 +558,20 @@ tags:
 - Liquidity
 - Swaps
 kind: contract
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/uniswap.png
 access: 3rd-Party
 created: '2024-12-16'
 modified: '2026-05-19'
@@ -112,6 +590,8 @@ maintainers:
   email: kin@apievangelist.com
 specificationVersion: '0.19'
 common:
+- type: PostmanWorkspace
+  url: https://www.postman.com/kinlaneapi/uniswap/overview
 - type: AgenticAccess
   url: agentic-access/uniswap-agentic-access.yml
 - type: DomainSecurity
