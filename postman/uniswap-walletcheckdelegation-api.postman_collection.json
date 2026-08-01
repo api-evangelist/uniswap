@@ -1,0 +1,523 @@
+{
+  "info": {
+    "_postman_id": "ef9e9a6b-4dc8-4768-a89c-24cf0bc8dfcc",
+    "name": "Token Trading Approval WalletCheckDelegation API",
+    "description": "Uniswap Labs trading APIs.\n\nEach operation may include the vendor extension `x-public-endpoint` (boolean): `true` when the operation is available on the public gateway for standard API keys, `false` when it is not publicly exposed. See the [OpenAPI specification extensions](https://swagger.io/docs/specification/v3_0/openapi-extensions/) definition of `x-` fields.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:22:55.000Z",
+    "updatedAt": "2026-07-28T03:22:55.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-ef9e9a6b-4dc8-4768-a89c-24cf0bc8dfcc"
+  },
+  "item": [
+    {
+      "name": "wallet",
+      "item": [
+        {
+          "name": "check_delegation",
+          "item": [
+            {
+              "name": "Get wallet delegation info",
+              "id": "5a9b0b63-8731-4567-9559-466d4cf856bd",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "apikey",
+                  "apikey": [
+                    {
+                      "key": "key",
+                      "value": "x-api-key",
+                      "type": "string"
+                    },
+                    {
+                      "key": "value",
+                      "value": "{{apiKey}}",
+                      "type": "string"
+                    },
+                    {
+                      "key": "in",
+                      "value": "header",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"chainIds\": [\n    1,\n    1\n  ],\n  \"walletAddresses\": [\n    \"0x6B52E1Af3EBA58d71BD92cb0e10c392a31De0Ee4\",\n    \"5Fd0E33db168aeC5BdE015A8CfAEeE44CA30fb31\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/wallet/check_delegation",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "wallet",
+                    "check_delegation"
+                  ]
+                },
+                "description": "Gets the current delegation status and message for a smart contract wallet across different chains. Returns delegation information for each chain ID in the request."
+              },
+              "response": [
+                {
+                  "id": "5b19d274-28b5-4c65-b2f7-f143dec71e1c",
+                  "name": "Wallet delegation info request successful.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"chainIds\": [\n    1,\n    1\n  ],\n  \"walletAddresses\": [\n    \"0x6B52E1Af3EBA58d71BD92cb0e10c392a31De0Ee4\",\n    \"5Fd0E33db168aeC5BdE015A8CfAEeE44CA30fb31\"\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/wallet/check_delegation",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "wallet",
+                        "check_delegation"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"requestId\": \"<string>\",\n  \"delegationDetails\": {\n    \"enim646\": {\n      \"sit_2c7\": {\n        \"isWalletDelegatedToUniswap\": \"<boolean>\",\n        \"currentDelegationAddress\": \"<string>\",\n        \"latestDelegationAddress\": \"<string>\"\n      }\n    },\n    \"deserunt5f3\": {\n      \"sed_e89\": {\n        \"isWalletDelegatedToUniswap\": \"<boolean>\",\n        \"currentDelegationAddress\": \"<string>\",\n        \"latestDelegationAddress\": \"<string>\"\n      },\n      \"etc\": {\n        \"isWalletDelegatedToUniswap\": \"<boolean>\",\n        \"currentDelegationAddress\": \"<string>\",\n        \"latestDelegationAddress\": \"<string>\"\n      }\n    },\n    \"reprehenderit_1\": {\n      \"inb\": {\n        \"isWalletDelegatedToUniswap\": \"<boolean>\",\n        \"currentDelegationAddress\": \"<string>\",\n        \"latestDelegationAddress\": \"<string>\"\n      },\n      \"sunt148\": {\n        \"isWalletDelegatedToUniswap\": \"<boolean>\",\n        \"currentDelegationAddress\": \"<string>\",\n        \"latestDelegationAddress\": \"<string>\"\n      }\n    }\n  }\n}",
+                  "createdAt": "2026-07-28T03:22:56.000Z",
+                  "updatedAt": "2026-07-28T03:22:56.000Z",
+                  "uid": "35240-5b19d274-28b5-4c65-b2f7-f143dec71e1c"
+                },
+                {
+                  "id": "332800ae-5007-47f2-a7f7-1d7968108e43",
+                  "name": "RequestValidationError, Bad Input",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"chainIds\": [\n    1,\n    1\n  ],\n  \"walletAddresses\": [\n    \"0x6B52E1Af3EBA58d71BD92cb0e10c392a31De0Ee4\",\n    \"5Fd0E33db168aeC5BdE015A8CfAEeE44CA30fb31\"\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/wallet/check_delegation",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "wallet",
+                        "check_delegation"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"RequestValidationError\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:56.000Z",
+                  "updatedAt": "2026-07-28T03:22:56.000Z",
+                  "uid": "35240-332800ae-5007-47f2-a7f7-1d7968108e43"
+                },
+                {
+                  "id": "6fff60d1-4568-49e4-baa2-433aeea0c2e0",
+                  "name": "UnauthorizedError eg. Account is blocked.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"chainIds\": [\n    1,\n    1\n  ],\n  \"walletAddresses\": [\n    \"0x6B52E1Af3EBA58d71BD92cb0e10c392a31De0Ee4\",\n    \"5Fd0E33db168aeC5BdE015A8CfAEeE44CA30fb31\"\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/wallet/check_delegation",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "wallet",
+                        "check_delegation"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"UnauthorizedError\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:56.000Z",
+                  "updatedAt": "2026-07-28T03:22:56.000Z",
+                  "uid": "35240-6fff60d1-4568-49e4-baa2-433aeea0c2e0"
+                },
+                {
+                  "id": "d7912848-e7b3-4316-9769-2a4619714694",
+                  "name": "ResourceNotFound eg. No quotes available or Gas fee/price not available",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"chainIds\": [\n    1,\n    1\n  ],\n  \"walletAddresses\": [\n    \"0x6B52E1Af3EBA58d71BD92cb0e10c392a31De0Ee4\",\n    \"5Fd0E33db168aeC5BdE015A8CfAEeE44CA30fb31\"\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/wallet/check_delegation",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "wallet",
+                        "check_delegation"
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"InsufficientBalance\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:56.000Z",
+                  "updatedAt": "2026-07-28T03:22:56.000Z",
+                  "uid": "35240-d7912848-e7b3-4316-9769-2a4619714694"
+                },
+                {
+                  "id": "4bcf916d-62bc-4701-8bde-eed4b3c5deda",
+                  "name": "Ratelimited",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"chainIds\": [\n    1,\n    1\n  ],\n  \"walletAddresses\": [\n    \"0x6B52E1Af3EBA58d71BD92cb0e10c392a31De0Ee4\",\n    \"5Fd0E33db168aeC5BdE015A8CfAEeE44CA30fb31\"\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/wallet/check_delegation",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "wallet",
+                        "check_delegation"
+                      ]
+                    }
+                  },
+                  "status": "Too Many Requests",
+                  "code": 429,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"Ratelimited\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:56.000Z",
+                  "updatedAt": "2026-07-28T03:22:56.000Z",
+                  "uid": "35240-4bcf916d-62bc-4701-8bde-eed4b3c5deda"
+                },
+                {
+                  "id": "f9d53d5b-f4bb-4c06-baf1-bac1b03d26df",
+                  "name": "Unexpected error",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"chainIds\": [\n    1,\n    1\n  ],\n  \"walletAddresses\": [\n    \"0x6B52E1Af3EBA58d71BD92cb0e10c392a31De0Ee4\",\n    \"5Fd0E33db168aeC5BdE015A8CfAEeE44CA30fb31\"\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/wallet/check_delegation",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "wallet",
+                        "check_delegation"
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"InternalServerError\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:56.000Z",
+                  "updatedAt": "2026-07-28T03:22:56.000Z",
+                  "uid": "35240-f9d53d5b-f4bb-4c06-baf1-bac1b03d26df"
+                },
+                {
+                  "id": "e9777680-90ad-4e75-8912-c2bb44be18b3",
+                  "name": "Request duration limit reached.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"chainIds\": [\n    1,\n    1\n  ],\n  \"walletAddresses\": [\n    \"0x6B52E1Af3EBA58d71BD92cb0e10c392a31De0Ee4\",\n    \"5Fd0E33db168aeC5BdE015A8CfAEeE44CA30fb31\"\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/wallet/check_delegation",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "wallet",
+                        "check_delegation"
+                      ]
+                    }
+                  },
+                  "status": "Gateway Timeout",
+                  "code": 504,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"Timeout\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:56.000Z",
+                  "updatedAt": "2026-07-28T03:22:56.000Z",
+                  "uid": "35240-e9777680-90ad-4e75-8912-c2bb44be18b3"
+                }
+              ],
+              "createdAt": "2026-07-28T03:22:56.000Z",
+              "updatedAt": "2026-07-28T03:22:56.000Z",
+              "uid": "35240-5a9b0b63-8731-4567-9559-466d4cf856bd"
+            }
+          ],
+          "id": "1e73a225-bd83-4450-90b6-43afacb2bc52",
+          "createdAt": "2026-07-28T03:22:56.000Z",
+          "updatedAt": "2026-07-28T03:22:56.000Z",
+          "uid": "35240-1e73a225-bd83-4450-90b6-43afacb2bc52"
+        }
+      ],
+      "id": "a957d5dc-d2e6-4751-8367-cbc321066710",
+      "createdAt": "2026-07-28T03:22:56.000Z",
+      "updatedAt": "2026-07-28T03:22:56.000Z",
+      "uid": "35240-a957d5dc-d2e6-4751-8367-cbc321066710"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "x-api-key",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://trade-api.gateway.uniswap.org/v1"
+    }
+  ]
+}

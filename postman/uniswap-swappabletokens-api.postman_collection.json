@@ -1,0 +1,490 @@
+{
+  "info": {
+    "_postman_id": "fddda979-89ef-432f-a0b4-0700153fd89a",
+    "name": "Token Trading Approval SwappableTokens API",
+    "description": "Uniswap Labs trading APIs.\n\nEach operation may include the vendor extension `x-public-endpoint` (boolean): `true` when the operation is available on the public gateway for standard API keys, `false` when it is not publicly exposed. See the [OpenAPI specification extensions](https://swagger.io/docs/specification/v3_0/openapi-extensions/) definition of `x-` fields.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:22:53.000Z",
+    "updatedAt": "2026-07-28T03:22:54.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-fddda979-89ef-432f-a0b4-0700153fd89a"
+  },
+  "item": [
+    {
+      "name": "swappable_tokens",
+      "item": [
+        {
+          "name": "Get bridgable tokens",
+          "id": "6b018c9d-cb8c-4e5e-b849-e680c6f46377",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key",
+                  "type": "string"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}",
+                  "type": "string"
+                },
+                {
+                  "key": "in",
+                  "value": "header",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/swappable_tokens?tokenIn=b4cb39f4d0a8322E97efceCbf780E8f52BCBeF3e&tokenInChainId=1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "swappable_tokens"
+              ],
+              "query": [
+                {
+                  "description": "(Required) ",
+                  "key": "tokenIn",
+                  "value": "b4cb39f4d0a8322E97efceCbf780E8f52BCBeF3e"
+                },
+                {
+                  "description": "(Required) ",
+                  "key": "tokenInChainId",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Returns the list of destination bridge chains for a given token on a given chain."
+          },
+          "response": [
+            {
+              "id": "78f8a163-e5d5-486d-8737-8f763df276cc",
+              "name": "Get swappable tokens successful.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/swappable_tokens?tokenIn=b4cb39f4d0a8322E97efceCbf780E8f52BCBeF3e&tokenInChainId=1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "swappable_tokens"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) ",
+                      "key": "tokenIn",
+                      "value": "b4cb39f4d0a8322E97efceCbf780E8f52BCBeF3e"
+                    },
+                    {
+                      "description": "(Required) ",
+                      "key": "tokenInChainId",
+                      "value": "1"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"requestId\": \"<string>\",\n  \"tokens\": [\n    {\n      \"address\": \"0x957Ed4d92E5bED01101d80A4D5AaB2cbc8F5FB1A\",\n      \"chainId\": 1,\n      \"name\": \"<string>\",\n      \"symbol\": \"<string>\",\n      \"project\": {\n        \"logo\": {\n          \"url\": \"<string>\"\n        },\n        \"safetyLevel\": \"BLOCKED\",\n        \"isSpam\": \"<boolean>\"\n      },\n      \"decimals\": \"<number>\",\n      \"isSpam\": \"<boolean>\"\n    },\n    {\n      \"address\": \"0xDFeEa3869A0b7c7Fa3f5dA3EDa065D927cCdb6A2\",\n      \"chainId\": 1,\n      \"name\": \"<string>\",\n      \"symbol\": \"<string>\",\n      \"project\": {\n        \"logo\": {\n          \"url\": \"<string>\"\n        },\n        \"safetyLevel\": \"MEDIUM_WARNING\",\n        \"isSpam\": \"<boolean>\"\n      },\n      \"decimals\": \"<number>\",\n      \"isSpam\": \"<boolean>\"\n    }\n  ]\n}",
+              "createdAt": "2026-07-28T03:22:54.000Z",
+              "updatedAt": "2026-07-28T03:22:54.000Z",
+              "uid": "35240-78f8a163-e5d5-486d-8737-8f763df276cc"
+            },
+            {
+              "id": "cb5d089f-14a8-4559-83b9-b7ca026ec94a",
+              "name": "RequestValidationError, Bad Input",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/swappable_tokens?tokenIn=b4cb39f4d0a8322E97efceCbf780E8f52BCBeF3e&tokenInChainId=1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "swappable_tokens"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) ",
+                      "key": "tokenIn",
+                      "value": "b4cb39f4d0a8322E97efceCbf780E8f52BCBeF3e"
+                    },
+                    {
+                      "description": "(Required) ",
+                      "key": "tokenInChainId",
+                      "value": "1"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"RequestValidationError\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:22:54.000Z",
+              "updatedAt": "2026-07-28T03:22:54.000Z",
+              "uid": "35240-cb5d089f-14a8-4559-83b9-b7ca026ec94a"
+            },
+            {
+              "id": "35d9379c-2f75-4a1f-82fb-b88fa4171ec2",
+              "name": "UnauthorizedError eg. Account is blocked.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/swappable_tokens?tokenIn=b4cb39f4d0a8322E97efceCbf780E8f52BCBeF3e&tokenInChainId=1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "swappable_tokens"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) ",
+                      "key": "tokenIn",
+                      "value": "b4cb39f4d0a8322E97efceCbf780E8f52BCBeF3e"
+                    },
+                    {
+                      "description": "(Required) ",
+                      "key": "tokenInChainId",
+                      "value": "1"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"UnauthorizedError\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:22:54.000Z",
+              "updatedAt": "2026-07-28T03:22:54.000Z",
+              "uid": "35240-35d9379c-2f75-4a1f-82fb-b88fa4171ec2"
+            },
+            {
+              "id": "59839450-52f3-4d54-a5ff-83414337d7b8",
+              "name": "ResourceNotFound eg. No quotes available or Gas fee/price not available",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/swappable_tokens?tokenIn=b4cb39f4d0a8322E97efceCbf780E8f52BCBeF3e&tokenInChainId=1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "swappable_tokens"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) ",
+                      "key": "tokenIn",
+                      "value": "b4cb39f4d0a8322E97efceCbf780E8f52BCBeF3e"
+                    },
+                    {
+                      "description": "(Required) ",
+                      "key": "tokenInChainId",
+                      "value": "1"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"TokenBalanceNotAvailable\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:22:54.000Z",
+              "updatedAt": "2026-07-28T03:22:54.000Z",
+              "uid": "35240-59839450-52f3-4d54-a5ff-83414337d7b8"
+            },
+            {
+              "id": "b7eef300-9854-4658-8b97-54a18ac95029",
+              "name": "Ratelimited",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/swappable_tokens?tokenIn=b4cb39f4d0a8322E97efceCbf780E8f52BCBeF3e&tokenInChainId=1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "swappable_tokens"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) ",
+                      "key": "tokenIn",
+                      "value": "b4cb39f4d0a8322E97efceCbf780E8f52BCBeF3e"
+                    },
+                    {
+                      "description": "(Required) ",
+                      "key": "tokenInChainId",
+                      "value": "1"
+                    }
+                  ]
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"Ratelimited\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:22:54.000Z",
+              "updatedAt": "2026-07-28T03:22:54.000Z",
+              "uid": "35240-b7eef300-9854-4658-8b97-54a18ac95029"
+            },
+            {
+              "id": "5323d6a6-0da4-4a55-a3a3-0b74aa823bd8",
+              "name": "Unexpected error",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/swappable_tokens?tokenIn=b4cb39f4d0a8322E97efceCbf780E8f52BCBeF3e&tokenInChainId=1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "swappable_tokens"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) ",
+                      "key": "tokenIn",
+                      "value": "b4cb39f4d0a8322E97efceCbf780E8f52BCBeF3e"
+                    },
+                    {
+                      "description": "(Required) ",
+                      "key": "tokenInChainId",
+                      "value": "1"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"InternalServerError\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:22:54.000Z",
+              "updatedAt": "2026-07-28T03:22:54.000Z",
+              "uid": "35240-5323d6a6-0da4-4a55-a3a3-0b74aa823bd8"
+            },
+            {
+              "id": "34d8673a-ff8e-481a-8689-45467eff08c4",
+              "name": "Request duration limit reached.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/swappable_tokens?tokenIn=b4cb39f4d0a8322E97efceCbf780E8f52BCBeF3e&tokenInChainId=1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "swappable_tokens"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) ",
+                      "key": "tokenIn",
+                      "value": "b4cb39f4d0a8322E97efceCbf780E8f52BCBeF3e"
+                    },
+                    {
+                      "description": "(Required) ",
+                      "key": "tokenInChainId",
+                      "value": "1"
+                    }
+                  ]
+                }
+              },
+              "status": "Gateway Timeout",
+              "code": 504,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"Timeout\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:22:54.000Z",
+              "updatedAt": "2026-07-28T03:22:54.000Z",
+              "uid": "35240-34d8673a-ff8e-481a-8689-45467eff08c4"
+            }
+          ],
+          "createdAt": "2026-07-28T03:22:54.000Z",
+          "updatedAt": "2026-07-28T03:22:54.000Z",
+          "uid": "35240-6b018c9d-cb8c-4e5e-b849-e680c6f46377"
+        }
+      ],
+      "id": "e95a184e-6c73-49d3-849e-40a67febdb0e",
+      "createdAt": "2026-07-28T03:22:54.000Z",
+      "updatedAt": "2026-07-28T03:22:54.000Z",
+      "uid": "35240-e95a184e-6c73-49d3-849e-40a67febdb0e"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "x-api-key",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://trade-api.gateway.uniswap.org/v1"
+    }
+  ]
+}

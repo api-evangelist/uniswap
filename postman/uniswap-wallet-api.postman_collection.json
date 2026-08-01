@@ -1,0 +1,466 @@
+{
+  "info": {
+    "_postman_id": "873ba534-22df-4a06-9b8f-a36e73ce6176",
+    "name": "Token Trading Approval Wallet API",
+    "description": "Uniswap Labs trading APIs.\n\nEach operation may include the vendor extension `x-public-endpoint` (boolean): `true` when the operation is available on the public gateway for standard API keys, `false` when it is not publicly exposed. See the [OpenAPI specification extensions](https://swagger.io/docs/specification/v3_0/openapi-extensions/) definition of `x-` fields.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:22:54.000Z",
+    "updatedAt": "2026-07-28T03:22:55.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-873ba534-22df-4a06-9b8f-a36e73ce6176"
+  },
+  "item": [
+    {
+      "name": "wallet",
+      "item": [
+        {
+          "name": "encode_4337",
+          "item": [
+            {
+              "name": "Encode ERC-4337 UserOperation",
+              "id": "f3950c3b-784c-4d65-80e5-6a023fe6ae36",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "apikey",
+                  "apikey": [
+                    {
+                      "key": "key",
+                      "value": "x-api-key",
+                      "type": "string"
+                    },
+                    {
+                      "key": "value",
+                      "value": "{{apiKey}}",
+                      "type": "string"
+                    },
+                    {
+                      "key": "in",
+                      "value": "header",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"calls\": [\n    {\n      \"to\": \"0xDB315A33d0DDAF003B1DA3C460af5fe2c78aaB8b\",\n      \"data\": \"<string>\",\n      \"value\": \"<string>\",\n      \"gasLimit\": \"<string>\",\n      \"maxFeePerGas\": \"<string>\",\n      \"maxPriorityFeePerGas\": \"<string>\",\n      \"gasPrice\": \"<string>\"\n    }\n  ],\n  \"sender\": \"0x0F56B86c2b4Ece20d1cD3D91FeaAF95Ea4aB7258\",\n  \"chainId\": 1,\n  \"paymasterUrl\": \"<uri>\",\n  \"paymasterServiceContext\": {},\n  \"eip7702Auth\": {\n    \"address\": \"<string>\",\n    \"chainId\": \"<string>\",\n    \"nonce\": \"<string>\",\n    \"r\": \"<string>\",\n    \"s\": \"<string>\",\n    \"yParity\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/wallet/encode_4337",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "wallet",
+                    "encode_4337"
+                  ]
+                },
+                "description": "Builds and returns a fully-populated ERC-4337 v0.8 UserOperation for the given batch of calls. When a `paymasterUrl` is provided the endpoint attempts gas sponsorship via the paymaster; the response indicates whether sponsorship was granted and includes sponsor metadata when available."
+              },
+              "response": [
+                {
+                  "id": "772fe579-90d8-4f7c-a869-e1b13cfc9ecf",
+                  "name": "UserOperation encoded successfully.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"calls\": [\n    {\n      \"to\": \"0xDB315A33d0DDAF003B1DA3C460af5fe2c78aaB8b\",\n      \"data\": \"<string>\",\n      \"value\": \"<string>\",\n      \"gasLimit\": \"<string>\",\n      \"maxFeePerGas\": \"<string>\",\n      \"maxPriorityFeePerGas\": \"<string>\",\n      \"gasPrice\": \"<string>\"\n    }\n  ],\n  \"sender\": \"0x0F56B86c2b4Ece20d1cD3D91FeaAF95Ea4aB7258\",\n  \"chainId\": 1,\n  \"paymasterUrl\": \"<uri>\",\n  \"paymasterServiceContext\": {},\n  \"eip7702Auth\": {\n    \"address\": \"<string>\",\n    \"chainId\": \"<string>\",\n    \"nonce\": \"<string>\",\n    \"r\": \"<string>\",\n    \"s\": \"<string>\",\n    \"yParity\": \"<string>\"\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/wallet/encode_4337",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "wallet",
+                        "encode_4337"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"requestId\": \"<string>\",\n  \"userOperation\": {\n    \"sender\": \"<string>\",\n    \"nonce\": \"<string>\",\n    \"callData\": \"<string>\",\n    \"callGasLimit\": \"<string>\",\n    \"verificationGasLimit\": \"<string>\",\n    \"preVerificationGas\": \"<string>\",\n    \"maxFeePerGas\": \"<string>\",\n    \"maxPriorityFeePerGas\": \"<string>\",\n    \"signature\": \"<string>\",\n    \"factory\": \"<string>\",\n    \"factoryData\": \"<string>\",\n    \"paymaster\": \"<string>\",\n    \"paymasterVerificationGasLimit\": \"<string>\",\n    \"paymasterPostOpGasLimit\": \"<string>\",\n    \"paymasterData\": \"<string>\",\n    \"eip7702Auth\": {\n      \"address\": \"<string>\",\n      \"chainId\": \"<string>\",\n      \"nonce\": \"<string>\",\n      \"r\": \"<string>\",\n      \"s\": \"<string>\",\n      \"yParity\": \"<string>\"\n    }\n  },\n  \"gasSponsored\": \"<boolean>\",\n  \"sponsorMetadata\": {\n    \"name\": \"<string>\",\n    \"icon\": \"<string>\"\n  },\n  \"gasSponsorshipRejectionReason\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:55.000Z",
+                  "updatedAt": "2026-07-28T03:22:55.000Z",
+                  "uid": "35240-772fe579-90d8-4f7c-a869-e1b13cfc9ecf"
+                },
+                {
+                  "id": "1ad1cd73-87b8-400c-81da-fc17e4e26185",
+                  "name": "RequestValidationError, Bad Input",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"calls\": [\n    {\n      \"to\": \"0xDB315A33d0DDAF003B1DA3C460af5fe2c78aaB8b\",\n      \"data\": \"<string>\",\n      \"value\": \"<string>\",\n      \"gasLimit\": \"<string>\",\n      \"maxFeePerGas\": \"<string>\",\n      \"maxPriorityFeePerGas\": \"<string>\",\n      \"gasPrice\": \"<string>\"\n    }\n  ],\n  \"sender\": \"0x0F56B86c2b4Ece20d1cD3D91FeaAF95Ea4aB7258\",\n  \"chainId\": 1,\n  \"paymasterUrl\": \"<uri>\",\n  \"paymasterServiceContext\": {},\n  \"eip7702Auth\": {\n    \"address\": \"<string>\",\n    \"chainId\": \"<string>\",\n    \"nonce\": \"<string>\",\n    \"r\": \"<string>\",\n    \"s\": \"<string>\",\n    \"yParity\": \"<string>\"\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/wallet/encode_4337",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "wallet",
+                        "encode_4337"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"RequestValidationError\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:55.000Z",
+                  "updatedAt": "2026-07-28T03:22:55.000Z",
+                  "uid": "35240-1ad1cd73-87b8-400c-81da-fc17e4e26185"
+                },
+                {
+                  "id": "2ed76021-b333-4319-bb8c-0de9cf6c3fa7",
+                  "name": "UnauthorizedError eg. Account is blocked.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"calls\": [\n    {\n      \"to\": \"0xDB315A33d0DDAF003B1DA3C460af5fe2c78aaB8b\",\n      \"data\": \"<string>\",\n      \"value\": \"<string>\",\n      \"gasLimit\": \"<string>\",\n      \"maxFeePerGas\": \"<string>\",\n      \"maxPriorityFeePerGas\": \"<string>\",\n      \"gasPrice\": \"<string>\"\n    }\n  ],\n  \"sender\": \"0x0F56B86c2b4Ece20d1cD3D91FeaAF95Ea4aB7258\",\n  \"chainId\": 1,\n  \"paymasterUrl\": \"<uri>\",\n  \"paymasterServiceContext\": {},\n  \"eip7702Auth\": {\n    \"address\": \"<string>\",\n    \"chainId\": \"<string>\",\n    \"nonce\": \"<string>\",\n    \"r\": \"<string>\",\n    \"s\": \"<string>\",\n    \"yParity\": \"<string>\"\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/wallet/encode_4337",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "wallet",
+                        "encode_4337"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"UnauthorizedError\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:55.000Z",
+                  "updatedAt": "2026-07-28T03:22:55.000Z",
+                  "uid": "35240-2ed76021-b333-4319-bb8c-0de9cf6c3fa7"
+                },
+                {
+                  "id": "32bf2908-f9c2-4f4e-b721-aafb193c9b02",
+                  "name": "Ratelimited",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"calls\": [\n    {\n      \"to\": \"0xDB315A33d0DDAF003B1DA3C460af5fe2c78aaB8b\",\n      \"data\": \"<string>\",\n      \"value\": \"<string>\",\n      \"gasLimit\": \"<string>\",\n      \"maxFeePerGas\": \"<string>\",\n      \"maxPriorityFeePerGas\": \"<string>\",\n      \"gasPrice\": \"<string>\"\n    }\n  ],\n  \"sender\": \"0x0F56B86c2b4Ece20d1cD3D91FeaAF95Ea4aB7258\",\n  \"chainId\": 1,\n  \"paymasterUrl\": \"<uri>\",\n  \"paymasterServiceContext\": {},\n  \"eip7702Auth\": {\n    \"address\": \"<string>\",\n    \"chainId\": \"<string>\",\n    \"nonce\": \"<string>\",\n    \"r\": \"<string>\",\n    \"s\": \"<string>\",\n    \"yParity\": \"<string>\"\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/wallet/encode_4337",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "wallet",
+                        "encode_4337"
+                      ]
+                    }
+                  },
+                  "status": "Too Many Requests",
+                  "code": 429,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"Ratelimited\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:55.000Z",
+                  "updatedAt": "2026-07-28T03:22:55.000Z",
+                  "uid": "35240-32bf2908-f9c2-4f4e-b721-aafb193c9b02"
+                },
+                {
+                  "id": "66c00cec-f622-401f-af59-ceaedfb4b6ff",
+                  "name": "Unexpected error",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"calls\": [\n    {\n      \"to\": \"0xDB315A33d0DDAF003B1DA3C460af5fe2c78aaB8b\",\n      \"data\": \"<string>\",\n      \"value\": \"<string>\",\n      \"gasLimit\": \"<string>\",\n      \"maxFeePerGas\": \"<string>\",\n      \"maxPriorityFeePerGas\": \"<string>\",\n      \"gasPrice\": \"<string>\"\n    }\n  ],\n  \"sender\": \"0x0F56B86c2b4Ece20d1cD3D91FeaAF95Ea4aB7258\",\n  \"chainId\": 1,\n  \"paymasterUrl\": \"<uri>\",\n  \"paymasterServiceContext\": {},\n  \"eip7702Auth\": {\n    \"address\": \"<string>\",\n    \"chainId\": \"<string>\",\n    \"nonce\": \"<string>\",\n    \"r\": \"<string>\",\n    \"s\": \"<string>\",\n    \"yParity\": \"<string>\"\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/wallet/encode_4337",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "wallet",
+                        "encode_4337"
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"InternalServerError\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:55.000Z",
+                  "updatedAt": "2026-07-28T03:22:55.000Z",
+                  "uid": "35240-66c00cec-f622-401f-af59-ceaedfb4b6ff"
+                },
+                {
+                  "id": "2aabedf6-a86d-42e0-bcc7-2ae44a61fbc0",
+                  "name": "Request duration limit reached.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"calls\": [\n    {\n      \"to\": \"0xDB315A33d0DDAF003B1DA3C460af5fe2c78aaB8b\",\n      \"data\": \"<string>\",\n      \"value\": \"<string>\",\n      \"gasLimit\": \"<string>\",\n      \"maxFeePerGas\": \"<string>\",\n      \"maxPriorityFeePerGas\": \"<string>\",\n      \"gasPrice\": \"<string>\"\n    }\n  ],\n  \"sender\": \"0x0F56B86c2b4Ece20d1cD3D91FeaAF95Ea4aB7258\",\n  \"chainId\": 1,\n  \"paymasterUrl\": \"<uri>\",\n  \"paymasterServiceContext\": {},\n  \"eip7702Auth\": {\n    \"address\": \"<string>\",\n    \"chainId\": \"<string>\",\n    \"nonce\": \"<string>\",\n    \"r\": \"<string>\",\n    \"s\": \"<string>\",\n    \"yParity\": \"<string>\"\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/wallet/encode_4337",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "wallet",
+                        "encode_4337"
+                      ]
+                    }
+                  },
+                  "status": "Gateway Timeout",
+                  "code": 504,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"Timeout\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:55.000Z",
+                  "updatedAt": "2026-07-28T03:22:55.000Z",
+                  "uid": "35240-2aabedf6-a86d-42e0-bcc7-2ae44a61fbc0"
+                }
+              ],
+              "createdAt": "2026-07-28T03:22:55.000Z",
+              "updatedAt": "2026-07-28T03:22:55.000Z",
+              "uid": "35240-f3950c3b-784c-4d65-80e5-6a023fe6ae36"
+            }
+          ],
+          "id": "07559ff1-ddb0-441c-9821-61d350a908bf",
+          "createdAt": "2026-07-28T03:22:55.000Z",
+          "updatedAt": "2026-07-28T03:22:55.000Z",
+          "uid": "35240-07559ff1-ddb0-441c-9821-61d350a908bf"
+        }
+      ],
+      "id": "8e15ef6d-fd0d-4ded-b8d5-54c3255c3095",
+      "createdAt": "2026-07-28T03:22:55.000Z",
+      "updatedAt": "2026-07-28T03:22:55.000Z",
+      "uid": "35240-8e15ef6d-fd0d-4ded-b8d5-54c3255c3095"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "x-api-key",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://trade-api.gateway.uniswap.org/v1"
+    }
+  ]
+}

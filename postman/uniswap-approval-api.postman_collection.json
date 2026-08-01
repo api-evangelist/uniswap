@@ -1,0 +1,546 @@
+{
+  "info": {
+    "_postman_id": "a2d32707-1ac4-4f63-95ae-962d0a35f7c1",
+    "name": "Token Trading Approval API",
+    "description": "Uniswap Labs trading APIs.\n\nEach operation may include the vendor extension `x-public-endpoint` (boolean): `true` when the operation is available on the public gateway for standard API keys, `false` when it is not publicly exposed. See the [OpenAPI specification extensions](https://swagger.io/docs/specification/v3_0/openapi-extensions/) definition of `x-` fields.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:22:43.000Z",
+    "updatedAt": "2026-07-28T03:22:43.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-a2d32707-1ac4-4f63-95ae-962d0a35f7c1"
+  },
+  "item": [
+    {
+      "name": "check_approval",
+      "item": [
+        {
+          "name": "Check if token approval is required",
+          "id": "5c86ab56-4df7-4144-9dae-596093da50d3",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key",
+                  "type": "string"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}",
+                  "type": "string"
+                },
+                {
+                  "key": "in",
+                  "value": "header",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "description": "Disables the Permit2 approval flow. When set to `true`, `permitData` is returned as `null` and the header is forwarded to the routing layer for correct gas simulation against the Proxy Universal Router contract. When `false` or omitted, the standard Permit2 approval flow is used. This header is intended for integrators whose infrastructure uses a direct approval-then-swap pattern without Permit2.",
+                "key": "x-permit2-disabled",
+                "value": "false"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"walletAddress\": \"0x73CBCaCc91b82Bd567E4f26eF71eA2820aA9CbEe\",\n  \"token\": \"88ceBf4185fD33a654Ca00F695C68Ac9ff9e35f9\",\n  \"amount\": \"918\",\n  \"chainId\": 1,\n  \"urgency\": \"urgent\",\n  \"includeGasInfo\": false,\n  \"tokenOut\": \"0xff3f8DEd92fF73DF167eCE54b2dcb68CBeD47BB6\",\n  \"tokenOutChainId\": 1\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/check_approval",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "check_approval"
+              ]
+            },
+            "description": "Allows the requestor to check if the `walletAddress` has the required approval to transact the `token` up to the `amount` specified. If the `walletAddress` does not have the required approval, the response will include a transaction to approve the token spend. If the `walletAddress` has the required approval, the response will return the approval with a `null` value. If the parameter `includeGasInfo` is set to `true` and an approval is needed, then the response will include both the transaction and the gas fee for the approval transaction.\n\nCertain tokens may require that approval be reset before approving a new spend amount. If this condition is detected for the `walletAddress` and `token`, the response will include the necessary approval cancellation in the `cancel` paragraph. When `cancel` is not applicable, the paragraph will have a `null` value."
+          },
+          "response": [
+            {
+              "id": "a83bc532-9b1f-4e85-a0a2-1bc138885c25",
+              "name": "Check approval successful.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "description": "Disables the Permit2 approval flow. When set to `true`, `permitData` is returned as `null` and the header is forwarded to the routing layer for correct gas simulation against the Proxy Universal Router contract. When `false` or omitted, the standard Permit2 approval flow is used. This header is intended for integrators whose infrastructure uses a direct approval-then-swap pattern without Permit2.",
+                    "key": "x-permit2-disabled",
+                    "value": "false"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"walletAddress\": \"0x73CBCaCc91b82Bd567E4f26eF71eA2820aA9CbEe\",\n  \"token\": \"88ceBf4185fD33a654Ca00F695C68Ac9ff9e35f9\",\n  \"amount\": \"918\",\n  \"chainId\": 1,\n  \"urgency\": \"urgent\",\n  \"includeGasInfo\": false,\n  \"tokenOut\": \"0xff3f8DEd92fF73DF167eCE54b2dcb68CBeD47BB6\",\n  \"tokenOutChainId\": 1\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/check_approval",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "check_approval"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"requestId\": \"<string>\",\n  \"approval\": {\n    \"to\": \"B2259cc49Cf6cFfBCB888A1B16e26C1789F2EbA8\",\n    \"from\": \"a6FFa29c2EB1A0dbF0A33a3DaCB3B7a5Ae207Bb2\",\n    \"data\": \"<string>\",\n    \"value\": \"<string>\",\n    \"chainId\": 1,\n    \"gasLimit\": \"<string>\",\n    \"maxFeePerGas\": \"<string>\",\n    \"maxPriorityFeePerGas\": \"<string>\",\n    \"gasPrice\": \"<string>\"\n  },\n  \"cancel\": {\n    \"to\": \"b6A8f6e17cf514C319Ad7Ca5e9Dbf2c8B63cBA63\",\n    \"from\": \"4Db7AC54DAb97ea39aF956Eb3F7acCA1c299CA2c\",\n    \"data\": \"<string>\",\n    \"value\": \"<string>\",\n    \"chainId\": 1,\n    \"gasLimit\": \"<string>\",\n    \"maxFeePerGas\": \"<string>\",\n    \"maxPriorityFeePerGas\": \"<string>\",\n    \"gasPrice\": \"<string>\"\n  },\n  \"gasFee\": \"<string>\",\n  \"cancelGasFee\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:22:44.000Z",
+              "updatedAt": "2026-07-28T03:22:44.000Z",
+              "uid": "35240-a83bc532-9b1f-4e85-a0a2-1bc138885c25"
+            },
+            {
+              "id": "f76cd739-764b-4a25-a321-9882ea983148",
+              "name": "RequestValidationError, Bad Input",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "description": "Disables the Permit2 approval flow. When set to `true`, `permitData` is returned as `null` and the header is forwarded to the routing layer for correct gas simulation against the Proxy Universal Router contract. When `false` or omitted, the standard Permit2 approval flow is used. This header is intended for integrators whose infrastructure uses a direct approval-then-swap pattern without Permit2.",
+                    "key": "x-permit2-disabled",
+                    "value": "false"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"walletAddress\": \"0x73CBCaCc91b82Bd567E4f26eF71eA2820aA9CbEe\",\n  \"token\": \"88ceBf4185fD33a654Ca00F695C68Ac9ff9e35f9\",\n  \"amount\": \"918\",\n  \"chainId\": 1,\n  \"urgency\": \"urgent\",\n  \"includeGasInfo\": false,\n  \"tokenOut\": \"0xff3f8DEd92fF73DF167eCE54b2dcb68CBeD47BB6\",\n  \"tokenOutChainId\": 1\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/check_approval",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "check_approval"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"RequestValidationError\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:22:44.000Z",
+              "updatedAt": "2026-07-28T03:22:44.000Z",
+              "uid": "35240-f76cd739-764b-4a25-a321-9882ea983148"
+            },
+            {
+              "id": "6de19ec8-bb87-4494-ac2a-5132864626ad",
+              "name": "UnauthorizedError eg. Account is blocked.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "description": "Disables the Permit2 approval flow. When set to `true`, `permitData` is returned as `null` and the header is forwarded to the routing layer for correct gas simulation against the Proxy Universal Router contract. When `false` or omitted, the standard Permit2 approval flow is used. This header is intended for integrators whose infrastructure uses a direct approval-then-swap pattern without Permit2.",
+                    "key": "x-permit2-disabled",
+                    "value": "false"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"walletAddress\": \"0x73CBCaCc91b82Bd567E4f26eF71eA2820aA9CbEe\",\n  \"token\": \"88ceBf4185fD33a654Ca00F695C68Ac9ff9e35f9\",\n  \"amount\": \"918\",\n  \"chainId\": 1,\n  \"urgency\": \"urgent\",\n  \"includeGasInfo\": false,\n  \"tokenOut\": \"0xff3f8DEd92fF73DF167eCE54b2dcb68CBeD47BB6\",\n  \"tokenOutChainId\": 1\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/check_approval",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "check_approval"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"UnauthorizedError\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:22:44.000Z",
+              "updatedAt": "2026-07-28T03:22:44.000Z",
+              "uid": "35240-6de19ec8-bb87-4494-ac2a-5132864626ad"
+            },
+            {
+              "id": "edf21d55-a208-4e7d-948c-4f2ad4100672",
+              "name": "ResourceNotFound eg. Token allowance not found or Gas info not found.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "description": "Disables the Permit2 approval flow. When set to `true`, `permitData` is returned as `null` and the header is forwarded to the routing layer for correct gas simulation against the Proxy Universal Router contract. When `false` or omitted, the standard Permit2 approval flow is used. This header is intended for integrators whose infrastructure uses a direct approval-then-swap pattern without Permit2.",
+                    "key": "x-permit2-disabled",
+                    "value": "false"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"walletAddress\": \"0x73CBCaCc91b82Bd567E4f26eF71eA2820aA9CbEe\",\n  \"token\": \"88ceBf4185fD33a654Ca00F695C68Ac9ff9e35f9\",\n  \"amount\": \"918\",\n  \"chainId\": 1,\n  \"urgency\": \"urgent\",\n  \"includeGasInfo\": false,\n  \"tokenOut\": \"0xff3f8DEd92fF73DF167eCE54b2dcb68CBeD47BB6\",\n  \"tokenOutChainId\": 1\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/check_approval",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "check_approval"
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"QuoteAmountTooLowError\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:22:44.000Z",
+              "updatedAt": "2026-07-28T03:22:44.000Z",
+              "uid": "35240-edf21d55-a208-4e7d-948c-4f2ad4100672"
+            },
+            {
+              "id": "a9caa813-e787-4730-b30f-629dcbb6ed6b",
+              "name": "Ratelimited",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "description": "Disables the Permit2 approval flow. When set to `true`, `permitData` is returned as `null` and the header is forwarded to the routing layer for correct gas simulation against the Proxy Universal Router contract. When `false` or omitted, the standard Permit2 approval flow is used. This header is intended for integrators whose infrastructure uses a direct approval-then-swap pattern without Permit2.",
+                    "key": "x-permit2-disabled",
+                    "value": "false"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"walletAddress\": \"0x73CBCaCc91b82Bd567E4f26eF71eA2820aA9CbEe\",\n  \"token\": \"88ceBf4185fD33a654Ca00F695C68Ac9ff9e35f9\",\n  \"amount\": \"918\",\n  \"chainId\": 1,\n  \"urgency\": \"urgent\",\n  \"includeGasInfo\": false,\n  \"tokenOut\": \"0xff3f8DEd92fF73DF167eCE54b2dcb68CBeD47BB6\",\n  \"tokenOutChainId\": 1\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/check_approval",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "check_approval"
+                  ]
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"Ratelimited\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:22:44.000Z",
+              "updatedAt": "2026-07-28T03:22:44.000Z",
+              "uid": "35240-a9caa813-e787-4730-b30f-629dcbb6ed6b"
+            },
+            {
+              "id": "87e65847-f2b3-4fb3-ba4e-df4e1e3ce5ee",
+              "name": "Unexpected error",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "description": "Disables the Permit2 approval flow. When set to `true`, `permitData` is returned as `null` and the header is forwarded to the routing layer for correct gas simulation against the Proxy Universal Router contract. When `false` or omitted, the standard Permit2 approval flow is used. This header is intended for integrators whose infrastructure uses a direct approval-then-swap pattern without Permit2.",
+                    "key": "x-permit2-disabled",
+                    "value": "false"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"walletAddress\": \"0x73CBCaCc91b82Bd567E4f26eF71eA2820aA9CbEe\",\n  \"token\": \"88ceBf4185fD33a654Ca00F695C68Ac9ff9e35f9\",\n  \"amount\": \"918\",\n  \"chainId\": 1,\n  \"urgency\": \"urgent\",\n  \"includeGasInfo\": false,\n  \"tokenOut\": \"0xff3f8DEd92fF73DF167eCE54b2dcb68CBeD47BB6\",\n  \"tokenOutChainId\": 1\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/check_approval",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "check_approval"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"InternalServerError\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:22:44.000Z",
+              "updatedAt": "2026-07-28T03:22:44.000Z",
+              "uid": "35240-87e65847-f2b3-4fb3-ba4e-df4e1e3ce5ee"
+            },
+            {
+              "id": "dcea7dbc-e767-4c7d-858f-d0303d262363",
+              "name": "Request duration limit reached.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "description": "Disables the Permit2 approval flow. When set to `true`, `permitData` is returned as `null` and the header is forwarded to the routing layer for correct gas simulation against the Proxy Universal Router contract. When `false` or omitted, the standard Permit2 approval flow is used. This header is intended for integrators whose infrastructure uses a direct approval-then-swap pattern without Permit2.",
+                    "key": "x-permit2-disabled",
+                    "value": "false"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"walletAddress\": \"0x73CBCaCc91b82Bd567E4f26eF71eA2820aA9CbEe\",\n  \"token\": \"88ceBf4185fD33a654Ca00F695C68Ac9ff9e35f9\",\n  \"amount\": \"918\",\n  \"chainId\": 1,\n  \"urgency\": \"urgent\",\n  \"includeGasInfo\": false,\n  \"tokenOut\": \"0xff3f8DEd92fF73DF167eCE54b2dcb68CBeD47BB6\",\n  \"tokenOutChainId\": 1\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/check_approval",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "check_approval"
+                  ]
+                }
+              },
+              "status": "Gateway Timeout",
+              "code": 504,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"Timeout\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:22:44.000Z",
+              "updatedAt": "2026-07-28T03:22:44.000Z",
+              "uid": "35240-dcea7dbc-e767-4c7d-858f-d0303d262363"
+            }
+          ],
+          "createdAt": "2026-07-28T03:22:44.000Z",
+          "updatedAt": "2026-07-28T03:22:44.000Z",
+          "uid": "35240-5c86ab56-4df7-4144-9dae-596093da50d3"
+        }
+      ],
+      "id": "c98d12c1-3f88-4fe1-a71a-8e98fff0b51e",
+      "createdAt": "2026-07-28T03:22:44.000Z",
+      "updatedAt": "2026-07-28T03:22:44.000Z",
+      "uid": "35240-c98d12c1-3f88-4fe1-a71a-8e98fff0b51e"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "x-api-key",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://trade-api.gateway.uniswap.org/v1"
+    }
+  ]
+}

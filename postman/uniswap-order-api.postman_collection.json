@@ -1,0 +1,1300 @@
+{
+  "info": {
+    "_postman_id": "d28bd476-03c1-4edb-aef8-c9f203ce141a",
+    "name": "Token Trading Approval Order API",
+    "description": "Uniswap Labs trading APIs.\n\nEach operation may include the vendor extension `x-public-endpoint` (boolean): `true` when the operation is available on the public gateway for standard API keys, `false` when it is not publicly exposed. See the [OpenAPI specification extensions](https://swagger.io/docs/specification/v3_0/openapi-extensions/) definition of `x-` fields.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:22:47.000Z",
+    "updatedAt": "2026-07-28T03:22:47.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-d28bd476-03c1-4edb-aef8-c9f203ce141a"
+  },
+  "item": [
+    {
+      "name": "order",
+      "item": [
+        {
+          "name": "Create a gasless order",
+          "id": "5c6e799c-6997-4731-8e97-6e4e6f5dce05",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key",
+                  "type": "string"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}",
+                  "type": "string"
+                },
+                {
+                  "key": "in",
+                  "value": "header",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "description": "Enable native ETH input support for UniswapX via ERC20-ETH (EIP-7914). When set to true and `tokenIn` is the native currency address (e.g. `0x0000000000000000000000000000000000000000`), the API may return UniswapX routes that spend native ETH for supported wallets.",
+                "key": "x-erc20eth-enabled",
+                "value": "false"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"signature\": \"<string>\",\n  \"quote\": {\n    \"encodedOrder\": \"<string>\",\n    \"orderInfo\": {\n      \"chainId\": 1,\n      \"nonce\": \"<string>\",\n      \"reactor\": \"E7b0505DfaF71C8E02b5ab679F2D5CDEEDfF1E55\",\n      \"swapper\": \"56c632a9C504CCB039eCDA60Ef0FEeb08B4Ead60\",\n      \"deadline\": \"<number>\",\n      \"input\": {\n        \"startAmount\": \"<string>\",\n        \"endAmount\": \"<string>\",\n        \"token\": \"08D9e8DD11528f849ac6dfa8a98b4eaBeDe96A0a\"\n      },\n      \"outputs\": [\n        {\n          \"startAmount\": \"<string>\",\n          \"endAmount\": \"<string>\",\n          \"token\": \"0xd6931e29A840f0348570f8Fc9f5c93BB9E2e86cd\",\n          \"recipient\": \"0xd7523627e4F0e4674b13bBDF6454e8EC994BC37b\"\n        },\n        {\n          \"startAmount\": \"<string>\",\n          \"endAmount\": \"<string>\",\n          \"token\": \"0xE0C8ae97eC4dA0EfDc71FAFDfB0cA1d761ab20d5\",\n          \"recipient\": \"0xf182acab42B1912ADaEcEd6d16FC6c16d0EB2172\"\n        }\n      ],\n      \"additionalValidationContract\": \"0x0000000000000000000000000000000000000000\",\n      \"additionalValidationData\": \"0x\",\n      \"cosigner\": \"dA2214cdFAcF19C7f64Dcab4051a8f41b6132a66\",\n      \"validationContract\": \"elit\",\n      \"validationData\": \"eu dolore\",\n      \"startTime\": \"mollit\"\n    },\n    \"orderId\": \"<string>\",\n    \"portionBips\": \"<number>\",\n    \"portionAmount\": \"<string>\",\n    \"portionRecipient\": \"<string>\",\n    \"quoteId\": \"<string>\",\n    \"slippageTolerance\": 9.41,\n    \"deadlineBufferSecs\": \"<number>\",\n    \"classicGasUseEstimateUSD\": \"<string>\",\n    \"aggregatedOutputs\": [\n      {\n        \"token\": \"C40Ebe99daa005878ABa08fAD473e8BC9f0E901b\",\n        \"amount\": \"46935058\",\n        \"recipient\": \"a0CFd1307Bd0FD182F063a7dA4cAbEfE1E335d09\",\n        \"bps\": \"<number>\",\n        \"minAmount\": \"<string>\"\n      },\n      {\n        \"token\": \"6Ca44aEABd07aDBFD0f6fae3cbDCae1bC5f6eC5c\",\n        \"amount\": \"6552864595\",\n        \"recipient\": \"0x22Fc8f28C02EADd3b9bA113a4EC10B0aaaBCfB7D\",\n        \"bps\": \"<number>\",\n        \"minAmount\": \"<string>\"\n      }\n    ]\n  },\n  \"routing\": \"WRAP\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/order",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "order"
+              ]
+            },
+            "description": "The order endpoint is used to submit a UniswapX intent. If the `routing` field in the response to a quote is any of `DUTCH_V2`, `DUTCH_V3`, `LIMIT_ORDER`, or `PRIORITY` this endpoint is used to submit your order to the UniswapX protocol to be filled by the filler network. These orders are gasless because the filler will pay the gas to complete the transaction.\n\nThe order will be validated and, if valid, will be submitted to the filler network. The network will try to fill the order at the quoted `startAmount`. If the order is not filled at the `startAmount` by the `deadline`, the amount will start decaying until the `endAmount` is reached. The order will remain `open` until it is either filled, canceled, or has expired by remaining unfilled beyond the `decayEndTime`.\n\nFor simplicity, the order request is identical to the quote response except for the addition of the signed permit.\n\nNative ETH on UniswapX: If the quote you are submitting uses native ETH as the input token (e.g. `tokenIn` is `0x0000000000000000000000000000000000000000`), include `x-erc20eth-enabled: true`. Native ETH input on UniswapX requires wallet support for EIP-7914 and sufficient native allowance. For 7702-delegated smart contract wallets, you can generate the required approval call(s) via `/swap_7702` when needed."
+          },
+          "response": [
+            {
+              "id": "38dc1718-5b38-47c1-9c29-55cbfefb5ccb",
+              "name": "Encoded order submitted.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "description": "Enable native ETH input support for UniswapX via ERC20-ETH (EIP-7914). When set to true and `tokenIn` is the native currency address (e.g. `0x0000000000000000000000000000000000000000`), the API may return UniswapX routes that spend native ETH for supported wallets.",
+                    "key": "x-erc20eth-enabled",
+                    "value": "false"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"signature\": \"<string>\",\n  \"quote\": {\n    \"encodedOrder\": \"<string>\",\n    \"orderInfo\": {\n      \"chainId\": 1,\n      \"nonce\": \"<string>\",\n      \"reactor\": \"E7b0505DfaF71C8E02b5ab679F2D5CDEEDfF1E55\",\n      \"swapper\": \"56c632a9C504CCB039eCDA60Ef0FEeb08B4Ead60\",\n      \"deadline\": \"<number>\",\n      \"input\": {\n        \"startAmount\": \"<string>\",\n        \"endAmount\": \"<string>\",\n        \"token\": \"08D9e8DD11528f849ac6dfa8a98b4eaBeDe96A0a\"\n      },\n      \"outputs\": [\n        {\n          \"startAmount\": \"<string>\",\n          \"endAmount\": \"<string>\",\n          \"token\": \"0xd6931e29A840f0348570f8Fc9f5c93BB9E2e86cd\",\n          \"recipient\": \"0xd7523627e4F0e4674b13bBDF6454e8EC994BC37b\"\n        },\n        {\n          \"startAmount\": \"<string>\",\n          \"endAmount\": \"<string>\",\n          \"token\": \"0xE0C8ae97eC4dA0EfDc71FAFDfB0cA1d761ab20d5\",\n          \"recipient\": \"0xf182acab42B1912ADaEcEd6d16FC6c16d0EB2172\"\n        }\n      ],\n      \"additionalValidationContract\": \"0x0000000000000000000000000000000000000000\",\n      \"additionalValidationData\": \"0x\",\n      \"cosigner\": \"dA2214cdFAcF19C7f64Dcab4051a8f41b6132a66\",\n      \"validationContract\": \"elit\",\n      \"validationData\": \"eu dolore\",\n      \"startTime\": \"mollit\"\n    },\n    \"orderId\": \"<string>\",\n    \"portionBips\": \"<number>\",\n    \"portionAmount\": \"<string>\",\n    \"portionRecipient\": \"<string>\",\n    \"quoteId\": \"<string>\",\n    \"slippageTolerance\": 9.41,\n    \"deadlineBufferSecs\": \"<number>\",\n    \"classicGasUseEstimateUSD\": \"<string>\",\n    \"aggregatedOutputs\": [\n      {\n        \"token\": \"C40Ebe99daa005878ABa08fAD473e8BC9f0E901b\",\n        \"amount\": \"46935058\",\n        \"recipient\": \"a0CFd1307Bd0FD182F063a7dA4cAbEfE1E335d09\",\n        \"bps\": \"<number>\",\n        \"minAmount\": \"<string>\"\n      },\n      {\n        \"token\": \"6Ca44aEABd07aDBFD0f6fae3cbDCae1bC5f6eC5c\",\n        \"amount\": \"6552864595\",\n        \"recipient\": \"0x22Fc8f28C02EADd3b9bA113a4EC10B0aaaBCfB7D\",\n        \"bps\": \"<number>\",\n        \"minAmount\": \"<string>\"\n      }\n    ]\n  },\n  \"routing\": \"WRAP\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/order",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "order"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"requestId\": \"<string>\",\n  \"orderId\": \"<string>\",\n  \"orderStatus\": \"insufficient-funds\"\n}",
+              "createdAt": "2026-07-28T03:22:47.000Z",
+              "updatedAt": "2026-07-28T03:22:47.000Z",
+              "uid": "35240-38dc1718-5b38-47c1-9c29-55cbfefb5ccb"
+            },
+            {
+              "id": "d78dfff8-f29e-4fa5-a37a-406ccdf60bfc",
+              "name": "RequestValidationError, Bad Input",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "description": "Enable native ETH input support for UniswapX via ERC20-ETH (EIP-7914). When set to true and `tokenIn` is the native currency address (e.g. `0x0000000000000000000000000000000000000000`), the API may return UniswapX routes that spend native ETH for supported wallets.",
+                    "key": "x-erc20eth-enabled",
+                    "value": "false"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"signature\": \"<string>\",\n  \"quote\": {\n    \"encodedOrder\": \"<string>\",\n    \"orderInfo\": {\n      \"chainId\": 1,\n      \"nonce\": \"<string>\",\n      \"reactor\": \"E7b0505DfaF71C8E02b5ab679F2D5CDEEDfF1E55\",\n      \"swapper\": \"56c632a9C504CCB039eCDA60Ef0FEeb08B4Ead60\",\n      \"deadline\": \"<number>\",\n      \"input\": {\n        \"startAmount\": \"<string>\",\n        \"endAmount\": \"<string>\",\n        \"token\": \"08D9e8DD11528f849ac6dfa8a98b4eaBeDe96A0a\"\n      },\n      \"outputs\": [\n        {\n          \"startAmount\": \"<string>\",\n          \"endAmount\": \"<string>\",\n          \"token\": \"0xd6931e29A840f0348570f8Fc9f5c93BB9E2e86cd\",\n          \"recipient\": \"0xd7523627e4F0e4674b13bBDF6454e8EC994BC37b\"\n        },\n        {\n          \"startAmount\": \"<string>\",\n          \"endAmount\": \"<string>\",\n          \"token\": \"0xE0C8ae97eC4dA0EfDc71FAFDfB0cA1d761ab20d5\",\n          \"recipient\": \"0xf182acab42B1912ADaEcEd6d16FC6c16d0EB2172\"\n        }\n      ],\n      \"additionalValidationContract\": \"0x0000000000000000000000000000000000000000\",\n      \"additionalValidationData\": \"0x\",\n      \"cosigner\": \"dA2214cdFAcF19C7f64Dcab4051a8f41b6132a66\",\n      \"validationContract\": \"elit\",\n      \"validationData\": \"eu dolore\",\n      \"startTime\": \"mollit\"\n    },\n    \"orderId\": \"<string>\",\n    \"portionBips\": \"<number>\",\n    \"portionAmount\": \"<string>\",\n    \"portionRecipient\": \"<string>\",\n    \"quoteId\": \"<string>\",\n    \"slippageTolerance\": 9.41,\n    \"deadlineBufferSecs\": \"<number>\",\n    \"classicGasUseEstimateUSD\": \"<string>\",\n    \"aggregatedOutputs\": [\n      {\n        \"token\": \"C40Ebe99daa005878ABa08fAD473e8BC9f0E901b\",\n        \"amount\": \"46935058\",\n        \"recipient\": \"a0CFd1307Bd0FD182F063a7dA4cAbEfE1E335d09\",\n        \"bps\": \"<number>\",\n        \"minAmount\": \"<string>\"\n      },\n      {\n        \"token\": \"6Ca44aEABd07aDBFD0f6fae3cbDCae1bC5f6eC5c\",\n        \"amount\": \"6552864595\",\n        \"recipient\": \"0x22Fc8f28C02EADd3b9bA113a4EC10B0aaaBCfB7D\",\n        \"bps\": \"<number>\",\n        \"minAmount\": \"<string>\"\n      }\n    ]\n  },\n  \"routing\": \"WRAP\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/order",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "order"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"RequestValidationError\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:22:47.000Z",
+              "updatedAt": "2026-07-28T03:22:47.000Z",
+              "uid": "35240-d78dfff8-f29e-4fa5-a37a-406ccdf60bfc"
+            },
+            {
+              "id": "2e9712f8-be24-4185-9497-012b79785752",
+              "name": "UnauthorizedError eg. Account is blocked.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "description": "Enable native ETH input support for UniswapX via ERC20-ETH (EIP-7914). When set to true and `tokenIn` is the native currency address (e.g. `0x0000000000000000000000000000000000000000`), the API may return UniswapX routes that spend native ETH for supported wallets.",
+                    "key": "x-erc20eth-enabled",
+                    "value": "false"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"signature\": \"<string>\",\n  \"quote\": {\n    \"encodedOrder\": \"<string>\",\n    \"orderInfo\": {\n      \"chainId\": 1,\n      \"nonce\": \"<string>\",\n      \"reactor\": \"E7b0505DfaF71C8E02b5ab679F2D5CDEEDfF1E55\",\n      \"swapper\": \"56c632a9C504CCB039eCDA60Ef0FEeb08B4Ead60\",\n      \"deadline\": \"<number>\",\n      \"input\": {\n        \"startAmount\": \"<string>\",\n        \"endAmount\": \"<string>\",\n        \"token\": \"08D9e8DD11528f849ac6dfa8a98b4eaBeDe96A0a\"\n      },\n      \"outputs\": [\n        {\n          \"startAmount\": \"<string>\",\n          \"endAmount\": \"<string>\",\n          \"token\": \"0xd6931e29A840f0348570f8Fc9f5c93BB9E2e86cd\",\n          \"recipient\": \"0xd7523627e4F0e4674b13bBDF6454e8EC994BC37b\"\n        },\n        {\n          \"startAmount\": \"<string>\",\n          \"endAmount\": \"<string>\",\n          \"token\": \"0xE0C8ae97eC4dA0EfDc71FAFDfB0cA1d761ab20d5\",\n          \"recipient\": \"0xf182acab42B1912ADaEcEd6d16FC6c16d0EB2172\"\n        }\n      ],\n      \"additionalValidationContract\": \"0x0000000000000000000000000000000000000000\",\n      \"additionalValidationData\": \"0x\",\n      \"cosigner\": \"dA2214cdFAcF19C7f64Dcab4051a8f41b6132a66\",\n      \"validationContract\": \"elit\",\n      \"validationData\": \"eu dolore\",\n      \"startTime\": \"mollit\"\n    },\n    \"orderId\": \"<string>\",\n    \"portionBips\": \"<number>\",\n    \"portionAmount\": \"<string>\",\n    \"portionRecipient\": \"<string>\",\n    \"quoteId\": \"<string>\",\n    \"slippageTolerance\": 9.41,\n    \"deadlineBufferSecs\": \"<number>\",\n    \"classicGasUseEstimateUSD\": \"<string>\",\n    \"aggregatedOutputs\": [\n      {\n        \"token\": \"C40Ebe99daa005878ABa08fAD473e8BC9f0E901b\",\n        \"amount\": \"46935058\",\n        \"recipient\": \"a0CFd1307Bd0FD182F063a7dA4cAbEfE1E335d09\",\n        \"bps\": \"<number>\",\n        \"minAmount\": \"<string>\"\n      },\n      {\n        \"token\": \"6Ca44aEABd07aDBFD0f6fae3cbDCae1bC5f6eC5c\",\n        \"amount\": \"6552864595\",\n        \"recipient\": \"0x22Fc8f28C02EADd3b9bA113a4EC10B0aaaBCfB7D\",\n        \"bps\": \"<number>\",\n        \"minAmount\": \"<string>\"\n      }\n    ]\n  },\n  \"routing\": \"WRAP\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/order",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "order"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"UnauthorizedError\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:22:47.000Z",
+              "updatedAt": "2026-07-28T03:22:47.000Z",
+              "uid": "35240-2e9712f8-be24-4185-9497-012b79785752"
+            },
+            {
+              "id": "ce05c9a9-c2bf-4383-9209-9f0cc7a93f61",
+              "name": "Ratelimited",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "description": "Enable native ETH input support for UniswapX via ERC20-ETH (EIP-7914). When set to true and `tokenIn` is the native currency address (e.g. `0x0000000000000000000000000000000000000000`), the API may return UniswapX routes that spend native ETH for supported wallets.",
+                    "key": "x-erc20eth-enabled",
+                    "value": "false"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"signature\": \"<string>\",\n  \"quote\": {\n    \"encodedOrder\": \"<string>\",\n    \"orderInfo\": {\n      \"chainId\": 1,\n      \"nonce\": \"<string>\",\n      \"reactor\": \"E7b0505DfaF71C8E02b5ab679F2D5CDEEDfF1E55\",\n      \"swapper\": \"56c632a9C504CCB039eCDA60Ef0FEeb08B4Ead60\",\n      \"deadline\": \"<number>\",\n      \"input\": {\n        \"startAmount\": \"<string>\",\n        \"endAmount\": \"<string>\",\n        \"token\": \"08D9e8DD11528f849ac6dfa8a98b4eaBeDe96A0a\"\n      },\n      \"outputs\": [\n        {\n          \"startAmount\": \"<string>\",\n          \"endAmount\": \"<string>\",\n          \"token\": \"0xd6931e29A840f0348570f8Fc9f5c93BB9E2e86cd\",\n          \"recipient\": \"0xd7523627e4F0e4674b13bBDF6454e8EC994BC37b\"\n        },\n        {\n          \"startAmount\": \"<string>\",\n          \"endAmount\": \"<string>\",\n          \"token\": \"0xE0C8ae97eC4dA0EfDc71FAFDfB0cA1d761ab20d5\",\n          \"recipient\": \"0xf182acab42B1912ADaEcEd6d16FC6c16d0EB2172\"\n        }\n      ],\n      \"additionalValidationContract\": \"0x0000000000000000000000000000000000000000\",\n      \"additionalValidationData\": \"0x\",\n      \"cosigner\": \"dA2214cdFAcF19C7f64Dcab4051a8f41b6132a66\",\n      \"validationContract\": \"elit\",\n      \"validationData\": \"eu dolore\",\n      \"startTime\": \"mollit\"\n    },\n    \"orderId\": \"<string>\",\n    \"portionBips\": \"<number>\",\n    \"portionAmount\": \"<string>\",\n    \"portionRecipient\": \"<string>\",\n    \"quoteId\": \"<string>\",\n    \"slippageTolerance\": 9.41,\n    \"deadlineBufferSecs\": \"<number>\",\n    \"classicGasUseEstimateUSD\": \"<string>\",\n    \"aggregatedOutputs\": [\n      {\n        \"token\": \"C40Ebe99daa005878ABa08fAD473e8BC9f0E901b\",\n        \"amount\": \"46935058\",\n        \"recipient\": \"a0CFd1307Bd0FD182F063a7dA4cAbEfE1E335d09\",\n        \"bps\": \"<number>\",\n        \"minAmount\": \"<string>\"\n      },\n      {\n        \"token\": \"6Ca44aEABd07aDBFD0f6fae3cbDCae1bC5f6eC5c\",\n        \"amount\": \"6552864595\",\n        \"recipient\": \"0x22Fc8f28C02EADd3b9bA113a4EC10B0aaaBCfB7D\",\n        \"bps\": \"<number>\",\n        \"minAmount\": \"<string>\"\n      }\n    ]\n  },\n  \"routing\": \"WRAP\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/order",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "order"
+                  ]
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"Ratelimited\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:22:47.000Z",
+              "updatedAt": "2026-07-28T03:22:47.000Z",
+              "uid": "35240-ce05c9a9-c2bf-4383-9209-9f0cc7a93f61"
+            },
+            {
+              "id": "9d894417-0d6d-4562-9ab4-e3d4af2bd299",
+              "name": "Unexpected error",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "description": "Enable native ETH input support for UniswapX via ERC20-ETH (EIP-7914). When set to true and `tokenIn` is the native currency address (e.g. `0x0000000000000000000000000000000000000000`), the API may return UniswapX routes that spend native ETH for supported wallets.",
+                    "key": "x-erc20eth-enabled",
+                    "value": "false"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"signature\": \"<string>\",\n  \"quote\": {\n    \"encodedOrder\": \"<string>\",\n    \"orderInfo\": {\n      \"chainId\": 1,\n      \"nonce\": \"<string>\",\n      \"reactor\": \"E7b0505DfaF71C8E02b5ab679F2D5CDEEDfF1E55\",\n      \"swapper\": \"56c632a9C504CCB039eCDA60Ef0FEeb08B4Ead60\",\n      \"deadline\": \"<number>\",\n      \"input\": {\n        \"startAmount\": \"<string>\",\n        \"endAmount\": \"<string>\",\n        \"token\": \"08D9e8DD11528f849ac6dfa8a98b4eaBeDe96A0a\"\n      },\n      \"outputs\": [\n        {\n          \"startAmount\": \"<string>\",\n          \"endAmount\": \"<string>\",\n          \"token\": \"0xd6931e29A840f0348570f8Fc9f5c93BB9E2e86cd\",\n          \"recipient\": \"0xd7523627e4F0e4674b13bBDF6454e8EC994BC37b\"\n        },\n        {\n          \"startAmount\": \"<string>\",\n          \"endAmount\": \"<string>\",\n          \"token\": \"0xE0C8ae97eC4dA0EfDc71FAFDfB0cA1d761ab20d5\",\n          \"recipient\": \"0xf182acab42B1912ADaEcEd6d16FC6c16d0EB2172\"\n        }\n      ],\n      \"additionalValidationContract\": \"0x0000000000000000000000000000000000000000\",\n      \"additionalValidationData\": \"0x\",\n      \"cosigner\": \"dA2214cdFAcF19C7f64Dcab4051a8f41b6132a66\",\n      \"validationContract\": \"elit\",\n      \"validationData\": \"eu dolore\",\n      \"startTime\": \"mollit\"\n    },\n    \"orderId\": \"<string>\",\n    \"portionBips\": \"<number>\",\n    \"portionAmount\": \"<string>\",\n    \"portionRecipient\": \"<string>\",\n    \"quoteId\": \"<string>\",\n    \"slippageTolerance\": 9.41,\n    \"deadlineBufferSecs\": \"<number>\",\n    \"classicGasUseEstimateUSD\": \"<string>\",\n    \"aggregatedOutputs\": [\n      {\n        \"token\": \"C40Ebe99daa005878ABa08fAD473e8BC9f0E901b\",\n        \"amount\": \"46935058\",\n        \"recipient\": \"a0CFd1307Bd0FD182F063a7dA4cAbEfE1E335d09\",\n        \"bps\": \"<number>\",\n        \"minAmount\": \"<string>\"\n      },\n      {\n        \"token\": \"6Ca44aEABd07aDBFD0f6fae3cbDCae1bC5f6eC5c\",\n        \"amount\": \"6552864595\",\n        \"recipient\": \"0x22Fc8f28C02EADd3b9bA113a4EC10B0aaaBCfB7D\",\n        \"bps\": \"<number>\",\n        \"minAmount\": \"<string>\"\n      }\n    ]\n  },\n  \"routing\": \"WRAP\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/order",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "order"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"InternalServerError\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:22:47.000Z",
+              "updatedAt": "2026-07-28T03:22:47.000Z",
+              "uid": "35240-9d894417-0d6d-4562-9ab4-e3d4af2bd299"
+            },
+            {
+              "id": "f3cab033-5a74-49fa-a3e1-43daf56a05e3",
+              "name": "Failed to post order to the upstream UniswapX service.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "description": "Enable native ETH input support for UniswapX via ERC20-ETH (EIP-7914). When set to true and `tokenIn` is the native currency address (e.g. `0x0000000000000000000000000000000000000000`), the API may return UniswapX routes that spend native ETH for supported wallets.",
+                    "key": "x-erc20eth-enabled",
+                    "value": "false"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"signature\": \"<string>\",\n  \"quote\": {\n    \"encodedOrder\": \"<string>\",\n    \"orderInfo\": {\n      \"chainId\": 1,\n      \"nonce\": \"<string>\",\n      \"reactor\": \"E7b0505DfaF71C8E02b5ab679F2D5CDEEDfF1E55\",\n      \"swapper\": \"56c632a9C504CCB039eCDA60Ef0FEeb08B4Ead60\",\n      \"deadline\": \"<number>\",\n      \"input\": {\n        \"startAmount\": \"<string>\",\n        \"endAmount\": \"<string>\",\n        \"token\": \"08D9e8DD11528f849ac6dfa8a98b4eaBeDe96A0a\"\n      },\n      \"outputs\": [\n        {\n          \"startAmount\": \"<string>\",\n          \"endAmount\": \"<string>\",\n          \"token\": \"0xd6931e29A840f0348570f8Fc9f5c93BB9E2e86cd\",\n          \"recipient\": \"0xd7523627e4F0e4674b13bBDF6454e8EC994BC37b\"\n        },\n        {\n          \"startAmount\": \"<string>\",\n          \"endAmount\": \"<string>\",\n          \"token\": \"0xE0C8ae97eC4dA0EfDc71FAFDfB0cA1d761ab20d5\",\n          \"recipient\": \"0xf182acab42B1912ADaEcEd6d16FC6c16d0EB2172\"\n        }\n      ],\n      \"additionalValidationContract\": \"0x0000000000000000000000000000000000000000\",\n      \"additionalValidationData\": \"0x\",\n      \"cosigner\": \"dA2214cdFAcF19C7f64Dcab4051a8f41b6132a66\",\n      \"validationContract\": \"elit\",\n      \"validationData\": \"eu dolore\",\n      \"startTime\": \"mollit\"\n    },\n    \"orderId\": \"<string>\",\n    \"portionBips\": \"<number>\",\n    \"portionAmount\": \"<string>\",\n    \"portionRecipient\": \"<string>\",\n    \"quoteId\": \"<string>\",\n    \"slippageTolerance\": 9.41,\n    \"deadlineBufferSecs\": \"<number>\",\n    \"classicGasUseEstimateUSD\": \"<string>\",\n    \"aggregatedOutputs\": [\n      {\n        \"token\": \"C40Ebe99daa005878ABa08fAD473e8BC9f0E901b\",\n        \"amount\": \"46935058\",\n        \"recipient\": \"a0CFd1307Bd0FD182F063a7dA4cAbEfE1E335d09\",\n        \"bps\": \"<number>\",\n        \"minAmount\": \"<string>\"\n      },\n      {\n        \"token\": \"6Ca44aEABd07aDBFD0f6fae3cbDCae1bC5f6eC5c\",\n        \"amount\": \"6552864595\",\n        \"recipient\": \"0x22Fc8f28C02EADd3b9bA113a4EC10B0aaaBCfB7D\",\n        \"bps\": \"<number>\",\n        \"minAmount\": \"<string>\"\n      }\n    ]\n  },\n  \"routing\": \"WRAP\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/order",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "order"
+                  ]
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"ServiceUnavailable\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:22:47.000Z",
+              "updatedAt": "2026-07-28T03:22:47.000Z",
+              "uid": "35240-f3cab033-5a74-49fa-a3e1-43daf56a05e3"
+            },
+            {
+              "id": "0b7ab115-7e4b-4580-9c9b-70e717b0479a",
+              "name": "Request duration limit reached.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "description": "Enable native ETH input support for UniswapX via ERC20-ETH (EIP-7914). When set to true and `tokenIn` is the native currency address (e.g. `0x0000000000000000000000000000000000000000`), the API may return UniswapX routes that spend native ETH for supported wallets.",
+                    "key": "x-erc20eth-enabled",
+                    "value": "false"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"signature\": \"<string>\",\n  \"quote\": {\n    \"encodedOrder\": \"<string>\",\n    \"orderInfo\": {\n      \"chainId\": 1,\n      \"nonce\": \"<string>\",\n      \"reactor\": \"E7b0505DfaF71C8E02b5ab679F2D5CDEEDfF1E55\",\n      \"swapper\": \"56c632a9C504CCB039eCDA60Ef0FEeb08B4Ead60\",\n      \"deadline\": \"<number>\",\n      \"input\": {\n        \"startAmount\": \"<string>\",\n        \"endAmount\": \"<string>\",\n        \"token\": \"08D9e8DD11528f849ac6dfa8a98b4eaBeDe96A0a\"\n      },\n      \"outputs\": [\n        {\n          \"startAmount\": \"<string>\",\n          \"endAmount\": \"<string>\",\n          \"token\": \"0xd6931e29A840f0348570f8Fc9f5c93BB9E2e86cd\",\n          \"recipient\": \"0xd7523627e4F0e4674b13bBDF6454e8EC994BC37b\"\n        },\n        {\n          \"startAmount\": \"<string>\",\n          \"endAmount\": \"<string>\",\n          \"token\": \"0xE0C8ae97eC4dA0EfDc71FAFDfB0cA1d761ab20d5\",\n          \"recipient\": \"0xf182acab42B1912ADaEcEd6d16FC6c16d0EB2172\"\n        }\n      ],\n      \"additionalValidationContract\": \"0x0000000000000000000000000000000000000000\",\n      \"additionalValidationData\": \"0x\",\n      \"cosigner\": \"dA2214cdFAcF19C7f64Dcab4051a8f41b6132a66\",\n      \"validationContract\": \"elit\",\n      \"validationData\": \"eu dolore\",\n      \"startTime\": \"mollit\"\n    },\n    \"orderId\": \"<string>\",\n    \"portionBips\": \"<number>\",\n    \"portionAmount\": \"<string>\",\n    \"portionRecipient\": \"<string>\",\n    \"quoteId\": \"<string>\",\n    \"slippageTolerance\": 9.41,\n    \"deadlineBufferSecs\": \"<number>\",\n    \"classicGasUseEstimateUSD\": \"<string>\",\n    \"aggregatedOutputs\": [\n      {\n        \"token\": \"C40Ebe99daa005878ABa08fAD473e8BC9f0E901b\",\n        \"amount\": \"46935058\",\n        \"recipient\": \"a0CFd1307Bd0FD182F063a7dA4cAbEfE1E335d09\",\n        \"bps\": \"<number>\",\n        \"minAmount\": \"<string>\"\n      },\n      {\n        \"token\": \"6Ca44aEABd07aDBFD0f6fae3cbDCae1bC5f6eC5c\",\n        \"amount\": \"6552864595\",\n        \"recipient\": \"0x22Fc8f28C02EADd3b9bA113a4EC10B0aaaBCfB7D\",\n        \"bps\": \"<number>\",\n        \"minAmount\": \"<string>\"\n      }\n    ]\n  },\n  \"routing\": \"WRAP\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/order",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "order"
+                  ]
+                }
+              },
+              "status": "Gateway Timeout",
+              "code": 504,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"Timeout\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:22:47.000Z",
+              "updatedAt": "2026-07-28T03:22:47.000Z",
+              "uid": "35240-0b7ab115-7e4b-4580-9c9b-70e717b0479a"
+            }
+          ],
+          "createdAt": "2026-07-28T03:22:47.000Z",
+          "updatedAt": "2026-07-28T03:22:47.000Z",
+          "uid": "35240-5c6e799c-6997-4731-8e97-6e4e6f5dce05"
+        }
+      ],
+      "id": "59d72798-7720-40ec-8d98-1ffcd98be8d9",
+      "createdAt": "2026-07-28T03:22:47.000Z",
+      "updatedAt": "2026-07-28T03:22:47.000Z",
+      "uid": "35240-59d72798-7720-40ec-8d98-1ffcd98be8d9"
+    },
+    {
+      "name": "orders",
+      "item": [
+        {
+          "name": "Get gasless orders",
+          "id": "442cc0b7-8abc-4865-aa26-ae1ac71cb2dc",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key",
+                  "type": "string"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}",
+                  "type": "string"
+                },
+                {
+                  "key": "in",
+                  "value": "header",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/orders?orderType=Dutch_V2&orderId=<string>&orderIds=<string>&limit=<number>&orderStatus=expired&swapper=0x3C06C73dA3aeeBab07F56B7cA0e34d7551E2ECE4&sortKey=createdAt&sort=<string>&filler=0x3C06C73dA3aeeBab07F56B7cA0e34d7551E2ECE4&cursor=<string>",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders"
+              ],
+              "query": [
+                {
+                  "description": "The UniswapX order type to retrieve.",
+                  "key": "orderType",
+                  "value": "Dutch_V2"
+                },
+                {
+                  "description": "A transaction hash for an order. `orderId` or `orderIds` must be provided, but not both.",
+                  "key": "orderId",
+                  "value": "<string>"
+                },
+                {
+                  "description": "A list of comma separated orderIds (transaction hashes). `orderId` or `orderIds` must be provided, but not both.",
+                  "key": "orderIds",
+                  "value": "<string>"
+                },
+                {
+                  "key": "limit",
+                  "value": "<number>"
+                },
+                {
+                  "description": "Filter by order status.",
+                  "key": "orderStatus",
+                  "value": "expired"
+                },
+                {
+                  "description": "Filter by swapper address.",
+                  "key": "swapper",
+                  "value": "0x3C06C73dA3aeeBab07F56B7cA0e34d7551E2ECE4"
+                },
+                {
+                  "description": "Order the query results by the sort key.",
+                  "key": "sortKey",
+                  "value": "createdAt"
+                },
+                {
+                  "description": "Sort query. For example: `sort=gt(UNIX_TIMESTAMP)`, `sort=between(1675872827, 1675872930)`, or `lt(1675872930)`.",
+                  "key": "sort",
+                  "value": "<string>"
+                },
+                {
+                  "description": "Filter by filler address.",
+                  "key": "filler",
+                  "value": "0x3C06C73dA3aeeBab07F56B7cA0e34d7551E2ECE4"
+                },
+                {
+                  "key": "cursor",
+                  "value": "<string>"
+                }
+              ]
+            },
+            "description": "Retrieve one or more gasless orders filtered, optionally filered by query param(s). The request must at minimum include one of the following parameters: `orderId`, `orderIds`, `orderStatus`, `swapper`, or `filler`."
+          },
+          "response": [
+            {
+              "id": "e8bffd6c-ae42-474c-b78a-4aaa74d9f108",
+              "name": "The request orders matching the query parameters.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/orders?orderType=Dutch_V2&orderId=<string>&orderIds=<string>&limit=<number>&orderStatus=expired&swapper=0x3C06C73dA3aeeBab07F56B7cA0e34d7551E2ECE4&sortKey=createdAt&sort=<string>&filler=0x3C06C73dA3aeeBab07F56B7cA0e34d7551E2ECE4&cursor=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "orders"
+                  ],
+                  "query": [
+                    {
+                      "description": "The UniswapX order type to retrieve.",
+                      "key": "orderType",
+                      "value": "Dutch_V2"
+                    },
+                    {
+                      "description": "A transaction hash for an order. `orderId` or `orderIds` must be provided, but not both.",
+                      "key": "orderId",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "A list of comma separated orderIds (transaction hashes). `orderId` or `orderIds` must be provided, but not both.",
+                      "key": "orderIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<number>"
+                    },
+                    {
+                      "description": "Filter by order status.",
+                      "key": "orderStatus",
+                      "value": "expired"
+                    },
+                    {
+                      "description": "Filter by swapper address.",
+                      "key": "swapper",
+                      "value": "0x3C06C73dA3aeeBab07F56B7cA0e34d7551E2ECE4"
+                    },
+                    {
+                      "description": "Order the query results by the sort key.",
+                      "key": "sortKey",
+                      "value": "createdAt"
+                    },
+                    {
+                      "description": "Sort query. For example: `sort=gt(UNIX_TIMESTAMP)`, `sort=between(1675872827, 1675872930)`, or `lt(1675872930)`.",
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Filter by filler address.",
+                      "key": "filler",
+                      "value": "0x3C06C73dA3aeeBab07F56B7cA0e34d7551E2ECE4"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"orders\": [\n    {\n      \"encodedOrder\": \"<string>\",\n      \"signature\": \"<string>\",\n      \"nonce\": \"<string>\",\n      \"orderId\": \"<string>\",\n      \"orderStatus\": \"filled\",\n      \"chainId\": 1,\n      \"type\": \"Dutch\",\n      \"quoteId\": \"<string>\",\n      \"swapper\": \"F8C280F0CE0b1Fef65a1c8a1c90F7aCaCAfaD52d\",\n      \"txHash\": \"0x5729DAFB8A98f7Dd79DfaaA17f678d8445DCadcD75Da7ae0FEE8fd1183f02C2C\",\n      \"input\": {\n        \"token\": \"0xC9F41bB16b7E533Fc91cA171e7EeBe3896a7E78d\",\n        \"startAmount\": \"<string>\",\n        \"endAmount\": \"<string>\"\n      },\n      \"outputs\": [\n        {\n          \"token\": \"E9CD2E2330513bE4eeE48Fe90Cef8f4ABFfe43Bb\",\n          \"startAmount\": \"<string>\",\n          \"endAmount\": \"<string>\",\n          \"isFeeOutput\": \"<boolean>\",\n          \"recipient\": \"0x1ad94A7DCb8eA75CcEfe7D96EAF5BD3c2fEFA8DC\"\n        },\n        {\n          \"token\": \"0x2b79630Eb5ed724Ecd9Aab9cBdf00d50F4a1E77c\",\n          \"startAmount\": \"<string>\",\n          \"endAmount\": \"<string>\",\n          \"isFeeOutput\": \"<boolean>\",\n          \"recipient\": \"0x25Af4DE7145DeEdAaDbFE778D9AFAfF8fFbf7fCb\"\n        }\n      ],\n      \"settledAmounts\": [\n        {\n          \"tokenOut\": \"b1cf99Fd590bBB2CACdf2d71C0E261eE191D45Bc\",\n          \"amountOut\": \"2695\",\n          \"tokenIn\": \"f8BdB0D029b691e0a6c5f6C0a89f94D8d505b9e9\",\n          \"amountIn\": \"9755\"\n        },\n        {\n          \"tokenOut\": \"Dee7bA6300C1EF37BbFab7BF2Bbb3d96BAe3733A\",\n          \"amountOut\": \"51771530128\",\n          \"tokenIn\": \"4D65DE58eDcE31B84d9bFA01a9E633FbCc63B5E1\",\n          \"amountIn\": \"9733187\"\n        }\n      ],\n      \"cosignature\": \"<string>\",\n      \"cosignerData\": {\n        \"decayStartTime\": \"<number>\",\n        \"decayEndTime\": \"<number>\",\n        \"exclusiveFiller\": \"<string>\",\n        \"inputOverride\": \"<string>\",\n        \"outputOverrides\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    },\n    {\n      \"encodedOrder\": \"<string>\",\n      \"signature\": \"<string>\",\n      \"nonce\": \"<string>\",\n      \"orderId\": \"<string>\",\n      \"orderStatus\": \"cancelled\",\n      \"chainId\": 1,\n      \"type\": \"Dutch\",\n      \"quoteId\": \"<string>\",\n      \"swapper\": \"EcccFeaD897FDEedDF6Cf5FEeBC4FEF1C9E55BFD\",\n      \"txHash\": \"0x976d408eFC3A74B38eA3EA6d70BadA1df5313a2E11Fc8395eEDf94CAeC79aD2a\",\n      \"input\": {\n        \"token\": \"dfbDBC0AEBBe2faBEe99cfff7CBEFfeCbd5d9Fb9\",\n        \"startAmount\": \"<string>\",\n        \"endAmount\": \"<string>\"\n      },\n      \"outputs\": [\n        {\n          \"token\": \"5BE85D3Db885b12c45a52b6A58aae5BeBE3e65D6\",\n          \"startAmount\": \"<string>\",\n          \"endAmount\": \"<string>\",\n          \"isFeeOutput\": \"<boolean>\",\n          \"recipient\": \"0x6CEcFCC5BB04A11Cb9B0AFbF5463eAF745350BAa\"\n        },\n        {\n          \"token\": \"0xBB6E54bF0dF3e3Fa5cbAbfeEAdfF49eE44fD7A8c\",\n          \"startAmount\": \"<string>\",\n          \"endAmount\": \"<string>\",\n          \"isFeeOutput\": \"<boolean>\",\n          \"recipient\": \"0x8Ffb3D8FB1459FB51f85Dc38Dcc2ebc8F3f61bF1\"\n        }\n      ],\n      \"settledAmounts\": [\n        {\n          \"tokenOut\": \"9BB31bBAd15cbBcBFEBBee8beeada745bCbe3A0E\",\n          \"amountOut\": \"390202\",\n          \"tokenIn\": \"ededb18B562C4D9AfcABaaFB737442ba4d4d30f5\",\n          \"amountIn\": \"51\"\n        },\n        {\n          \"tokenOut\": \"bCA3909aDF0CDaaa9B8bBAEAbcD8E2D919619e90\",\n          \"amountOut\": \"31627428\",\n          \"tokenIn\": \"B91bDba66e47f79Bad55AaE5D56b46F0CD49c8C5\",\n          \"amountIn\": \"4196\"\n        }\n      ],\n      \"cosignature\": \"<string>\",\n      \"cosignerData\": {\n        \"decayStartTime\": \"<number>\",\n        \"decayEndTime\": \"<number>\",\n        \"exclusiveFiller\": \"<string>\",\n        \"inputOverride\": \"<string>\",\n        \"outputOverrides\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    }\n  ],\n  \"requestId\": \"<string>\",\n  \"cursor\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:22:47.000Z",
+              "updatedAt": "2026-07-28T03:22:47.000Z",
+              "uid": "35240-e8bffd6c-ae42-474c-b78a-4aaa74d9f108"
+            },
+            {
+              "id": "e2bd3036-6c73-4425-852c-74a8646369ef",
+              "name": "RequestValidationError eg. Token allowance not valid or Insufficient Funds.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/orders?orderType=Dutch_V2&orderId=<string>&orderIds=<string>&limit=<number>&orderStatus=expired&swapper=0x3C06C73dA3aeeBab07F56B7cA0e34d7551E2ECE4&sortKey=createdAt&sort=<string>&filler=0x3C06C73dA3aeeBab07F56B7cA0e34d7551E2ECE4&cursor=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "orders"
+                  ],
+                  "query": [
+                    {
+                      "description": "The UniswapX order type to retrieve.",
+                      "key": "orderType",
+                      "value": "Dutch_V2"
+                    },
+                    {
+                      "description": "A transaction hash for an order. `orderId` or `orderIds` must be provided, but not both.",
+                      "key": "orderId",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "A list of comma separated orderIds (transaction hashes). `orderId` or `orderIds` must be provided, but not both.",
+                      "key": "orderIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<number>"
+                    },
+                    {
+                      "description": "Filter by order status.",
+                      "key": "orderStatus",
+                      "value": "expired"
+                    },
+                    {
+                      "description": "Filter by swapper address.",
+                      "key": "swapper",
+                      "value": "0x3C06C73dA3aeeBab07F56B7cA0e34d7551E2ECE4"
+                    },
+                    {
+                      "description": "Order the query results by the sort key.",
+                      "key": "sortKey",
+                      "value": "createdAt"
+                    },
+                    {
+                      "description": "Sort query. For example: `sort=gt(UNIX_TIMESTAMP)`, `sort=between(1675872827, 1675872930)`, or `lt(1675872930)`.",
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Filter by filler address.",
+                      "key": "filler",
+                      "value": "0x3C06C73dA3aeeBab07F56B7cA0e34d7551E2ECE4"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"RequestValidationError\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:22:47.000Z",
+              "updatedAt": "2026-07-28T03:22:47.000Z",
+              "uid": "35240-e2bd3036-6c73-4425-852c-74a8646369ef"
+            },
+            {
+              "id": "d4863d0e-cdb9-4e21-a797-d4c20456e09c",
+              "name": "Orders not found.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/orders?orderType=Dutch_V2&orderId=<string>&orderIds=<string>&limit=<number>&orderStatus=expired&swapper=0x3C06C73dA3aeeBab07F56B7cA0e34d7551E2ECE4&sortKey=createdAt&sort=<string>&filler=0x3C06C73dA3aeeBab07F56B7cA0e34d7551E2ECE4&cursor=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "orders"
+                  ],
+                  "query": [
+                    {
+                      "description": "The UniswapX order type to retrieve.",
+                      "key": "orderType",
+                      "value": "Dutch_V2"
+                    },
+                    {
+                      "description": "A transaction hash for an order. `orderId` or `orderIds` must be provided, but not both.",
+                      "key": "orderId",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "A list of comma separated orderIds (transaction hashes). `orderId` or `orderIds` must be provided, but not both.",
+                      "key": "orderIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<number>"
+                    },
+                    {
+                      "description": "Filter by order status.",
+                      "key": "orderStatus",
+                      "value": "expired"
+                    },
+                    {
+                      "description": "Filter by swapper address.",
+                      "key": "swapper",
+                      "value": "0x3C06C73dA3aeeBab07F56B7cA0e34d7551E2ECE4"
+                    },
+                    {
+                      "description": "Order the query results by the sort key.",
+                      "key": "sortKey",
+                      "value": "createdAt"
+                    },
+                    {
+                      "description": "Sort query. For example: `sort=gt(UNIX_TIMESTAMP)`, `sort=between(1675872827, 1675872930)`, or `lt(1675872930)`.",
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Filter by filler address.",
+                      "key": "filler",
+                      "value": "0x3C06C73dA3aeeBab07F56B7cA0e34d7551E2ECE4"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"QuoteAmountTooLowError\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:22:47.000Z",
+              "updatedAt": "2026-07-28T03:22:47.000Z",
+              "uid": "35240-d4863d0e-cdb9-4e21-a797-d4c20456e09c"
+            },
+            {
+              "id": "f3695421-7dba-452d-9c36-dca951f601f3",
+              "name": "Ratelimited",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/orders?orderType=Dutch_V2&orderId=<string>&orderIds=<string>&limit=<number>&orderStatus=expired&swapper=0x3C06C73dA3aeeBab07F56B7cA0e34d7551E2ECE4&sortKey=createdAt&sort=<string>&filler=0x3C06C73dA3aeeBab07F56B7cA0e34d7551E2ECE4&cursor=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "orders"
+                  ],
+                  "query": [
+                    {
+                      "description": "The UniswapX order type to retrieve.",
+                      "key": "orderType",
+                      "value": "Dutch_V2"
+                    },
+                    {
+                      "description": "A transaction hash for an order. `orderId` or `orderIds` must be provided, but not both.",
+                      "key": "orderId",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "A list of comma separated orderIds (transaction hashes). `orderId` or `orderIds` must be provided, but not both.",
+                      "key": "orderIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<number>"
+                    },
+                    {
+                      "description": "Filter by order status.",
+                      "key": "orderStatus",
+                      "value": "expired"
+                    },
+                    {
+                      "description": "Filter by swapper address.",
+                      "key": "swapper",
+                      "value": "0x3C06C73dA3aeeBab07F56B7cA0e34d7551E2ECE4"
+                    },
+                    {
+                      "description": "Order the query results by the sort key.",
+                      "key": "sortKey",
+                      "value": "createdAt"
+                    },
+                    {
+                      "description": "Sort query. For example: `sort=gt(UNIX_TIMESTAMP)`, `sort=between(1675872827, 1675872930)`, or `lt(1675872930)`.",
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Filter by filler address.",
+                      "key": "filler",
+                      "value": "0x3C06C73dA3aeeBab07F56B7cA0e34d7551E2ECE4"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"Ratelimited\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:22:47.000Z",
+              "updatedAt": "2026-07-28T03:22:47.000Z",
+              "uid": "35240-f3695421-7dba-452d-9c36-dca951f601f3"
+            },
+            {
+              "id": "57cd2af7-90e1-497e-85ee-3d57526f2567",
+              "name": "Unexpected error",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/orders?orderType=Dutch_V2&orderId=<string>&orderIds=<string>&limit=<number>&orderStatus=expired&swapper=0x3C06C73dA3aeeBab07F56B7cA0e34d7551E2ECE4&sortKey=createdAt&sort=<string>&filler=0x3C06C73dA3aeeBab07F56B7cA0e34d7551E2ECE4&cursor=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "orders"
+                  ],
+                  "query": [
+                    {
+                      "description": "The UniswapX order type to retrieve.",
+                      "key": "orderType",
+                      "value": "Dutch_V2"
+                    },
+                    {
+                      "description": "A transaction hash for an order. `orderId` or `orderIds` must be provided, but not both.",
+                      "key": "orderId",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "A list of comma separated orderIds (transaction hashes). `orderId` or `orderIds` must be provided, but not both.",
+                      "key": "orderIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<number>"
+                    },
+                    {
+                      "description": "Filter by order status.",
+                      "key": "orderStatus",
+                      "value": "expired"
+                    },
+                    {
+                      "description": "Filter by swapper address.",
+                      "key": "swapper",
+                      "value": "0x3C06C73dA3aeeBab07F56B7cA0e34d7551E2ECE4"
+                    },
+                    {
+                      "description": "Order the query results by the sort key.",
+                      "key": "sortKey",
+                      "value": "createdAt"
+                    },
+                    {
+                      "description": "Sort query. For example: `sort=gt(UNIX_TIMESTAMP)`, `sort=between(1675872827, 1675872930)`, or `lt(1675872930)`.",
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Filter by filler address.",
+                      "key": "filler",
+                      "value": "0x3C06C73dA3aeeBab07F56B7cA0e34d7551E2ECE4"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"InternalServerError\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:22:47.000Z",
+              "updatedAt": "2026-07-28T03:22:47.000Z",
+              "uid": "35240-57cd2af7-90e1-497e-85ee-3d57526f2567"
+            },
+            {
+              "id": "2f29c8ed-a93e-4b31-94d4-41bcc5df1ce3",
+              "name": "Upstream UniswapX service unavailable while fetching orders.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/orders?orderType=Dutch_V2&orderId=<string>&orderIds=<string>&limit=<number>&orderStatus=expired&swapper=0x3C06C73dA3aeeBab07F56B7cA0e34d7551E2ECE4&sortKey=createdAt&sort=<string>&filler=0x3C06C73dA3aeeBab07F56B7cA0e34d7551E2ECE4&cursor=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "orders"
+                  ],
+                  "query": [
+                    {
+                      "description": "The UniswapX order type to retrieve.",
+                      "key": "orderType",
+                      "value": "Dutch_V2"
+                    },
+                    {
+                      "description": "A transaction hash for an order. `orderId` or `orderIds` must be provided, but not both.",
+                      "key": "orderId",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "A list of comma separated orderIds (transaction hashes). `orderId` or `orderIds` must be provided, but not both.",
+                      "key": "orderIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<number>"
+                    },
+                    {
+                      "description": "Filter by order status.",
+                      "key": "orderStatus",
+                      "value": "expired"
+                    },
+                    {
+                      "description": "Filter by swapper address.",
+                      "key": "swapper",
+                      "value": "0x3C06C73dA3aeeBab07F56B7cA0e34d7551E2ECE4"
+                    },
+                    {
+                      "description": "Order the query results by the sort key.",
+                      "key": "sortKey",
+                      "value": "createdAt"
+                    },
+                    {
+                      "description": "Sort query. For example: `sort=gt(UNIX_TIMESTAMP)`, `sort=between(1675872827, 1675872930)`, or `lt(1675872930)`.",
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Filter by filler address.",
+                      "key": "filler",
+                      "value": "0x3C06C73dA3aeeBab07F56B7cA0e34d7551E2ECE4"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"ServiceUnavailable\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:22:47.000Z",
+              "updatedAt": "2026-07-28T03:22:47.000Z",
+              "uid": "35240-2f29c8ed-a93e-4b31-94d4-41bcc5df1ce3"
+            },
+            {
+              "id": "9e65a86e-ff9e-4432-8b69-49f97b88cebc",
+              "name": "Request duration limit reached.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/orders?orderType=Dutch_V2&orderId=<string>&orderIds=<string>&limit=<number>&orderStatus=expired&swapper=0x3C06C73dA3aeeBab07F56B7cA0e34d7551E2ECE4&sortKey=createdAt&sort=<string>&filler=0x3C06C73dA3aeeBab07F56B7cA0e34d7551E2ECE4&cursor=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "orders"
+                  ],
+                  "query": [
+                    {
+                      "description": "The UniswapX order type to retrieve.",
+                      "key": "orderType",
+                      "value": "Dutch_V2"
+                    },
+                    {
+                      "description": "A transaction hash for an order. `orderId` or `orderIds` must be provided, but not both.",
+                      "key": "orderId",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "A list of comma separated orderIds (transaction hashes). `orderId` or `orderIds` must be provided, but not both.",
+                      "key": "orderIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<number>"
+                    },
+                    {
+                      "description": "Filter by order status.",
+                      "key": "orderStatus",
+                      "value": "expired"
+                    },
+                    {
+                      "description": "Filter by swapper address.",
+                      "key": "swapper",
+                      "value": "0x3C06C73dA3aeeBab07F56B7cA0e34d7551E2ECE4"
+                    },
+                    {
+                      "description": "Order the query results by the sort key.",
+                      "key": "sortKey",
+                      "value": "createdAt"
+                    },
+                    {
+                      "description": "Sort query. For example: `sort=gt(UNIX_TIMESTAMP)`, `sort=between(1675872827, 1675872930)`, or `lt(1675872930)`.",
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Filter by filler address.",
+                      "key": "filler",
+                      "value": "0x3C06C73dA3aeeBab07F56B7cA0e34d7551E2ECE4"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Gateway Timeout",
+              "code": 504,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"Timeout\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:22:47.000Z",
+              "updatedAt": "2026-07-28T03:22:47.000Z",
+              "uid": "35240-9e65a86e-ff9e-4432-8b69-49f97b88cebc"
+            }
+          ],
+          "createdAt": "2026-07-28T03:22:47.000Z",
+          "updatedAt": "2026-07-28T03:22:47.000Z",
+          "uid": "35240-442cc0b7-8abc-4865-aa26-ae1ac71cb2dc"
+        }
+      ],
+      "id": "c59b1cca-d416-4c6a-9e30-6265bdbdce62",
+      "createdAt": "2026-07-28T03:22:47.000Z",
+      "updatedAt": "2026-07-28T03:22:47.000Z",
+      "uid": "35240-c59b1cca-d416-4c6a-9e30-6265bdbdce62"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "x-api-key",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://trade-api.gateway.uniswap.org/v1"
+    }
+  ]
+}

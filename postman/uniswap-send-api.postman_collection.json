@@ -1,0 +1,506 @@
+{
+  "info": {
+    "_postman_id": "c79c51fe-f0b1-461d-ac76-f5a3538c4c15",
+    "name": "Token Trading Approval Send API",
+    "description": "Uniswap Labs trading APIs.\n\nEach operation may include the vendor extension `x-public-endpoint` (boolean): `true` when the operation is available on the public gateway for standard API keys, `false` when it is not publicly exposed. See the [OpenAPI specification extensions](https://swagger.io/docs/specification/v3_0/openapi-extensions/) definition of `x-` fields.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:22:50.000Z",
+    "updatedAt": "2026-07-28T03:22:50.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-c79c51fe-f0b1-461d-ac76-f5a3538c4c15"
+  },
+  "item": [
+    {
+      "name": "send",
+      "item": [
+        {
+          "name": "Create send calldata",
+          "id": "e1004a0c-8ddb-4c50-90d9-7f5f17dcc061",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key",
+                  "type": "string"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}",
+                  "type": "string"
+                },
+                {
+                  "key": "in",
+                  "value": "header",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sender\": \"aDCAeeEB509BfDc84cA32B50825EdCF2e771CDbc\",\n  \"recipient\": \"0xef5af9E92fEcdD8fEaD4c6C0AFaBCbe0FCC1406A\",\n  \"token\": \"0x1EF79E75F2cceEb1C02a17A7EdDD899a0eCc2aA1\",\n  \"amount\": \"82191449741\",\n  \"chainId\": 1,\n  \"urgency\": \"urgent\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/send",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "send"
+              ]
+            },
+            "description": "This endpoint will generate a calldata for a send transaction based on the inputs. The calldata may be signed by the `sender` to cause the specified `amount` of the `token` to be transfered from the `sender` to the `recipient`. The successful response always includes estimated gas for the transaction."
+          },
+          "response": [
+            {
+              "id": "c6bbe35b-25c3-4582-a133-59a32dafea13",
+              "name": "Create send successful.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sender\": \"aDCAeeEB509BfDc84cA32B50825EdCF2e771CDbc\",\n  \"recipient\": \"0xef5af9E92fEcdD8fEaD4c6C0AFaBCbe0FCC1406A\",\n  \"token\": \"0x1EF79E75F2cceEb1C02a17A7EdDD899a0eCc2aA1\",\n  \"amount\": \"82191449741\",\n  \"chainId\": 1,\n  \"urgency\": \"urgent\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/send",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "send"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"requestId\": \"<string>\",\n  \"send\": {\n    \"to\": \"0xf802bb92E2c871c6155Aa9f4418799cBC6113920\",\n    \"from\": \"baa5BAcCC16aB46729Fe303aCbCcE9Ca5DA5571c\",\n    \"data\": \"<string>\",\n    \"value\": \"<string>\",\n    \"chainId\": 1,\n    \"gasLimit\": \"<string>\",\n    \"maxFeePerGas\": \"<string>\",\n    \"maxPriorityFeePerGas\": \"<string>\",\n    \"gasPrice\": \"<string>\"\n  },\n  \"gasFee\": \"<string>\",\n  \"gasFeeUSD\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:22:50.000Z",
+              "updatedAt": "2026-07-28T03:22:50.000Z",
+              "uid": "35240-c6bbe35b-25c3-4582-a133-59a32dafea13"
+            },
+            {
+              "id": "73aa5521-668f-47eb-9064-7dda1a0fe4de",
+              "name": "RequestValidationError, Bad Input",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sender\": \"aDCAeeEB509BfDc84cA32B50825EdCF2e771CDbc\",\n  \"recipient\": \"0xef5af9E92fEcdD8fEaD4c6C0AFaBCbe0FCC1406A\",\n  \"token\": \"0x1EF79E75F2cceEb1C02a17A7EdDD899a0eCc2aA1\",\n  \"amount\": \"82191449741\",\n  \"chainId\": 1,\n  \"urgency\": \"urgent\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/send",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "send"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"RequestValidationError\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:22:50.000Z",
+              "updatedAt": "2026-07-28T03:22:50.000Z",
+              "uid": "35240-73aa5521-668f-47eb-9064-7dda1a0fe4de"
+            },
+            {
+              "id": "a812d111-4002-4c41-a98e-e5bb44b22705",
+              "name": "UnauthorizedError eg. Account is blocked.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sender\": \"aDCAeeEB509BfDc84cA32B50825EdCF2e771CDbc\",\n  \"recipient\": \"0xef5af9E92fEcdD8fEaD4c6C0AFaBCbe0FCC1406A\",\n  \"token\": \"0x1EF79E75F2cceEb1C02a17A7EdDD899a0eCc2aA1\",\n  \"amount\": \"82191449741\",\n  \"chainId\": 1,\n  \"urgency\": \"urgent\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/send",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "send"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"UnauthorizedError\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:22:50.000Z",
+              "updatedAt": "2026-07-28T03:22:50.000Z",
+              "uid": "35240-a812d111-4002-4c41-a98e-e5bb44b22705"
+            },
+            {
+              "id": "54af10b1-b5a4-496b-82bf-e9488fd6759a",
+              "name": "ResourceNotFound eg. Gas fee not available",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sender\": \"aDCAeeEB509BfDc84cA32B50825EdCF2e771CDbc\",\n  \"recipient\": \"0xef5af9E92fEcdD8fEaD4c6C0AFaBCbe0FCC1406A\",\n  \"token\": \"0x1EF79E75F2cceEb1C02a17A7EdDD899a0eCc2aA1\",\n  \"amount\": \"82191449741\",\n  \"chainId\": 1,\n  \"urgency\": \"urgent\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/send",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "send"
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"ResourceNotFound\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:22:50.000Z",
+              "updatedAt": "2026-07-28T03:22:50.000Z",
+              "uid": "35240-54af10b1-b5a4-496b-82bf-e9488fd6759a"
+            },
+            {
+              "id": "6ace2666-ed03-4b48-a055-8370d334673d",
+              "name": "Ratelimited",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sender\": \"aDCAeeEB509BfDc84cA32B50825EdCF2e771CDbc\",\n  \"recipient\": \"0xef5af9E92fEcdD8fEaD4c6C0AFaBCbe0FCC1406A\",\n  \"token\": \"0x1EF79E75F2cceEb1C02a17A7EdDD899a0eCc2aA1\",\n  \"amount\": \"82191449741\",\n  \"chainId\": 1,\n  \"urgency\": \"urgent\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/send",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "send"
+                  ]
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"Ratelimited\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:22:50.000Z",
+              "updatedAt": "2026-07-28T03:22:50.000Z",
+              "uid": "35240-6ace2666-ed03-4b48-a055-8370d334673d"
+            },
+            {
+              "id": "2324d02b-cdc2-4830-8cd0-ee7514873a32",
+              "name": "Unexpected error",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sender\": \"aDCAeeEB509BfDc84cA32B50825EdCF2e771CDbc\",\n  \"recipient\": \"0xef5af9E92fEcdD8fEaD4c6C0AFaBCbe0FCC1406A\",\n  \"token\": \"0x1EF79E75F2cceEb1C02a17A7EdDD899a0eCc2aA1\",\n  \"amount\": \"82191449741\",\n  \"chainId\": 1,\n  \"urgency\": \"urgent\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/send",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "send"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"InternalServerError\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:22:50.000Z",
+              "updatedAt": "2026-07-28T03:22:50.000Z",
+              "uid": "35240-2324d02b-cdc2-4830-8cd0-ee7514873a32"
+            },
+            {
+              "id": "41c72492-b8a2-43fa-8523-48b59e91494e",
+              "name": "Request duration limit reached.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sender\": \"aDCAeeEB509BfDc84cA32B50825EdCF2e771CDbc\",\n  \"recipient\": \"0xef5af9E92fEcdD8fEaD4c6C0AFaBCbe0FCC1406A\",\n  \"token\": \"0x1EF79E75F2cceEb1C02a17A7EdDD899a0eCc2aA1\",\n  \"amount\": \"82191449741\",\n  \"chainId\": 1,\n  \"urgency\": \"urgent\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/send",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "send"
+                  ]
+                }
+              },
+              "status": "Gateway Timeout",
+              "code": 504,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"Timeout\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:22:50.000Z",
+              "updatedAt": "2026-07-28T03:22:50.000Z",
+              "uid": "35240-41c72492-b8a2-43fa-8523-48b59e91494e"
+            }
+          ],
+          "createdAt": "2026-07-28T03:22:50.000Z",
+          "updatedAt": "2026-07-28T03:22:50.000Z",
+          "uid": "35240-e1004a0c-8ddb-4c50-90d9-7f5f17dcc061"
+        }
+      ],
+      "id": "29d796f4-5d59-4b07-81be-c2e8dc2e30e1",
+      "createdAt": "2026-07-28T03:22:50.000Z",
+      "updatedAt": "2026-07-28T03:22:50.000Z",
+      "uid": "35240-29d796f4-5d59-4b07-81be-c2e8dc2e30e1"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "x-api-key",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://trade-api.gateway.uniswap.org/v1"
+    }
+  ]
+}

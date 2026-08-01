@@ -1,0 +1,3367 @@
+{
+  "info": {
+    "_postman_id": "1fcb10ef-3531-439d-a0cf-dce6c5d71d86",
+    "name": "Token Trading Approval Liquidity API",
+    "description": "Uniswap Labs trading APIs.\n\nEach operation may include the vendor extension `x-public-endpoint` (boolean): `true` when the operation is available on the public gateway for standard API keys, `false` when it is not publicly exposed. See the [OpenAPI specification extensions](https://swagger.io/docs/specification/v3_0/openapi-extensions/) definition of `x-` fields.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:22:45.000Z",
+    "updatedAt": "2026-07-28T03:22:46.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-1fcb10ef-3531-439d-a0cf-dce6c5d71d86"
+  },
+  "item": [
+    {
+      "name": "lp",
+      "item": [
+        {
+          "name": "check_approval",
+          "item": [
+            {
+              "name": "Check LP token approvals",
+              "id": "75dea042-a27f-44f3-ae7a-ddd4132f25df",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "apikey",
+                  "apikey": [
+                    {
+                      "key": "key",
+                      "value": "x-api-key",
+                      "type": "string"
+                    },
+                    {
+                      "key": "value",
+                      "value": "{{apiKey}}",
+                      "type": "string"
+                    },
+                    {
+                      "key": "in",
+                      "value": "header",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"walletAddress\": \"0x9F658Fb1abCCEC6D7a8445FDCaffAcAad2F99cce\",\n  \"protocol\": \"V3\",\n  \"chainId\": 1,\n  \"lpTokens\": [\n    {\n      \"tokenAddress\": \"1A59eb8bee8dABD221ECd46dc3B9a2E03A55454c\",\n      \"amount\": \"45\"\n    },\n    {\n      \"tokenAddress\": \"0xECEFEcFe4DD59Ba1b074A3DD5cb307EBccF59cEB\",\n      \"amount\": \"73238586\"\n    }\n  ],\n  \"action\": \"INCREASE\",\n  \"includeGasInfo\": \"<boolean>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"generatePermitAsTransaction\": \"<boolean>\",\n  \"urgency\": \"NORMAL\",\n  \"v3NftTokenId\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/lp/check_approval",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "lp",
+                    "check_approval"
+                  ]
+                },
+                "description": "Checks whether the wallet has the required token approvals to perform an LP action (create, increase, decrease, or migrate). Returns any needed approval transactions. If `simulateTransaction` is set to `true`, the response will include gas fees for the approval transactions.\n\nThe `action` field specifies which LP operation the approval is for. Different actions may require different approvals (e.g., V2 decrease requires approval of the LP token, V3 migrate requires approval of the V3 NFT)."
+              },
+              "response": [
+                {
+                  "id": "c1597da7-9ade-45ae-8994-9dfeaed9ac25",
+                  "name": "LP approval check successful.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"walletAddress\": \"0x9F658Fb1abCCEC6D7a8445FDCaffAcAad2F99cce\",\n  \"protocol\": \"V3\",\n  \"chainId\": 1,\n  \"lpTokens\": [\n    {\n      \"tokenAddress\": \"1A59eb8bee8dABD221ECd46dc3B9a2E03A55454c\",\n      \"amount\": \"45\"\n    },\n    {\n      \"tokenAddress\": \"0xECEFEcFe4DD59Ba1b074A3DD5cb307EBccF59cEB\",\n      \"amount\": \"73238586\"\n    }\n  ],\n  \"action\": \"INCREASE\",\n  \"includeGasInfo\": \"<boolean>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"generatePermitAsTransaction\": \"<boolean>\",\n  \"urgency\": \"NORMAL\",\n  \"v3NftTokenId\": \"<integer>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/check_approval",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "check_approval"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"requestId\": \"<string>\",\n  \"transactions\": [\n    {\n      \"transaction\": {\n        \"to\": \"0xCaD2cA611cd05dF8febf7D8f2535E1Ba96923590\",\n        \"from\": \"0x5e66d75f45694D10d4ffbcFd7Fd62aa6685F443C\",\n        \"data\": \"<string>\",\n        \"value\": \"<string>\",\n        \"chainId\": 1,\n        \"gasLimit\": \"<string>\",\n        \"maxFeePerGas\": \"<string>\",\n        \"maxPriorityFeePerGas\": \"<string>\",\n        \"gasPrice\": \"<string>\"\n      },\n      \"cancelApproval\": \"<boolean>\",\n      \"action\": \"INCREASE\",\n      \"gasFee\": \"<string>\"\n    },\n    {\n      \"transaction\": {\n        \"to\": \"e6e2ad7AAeFec6c841e7E72687BBB9D6EBa7Bc4C\",\n        \"from\": \"0x5B76a417C2b4ADB5e65EBCc536539dAB526FF1d6\",\n        \"data\": \"<string>\",\n        \"value\": \"<string>\",\n        \"chainId\": 1,\n        \"gasLimit\": \"<string>\",\n        \"maxFeePerGas\": \"<string>\",\n        \"maxPriorityFeePerGas\": \"<string>\",\n        \"gasPrice\": \"<string>\"\n      },\n      \"cancelApproval\": \"<boolean>\",\n      \"action\": \"DECREASE\",\n      \"gasFee\": \"<string>\"\n    }\n  ],\n  \"v4BatchPermitData\": {\n    \"domain\": {},\n    \"values\": {},\n    \"types\": {}\n  },\n  \"v3NftPermitData\": {\n    \"domain\": {},\n    \"values\": {},\n    \"types\": {}\n  }\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-c1597da7-9ade-45ae-8994-9dfeaed9ac25"
+                },
+                {
+                  "id": "59d1422e-aa8b-47e8-86be-af0d73225b27",
+                  "name": "RequestValidationError, Bad Input",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"walletAddress\": \"0x9F658Fb1abCCEC6D7a8445FDCaffAcAad2F99cce\",\n  \"protocol\": \"V3\",\n  \"chainId\": 1,\n  \"lpTokens\": [\n    {\n      \"tokenAddress\": \"1A59eb8bee8dABD221ECd46dc3B9a2E03A55454c\",\n      \"amount\": \"45\"\n    },\n    {\n      \"tokenAddress\": \"0xECEFEcFe4DD59Ba1b074A3DD5cb307EBccF59cEB\",\n      \"amount\": \"73238586\"\n    }\n  ],\n  \"action\": \"INCREASE\",\n  \"includeGasInfo\": \"<boolean>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"generatePermitAsTransaction\": \"<boolean>\",\n  \"urgency\": \"NORMAL\",\n  \"v3NftTokenId\": \"<integer>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/check_approval",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "check_approval"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"RequestValidationError\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-59d1422e-aa8b-47e8-86be-af0d73225b27"
+                },
+                {
+                  "id": "202a9bbe-fe69-46e1-9f6b-64eba5daa09b",
+                  "name": "UnauthorizedError eg. Account is blocked.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"walletAddress\": \"0x9F658Fb1abCCEC6D7a8445FDCaffAcAad2F99cce\",\n  \"protocol\": \"V3\",\n  \"chainId\": 1,\n  \"lpTokens\": [\n    {\n      \"tokenAddress\": \"1A59eb8bee8dABD221ECd46dc3B9a2E03A55454c\",\n      \"amount\": \"45\"\n    },\n    {\n      \"tokenAddress\": \"0xECEFEcFe4DD59Ba1b074A3DD5cb307EBccF59cEB\",\n      \"amount\": \"73238586\"\n    }\n  ],\n  \"action\": \"INCREASE\",\n  \"includeGasInfo\": \"<boolean>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"generatePermitAsTransaction\": \"<boolean>\",\n  \"urgency\": \"NORMAL\",\n  \"v3NftTokenId\": \"<integer>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/check_approval",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "check_approval"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"UnauthorizedError\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-202a9bbe-fe69-46e1-9f6b-64eba5daa09b"
+                },
+                {
+                  "id": "2324008d-bb8d-4511-ad11-ad776f60fb31",
+                  "name": "ResourceNotFound eg. Token allowance not found or Gas info not found.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"walletAddress\": \"0x9F658Fb1abCCEC6D7a8445FDCaffAcAad2F99cce\",\n  \"protocol\": \"V3\",\n  \"chainId\": 1,\n  \"lpTokens\": [\n    {\n      \"tokenAddress\": \"1A59eb8bee8dABD221ECd46dc3B9a2E03A55454c\",\n      \"amount\": \"45\"\n    },\n    {\n      \"tokenAddress\": \"0xECEFEcFe4DD59Ba1b074A3DD5cb307EBccF59cEB\",\n      \"amount\": \"73238586\"\n    }\n  ],\n  \"action\": \"INCREASE\",\n  \"includeGasInfo\": \"<boolean>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"generatePermitAsTransaction\": \"<boolean>\",\n  \"urgency\": \"NORMAL\",\n  \"v3NftTokenId\": \"<integer>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/check_approval",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "check_approval"
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"InsufficientBalance\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-2324008d-bb8d-4511-ad11-ad776f60fb31"
+                },
+                {
+                  "id": "cba875be-a7b7-44fe-82f8-ad8d692a9e88",
+                  "name": "Ratelimited",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"walletAddress\": \"0x9F658Fb1abCCEC6D7a8445FDCaffAcAad2F99cce\",\n  \"protocol\": \"V3\",\n  \"chainId\": 1,\n  \"lpTokens\": [\n    {\n      \"tokenAddress\": \"1A59eb8bee8dABD221ECd46dc3B9a2E03A55454c\",\n      \"amount\": \"45\"\n    },\n    {\n      \"tokenAddress\": \"0xECEFEcFe4DD59Ba1b074A3DD5cb307EBccF59cEB\",\n      \"amount\": \"73238586\"\n    }\n  ],\n  \"action\": \"INCREASE\",\n  \"includeGasInfo\": \"<boolean>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"generatePermitAsTransaction\": \"<boolean>\",\n  \"urgency\": \"NORMAL\",\n  \"v3NftTokenId\": \"<integer>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/check_approval",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "check_approval"
+                      ]
+                    }
+                  },
+                  "status": "Too Many Requests",
+                  "code": 429,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"Ratelimited\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-cba875be-a7b7-44fe-82f8-ad8d692a9e88"
+                },
+                {
+                  "id": "02900b9d-d782-4fec-80ea-b221425302ae",
+                  "name": "Unexpected error",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"walletAddress\": \"0x9F658Fb1abCCEC6D7a8445FDCaffAcAad2F99cce\",\n  \"protocol\": \"V3\",\n  \"chainId\": 1,\n  \"lpTokens\": [\n    {\n      \"tokenAddress\": \"1A59eb8bee8dABD221ECd46dc3B9a2E03A55454c\",\n      \"amount\": \"45\"\n    },\n    {\n      \"tokenAddress\": \"0xECEFEcFe4DD59Ba1b074A3DD5cb307EBccF59cEB\",\n      \"amount\": \"73238586\"\n    }\n  ],\n  \"action\": \"INCREASE\",\n  \"includeGasInfo\": \"<boolean>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"generatePermitAsTransaction\": \"<boolean>\",\n  \"urgency\": \"NORMAL\",\n  \"v3NftTokenId\": \"<integer>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/check_approval",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "check_approval"
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"InternalServerError\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-02900b9d-d782-4fec-80ea-b221425302ae"
+                },
+                {
+                  "id": "69070dd7-e105-4e6f-bfca-6fe44ffe1a60",
+                  "name": "Request duration limit reached.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"walletAddress\": \"0x9F658Fb1abCCEC6D7a8445FDCaffAcAad2F99cce\",\n  \"protocol\": \"V3\",\n  \"chainId\": 1,\n  \"lpTokens\": [\n    {\n      \"tokenAddress\": \"1A59eb8bee8dABD221ECd46dc3B9a2E03A55454c\",\n      \"amount\": \"45\"\n    },\n    {\n      \"tokenAddress\": \"0xECEFEcFe4DD59Ba1b074A3DD5cb307EBccF59cEB\",\n      \"amount\": \"73238586\"\n    }\n  ],\n  \"action\": \"INCREASE\",\n  \"includeGasInfo\": \"<boolean>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"generatePermitAsTransaction\": \"<boolean>\",\n  \"urgency\": \"NORMAL\",\n  \"v3NftTokenId\": \"<integer>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/check_approval",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "check_approval"
+                      ]
+                    }
+                  },
+                  "status": "Gateway Timeout",
+                  "code": 504,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"Timeout\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-69070dd7-e105-4e6f-bfca-6fe44ffe1a60"
+                }
+              ],
+              "createdAt": "2026-07-28T03:22:46.000Z",
+              "updatedAt": "2026-07-28T03:22:46.000Z",
+              "uid": "35240-75dea042-a27f-44f3-ae7a-ddd4132f25df"
+            }
+          ],
+          "id": "bda0b23a-bdbf-43fe-bd5e-9960d9666842",
+          "createdAt": "2026-07-28T03:22:46.000Z",
+          "updatedAt": "2026-07-28T03:22:46.000Z",
+          "uid": "35240-bda0b23a-bdbf-43fe-bd5e-9960d9666842"
+        },
+        {
+          "name": "create",
+          "item": [
+            {
+              "name": "Create a V3 or V4 LP position",
+              "id": "bd2f6eed-e10e-48bc-8237-af121c0fb3f5",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "apikey",
+                  "apikey": [
+                    {
+                      "key": "key",
+                      "value": "x-api-key",
+                      "type": "string"
+                    },
+                    {
+                      "key": "value",
+                      "value": "{{apiKey}}",
+                      "type": "string"
+                    },
+                    {
+                      "key": "in",
+                      "value": "header",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"walletAddress\": \"0xe11e703Eebfb5398cbacF2bdAEDD6f9decB8A5a2\",\n  \"chainId\": 1,\n  \"protocol\": \"UNISWAPX_V3\",\n  \"independentToken\": {\n    \"tokenAddress\": \"0x78bF92a40E8381Cc02AFceA311abEfe2B1aAbAF7\",\n    \"amount\": \"<string>\"\n  },\n  \"existingPool\": {\n    \"token0Address\": \"B79cbB54eA680D36BF8ebEEd5fEEC8CF20A3A761\",\n    \"token1Address\": \"0xb4BbbbC53E4d68AA0ae4cfae5eCCFA8B6bAf8496\",\n    \"poolReference\": \"<string>\"\n  },\n  \"newPool\": {\n    \"token0Address\": \"0x53dda8C6eAfd5c0f4B8ec6cC4fD705909C4aeBbb\",\n    \"token1Address\": \"0xFE3969EC8BE1caB7cF54Ab87BbFEAdE7E82569bc\",\n    \"fee\": \"<integer>\",\n    \"tickSpacing\": \"<integer>\",\n    \"initialPrice\": \"<string>\",\n    \"hooks\": \"DeBa53fE179A5Cd3aeAF944Eeab5C685D6b6BA80\"\n  },\n  \"dependentToken\": {\n    \"tokenAddress\": \"EDE9E2a2a8dd45dC94bE686ef65E9aa4E3aaeECC\",\n    \"amount\": \"<string>\"\n  },\n  \"priceBounds\": {\n    \"minPrice\": \"<string>\",\n    \"maxPrice\": \"<string>\"\n  },\n  \"tickBounds\": {\n    \"tickLower\": \"<integer>\",\n    \"tickUpper\": \"<integer>\"\n  },\n  \"slippageTolerance\": \"<number>\",\n  \"deadline\": \"<integer>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"urgency\": \"NORMAL\",\n  \"batchPermitData\": {\n    \"domain\": {},\n    \"values\": {},\n    \"types\": {}\n  },\n  \"signature\": \"<string>\",\n  \"nativeTokenBalance\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/lp/create",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "lp",
+                    "create"
+                  ]
+                },
+                "description": "Creates a new LP position in a V3 or V4 pool (including full-range positions). You can create a position in an existing pool by providing `existingPool` parameters, or create a new pool by providing `newPool` parameters (fee, tick spacing, initial price, and optionally hooks for V4). The position's price range is specified via either `priceBounds` or `tickBounds`. The server computes the dependent token amount. If `simulateTransaction` is set to `true`, the response will include the gas fee."
+              },
+              "response": [
+                {
+                  "id": "6a589782-39a0-4f72-9789-4df2f8c3058f",
+                  "name": "Create V3/V4 position successful.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"walletAddress\": \"0xe11e703Eebfb5398cbacF2bdAEDD6f9decB8A5a2\",\n  \"chainId\": 1,\n  \"protocol\": \"UNISWAPX_V3\",\n  \"independentToken\": {\n    \"tokenAddress\": \"0x78bF92a40E8381Cc02AFceA311abEfe2B1aAbAF7\",\n    \"amount\": \"<string>\"\n  },\n  \"existingPool\": {\n    \"token0Address\": \"B79cbB54eA680D36BF8ebEEd5fEEC8CF20A3A761\",\n    \"token1Address\": \"0xb4BbbbC53E4d68AA0ae4cfae5eCCFA8B6bAf8496\",\n    \"poolReference\": \"<string>\"\n  },\n  \"newPool\": {\n    \"token0Address\": \"0x53dda8C6eAfd5c0f4B8ec6cC4fD705909C4aeBbb\",\n    \"token1Address\": \"0xFE3969EC8BE1caB7cF54Ab87BbFEAdE7E82569bc\",\n    \"fee\": \"<integer>\",\n    \"tickSpacing\": \"<integer>\",\n    \"initialPrice\": \"<string>\",\n    \"hooks\": \"DeBa53fE179A5Cd3aeAF944Eeab5C685D6b6BA80\"\n  },\n  \"dependentToken\": {\n    \"tokenAddress\": \"EDE9E2a2a8dd45dC94bE686ef65E9aa4E3aaeECC\",\n    \"amount\": \"<string>\"\n  },\n  \"priceBounds\": {\n    \"minPrice\": \"<string>\",\n    \"maxPrice\": \"<string>\"\n  },\n  \"tickBounds\": {\n    \"tickLower\": \"<integer>\",\n    \"tickUpper\": \"<integer>\"\n  },\n  \"slippageTolerance\": \"<number>\",\n  \"deadline\": \"<integer>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"urgency\": \"NORMAL\",\n  \"batchPermitData\": {\n    \"domain\": {},\n    \"values\": {},\n    \"types\": {}\n  },\n  \"signature\": \"<string>\",\n  \"nativeTokenBalance\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/create",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "create"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"requestId\": \"<string>\",\n  \"token0\": {\n    \"tokenAddress\": \"0xA106fDA1Bf9eFFfDcd687a00DeEC2320e2De0BA4\",\n    \"amount\": \"99513729\"\n  },\n  \"token1\": {\n    \"tokenAddress\": \"0x49CAA06cc9E6a91ED4D319cefE8F0B6b95A58F7e\",\n    \"amount\": \"04502734695\"\n  },\n  \"adjustedMinPrice\": \"<string>\",\n  \"adjustedMaxPrice\": \"<string>\",\n  \"tickLower\": \"<integer>\",\n  \"tickUpper\": \"<integer>\",\n  \"create\": {\n    \"to\": \"0xFD6e455BfD7eF59AA9CabdbBFCb9Db36687FAcd9\",\n    \"from\": \"0xaA3F5F0ea9eD8C2CDaEe4662aBf2B73b05BFff18\",\n    \"data\": \"<string>\",\n    \"value\": \"<string>\",\n    \"chainId\": 1,\n    \"gasLimit\": \"<string>\",\n    \"maxFeePerGas\": \"<string>\",\n    \"maxPriorityFeePerGas\": \"<string>\",\n    \"gasPrice\": \"<string>\"\n  },\n  \"gasFee\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-6a589782-39a0-4f72-9789-4df2f8c3058f"
+                },
+                {
+                  "id": "08d3211f-19ac-48d5-92c0-84f38f5e0eac",
+                  "name": "RequestValidationError, Bad Input",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"walletAddress\": \"0xe11e703Eebfb5398cbacF2bdAEDD6f9decB8A5a2\",\n  \"chainId\": 1,\n  \"protocol\": \"UNISWAPX_V3\",\n  \"independentToken\": {\n    \"tokenAddress\": \"0x78bF92a40E8381Cc02AFceA311abEfe2B1aAbAF7\",\n    \"amount\": \"<string>\"\n  },\n  \"existingPool\": {\n    \"token0Address\": \"B79cbB54eA680D36BF8ebEEd5fEEC8CF20A3A761\",\n    \"token1Address\": \"0xb4BbbbC53E4d68AA0ae4cfae5eCCFA8B6bAf8496\",\n    \"poolReference\": \"<string>\"\n  },\n  \"newPool\": {\n    \"token0Address\": \"0x53dda8C6eAfd5c0f4B8ec6cC4fD705909C4aeBbb\",\n    \"token1Address\": \"0xFE3969EC8BE1caB7cF54Ab87BbFEAdE7E82569bc\",\n    \"fee\": \"<integer>\",\n    \"tickSpacing\": \"<integer>\",\n    \"initialPrice\": \"<string>\",\n    \"hooks\": \"DeBa53fE179A5Cd3aeAF944Eeab5C685D6b6BA80\"\n  },\n  \"dependentToken\": {\n    \"tokenAddress\": \"EDE9E2a2a8dd45dC94bE686ef65E9aa4E3aaeECC\",\n    \"amount\": \"<string>\"\n  },\n  \"priceBounds\": {\n    \"minPrice\": \"<string>\",\n    \"maxPrice\": \"<string>\"\n  },\n  \"tickBounds\": {\n    \"tickLower\": \"<integer>\",\n    \"tickUpper\": \"<integer>\"\n  },\n  \"slippageTolerance\": \"<number>\",\n  \"deadline\": \"<integer>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"urgency\": \"NORMAL\",\n  \"batchPermitData\": {\n    \"domain\": {},\n    \"values\": {},\n    \"types\": {}\n  },\n  \"signature\": \"<string>\",\n  \"nativeTokenBalance\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/create",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "create"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"RequestValidationError\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-08d3211f-19ac-48d5-92c0-84f38f5e0eac"
+                },
+                {
+                  "id": "8cadb99b-8f31-426f-942b-9c081120c3a6",
+                  "name": "UnauthorizedError eg. Account is blocked.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"walletAddress\": \"0xe11e703Eebfb5398cbacF2bdAEDD6f9decB8A5a2\",\n  \"chainId\": 1,\n  \"protocol\": \"UNISWAPX_V3\",\n  \"independentToken\": {\n    \"tokenAddress\": \"0x78bF92a40E8381Cc02AFceA311abEfe2B1aAbAF7\",\n    \"amount\": \"<string>\"\n  },\n  \"existingPool\": {\n    \"token0Address\": \"B79cbB54eA680D36BF8ebEEd5fEEC8CF20A3A761\",\n    \"token1Address\": \"0xb4BbbbC53E4d68AA0ae4cfae5eCCFA8B6bAf8496\",\n    \"poolReference\": \"<string>\"\n  },\n  \"newPool\": {\n    \"token0Address\": \"0x53dda8C6eAfd5c0f4B8ec6cC4fD705909C4aeBbb\",\n    \"token1Address\": \"0xFE3969EC8BE1caB7cF54Ab87BbFEAdE7E82569bc\",\n    \"fee\": \"<integer>\",\n    \"tickSpacing\": \"<integer>\",\n    \"initialPrice\": \"<string>\",\n    \"hooks\": \"DeBa53fE179A5Cd3aeAF944Eeab5C685D6b6BA80\"\n  },\n  \"dependentToken\": {\n    \"tokenAddress\": \"EDE9E2a2a8dd45dC94bE686ef65E9aa4E3aaeECC\",\n    \"amount\": \"<string>\"\n  },\n  \"priceBounds\": {\n    \"minPrice\": \"<string>\",\n    \"maxPrice\": \"<string>\"\n  },\n  \"tickBounds\": {\n    \"tickLower\": \"<integer>\",\n    \"tickUpper\": \"<integer>\"\n  },\n  \"slippageTolerance\": \"<number>\",\n  \"deadline\": \"<integer>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"urgency\": \"NORMAL\",\n  \"batchPermitData\": {\n    \"domain\": {},\n    \"values\": {},\n    \"types\": {}\n  },\n  \"signature\": \"<string>\",\n  \"nativeTokenBalance\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/create",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "create"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"UnauthorizedError\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-8cadb99b-8f31-426f-942b-9c081120c3a6"
+                },
+                {
+                  "id": "f18df63a-14c7-4b01-ba37-36e3c8642a11",
+                  "name": "ResourceNotFound eg. Cant Find LP Position.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"walletAddress\": \"0xe11e703Eebfb5398cbacF2bdAEDD6f9decB8A5a2\",\n  \"chainId\": 1,\n  \"protocol\": \"UNISWAPX_V3\",\n  \"independentToken\": {\n    \"tokenAddress\": \"0x78bF92a40E8381Cc02AFceA311abEfe2B1aAbAF7\",\n    \"amount\": \"<string>\"\n  },\n  \"existingPool\": {\n    \"token0Address\": \"B79cbB54eA680D36BF8ebEEd5fEEC8CF20A3A761\",\n    \"token1Address\": \"0xb4BbbbC53E4d68AA0ae4cfae5eCCFA8B6bAf8496\",\n    \"poolReference\": \"<string>\"\n  },\n  \"newPool\": {\n    \"token0Address\": \"0x53dda8C6eAfd5c0f4B8ec6cC4fD705909C4aeBbb\",\n    \"token1Address\": \"0xFE3969EC8BE1caB7cF54Ab87BbFEAdE7E82569bc\",\n    \"fee\": \"<integer>\",\n    \"tickSpacing\": \"<integer>\",\n    \"initialPrice\": \"<string>\",\n    \"hooks\": \"DeBa53fE179A5Cd3aeAF944Eeab5C685D6b6BA80\"\n  },\n  \"dependentToken\": {\n    \"tokenAddress\": \"EDE9E2a2a8dd45dC94bE686ef65E9aa4E3aaeECC\",\n    \"amount\": \"<string>\"\n  },\n  \"priceBounds\": {\n    \"minPrice\": \"<string>\",\n    \"maxPrice\": \"<string>\"\n  },\n  \"tickBounds\": {\n    \"tickLower\": \"<integer>\",\n    \"tickUpper\": \"<integer>\"\n  },\n  \"slippageTolerance\": \"<number>\",\n  \"deadline\": \"<integer>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"urgency\": \"NORMAL\",\n  \"batchPermitData\": {\n    \"domain\": {},\n    \"values\": {},\n    \"types\": {}\n  },\n  \"signature\": \"<string>\",\n  \"nativeTokenBalance\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/create",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "create"
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"InsufficientBalance\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-f18df63a-14c7-4b01-ba37-36e3c8642a11"
+                },
+                {
+                  "id": "3255bce4-d5dd-4c90-a4f8-e743c2d22d1e",
+                  "name": "Ratelimited",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"walletAddress\": \"0xe11e703Eebfb5398cbacF2bdAEDD6f9decB8A5a2\",\n  \"chainId\": 1,\n  \"protocol\": \"UNISWAPX_V3\",\n  \"independentToken\": {\n    \"tokenAddress\": \"0x78bF92a40E8381Cc02AFceA311abEfe2B1aAbAF7\",\n    \"amount\": \"<string>\"\n  },\n  \"existingPool\": {\n    \"token0Address\": \"B79cbB54eA680D36BF8ebEEd5fEEC8CF20A3A761\",\n    \"token1Address\": \"0xb4BbbbC53E4d68AA0ae4cfae5eCCFA8B6bAf8496\",\n    \"poolReference\": \"<string>\"\n  },\n  \"newPool\": {\n    \"token0Address\": \"0x53dda8C6eAfd5c0f4B8ec6cC4fD705909C4aeBbb\",\n    \"token1Address\": \"0xFE3969EC8BE1caB7cF54Ab87BbFEAdE7E82569bc\",\n    \"fee\": \"<integer>\",\n    \"tickSpacing\": \"<integer>\",\n    \"initialPrice\": \"<string>\",\n    \"hooks\": \"DeBa53fE179A5Cd3aeAF944Eeab5C685D6b6BA80\"\n  },\n  \"dependentToken\": {\n    \"tokenAddress\": \"EDE9E2a2a8dd45dC94bE686ef65E9aa4E3aaeECC\",\n    \"amount\": \"<string>\"\n  },\n  \"priceBounds\": {\n    \"minPrice\": \"<string>\",\n    \"maxPrice\": \"<string>\"\n  },\n  \"tickBounds\": {\n    \"tickLower\": \"<integer>\",\n    \"tickUpper\": \"<integer>\"\n  },\n  \"slippageTolerance\": \"<number>\",\n  \"deadline\": \"<integer>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"urgency\": \"NORMAL\",\n  \"batchPermitData\": {\n    \"domain\": {},\n    \"values\": {},\n    \"types\": {}\n  },\n  \"signature\": \"<string>\",\n  \"nativeTokenBalance\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/create",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "create"
+                      ]
+                    }
+                  },
+                  "status": "Too Many Requests",
+                  "code": 429,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"Ratelimited\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-3255bce4-d5dd-4c90-a4f8-e743c2d22d1e"
+                },
+                {
+                  "id": "52e4ec51-43be-4837-9428-126ae430360d",
+                  "name": "Unexpected error",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"walletAddress\": \"0xe11e703Eebfb5398cbacF2bdAEDD6f9decB8A5a2\",\n  \"chainId\": 1,\n  \"protocol\": \"UNISWAPX_V3\",\n  \"independentToken\": {\n    \"tokenAddress\": \"0x78bF92a40E8381Cc02AFceA311abEfe2B1aAbAF7\",\n    \"amount\": \"<string>\"\n  },\n  \"existingPool\": {\n    \"token0Address\": \"B79cbB54eA680D36BF8ebEEd5fEEC8CF20A3A761\",\n    \"token1Address\": \"0xb4BbbbC53E4d68AA0ae4cfae5eCCFA8B6bAf8496\",\n    \"poolReference\": \"<string>\"\n  },\n  \"newPool\": {\n    \"token0Address\": \"0x53dda8C6eAfd5c0f4B8ec6cC4fD705909C4aeBbb\",\n    \"token1Address\": \"0xFE3969EC8BE1caB7cF54Ab87BbFEAdE7E82569bc\",\n    \"fee\": \"<integer>\",\n    \"tickSpacing\": \"<integer>\",\n    \"initialPrice\": \"<string>\",\n    \"hooks\": \"DeBa53fE179A5Cd3aeAF944Eeab5C685D6b6BA80\"\n  },\n  \"dependentToken\": {\n    \"tokenAddress\": \"EDE9E2a2a8dd45dC94bE686ef65E9aa4E3aaeECC\",\n    \"amount\": \"<string>\"\n  },\n  \"priceBounds\": {\n    \"minPrice\": \"<string>\",\n    \"maxPrice\": \"<string>\"\n  },\n  \"tickBounds\": {\n    \"tickLower\": \"<integer>\",\n    \"tickUpper\": \"<integer>\"\n  },\n  \"slippageTolerance\": \"<number>\",\n  \"deadline\": \"<integer>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"urgency\": \"NORMAL\",\n  \"batchPermitData\": {\n    \"domain\": {},\n    \"values\": {},\n    \"types\": {}\n  },\n  \"signature\": \"<string>\",\n  \"nativeTokenBalance\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/create",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "create"
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"InternalServerError\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-52e4ec51-43be-4837-9428-126ae430360d"
+                },
+                {
+                  "id": "135de1f4-3bab-4a7c-8dc4-8d3df93f8d50",
+                  "name": "Request duration limit reached.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"walletAddress\": \"0xe11e703Eebfb5398cbacF2bdAEDD6f9decB8A5a2\",\n  \"chainId\": 1,\n  \"protocol\": \"UNISWAPX_V3\",\n  \"independentToken\": {\n    \"tokenAddress\": \"0x78bF92a40E8381Cc02AFceA311abEfe2B1aAbAF7\",\n    \"amount\": \"<string>\"\n  },\n  \"existingPool\": {\n    \"token0Address\": \"B79cbB54eA680D36BF8ebEEd5fEEC8CF20A3A761\",\n    \"token1Address\": \"0xb4BbbbC53E4d68AA0ae4cfae5eCCFA8B6bAf8496\",\n    \"poolReference\": \"<string>\"\n  },\n  \"newPool\": {\n    \"token0Address\": \"0x53dda8C6eAfd5c0f4B8ec6cC4fD705909C4aeBbb\",\n    \"token1Address\": \"0xFE3969EC8BE1caB7cF54Ab87BbFEAdE7E82569bc\",\n    \"fee\": \"<integer>\",\n    \"tickSpacing\": \"<integer>\",\n    \"initialPrice\": \"<string>\",\n    \"hooks\": \"DeBa53fE179A5Cd3aeAF944Eeab5C685D6b6BA80\"\n  },\n  \"dependentToken\": {\n    \"tokenAddress\": \"EDE9E2a2a8dd45dC94bE686ef65E9aa4E3aaeECC\",\n    \"amount\": \"<string>\"\n  },\n  \"priceBounds\": {\n    \"minPrice\": \"<string>\",\n    \"maxPrice\": \"<string>\"\n  },\n  \"tickBounds\": {\n    \"tickLower\": \"<integer>\",\n    \"tickUpper\": \"<integer>\"\n  },\n  \"slippageTolerance\": \"<number>\",\n  \"deadline\": \"<integer>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"urgency\": \"NORMAL\",\n  \"batchPermitData\": {\n    \"domain\": {},\n    \"values\": {},\n    \"types\": {}\n  },\n  \"signature\": \"<string>\",\n  \"nativeTokenBalance\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/create",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "create"
+                      ]
+                    }
+                  },
+                  "status": "Gateway Timeout",
+                  "code": 504,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"Timeout\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-135de1f4-3bab-4a7c-8dc4-8d3df93f8d50"
+                }
+              ],
+              "createdAt": "2026-07-28T03:22:46.000Z",
+              "updatedAt": "2026-07-28T03:22:46.000Z",
+              "uid": "35240-bd2f6eed-e10e-48bc-8237-af121c0fb3f5"
+            }
+          ],
+          "id": "59e3de4b-51cd-4d28-a31c-61b3458bce4e",
+          "createdAt": "2026-07-28T03:22:46.000Z",
+          "updatedAt": "2026-07-28T03:22:46.000Z",
+          "uid": "35240-59e3de4b-51cd-4d28-a31c-61b3458bce4e"
+        },
+        {
+          "name": "increase",
+          "item": [
+            {
+              "name": "Increase an LP position",
+              "id": "addd559d-6770-4fa2-aefa-2b8842991c4d",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "apikey",
+                  "apikey": [
+                    {
+                      "key": "key",
+                      "value": "x-api-key",
+                      "type": "string"
+                    },
+                    {
+                      "key": "value",
+                      "value": "{{apiKey}}",
+                      "type": "string"
+                    },
+                    {
+                      "key": "in",
+                      "value": "header",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"walletAddress\": \"3DAaaeFE22F412E32eCE5ff78FdF8CaBB5a58912\",\n  \"chainId\": 1,\n  \"protocol\": \"V2\",\n  \"token0Address\": \"cEDCc00ADA5cAc2f1d8cB9BDe18c6d10BcBa1CE9\",\n  \"token1Address\": \"0xcEcDF0EDBa3f7cF92eB23b7ff4D738a00FdfEaf6\",\n  \"independentToken\": {\n    \"tokenAddress\": \"5cd0a1Fbc2a4dc54f5dBE1Ed8E0DFd43ae4C0C22\",\n    \"amount\": \"8332\"\n  },\n  \"nftTokenId\": \"<string>\",\n  \"slippageTolerance\": \"<number>\",\n  \"deadline\": \"<integer>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"v4BatchPermitData\": {\n    \"domain\": {},\n    \"values\": {},\n    \"types\": {}\n  },\n  \"signature\": \"<string>\",\n  \"urgency\": \"URGENT\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/lp/increase",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "lp",
+                    "increase"
+                  ]
+                },
+                "description": "Increases liquidity in an existing position. Specify the independent token and amount; the server derives the dependent token amount from the current pool state. Supports V2 (by token pair), V3, and V4 (by NFT token ID). If `simulateTransaction` is set to `true`, the response will include the gas fee."
+              },
+              "response": [
+                {
+                  "id": "93806a6a-f128-4e54-bfd8-6d54269777fa",
+                  "name": "Increase position successful.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"walletAddress\": \"3DAaaeFE22F412E32eCE5ff78FdF8CaBB5a58912\",\n  \"chainId\": 1,\n  \"protocol\": \"V2\",\n  \"token0Address\": \"cEDCc00ADA5cAc2f1d8cB9BDe18c6d10BcBa1CE9\",\n  \"token1Address\": \"0xcEcDF0EDBa3f7cF92eB23b7ff4D738a00FdfEaf6\",\n  \"independentToken\": {\n    \"tokenAddress\": \"5cd0a1Fbc2a4dc54f5dBE1Ed8E0DFd43ae4C0C22\",\n    \"amount\": \"8332\"\n  },\n  \"nftTokenId\": \"<string>\",\n  \"slippageTolerance\": \"<number>\",\n  \"deadline\": \"<integer>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"v4BatchPermitData\": {\n    \"domain\": {},\n    \"values\": {},\n    \"types\": {}\n  },\n  \"signature\": \"<string>\",\n  \"urgency\": \"URGENT\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/increase",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "increase"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"requestId\": \"<string>\",\n  \"token0\": {\n    \"tokenAddress\": \"9c7cC7072E98fE3c1A5bF4F7f720bb35c5DB3EbB\",\n    \"amount\": \"846312\"\n  },\n  \"token1\": {\n    \"tokenAddress\": \"0xAc9194213A3c8FeB4E17D42082A0dEfccb87c61F\",\n    \"amount\": \"99833598\"\n  },\n  \"increase\": {\n    \"to\": \"7Ee12ee00Dcc4eae5B8CfF57a787C5bF0BcBD4d5\",\n    \"from\": \"a71f935836dc14f2C99dEE61eFB4C66DaA6AF1cD\",\n    \"data\": \"<string>\",\n    \"value\": \"<string>\",\n    \"chainId\": 1,\n    \"gasLimit\": \"<string>\",\n    \"maxFeePerGas\": \"<string>\",\n    \"maxPriorityFeePerGas\": \"<string>\",\n    \"gasPrice\": \"<string>\"\n  },\n  \"gasFee\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-93806a6a-f128-4e54-bfd8-6d54269777fa"
+                },
+                {
+                  "id": "4e6c5077-2167-4023-8996-f434f60538bb",
+                  "name": "RequestValidationError, Bad Input",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"walletAddress\": \"3DAaaeFE22F412E32eCE5ff78FdF8CaBB5a58912\",\n  \"chainId\": 1,\n  \"protocol\": \"V2\",\n  \"token0Address\": \"cEDCc00ADA5cAc2f1d8cB9BDe18c6d10BcBa1CE9\",\n  \"token1Address\": \"0xcEcDF0EDBa3f7cF92eB23b7ff4D738a00FdfEaf6\",\n  \"independentToken\": {\n    \"tokenAddress\": \"5cd0a1Fbc2a4dc54f5dBE1Ed8E0DFd43ae4C0C22\",\n    \"amount\": \"8332\"\n  },\n  \"nftTokenId\": \"<string>\",\n  \"slippageTolerance\": \"<number>\",\n  \"deadline\": \"<integer>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"v4BatchPermitData\": {\n    \"domain\": {},\n    \"values\": {},\n    \"types\": {}\n  },\n  \"signature\": \"<string>\",\n  \"urgency\": \"URGENT\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/increase",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "increase"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"RequestValidationError\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-4e6c5077-2167-4023-8996-f434f60538bb"
+                },
+                {
+                  "id": "88a44bf6-1eff-4ce7-972d-b6e88236688c",
+                  "name": "UnauthorizedError eg. Account is blocked.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"walletAddress\": \"3DAaaeFE22F412E32eCE5ff78FdF8CaBB5a58912\",\n  \"chainId\": 1,\n  \"protocol\": \"V2\",\n  \"token0Address\": \"cEDCc00ADA5cAc2f1d8cB9BDe18c6d10BcBa1CE9\",\n  \"token1Address\": \"0xcEcDF0EDBa3f7cF92eB23b7ff4D738a00FdfEaf6\",\n  \"independentToken\": {\n    \"tokenAddress\": \"5cd0a1Fbc2a4dc54f5dBE1Ed8E0DFd43ae4C0C22\",\n    \"amount\": \"8332\"\n  },\n  \"nftTokenId\": \"<string>\",\n  \"slippageTolerance\": \"<number>\",\n  \"deadline\": \"<integer>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"v4BatchPermitData\": {\n    \"domain\": {},\n    \"values\": {},\n    \"types\": {}\n  },\n  \"signature\": \"<string>\",\n  \"urgency\": \"URGENT\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/increase",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "increase"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"UnauthorizedError\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-88a44bf6-1eff-4ce7-972d-b6e88236688c"
+                },
+                {
+                  "id": "64efd342-4ce9-4413-8ac6-afb0f8a5f733",
+                  "name": "ResourceNotFound eg. Cant Find LP Position.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"walletAddress\": \"3DAaaeFE22F412E32eCE5ff78FdF8CaBB5a58912\",\n  \"chainId\": 1,\n  \"protocol\": \"V2\",\n  \"token0Address\": \"cEDCc00ADA5cAc2f1d8cB9BDe18c6d10BcBa1CE9\",\n  \"token1Address\": \"0xcEcDF0EDBa3f7cF92eB23b7ff4D738a00FdfEaf6\",\n  \"independentToken\": {\n    \"tokenAddress\": \"5cd0a1Fbc2a4dc54f5dBE1Ed8E0DFd43ae4C0C22\",\n    \"amount\": \"8332\"\n  },\n  \"nftTokenId\": \"<string>\",\n  \"slippageTolerance\": \"<number>\",\n  \"deadline\": \"<integer>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"v4BatchPermitData\": {\n    \"domain\": {},\n    \"values\": {},\n    \"types\": {}\n  },\n  \"signature\": \"<string>\",\n  \"urgency\": \"URGENT\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/increase",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "increase"
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"InsufficientBalance\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-64efd342-4ce9-4413-8ac6-afb0f8a5f733"
+                },
+                {
+                  "id": "17f427c0-ebdc-4efa-b4a2-b38e8e279b2e",
+                  "name": "Ratelimited",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"walletAddress\": \"3DAaaeFE22F412E32eCE5ff78FdF8CaBB5a58912\",\n  \"chainId\": 1,\n  \"protocol\": \"V2\",\n  \"token0Address\": \"cEDCc00ADA5cAc2f1d8cB9BDe18c6d10BcBa1CE9\",\n  \"token1Address\": \"0xcEcDF0EDBa3f7cF92eB23b7ff4D738a00FdfEaf6\",\n  \"independentToken\": {\n    \"tokenAddress\": \"5cd0a1Fbc2a4dc54f5dBE1Ed8E0DFd43ae4C0C22\",\n    \"amount\": \"8332\"\n  },\n  \"nftTokenId\": \"<string>\",\n  \"slippageTolerance\": \"<number>\",\n  \"deadline\": \"<integer>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"v4BatchPermitData\": {\n    \"domain\": {},\n    \"values\": {},\n    \"types\": {}\n  },\n  \"signature\": \"<string>\",\n  \"urgency\": \"URGENT\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/increase",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "increase"
+                      ]
+                    }
+                  },
+                  "status": "Too Many Requests",
+                  "code": 429,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"Ratelimited\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-17f427c0-ebdc-4efa-b4a2-b38e8e279b2e"
+                },
+                {
+                  "id": "9a60beb9-0c78-4530-82b9-1b6b91c9b076",
+                  "name": "Unexpected error",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"walletAddress\": \"3DAaaeFE22F412E32eCE5ff78FdF8CaBB5a58912\",\n  \"chainId\": 1,\n  \"protocol\": \"V2\",\n  \"token0Address\": \"cEDCc00ADA5cAc2f1d8cB9BDe18c6d10BcBa1CE9\",\n  \"token1Address\": \"0xcEcDF0EDBa3f7cF92eB23b7ff4D738a00FdfEaf6\",\n  \"independentToken\": {\n    \"tokenAddress\": \"5cd0a1Fbc2a4dc54f5dBE1Ed8E0DFd43ae4C0C22\",\n    \"amount\": \"8332\"\n  },\n  \"nftTokenId\": \"<string>\",\n  \"slippageTolerance\": \"<number>\",\n  \"deadline\": \"<integer>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"v4BatchPermitData\": {\n    \"domain\": {},\n    \"values\": {},\n    \"types\": {}\n  },\n  \"signature\": \"<string>\",\n  \"urgency\": \"URGENT\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/increase",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "increase"
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"InternalServerError\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-9a60beb9-0c78-4530-82b9-1b6b91c9b076"
+                },
+                {
+                  "id": "4a50c763-6566-43c1-a436-aee694280863",
+                  "name": "Request duration limit reached.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"walletAddress\": \"3DAaaeFE22F412E32eCE5ff78FdF8CaBB5a58912\",\n  \"chainId\": 1,\n  \"protocol\": \"V2\",\n  \"token0Address\": \"cEDCc00ADA5cAc2f1d8cB9BDe18c6d10BcBa1CE9\",\n  \"token1Address\": \"0xcEcDF0EDBa3f7cF92eB23b7ff4D738a00FdfEaf6\",\n  \"independentToken\": {\n    \"tokenAddress\": \"5cd0a1Fbc2a4dc54f5dBE1Ed8E0DFd43ae4C0C22\",\n    \"amount\": \"8332\"\n  },\n  \"nftTokenId\": \"<string>\",\n  \"slippageTolerance\": \"<number>\",\n  \"deadline\": \"<integer>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"v4BatchPermitData\": {\n    \"domain\": {},\n    \"values\": {},\n    \"types\": {}\n  },\n  \"signature\": \"<string>\",\n  \"urgency\": \"URGENT\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/increase",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "increase"
+                      ]
+                    }
+                  },
+                  "status": "Gateway Timeout",
+                  "code": 504,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"Timeout\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-4a50c763-6566-43c1-a436-aee694280863"
+                }
+              ],
+              "createdAt": "2026-07-28T03:22:46.000Z",
+              "updatedAt": "2026-07-28T03:22:46.000Z",
+              "uid": "35240-addd559d-6770-4fa2-aefa-2b8842991c4d"
+            }
+          ],
+          "id": "13afe41c-37f0-4718-b43a-8dd595c0f35d",
+          "createdAt": "2026-07-28T03:22:46.000Z",
+          "updatedAt": "2026-07-28T03:22:46.000Z",
+          "uid": "35240-13afe41c-37f0-4718-b43a-8dd595c0f35d"
+        },
+        {
+          "name": "decrease",
+          "item": [
+            {
+              "name": "Decrease an LP position",
+              "id": "b5032a52-9437-43c4-9dba-c3c0960d067d",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "apikey",
+                  "apikey": [
+                    {
+                      "key": "key",
+                      "value": "x-api-key",
+                      "type": "string"
+                    },
+                    {
+                      "key": "value",
+                      "value": "{{apiKey}}",
+                      "type": "string"
+                    },
+                    {
+                      "key": "in",
+                      "value": "header",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"walletAddress\": \"85E5BEb5bdAB56AE58EC77AEACAeB4bBAEaE0E7B\",\n  \"chainId\": 1,\n  \"protocol\": \"UNISWAPX\",\n  \"token0Address\": \"B0284cb2B5Be2adCAF0af96d327aBBBB8ccDd9fA\",\n  \"token1Address\": \"0x54a16ce55f7EfD1F9E3De9E38BDd62E19A163C5E\",\n  \"liquidityPercentageToDecrease\": \"<integer>\",\n  \"nftTokenId\": \"<string>\",\n  \"slippageTolerance\": \"<number>\",\n  \"deadline\": \"<integer>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"withdrawAsWeth\": \"<boolean>\",\n  \"urgency\": \"NORMAL\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/lp/decrease",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "lp",
+                    "decrease"
+                  ]
+                },
+                "description": "Decreases liquidity in an existing position by a specified percentage. The server derives all position state (liquidity, fees, ticks) from on-chain data. Supports V2 (by token pair), V3, and V4 (by NFT token ID). If `simulateTransaction` is set to `true`, the response will include the gas fee."
+              },
+              "response": [
+                {
+                  "id": "4d2e875a-876a-4a20-91bd-1ac88b9b3ccc",
+                  "name": "Decrease position successful.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"walletAddress\": \"85E5BEb5bdAB56AE58EC77AEACAeB4bBAEaE0E7B\",\n  \"chainId\": 1,\n  \"protocol\": \"UNISWAPX\",\n  \"token0Address\": \"B0284cb2B5Be2adCAF0af96d327aBBBB8ccDd9fA\",\n  \"token1Address\": \"0x54a16ce55f7EfD1F9E3De9E38BDd62E19A163C5E\",\n  \"liquidityPercentageToDecrease\": \"<integer>\",\n  \"nftTokenId\": \"<string>\",\n  \"slippageTolerance\": \"<number>\",\n  \"deadline\": \"<integer>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"withdrawAsWeth\": \"<boolean>\",\n  \"urgency\": \"NORMAL\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/decrease",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "decrease"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"requestId\": \"<string>\",\n  \"token0\": {\n    \"tokenAddress\": \"0x21bbe070964C5b2FFB0B35DE8a102b5C1CEEFa76\",\n    \"amount\": \"8254520\"\n  },\n  \"token1\": {\n    \"tokenAddress\": \"0x1F2D8afF51BBBb2EFDD161F6f6De2FC758cC9BAb\",\n    \"amount\": \"522557091\"\n  },\n  \"decrease\": {\n    \"to\": \"5FECDEeDEbc8b7b4F68cF4136246B5cAcfFAB2dc\",\n    \"from\": \"716c1bb3A254cFB0A7dA620dc2aEEeacBdf35Fb7\",\n    \"data\": \"<string>\",\n    \"value\": \"<string>\",\n    \"chainId\": 1,\n    \"gasLimit\": \"<string>\",\n    \"maxFeePerGas\": \"<string>\",\n    \"maxPriorityFeePerGas\": \"<string>\",\n    \"gasPrice\": \"<string>\"\n  },\n  \"gasFee\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-4d2e875a-876a-4a20-91bd-1ac88b9b3ccc"
+                },
+                {
+                  "id": "95d5127e-055a-4d90-999e-166ecd13cb50",
+                  "name": "RequestValidationError, Bad Input",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"walletAddress\": \"85E5BEb5bdAB56AE58EC77AEACAeB4bBAEaE0E7B\",\n  \"chainId\": 1,\n  \"protocol\": \"UNISWAPX\",\n  \"token0Address\": \"B0284cb2B5Be2adCAF0af96d327aBBBB8ccDd9fA\",\n  \"token1Address\": \"0x54a16ce55f7EfD1F9E3De9E38BDd62E19A163C5E\",\n  \"liquidityPercentageToDecrease\": \"<integer>\",\n  \"nftTokenId\": \"<string>\",\n  \"slippageTolerance\": \"<number>\",\n  \"deadline\": \"<integer>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"withdrawAsWeth\": \"<boolean>\",\n  \"urgency\": \"NORMAL\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/decrease",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "decrease"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"RequestValidationError\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-95d5127e-055a-4d90-999e-166ecd13cb50"
+                },
+                {
+                  "id": "5ab9406c-608c-409a-85c6-54633c26b88c",
+                  "name": "UnauthorizedError eg. Account is blocked.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"walletAddress\": \"85E5BEb5bdAB56AE58EC77AEACAeB4bBAEaE0E7B\",\n  \"chainId\": 1,\n  \"protocol\": \"UNISWAPX\",\n  \"token0Address\": \"B0284cb2B5Be2adCAF0af96d327aBBBB8ccDd9fA\",\n  \"token1Address\": \"0x54a16ce55f7EfD1F9E3De9E38BDd62E19A163C5E\",\n  \"liquidityPercentageToDecrease\": \"<integer>\",\n  \"nftTokenId\": \"<string>\",\n  \"slippageTolerance\": \"<number>\",\n  \"deadline\": \"<integer>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"withdrawAsWeth\": \"<boolean>\",\n  \"urgency\": \"NORMAL\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/decrease",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "decrease"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"UnauthorizedError\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-5ab9406c-608c-409a-85c6-54633c26b88c"
+                },
+                {
+                  "id": "4f716837-b781-4dbe-b4a9-b73ae23c1d65",
+                  "name": "ResourceNotFound eg. Cant Find LP Position.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"walletAddress\": \"85E5BEb5bdAB56AE58EC77AEACAeB4bBAEaE0E7B\",\n  \"chainId\": 1,\n  \"protocol\": \"UNISWAPX\",\n  \"token0Address\": \"B0284cb2B5Be2adCAF0af96d327aBBBB8ccDd9fA\",\n  \"token1Address\": \"0x54a16ce55f7EfD1F9E3De9E38BDd62E19A163C5E\",\n  \"liquidityPercentageToDecrease\": \"<integer>\",\n  \"nftTokenId\": \"<string>\",\n  \"slippageTolerance\": \"<number>\",\n  \"deadline\": \"<integer>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"withdrawAsWeth\": \"<boolean>\",\n  \"urgency\": \"NORMAL\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/decrease",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "decrease"
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"InsufficientBalance\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-4f716837-b781-4dbe-b4a9-b73ae23c1d65"
+                },
+                {
+                  "id": "0c32bc43-3837-4202-a6a1-25056689c006",
+                  "name": "Ratelimited",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"walletAddress\": \"85E5BEb5bdAB56AE58EC77AEACAeB4bBAEaE0E7B\",\n  \"chainId\": 1,\n  \"protocol\": \"UNISWAPX\",\n  \"token0Address\": \"B0284cb2B5Be2adCAF0af96d327aBBBB8ccDd9fA\",\n  \"token1Address\": \"0x54a16ce55f7EfD1F9E3De9E38BDd62E19A163C5E\",\n  \"liquidityPercentageToDecrease\": \"<integer>\",\n  \"nftTokenId\": \"<string>\",\n  \"slippageTolerance\": \"<number>\",\n  \"deadline\": \"<integer>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"withdrawAsWeth\": \"<boolean>\",\n  \"urgency\": \"NORMAL\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/decrease",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "decrease"
+                      ]
+                    }
+                  },
+                  "status": "Too Many Requests",
+                  "code": 429,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"Ratelimited\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-0c32bc43-3837-4202-a6a1-25056689c006"
+                },
+                {
+                  "id": "e92e36ae-eaf5-4735-ad9d-432571d3bfc7",
+                  "name": "Unexpected error",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"walletAddress\": \"85E5BEb5bdAB56AE58EC77AEACAeB4bBAEaE0E7B\",\n  \"chainId\": 1,\n  \"protocol\": \"UNISWAPX\",\n  \"token0Address\": \"B0284cb2B5Be2adCAF0af96d327aBBBB8ccDd9fA\",\n  \"token1Address\": \"0x54a16ce55f7EfD1F9E3De9E38BDd62E19A163C5E\",\n  \"liquidityPercentageToDecrease\": \"<integer>\",\n  \"nftTokenId\": \"<string>\",\n  \"slippageTolerance\": \"<number>\",\n  \"deadline\": \"<integer>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"withdrawAsWeth\": \"<boolean>\",\n  \"urgency\": \"NORMAL\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/decrease",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "decrease"
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"InternalServerError\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-e92e36ae-eaf5-4735-ad9d-432571d3bfc7"
+                },
+                {
+                  "id": "cce62839-8ee0-49fb-bdf7-4467361c2234",
+                  "name": "Request duration limit reached.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"walletAddress\": \"85E5BEb5bdAB56AE58EC77AEACAeB4bBAEaE0E7B\",\n  \"chainId\": 1,\n  \"protocol\": \"UNISWAPX\",\n  \"token0Address\": \"B0284cb2B5Be2adCAF0af96d327aBBBB8ccDd9fA\",\n  \"token1Address\": \"0x54a16ce55f7EfD1F9E3De9E38BDd62E19A163C5E\",\n  \"liquidityPercentageToDecrease\": \"<integer>\",\n  \"nftTokenId\": \"<string>\",\n  \"slippageTolerance\": \"<number>\",\n  \"deadline\": \"<integer>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"withdrawAsWeth\": \"<boolean>\",\n  \"urgency\": \"NORMAL\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/decrease",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "decrease"
+                      ]
+                    }
+                  },
+                  "status": "Gateway Timeout",
+                  "code": 504,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"Timeout\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-cce62839-8ee0-49fb-bdf7-4467361c2234"
+                }
+              ],
+              "createdAt": "2026-07-28T03:22:46.000Z",
+              "updatedAt": "2026-07-28T03:22:46.000Z",
+              "uid": "35240-b5032a52-9437-43c4-9dba-c3c0960d067d"
+            }
+          ],
+          "id": "09016c3a-de2b-4c89-b193-d7a95a331ea0",
+          "createdAt": "2026-07-28T03:22:46.000Z",
+          "updatedAt": "2026-07-28T03:22:46.000Z",
+          "uid": "35240-09016c3a-de2b-4c89-b193-d7a95a331ea0"
+        },
+        {
+          "name": "claim_fees",
+          "item": [
+            {
+              "name": "Claim LP position fees",
+              "id": "79d36fed-2d7d-4c21-a2f6-b10b5a7e8e7e",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "apikey",
+                  "apikey": [
+                    {
+                      "key": "key",
+                      "value": "x-api-key",
+                      "type": "string"
+                    },
+                    {
+                      "key": "value",
+                      "value": "{{apiKey}}",
+                      "type": "string"
+                    },
+                    {
+                      "key": "in",
+                      "value": "header",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"protocol\": \"UNISWAPX\",\n  \"walletAddress\": \"2ECfEa6dA4A0B3afB5ee8B9f9BBdF0159FB96eD3\",\n  \"chainId\": 1,\n  \"tokenId\": \"<string>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"collectAsWeth\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/lp/claim_fees",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "lp",
+                    "claim_fees"
+                  ]
+                },
+                "description": "Claims accumulated trading fees from a V3 or V4 LP position. If `simulateTransaction` is set to `true`, the response will include the gas fee for the claim transaction.\n\nNote: V2 positions do not have claimable fees. V2 trading fees are automatically added to your LP token balance."
+              },
+              "response": [
+                {
+                  "id": "4c3835aa-1056-41c9-8294-91bd115131ec",
+                  "name": "Claim fees successful.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"protocol\": \"UNISWAPX\",\n  \"walletAddress\": \"2ECfEa6dA4A0B3afB5ee8B9f9BBdF0159FB96eD3\",\n  \"chainId\": 1,\n  \"tokenId\": \"<string>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"collectAsWeth\": \"<boolean>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/claim_fees",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "claim_fees"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"requestId\": \"<string>\",\n  \"token0\": {\n    \"tokenAddress\": \"8e1A225ffcae9d65c534BDC33A5F559A6c9215f3\",\n    \"amount\": \"27\"\n  },\n  \"token1\": {\n    \"tokenAddress\": \"d43bf0eE8f00aa1c19c0A0CbFF17C7c7a1Dfea26\",\n    \"amount\": \"82076159779\"\n  },\n  \"claim\": {\n    \"to\": \"0xCa05fEB0aFFcfdcCcB46f4ee4cE65ea4c446b6bA\",\n    \"from\": \"0xADaaF1A7adb931bc1BF6af2fCB507DD28dA81186\",\n    \"data\": \"<string>\",\n    \"value\": \"<string>\",\n    \"chainId\": 1,\n    \"gasLimit\": \"<string>\",\n    \"maxFeePerGas\": \"<string>\",\n    \"maxPriorityFeePerGas\": \"<string>\",\n    \"gasPrice\": \"<string>\"\n  },\n  \"gasFee\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-4c3835aa-1056-41c9-8294-91bd115131ec"
+                },
+                {
+                  "id": "7068d285-fdd6-4551-829b-b69bf55e03d7",
+                  "name": "RequestValidationError, Bad Input",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"protocol\": \"UNISWAPX\",\n  \"walletAddress\": \"2ECfEa6dA4A0B3afB5ee8B9f9BBdF0159FB96eD3\",\n  \"chainId\": 1,\n  \"tokenId\": \"<string>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"collectAsWeth\": \"<boolean>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/claim_fees",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "claim_fees"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"RequestValidationError\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-7068d285-fdd6-4551-829b-b69bf55e03d7"
+                },
+                {
+                  "id": "ef1958e4-b1f7-476a-affc-33499638fa95",
+                  "name": "UnauthorizedError eg. Account is blocked.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"protocol\": \"UNISWAPX\",\n  \"walletAddress\": \"2ECfEa6dA4A0B3afB5ee8B9f9BBdF0159FB96eD3\",\n  \"chainId\": 1,\n  \"tokenId\": \"<string>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"collectAsWeth\": \"<boolean>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/claim_fees",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "claim_fees"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"UnauthorizedError\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-ef1958e4-b1f7-476a-affc-33499638fa95"
+                },
+                {
+                  "id": "61ad444a-3cfb-4d7e-866d-4fb6a27a51e4",
+                  "name": "ResourceNotFound eg. Cant Find LP Position.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"protocol\": \"UNISWAPX\",\n  \"walletAddress\": \"2ECfEa6dA4A0B3afB5ee8B9f9BBdF0159FB96eD3\",\n  \"chainId\": 1,\n  \"tokenId\": \"<string>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"collectAsWeth\": \"<boolean>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/claim_fees",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "claim_fees"
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"InsufficientBalance\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-61ad444a-3cfb-4d7e-866d-4fb6a27a51e4"
+                },
+                {
+                  "id": "ba579212-6978-4729-bcfb-435fe6896e4f",
+                  "name": "Ratelimited",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"protocol\": \"UNISWAPX\",\n  \"walletAddress\": \"2ECfEa6dA4A0B3afB5ee8B9f9BBdF0159FB96eD3\",\n  \"chainId\": 1,\n  \"tokenId\": \"<string>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"collectAsWeth\": \"<boolean>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/claim_fees",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "claim_fees"
+                      ]
+                    }
+                  },
+                  "status": "Too Many Requests",
+                  "code": 429,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"Ratelimited\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-ba579212-6978-4729-bcfb-435fe6896e4f"
+                },
+                {
+                  "id": "604121e4-ade9-4d35-82b7-aad4e9eb9ab2",
+                  "name": "Unexpected error",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"protocol\": \"UNISWAPX\",\n  \"walletAddress\": \"2ECfEa6dA4A0B3afB5ee8B9f9BBdF0159FB96eD3\",\n  \"chainId\": 1,\n  \"tokenId\": \"<string>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"collectAsWeth\": \"<boolean>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/claim_fees",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "claim_fees"
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"InternalServerError\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-604121e4-ade9-4d35-82b7-aad4e9eb9ab2"
+                },
+                {
+                  "id": "24ded98b-65b7-4e73-a3ac-04f1de3a1025",
+                  "name": "Request duration limit reached.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"protocol\": \"UNISWAPX\",\n  \"walletAddress\": \"2ECfEa6dA4A0B3afB5ee8B9f9BBdF0159FB96eD3\",\n  \"chainId\": 1,\n  \"tokenId\": \"<string>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"collectAsWeth\": \"<boolean>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/claim_fees",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "claim_fees"
+                      ]
+                    }
+                  },
+                  "status": "Gateway Timeout",
+                  "code": 504,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"Timeout\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-24ded98b-65b7-4e73-a3ac-04f1de3a1025"
+                }
+              ],
+              "createdAt": "2026-07-28T03:22:46.000Z",
+              "updatedAt": "2026-07-28T03:22:46.000Z",
+              "uid": "35240-79d36fed-2d7d-4c21-a2f6-b10b5a7e8e7e"
+            }
+          ],
+          "id": "fde9993b-e756-41aa-abd6-0cffef5772ca",
+          "createdAt": "2026-07-28T03:22:46.000Z",
+          "updatedAt": "2026-07-28T03:22:46.000Z",
+          "uid": "35240-fde9993b-e756-41aa-abd6-0cffef5772ca"
+        },
+        {
+          "name": "create_classic",
+          "item": [
+            {
+              "name": "Create a classic (V2) LP position",
+              "id": "c776c800-3181-4492-9e87-945113443335",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "apikey",
+                  "apikey": [
+                    {
+                      "key": "key",
+                      "value": "x-api-key",
+                      "type": "string"
+                    },
+                    {
+                      "key": "value",
+                      "value": "{{apiKey}}",
+                      "type": "string"
+                    },
+                    {
+                      "key": "in",
+                      "value": "header",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"walletAddress\": \"6B87Af9AB34db518f3f4FA8115918c0DCF1B8Ebf\",\n  \"poolParameters\": {\n    \"token0Address\": \"0xd389b32EfedC7a4Fa0FFDdFccd52fA7E1A78Ebf7\",\n    \"token1Address\": \"0xCd4a339e6d4a80c9466c8ea1C4DfCE6B0aD43774\",\n    \"chainId\": 1\n  },\n  \"independentToken\": {\n    \"tokenAddress\": \"cdAdF5E3BbaEB4a70ed2FAED10c38D2a9fdA3948\",\n    \"amount\": \"8829456\"\n  },\n  \"dependentToken\": {\n    \"tokenAddress\": \"Da2CE0bBA739dC2BdcdbffCB81950FdcEaa5DEF0\",\n    \"amount\": \"40069198296\"\n  },\n  \"slippageTolerance\": \"<number>\",\n  \"deadline\": \"<integer>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"urgency\": \"NORMAL\",\n  \"includeApprovalSimulation\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/lp/create_classic",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "lp",
+                    "create_classic"
+                  ]
+                },
+                "description": "Creates a full-range liquidity position in a Uniswap V2 pool. Specify the independent token and amount; the server computes the dependent token amount based on the current pool ratio. If `simulateTransaction` is set to `true`, the response will include the gas fee for the creation transaction."
+              },
+              "response": [
+                {
+                  "id": "8dbd94d8-9347-40a4-9b2b-912a467c5042",
+                  "name": "Create classic (V2) position successful.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"walletAddress\": \"6B87Af9AB34db518f3f4FA8115918c0DCF1B8Ebf\",\n  \"poolParameters\": {\n    \"token0Address\": \"0xd389b32EfedC7a4Fa0FFDdFccd52fA7E1A78Ebf7\",\n    \"token1Address\": \"0xCd4a339e6d4a80c9466c8ea1C4DfCE6B0aD43774\",\n    \"chainId\": 1\n  },\n  \"independentToken\": {\n    \"tokenAddress\": \"cdAdF5E3BbaEB4a70ed2FAED10c38D2a9fdA3948\",\n    \"amount\": \"8829456\"\n  },\n  \"dependentToken\": {\n    \"tokenAddress\": \"Da2CE0bBA739dC2BdcdbffCB81950FdcEaa5DEF0\",\n    \"amount\": \"40069198296\"\n  },\n  \"slippageTolerance\": \"<number>\",\n  \"deadline\": \"<integer>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"urgency\": \"NORMAL\",\n  \"includeApprovalSimulation\": \"<boolean>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/create_classic",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "create_classic"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"requestId\": \"<string>\",\n  \"independentToken\": {\n    \"tokenAddress\": \"C1fe804bd4F95DdeBfE4B3AA5D95b70FDEBCAfea\",\n    \"amount\": \"1775995\"\n  },\n  \"dependentToken\": {\n    \"tokenAddress\": \"e701e59525b2cb6dfd70FDE1860AF66e5CB946ab\",\n    \"amount\": \"698008411\"\n  },\n  \"create\": {\n    \"to\": \"0x27dcD7cacfeDF34Fc6FAba3bCE1A039BA48CCc7C\",\n    \"from\": \"0x92B5B627B0a87d8BaC7E51F22754E7aD21386A1d\",\n    \"data\": \"<string>\",\n    \"value\": \"<string>\",\n    \"chainId\": 1,\n    \"gasLimit\": \"<string>\",\n    \"maxFeePerGas\": \"<string>\",\n    \"maxPriorityFeePerGas\": \"<string>\",\n    \"gasPrice\": \"<string>\"\n  },\n  \"gasFee\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-8dbd94d8-9347-40a4-9b2b-912a467c5042"
+                },
+                {
+                  "id": "78f7e378-583a-4506-bf57-a332c661c409",
+                  "name": "RequestValidationError, Bad Input",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"walletAddress\": \"6B87Af9AB34db518f3f4FA8115918c0DCF1B8Ebf\",\n  \"poolParameters\": {\n    \"token0Address\": \"0xd389b32EfedC7a4Fa0FFDdFccd52fA7E1A78Ebf7\",\n    \"token1Address\": \"0xCd4a339e6d4a80c9466c8ea1C4DfCE6B0aD43774\",\n    \"chainId\": 1\n  },\n  \"independentToken\": {\n    \"tokenAddress\": \"cdAdF5E3BbaEB4a70ed2FAED10c38D2a9fdA3948\",\n    \"amount\": \"8829456\"\n  },\n  \"dependentToken\": {\n    \"tokenAddress\": \"Da2CE0bBA739dC2BdcdbffCB81950FdcEaa5DEF0\",\n    \"amount\": \"40069198296\"\n  },\n  \"slippageTolerance\": \"<number>\",\n  \"deadline\": \"<integer>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"urgency\": \"NORMAL\",\n  \"includeApprovalSimulation\": \"<boolean>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/create_classic",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "create_classic"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"RequestValidationError\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-78f7e378-583a-4506-bf57-a332c661c409"
+                },
+                {
+                  "id": "9a0070df-7037-40cf-a9a8-6559a67f5129",
+                  "name": "UnauthorizedError eg. Account is blocked.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"walletAddress\": \"6B87Af9AB34db518f3f4FA8115918c0DCF1B8Ebf\",\n  \"poolParameters\": {\n    \"token0Address\": \"0xd389b32EfedC7a4Fa0FFDdFccd52fA7E1A78Ebf7\",\n    \"token1Address\": \"0xCd4a339e6d4a80c9466c8ea1C4DfCE6B0aD43774\",\n    \"chainId\": 1\n  },\n  \"independentToken\": {\n    \"tokenAddress\": \"cdAdF5E3BbaEB4a70ed2FAED10c38D2a9fdA3948\",\n    \"amount\": \"8829456\"\n  },\n  \"dependentToken\": {\n    \"tokenAddress\": \"Da2CE0bBA739dC2BdcdbffCB81950FdcEaa5DEF0\",\n    \"amount\": \"40069198296\"\n  },\n  \"slippageTolerance\": \"<number>\",\n  \"deadline\": \"<integer>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"urgency\": \"NORMAL\",\n  \"includeApprovalSimulation\": \"<boolean>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/create_classic",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "create_classic"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"UnauthorizedError\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-9a0070df-7037-40cf-a9a8-6559a67f5129"
+                },
+                {
+                  "id": "8c44e244-bb51-49e3-ad8e-4bf4798de58a",
+                  "name": "ResourceNotFound eg. Cant Find LP Position.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"walletAddress\": \"6B87Af9AB34db518f3f4FA8115918c0DCF1B8Ebf\",\n  \"poolParameters\": {\n    \"token0Address\": \"0xd389b32EfedC7a4Fa0FFDdFccd52fA7E1A78Ebf7\",\n    \"token1Address\": \"0xCd4a339e6d4a80c9466c8ea1C4DfCE6B0aD43774\",\n    \"chainId\": 1\n  },\n  \"independentToken\": {\n    \"tokenAddress\": \"cdAdF5E3BbaEB4a70ed2FAED10c38D2a9fdA3948\",\n    \"amount\": \"8829456\"\n  },\n  \"dependentToken\": {\n    \"tokenAddress\": \"Da2CE0bBA739dC2BdcdbffCB81950FdcEaa5DEF0\",\n    \"amount\": \"40069198296\"\n  },\n  \"slippageTolerance\": \"<number>\",\n  \"deadline\": \"<integer>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"urgency\": \"NORMAL\",\n  \"includeApprovalSimulation\": \"<boolean>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/create_classic",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "create_classic"
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"InsufficientBalance\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-8c44e244-bb51-49e3-ad8e-4bf4798de58a"
+                },
+                {
+                  "id": "fe54b954-cb14-45f0-a899-b48e471f6421",
+                  "name": "Ratelimited",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"walletAddress\": \"6B87Af9AB34db518f3f4FA8115918c0DCF1B8Ebf\",\n  \"poolParameters\": {\n    \"token0Address\": \"0xd389b32EfedC7a4Fa0FFDdFccd52fA7E1A78Ebf7\",\n    \"token1Address\": \"0xCd4a339e6d4a80c9466c8ea1C4DfCE6B0aD43774\",\n    \"chainId\": 1\n  },\n  \"independentToken\": {\n    \"tokenAddress\": \"cdAdF5E3BbaEB4a70ed2FAED10c38D2a9fdA3948\",\n    \"amount\": \"8829456\"\n  },\n  \"dependentToken\": {\n    \"tokenAddress\": \"Da2CE0bBA739dC2BdcdbffCB81950FdcEaa5DEF0\",\n    \"amount\": \"40069198296\"\n  },\n  \"slippageTolerance\": \"<number>\",\n  \"deadline\": \"<integer>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"urgency\": \"NORMAL\",\n  \"includeApprovalSimulation\": \"<boolean>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/create_classic",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "create_classic"
+                      ]
+                    }
+                  },
+                  "status": "Too Many Requests",
+                  "code": 429,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"Ratelimited\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-fe54b954-cb14-45f0-a899-b48e471f6421"
+                },
+                {
+                  "id": "8aa4ab34-07a8-46ee-a4ea-2f4d9202173b",
+                  "name": "Unexpected error",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"walletAddress\": \"6B87Af9AB34db518f3f4FA8115918c0DCF1B8Ebf\",\n  \"poolParameters\": {\n    \"token0Address\": \"0xd389b32EfedC7a4Fa0FFDdFccd52fA7E1A78Ebf7\",\n    \"token1Address\": \"0xCd4a339e6d4a80c9466c8ea1C4DfCE6B0aD43774\",\n    \"chainId\": 1\n  },\n  \"independentToken\": {\n    \"tokenAddress\": \"cdAdF5E3BbaEB4a70ed2FAED10c38D2a9fdA3948\",\n    \"amount\": \"8829456\"\n  },\n  \"dependentToken\": {\n    \"tokenAddress\": \"Da2CE0bBA739dC2BdcdbffCB81950FdcEaa5DEF0\",\n    \"amount\": \"40069198296\"\n  },\n  \"slippageTolerance\": \"<number>\",\n  \"deadline\": \"<integer>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"urgency\": \"NORMAL\",\n  \"includeApprovalSimulation\": \"<boolean>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/create_classic",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "create_classic"
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"InternalServerError\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-8aa4ab34-07a8-46ee-a4ea-2f4d9202173b"
+                },
+                {
+                  "id": "2abc800b-e6f4-4bf0-a1d5-c32c3222a906",
+                  "name": "Request duration limit reached.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"walletAddress\": \"6B87Af9AB34db518f3f4FA8115918c0DCF1B8Ebf\",\n  \"poolParameters\": {\n    \"token0Address\": \"0xd389b32EfedC7a4Fa0FFDdFccd52fA7E1A78Ebf7\",\n    \"token1Address\": \"0xCd4a339e6d4a80c9466c8ea1C4DfCE6B0aD43774\",\n    \"chainId\": 1\n  },\n  \"independentToken\": {\n    \"tokenAddress\": \"cdAdF5E3BbaEB4a70ed2FAED10c38D2a9fdA3948\",\n    \"amount\": \"8829456\"\n  },\n  \"dependentToken\": {\n    \"tokenAddress\": \"Da2CE0bBA739dC2BdcdbffCB81950FdcEaa5DEF0\",\n    \"amount\": \"40069198296\"\n  },\n  \"slippageTolerance\": \"<number>\",\n  \"deadline\": \"<integer>\",\n  \"simulateTransaction\": \"<boolean>\",\n  \"urgency\": \"NORMAL\",\n  \"includeApprovalSimulation\": \"<boolean>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/create_classic",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "create_classic"
+                      ]
+                    }
+                  },
+                  "status": "Gateway Timeout",
+                  "code": 504,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"Timeout\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-2abc800b-e6f4-4bf0-a1d5-c32c3222a906"
+                }
+              ],
+              "createdAt": "2026-07-28T03:22:46.000Z",
+              "updatedAt": "2026-07-28T03:22:46.000Z",
+              "uid": "35240-c776c800-3181-4492-9e87-945113443335"
+            }
+          ],
+          "id": "4ab6cbef-f4fc-42b1-b777-57e8663ec02e",
+          "createdAt": "2026-07-28T03:22:46.000Z",
+          "updatedAt": "2026-07-28T03:22:46.000Z",
+          "uid": "35240-4ab6cbef-f4fc-42b1-b777-57e8663ec02e"
+        },
+        {
+          "name": "pool_info",
+          "item": [
+            {
+              "name": "Fetch Pool Information",
+              "id": "0160960f-6e30-44a2-b1f5-605ce34f1ac8",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "apikey",
+                  "apikey": [
+                    {
+                      "key": "key",
+                      "value": "x-api-key",
+                      "type": "string"
+                    },
+                    {
+                      "key": "value",
+                      "value": "{{apiKey}}",
+                      "type": "string"
+                    },
+                    {
+                      "key": "in",
+                      "value": "header",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"protocol\": [\n    \"V3\",\n    \"V2\"\n  ],\n  \"poolParameters\": {\n    \"tokenAddressA\": \"5E69Bfadf5E392E5AA6bfCFb7d6eC69CE83b90A0\",\n    \"tokenAddressB\": \"F909de6F4FE81d01F1e32D16037Ff5E8893F2117\",\n    \"fee\": \"<number>\",\n    \"tickSpacing\": \"<number>\",\n    \"hookAddress\": \"<string>\"\n  },\n  \"poolReferences\": [\n    {\n      \"protocol\": [\n        \"UNISWAPX\",\n        \"V3\"\n      ],\n      \"chainId\": 1,\n      \"referenceIdentifier\": \"5\"\n    },\n    {\n      \"protocol\": [\n        \"UNISWAPX_V3\",\n        \"V4\"\n      ],\n      \"chainId\": 1,\n      \"referenceIdentifier\": \"0xa\"\n    }\n  ],\n  \"chainId\": 1,\n  \"pageSize\": \"<number>\",\n  \"currentPage\": \"<number>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/lp/pool_info",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "lp",
+                    "pool_info"
+                  ]
+                },
+                "description": "Fetches detailed information about one or more liquidity pools across Uniswap V2, V3, and V4. Returns pool state including token addresses, reserves, liquidity, current tick, sqrtRatioX96, fee tier, tick spacing, and hook addresses (V4).\n\nProvide one of `poolParameters` or `poolReferences` (not both):\n- `poolParameters`: Look up pools by token pair. Provide token addresses and optional fee/tickSpacing/hooks to find matching pools.\n- `poolReferences`: Look up specific known pools by their reference identifier (pool address for V3, pool ID for V4, pair address for V2)."
+              },
+              "response": [
+                {
+                  "id": "89696537-0272-4f6f-8e36-bc3886651c4a",
+                  "name": "Pool information response successful.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"protocol\": [\n    \"V3\",\n    \"V2\"\n  ],\n  \"poolParameters\": {\n    \"tokenAddressA\": \"5E69Bfadf5E392E5AA6bfCFb7d6eC69CE83b90A0\",\n    \"tokenAddressB\": \"F909de6F4FE81d01F1e32D16037Ff5E8893F2117\",\n    \"fee\": \"<number>\",\n    \"tickSpacing\": \"<number>\",\n    \"hookAddress\": \"<string>\"\n  },\n  \"poolReferences\": [\n    {\n      \"protocol\": [\n        \"UNISWAPX\",\n        \"V3\"\n      ],\n      \"chainId\": 1,\n      \"referenceIdentifier\": \"5\"\n    },\n    {\n      \"protocol\": [\n        \"UNISWAPX_V3\",\n        \"V4\"\n      ],\n      \"chainId\": 1,\n      \"referenceIdentifier\": \"0xa\"\n    }\n  ],\n  \"chainId\": 1,\n  \"pageSize\": \"<number>\",\n  \"currentPage\": \"<number>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/pool_info",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "pool_info"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"requestId\": \"<string>\",\n  \"pools\": [\n    {\n      \"poolReferenceIdentifier\": \"<string>\",\n      \"poolProtocol\": [\n        \"V3\",\n        \"UNISWAPX_V2\"\n      ],\n      \"tokenAddressA\": \"0x6DCe63F8e2EeeD76bC31Ca7f9FC6DDde289Be0D3\",\n      \"tokenAddressB\": \"8e5d0fD955dA800613CEA5e321076AbbaA1861E4\",\n      \"tickSpacing\": \"<number>\",\n      \"fee\": \"<string>\",\n      \"hookAddress\": \"<string>\",\n      \"chainId\": 1,\n      \"tokenAmountA\": \"98686522168\",\n      \"tokenAmountB\": \"67\",\n      \"tokenDecimalsA\": \"<number>\",\n      \"tokenDecimalsB\": \"<number>\",\n      \"poolLiquidity\": \"<string>\",\n      \"sqrtRatioX96\": \"<string>\",\n      \"currentTick\": \"<number>\",\n      \"tokenAReserves\": \"52\",\n      \"tokenBReserves\": \"79266737591\"\n    },\n    {\n      \"poolReferenceIdentifier\": \"<string>\",\n      \"poolProtocol\": [\n        \"UNISWAPX_V2\",\n        \"UNISWAPX_V2\"\n      ],\n      \"tokenAddressA\": \"12F4BDEbBed7AE3A3c7cCdd7CDE8EA2dA5DEF541\",\n      \"tokenAddressB\": \"d200BDd588Bddb5FeF8cbEe8De7f49B57c8CC0CF\",\n      \"tickSpacing\": \"<number>\",\n      \"fee\": \"<string>\",\n      \"hookAddress\": \"<string>\",\n      \"chainId\": 1,\n      \"tokenAmountA\": \"79560528\",\n      \"tokenAmountB\": \"7929283334\",\n      \"tokenDecimalsA\": \"<number>\",\n      \"tokenDecimalsB\": \"<number>\",\n      \"poolLiquidity\": \"<string>\",\n      \"sqrtRatioX96\": \"<string>\",\n      \"currentTick\": \"<number>\",\n      \"tokenAReserves\": \"58634\",\n      \"tokenBReserves\": \"004\"\n    }\n  ],\n  \"pageSize\": \"<number>\",\n  \"currentPage\": \"<number>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-89696537-0272-4f6f-8e36-bc3886651c4a"
+                },
+                {
+                  "id": "35ffb63f-4abd-40c8-b8ba-b32ae57d28ad",
+                  "name": "RequestValidationError, Bad Input",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"protocol\": [\n    \"V3\",\n    \"V2\"\n  ],\n  \"poolParameters\": {\n    \"tokenAddressA\": \"5E69Bfadf5E392E5AA6bfCFb7d6eC69CE83b90A0\",\n    \"tokenAddressB\": \"F909de6F4FE81d01F1e32D16037Ff5E8893F2117\",\n    \"fee\": \"<number>\",\n    \"tickSpacing\": \"<number>\",\n    \"hookAddress\": \"<string>\"\n  },\n  \"poolReferences\": [\n    {\n      \"protocol\": [\n        \"UNISWAPX\",\n        \"V3\"\n      ],\n      \"chainId\": 1,\n      \"referenceIdentifier\": \"5\"\n    },\n    {\n      \"protocol\": [\n        \"UNISWAPX_V3\",\n        \"V4\"\n      ],\n      \"chainId\": 1,\n      \"referenceIdentifier\": \"0xa\"\n    }\n  ],\n  \"chainId\": 1,\n  \"pageSize\": \"<number>\",\n  \"currentPage\": \"<number>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/pool_info",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "pool_info"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"RequestValidationError\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-35ffb63f-4abd-40c8-b8ba-b32ae57d28ad"
+                },
+                {
+                  "id": "04531b08-627d-4482-98c2-6f57194aa961",
+                  "name": "UnauthorizedError eg. Account is blocked.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"protocol\": [\n    \"V3\",\n    \"V2\"\n  ],\n  \"poolParameters\": {\n    \"tokenAddressA\": \"5E69Bfadf5E392E5AA6bfCFb7d6eC69CE83b90A0\",\n    \"tokenAddressB\": \"F909de6F4FE81d01F1e32D16037Ff5E8893F2117\",\n    \"fee\": \"<number>\",\n    \"tickSpacing\": \"<number>\",\n    \"hookAddress\": \"<string>\"\n  },\n  \"poolReferences\": [\n    {\n      \"protocol\": [\n        \"UNISWAPX\",\n        \"V3\"\n      ],\n      \"chainId\": 1,\n      \"referenceIdentifier\": \"5\"\n    },\n    {\n      \"protocol\": [\n        \"UNISWAPX_V3\",\n        \"V4\"\n      ],\n      \"chainId\": 1,\n      \"referenceIdentifier\": \"0xa\"\n    }\n  ],\n  \"chainId\": 1,\n  \"pageSize\": \"<number>\",\n  \"currentPage\": \"<number>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/pool_info",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "pool_info"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"UnauthorizedError\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-04531b08-627d-4482-98c2-6f57194aa961"
+                },
+                {
+                  "id": "2ed6bab4-a914-4045-b218-fc39d86495b4",
+                  "name": "ResourceNotFound eg. No pool information on given chain",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"protocol\": [\n    \"V3\",\n    \"V2\"\n  ],\n  \"poolParameters\": {\n    \"tokenAddressA\": \"5E69Bfadf5E392E5AA6bfCFb7d6eC69CE83b90A0\",\n    \"tokenAddressB\": \"F909de6F4FE81d01F1e32D16037Ff5E8893F2117\",\n    \"fee\": \"<number>\",\n    \"tickSpacing\": \"<number>\",\n    \"hookAddress\": \"<string>\"\n  },\n  \"poolReferences\": [\n    {\n      \"protocol\": [\n        \"UNISWAPX\",\n        \"V3\"\n      ],\n      \"chainId\": 1,\n      \"referenceIdentifier\": \"5\"\n    },\n    {\n      \"protocol\": [\n        \"UNISWAPX_V3\",\n        \"V4\"\n      ],\n      \"chainId\": 1,\n      \"referenceIdentifier\": \"0xa\"\n    }\n  ],\n  \"chainId\": 1,\n  \"pageSize\": \"<number>\",\n  \"currentPage\": \"<number>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/pool_info",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "pool_info"
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"InsufficientBalance\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-2ed6bab4-a914-4045-b218-fc39d86495b4"
+                },
+                {
+                  "id": "582ee93e-4d10-4ad9-b80a-7ed5c372cabe",
+                  "name": "Ratelimited",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"protocol\": [\n    \"V3\",\n    \"V2\"\n  ],\n  \"poolParameters\": {\n    \"tokenAddressA\": \"5E69Bfadf5E392E5AA6bfCFb7d6eC69CE83b90A0\",\n    \"tokenAddressB\": \"F909de6F4FE81d01F1e32D16037Ff5E8893F2117\",\n    \"fee\": \"<number>\",\n    \"tickSpacing\": \"<number>\",\n    \"hookAddress\": \"<string>\"\n  },\n  \"poolReferences\": [\n    {\n      \"protocol\": [\n        \"UNISWAPX\",\n        \"V3\"\n      ],\n      \"chainId\": 1,\n      \"referenceIdentifier\": \"5\"\n    },\n    {\n      \"protocol\": [\n        \"UNISWAPX_V3\",\n        \"V4\"\n      ],\n      \"chainId\": 1,\n      \"referenceIdentifier\": \"0xa\"\n    }\n  ],\n  \"chainId\": 1,\n  \"pageSize\": \"<number>\",\n  \"currentPage\": \"<number>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/pool_info",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "pool_info"
+                      ]
+                    }
+                  },
+                  "status": "Too Many Requests",
+                  "code": 429,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"Ratelimited\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-582ee93e-4d10-4ad9-b80a-7ed5c372cabe"
+                },
+                {
+                  "id": "938f0940-cf72-43c4-9e7d-249952e82017",
+                  "name": "Unexpected error",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"protocol\": [\n    \"V3\",\n    \"V2\"\n  ],\n  \"poolParameters\": {\n    \"tokenAddressA\": \"5E69Bfadf5E392E5AA6bfCFb7d6eC69CE83b90A0\",\n    \"tokenAddressB\": \"F909de6F4FE81d01F1e32D16037Ff5E8893F2117\",\n    \"fee\": \"<number>\",\n    \"tickSpacing\": \"<number>\",\n    \"hookAddress\": \"<string>\"\n  },\n  \"poolReferences\": [\n    {\n      \"protocol\": [\n        \"UNISWAPX\",\n        \"V3\"\n      ],\n      \"chainId\": 1,\n      \"referenceIdentifier\": \"5\"\n    },\n    {\n      \"protocol\": [\n        \"UNISWAPX_V3\",\n        \"V4\"\n      ],\n      \"chainId\": 1,\n      \"referenceIdentifier\": \"0xa\"\n    }\n  ],\n  \"chainId\": 1,\n  \"pageSize\": \"<number>\",\n  \"currentPage\": \"<number>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/pool_info",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "pool_info"
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"InternalServerError\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-938f0940-cf72-43c4-9e7d-249952e82017"
+                },
+                {
+                  "id": "4b0ace3d-269b-4f54-aff0-5fffbdbf6144",
+                  "name": "Request duration limit reached.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "x-api-key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"protocol\": [\n    \"V3\",\n    \"V2\"\n  ],\n  \"poolParameters\": {\n    \"tokenAddressA\": \"5E69Bfadf5E392E5AA6bfCFb7d6eC69CE83b90A0\",\n    \"tokenAddressB\": \"F909de6F4FE81d01F1e32D16037Ff5E8893F2117\",\n    \"fee\": \"<number>\",\n    \"tickSpacing\": \"<number>\",\n    \"hookAddress\": \"<string>\"\n  },\n  \"poolReferences\": [\n    {\n      \"protocol\": [\n        \"UNISWAPX\",\n        \"V3\"\n      ],\n      \"chainId\": 1,\n      \"referenceIdentifier\": \"5\"\n    },\n    {\n      \"protocol\": [\n        \"UNISWAPX_V3\",\n        \"V4\"\n      ],\n      \"chainId\": 1,\n      \"referenceIdentifier\": \"0xa\"\n    }\n  ],\n  \"chainId\": 1,\n  \"pageSize\": \"<number>\",\n  \"currentPage\": \"<number>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/lp/pool_info",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "lp",
+                        "pool_info"
+                      ]
+                    }
+                  },
+                  "status": "Gateway Timeout",
+                  "code": 504,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorCode\": \"Timeout\",\n  \"detail\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:22:46.000Z",
+                  "updatedAt": "2026-07-28T03:22:46.000Z",
+                  "uid": "35240-4b0ace3d-269b-4f54-aff0-5fffbdbf6144"
+                }
+              ],
+              "createdAt": "2026-07-28T03:22:46.000Z",
+              "updatedAt": "2026-07-28T03:22:46.000Z",
+              "uid": "35240-0160960f-6e30-44a2-b1f5-605ce34f1ac8"
+            }
+          ],
+          "id": "94817be7-4bd7-4ff8-be04-e53ee97f93e4",
+          "createdAt": "2026-07-28T03:22:46.000Z",
+          "updatedAt": "2026-07-28T03:22:46.000Z",
+          "uid": "35240-94817be7-4bd7-4ff8-be04-e53ee97f93e4"
+        }
+      ],
+      "id": "28b7e45d-279e-481b-bf24-8ad91aa38f56",
+      "createdAt": "2026-07-28T03:22:46.000Z",
+      "updatedAt": "2026-07-28T03:22:46.000Z",
+      "uid": "35240-28b7e45d-279e-481b-bf24-8ad91aa38f56"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "x-api-key",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://trade-api.gateway.uniswap.org/v1"
+    }
+  ]
+}

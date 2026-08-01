@@ -1,0 +1,626 @@
+{
+  "info": {
+    "_postman_id": "3286bdd4-7b06-41d8-9d97-5becfb234e00",
+    "name": "Token Trading Approval Quote API",
+    "description": "Uniswap Labs trading APIs.\n\nEach operation may include the vendor extension `x-public-endpoint` (boolean): `true` when the operation is available on the public gateway for standard API keys, `false` when it is not publicly exposed. See the [OpenAPI specification extensions](https://swagger.io/docs/specification/v3_0/openapi-extensions/) definition of `x-` fields.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:22:49.000Z",
+    "updatedAt": "2026-07-28T03:22:49.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-3286bdd4-7b06-41d8-9d97-5becfb234e00"
+  },
+  "item": [
+    {
+      "name": "quote",
+      "item": [
+        {
+          "name": "Get a quote",
+          "id": "777f2782-1314-4b15-9979-1122c1fd29c5",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key",
+                  "type": "string"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}",
+                  "type": "string"
+                },
+                {
+                  "key": "in",
+                  "value": "header",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "description": "The version of the Universal Router to use for the swap journey. *MUST* be consistent throughout the API calls.",
+                "key": "x-universal-router-version",
+                "value": "2.0"
+              },
+              {
+                "description": "Enable native ETH input support for UniswapX via ERC20-ETH (EIP-7914). When set to true and `tokenIn` is the native currency address (e.g. `0x0000000000000000000000000000000000000000`), the API may return UniswapX routes that spend native ETH for supported wallets.",
+                "key": "x-erc20eth-enabled",
+                "value": "false"
+              },
+              {
+                "description": "Disables the Permit2 approval flow. When set to `true`, `permitData` is returned as `null` and the header is forwarded to the routing layer for correct gas simulation against the Proxy Universal Router contract. When `false` or omitted, the standard Permit2 approval flow is used. This header is intended for integrators whose infrastructure uses a direct approval-then-swap pattern without Permit2.",
+                "key": "x-permit2-disabled",
+                "value": "false"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"EXACT_INPUT\",\n  \"amount\": \"5\",\n  \"tokenInChainId\": 1,\n  \"tokenOutChainId\": 1,\n  \"tokenIn\": \"0x3b54Af2f08bA002AeEcE9bAE86A6FF1FbebefDbf\",\n  \"tokenOut\": \"83dcfb1f5E78f4F648a7abeAD1565495bb1E32cb\",\n  \"swapper\": \"0x45bABc8176E35Fb50bE15BF7A66992d2F7cDadfb\",\n  \"generatePermitAsTransaction\": false,\n  \"slippageTolerance\": 0.17,\n  \"autoSlippage\": \"DEFAULT\",\n  \"routingPreference\": \"BEST_PRICE\",\n  \"protocols\": [\n    \"V4\",\n    \"V2\"\n  ],\n  \"hooksOptions\": \"V4_HOOKS_ONLY\",\n  \"spreadOptimization\": \"EXECUTION\",\n  \"urgency\": \"urgent\",\n  \"permitAmount\": \"FULL\",\n  \"integratorFees\": [\n    {\n      \"bips\": \"<number>\",\n      \"recipient\": \"0x3A1C251eb0fAffbD186Eebb8BC6BD7BBc4Cdb85a\"\n    }\n  ],\n  \"walletExecutionContext\": {\n    \"scopes\": {\n      \"aliqua4_\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"in50b\": false,\n          \"fugiat2\": -48220696\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"deserunt4ed\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"exa\": -38967561,\n          \"ipsum9\": false\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"reprehenderitb3\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"ut7\": 23844499\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      }\n    },\n    \"properties\": {\n      \"walletInfo\": {\n        \"uuid\": \"<string>\",\n        \"name\": \"<string>\",\n        \"rdns\": \"<string>\"\n      }\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/quote",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "quote"
+              ]
+            },
+            "description": "Requests a quote according to the specified swap parameters. This endpoint may be used to get a quote for a swap, a bridge, or a wrap/unwrap. The resulting response includes a quote for the swap and the proposed route by which the quote was achieved. The response will also include estimated gas fees for the proposed quote route. If the proposed route is via a Uniswap Protocol pool, the response may include a permit2 message for the swapper to sign prior to making a /swap request. The proposed route will also be simulated. If the simulation fails, the response will include an error message or `txFailureReason`.\n\nCertain routing options may be whitelisted by the requestor through the use of the `protocols` field. Further, the requestor may ask for the best price route or for the fastest price route through the 'routingPreference' field. Note that the fastest price route refers to the speed with which a quote is returned, not the number of transactions that may be required to get from the input token and chain to the output token and chain. Further note that all `routingPreference` values except for `FASTEST` and `BEST_PRICE` are deprecated. For more information on the `protocols` and `routingPreference` fields, see the [Token Trading Workflow](https://uniswap-docs.readme.io/reference/trading-flow#swap-routing) explanation of Swap Routing.\n\nAPI integrators using this API for the benefit of customer end users may request a service fee be taken from the output token and deposited to a fee collection address. To request this, please reach out to your Uniswap Labs contact. This optional fee is associated to the API key and is always taken from the output token. Note if there is a fee and the `type` is `EXACT_INPUT`, the output amount quoted will **not** include the fee subtraction. If there is a fee and the `type` is `EXACT_OUTPUT`, the input amount quoted will **not** include the fee addition. Instead, in both cases, the fee will be recorded in the `portionBips` and `portionAmount` fields.\n\nNative ETH on UniswapX: UniswapX routes (e.g. `DUTCH_V2`, `DUTCH_V3`, `PRIORITY`) can use native ETH as the input token by setting `tokenIn` to the native currency address (e.g. `0x0000000000000000000000000000000000000000`) and passing `x-erc20eth-enabled: true`. Native ETH input on UniswapX requires wallet support for EIP-7914, a smart wallet activated on your desired network, and a sufficient native allowance (set via /swap_7702 if x-erc20eth-enabled header is set to `true`). If these requirements are not met, UniswapX quotes for native input may be omitted and the response may fall back to `CLASSIC` routing instead."
+          },
+          "response": [
+            {
+              "id": "2d2d8d24-ec25-447e-87f6-3a1ca4152b84",
+              "name": "Quote request successful.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "description": "The version of the Universal Router to use for the swap journey. *MUST* be consistent throughout the API calls.",
+                    "key": "x-universal-router-version",
+                    "value": "2.0"
+                  },
+                  {
+                    "description": "Enable native ETH input support for UniswapX via ERC20-ETH (EIP-7914). When set to true and `tokenIn` is the native currency address (e.g. `0x0000000000000000000000000000000000000000`), the API may return UniswapX routes that spend native ETH for supported wallets.",
+                    "key": "x-erc20eth-enabled",
+                    "value": "false"
+                  },
+                  {
+                    "description": "Disables the Permit2 approval flow. When set to `true`, `permitData` is returned as `null` and the header is forwarded to the routing layer for correct gas simulation against the Proxy Universal Router contract. When `false` or omitted, the standard Permit2 approval flow is used. This header is intended for integrators whose infrastructure uses a direct approval-then-swap pattern without Permit2.",
+                    "key": "x-permit2-disabled",
+                    "value": "false"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"EXACT_INPUT\",\n  \"amount\": \"5\",\n  \"tokenInChainId\": 1,\n  \"tokenOutChainId\": 1,\n  \"tokenIn\": \"0x3b54Af2f08bA002AeEcE9bAE86A6FF1FbebefDbf\",\n  \"tokenOut\": \"83dcfb1f5E78f4F648a7abeAD1565495bb1E32cb\",\n  \"swapper\": \"0x45bABc8176E35Fb50bE15BF7A66992d2F7cDadfb\",\n  \"generatePermitAsTransaction\": false,\n  \"slippageTolerance\": 0.17,\n  \"autoSlippage\": \"DEFAULT\",\n  \"routingPreference\": \"BEST_PRICE\",\n  \"protocols\": [\n    \"V4\",\n    \"V2\"\n  ],\n  \"hooksOptions\": \"V4_HOOKS_ONLY\",\n  \"spreadOptimization\": \"EXECUTION\",\n  \"urgency\": \"urgent\",\n  \"permitAmount\": \"FULL\",\n  \"integratorFees\": [\n    {\n      \"bips\": \"<number>\",\n      \"recipient\": \"0x3A1C251eb0fAffbD186Eebb8BC6BD7BBc4Cdb85a\"\n    }\n  ],\n  \"walletExecutionContext\": {\n    \"scopes\": {\n      \"aliqua4_\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"in50b\": false,\n          \"fugiat2\": -48220696\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"deserunt4ed\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"exa\": -38967561,\n          \"ipsum9\": false\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"reprehenderitb3\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"ut7\": 23844499\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      }\n    },\n    \"properties\": {\n      \"walletInfo\": {\n        \"uuid\": \"<string>\",\n        \"name\": \"<string>\",\n        \"rdns\": \"<string>\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/quote",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "quote"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"routing\": \"DUTCH_V2\",\n  \"quote\": {\n    \"encodedOrder\": \"<string>\",\n    \"orderInfo\": {\n      \"chainId\": 1,\n      \"nonce\": \"<string>\",\n      \"reactor\": \"f20696D8869B6E7BFa19c6ECfFfbD4eBFADcD4AC\",\n      \"swapper\": \"637EeD3ef4E16Bda3A7CD18e2E6E02e7dDa6dDEc\",\n      \"deadline\": \"<number>\",\n      \"exclusiveFiller\": \"<string>\",\n      \"exclusivityOverrideBps\": \"<string>\",\n      \"input\": {\n        \"startAmount\": \"<string>\",\n        \"endAmount\": \"<string>\",\n        \"token\": \"d77CFD493eA7c4ab6B6e3F9c99a2DDc5838c8aAa\"\n      },\n      \"outputs\": [\n        {\n          \"startAmount\": \"<string>\",\n          \"endAmount\": \"<string>\",\n          \"token\": \"0x917f43b04C23282EcEB7a2aA871e207893e8e27F\",\n          \"recipient\": \"1AB8A3e9FE26f283DbaBCA253748ebc503F2f517\"\n        },\n        {\n          \"startAmount\": \"<string>\",\n          \"endAmount\": \"<string>\",\n          \"token\": \"0xFEE3b9d9a75f59F3D4edcd1DfF0cA70DfB221A9e\",\n          \"recipient\": \"0x75D8004e4f04d9bB71E2d7fCcbfb9dcF8c9bc0B4\"\n        }\n      ],\n      \"additionalValidationContract\": \"0x0000000000000000000000000000000000000000\",\n      \"additionalValidationData\": \"0x\",\n      \"decayStartTime\": \"<number>\",\n      \"decayEndTime\": \"<number>\"\n    },\n    \"orderId\": \"<string>\",\n    \"portionBips\": \"<number>\",\n    \"portionAmount\": \"<string>\",\n    \"portionRecipient\": \"<string>\",\n    \"quoteId\": \"<string>\",\n    \"slippageTolerance\": 103,\n    \"classicGasUseEstimateUSD\": \"<string>\",\n    \"aggregatedOutputs\": [\n      {\n        \"token\": \"0x2f1ec279F89eec9d8d04eADF5deB0bDbC50AF530\",\n        \"amount\": \"719710\",\n        \"recipient\": \"bCca17694EADb6528d4c7CF7CaC3CEfC5a5FBEF3\",\n        \"bps\": \"<number>\",\n        \"minAmount\": \"<string>\"\n      },\n      {\n        \"token\": \"0x5D84a0fc4c2Ade659EbCFd0a076739bc8Db0a1E6\",\n        \"amount\": \"3332623419\",\n        \"recipient\": \"0x4d3bbEd6bFBff469Ad88726F3e83cb6AcbE62bb3\",\n        \"bps\": \"<number>\",\n        \"minAmount\": \"<string>\"\n      }\n    ]\n  },\n  \"permitData\": {\n    \"domain\": {},\n    \"values\": {},\n    \"types\": {}\n  },\n  \"requestId\": \"<string>\",\n  \"permitTransaction\": {\n    \"to\": \"38Ec4D1C2c41668CCD6BdBDfD7A891CB2A838eDb\",\n    \"from\": \"9441aD8CdAe91aDe345B39a31541c129F6A5402e\",\n    \"data\": \"<string>\",\n    \"value\": \"<string>\",\n    \"chainId\": 1,\n    \"gasLimit\": \"<string>\",\n    \"maxFeePerGas\": \"<string>\",\n    \"maxPriorityFeePerGas\": \"<string>\",\n    \"gasPrice\": \"<string>\"\n  },\n  \"permitGasFee\": \"<string>\",\n  \"sponsorshipInfo\": {\n    \"sponsored\": \"<boolean>\",\n    \"rejectionReason\": \"<string>\",\n    \"sponsor\": {\n      \"name\": \"<string>\",\n      \"logoUrl\": \"<string>\"\n    }\n  }\n}",
+              "createdAt": "2026-07-28T03:22:49.000Z",
+              "updatedAt": "2026-07-28T03:22:49.000Z",
+              "uid": "35240-2d2d8d24-ec25-447e-87f6-3a1ca4152b84"
+            },
+            {
+              "id": "37961f8c-1dc4-44a7-b157-d612a575b37a",
+              "name": "RequestValidationError, Bad Input",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "description": "The version of the Universal Router to use for the swap journey. *MUST* be consistent throughout the API calls.",
+                    "key": "x-universal-router-version",
+                    "value": "2.0"
+                  },
+                  {
+                    "description": "Enable native ETH input support for UniswapX via ERC20-ETH (EIP-7914). When set to true and `tokenIn` is the native currency address (e.g. `0x0000000000000000000000000000000000000000`), the API may return UniswapX routes that spend native ETH for supported wallets.",
+                    "key": "x-erc20eth-enabled",
+                    "value": "false"
+                  },
+                  {
+                    "description": "Disables the Permit2 approval flow. When set to `true`, `permitData` is returned as `null` and the header is forwarded to the routing layer for correct gas simulation against the Proxy Universal Router contract. When `false` or omitted, the standard Permit2 approval flow is used. This header is intended for integrators whose infrastructure uses a direct approval-then-swap pattern without Permit2.",
+                    "key": "x-permit2-disabled",
+                    "value": "false"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"EXACT_INPUT\",\n  \"amount\": \"5\",\n  \"tokenInChainId\": 1,\n  \"tokenOutChainId\": 1,\n  \"tokenIn\": \"0x3b54Af2f08bA002AeEcE9bAE86A6FF1FbebefDbf\",\n  \"tokenOut\": \"83dcfb1f5E78f4F648a7abeAD1565495bb1E32cb\",\n  \"swapper\": \"0x45bABc8176E35Fb50bE15BF7A66992d2F7cDadfb\",\n  \"generatePermitAsTransaction\": false,\n  \"slippageTolerance\": 0.17,\n  \"autoSlippage\": \"DEFAULT\",\n  \"routingPreference\": \"BEST_PRICE\",\n  \"protocols\": [\n    \"V4\",\n    \"V2\"\n  ],\n  \"hooksOptions\": \"V4_HOOKS_ONLY\",\n  \"spreadOptimization\": \"EXECUTION\",\n  \"urgency\": \"urgent\",\n  \"permitAmount\": \"FULL\",\n  \"integratorFees\": [\n    {\n      \"bips\": \"<number>\",\n      \"recipient\": \"0x3A1C251eb0fAffbD186Eebb8BC6BD7BBc4Cdb85a\"\n    }\n  ],\n  \"walletExecutionContext\": {\n    \"scopes\": {\n      \"aliqua4_\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"in50b\": false,\n          \"fugiat2\": -48220696\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"deserunt4ed\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"exa\": -38967561,\n          \"ipsum9\": false\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"reprehenderitb3\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"ut7\": 23844499\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      }\n    },\n    \"properties\": {\n      \"walletInfo\": {\n        \"uuid\": \"<string>\",\n        \"name\": \"<string>\",\n        \"rdns\": \"<string>\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/quote",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "quote"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"RequestValidationError\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:22:49.000Z",
+              "updatedAt": "2026-07-28T03:22:49.000Z",
+              "uid": "35240-37961f8c-1dc4-44a7-b157-d612a575b37a"
+            },
+            {
+              "id": "e4fba56e-e6cc-4ad8-bdb8-32d319950885",
+              "name": "UnauthorizedError eg. Account is blocked.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "description": "The version of the Universal Router to use for the swap journey. *MUST* be consistent throughout the API calls.",
+                    "key": "x-universal-router-version",
+                    "value": "2.0"
+                  },
+                  {
+                    "description": "Enable native ETH input support for UniswapX via ERC20-ETH (EIP-7914). When set to true and `tokenIn` is the native currency address (e.g. `0x0000000000000000000000000000000000000000`), the API may return UniswapX routes that spend native ETH for supported wallets.",
+                    "key": "x-erc20eth-enabled",
+                    "value": "false"
+                  },
+                  {
+                    "description": "Disables the Permit2 approval flow. When set to `true`, `permitData` is returned as `null` and the header is forwarded to the routing layer for correct gas simulation against the Proxy Universal Router contract. When `false` or omitted, the standard Permit2 approval flow is used. This header is intended for integrators whose infrastructure uses a direct approval-then-swap pattern without Permit2.",
+                    "key": "x-permit2-disabled",
+                    "value": "false"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"EXACT_INPUT\",\n  \"amount\": \"5\",\n  \"tokenInChainId\": 1,\n  \"tokenOutChainId\": 1,\n  \"tokenIn\": \"0x3b54Af2f08bA002AeEcE9bAE86A6FF1FbebefDbf\",\n  \"tokenOut\": \"83dcfb1f5E78f4F648a7abeAD1565495bb1E32cb\",\n  \"swapper\": \"0x45bABc8176E35Fb50bE15BF7A66992d2F7cDadfb\",\n  \"generatePermitAsTransaction\": false,\n  \"slippageTolerance\": 0.17,\n  \"autoSlippage\": \"DEFAULT\",\n  \"routingPreference\": \"BEST_PRICE\",\n  \"protocols\": [\n    \"V4\",\n    \"V2\"\n  ],\n  \"hooksOptions\": \"V4_HOOKS_ONLY\",\n  \"spreadOptimization\": \"EXECUTION\",\n  \"urgency\": \"urgent\",\n  \"permitAmount\": \"FULL\",\n  \"integratorFees\": [\n    {\n      \"bips\": \"<number>\",\n      \"recipient\": \"0x3A1C251eb0fAffbD186Eebb8BC6BD7BBc4Cdb85a\"\n    }\n  ],\n  \"walletExecutionContext\": {\n    \"scopes\": {\n      \"aliqua4_\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"in50b\": false,\n          \"fugiat2\": -48220696\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"deserunt4ed\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"exa\": -38967561,\n          \"ipsum9\": false\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"reprehenderitb3\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"ut7\": 23844499\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      }\n    },\n    \"properties\": {\n      \"walletInfo\": {\n        \"uuid\": \"<string>\",\n        \"name\": \"<string>\",\n        \"rdns\": \"<string>\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/quote",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "quote"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"UnauthorizedError\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:22:49.000Z",
+              "updatedAt": "2026-07-28T03:22:49.000Z",
+              "uid": "35240-e4fba56e-e6cc-4ad8-bdb8-32d319950885"
+            },
+            {
+              "id": "d3f62704-2730-4c4a-86b8-729d4f152f72",
+              "name": "ResourceNotFound eg. No quotes available or Gas fee/price not available",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "description": "The version of the Universal Router to use for the swap journey. *MUST* be consistent throughout the API calls.",
+                    "key": "x-universal-router-version",
+                    "value": "2.0"
+                  },
+                  {
+                    "description": "Enable native ETH input support for UniswapX via ERC20-ETH (EIP-7914). When set to true and `tokenIn` is the native currency address (e.g. `0x0000000000000000000000000000000000000000`), the API may return UniswapX routes that spend native ETH for supported wallets.",
+                    "key": "x-erc20eth-enabled",
+                    "value": "false"
+                  },
+                  {
+                    "description": "Disables the Permit2 approval flow. When set to `true`, `permitData` is returned as `null` and the header is forwarded to the routing layer for correct gas simulation against the Proxy Universal Router contract. When `false` or omitted, the standard Permit2 approval flow is used. This header is intended for integrators whose infrastructure uses a direct approval-then-swap pattern without Permit2.",
+                    "key": "x-permit2-disabled",
+                    "value": "false"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"EXACT_INPUT\",\n  \"amount\": \"5\",\n  \"tokenInChainId\": 1,\n  \"tokenOutChainId\": 1,\n  \"tokenIn\": \"0x3b54Af2f08bA002AeEcE9bAE86A6FF1FbebefDbf\",\n  \"tokenOut\": \"83dcfb1f5E78f4F648a7abeAD1565495bb1E32cb\",\n  \"swapper\": \"0x45bABc8176E35Fb50bE15BF7A66992d2F7cDadfb\",\n  \"generatePermitAsTransaction\": false,\n  \"slippageTolerance\": 0.17,\n  \"autoSlippage\": \"DEFAULT\",\n  \"routingPreference\": \"BEST_PRICE\",\n  \"protocols\": [\n    \"V4\",\n    \"V2\"\n  ],\n  \"hooksOptions\": \"V4_HOOKS_ONLY\",\n  \"spreadOptimization\": \"EXECUTION\",\n  \"urgency\": \"urgent\",\n  \"permitAmount\": \"FULL\",\n  \"integratorFees\": [\n    {\n      \"bips\": \"<number>\",\n      \"recipient\": \"0x3A1C251eb0fAffbD186Eebb8BC6BD7BBc4Cdb85a\"\n    }\n  ],\n  \"walletExecutionContext\": {\n    \"scopes\": {\n      \"aliqua4_\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"in50b\": false,\n          \"fugiat2\": -48220696\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"deserunt4ed\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"exa\": -38967561,\n          \"ipsum9\": false\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"reprehenderitb3\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"ut7\": 23844499\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      }\n    },\n    \"properties\": {\n      \"walletInfo\": {\n        \"uuid\": \"<string>\",\n        \"name\": \"<string>\",\n        \"rdns\": \"<string>\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/quote",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "quote"
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"InsufficientBalance\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:22:49.000Z",
+              "updatedAt": "2026-07-28T03:22:49.000Z",
+              "uid": "35240-d3f62704-2730-4c4a-86b8-729d4f152f72"
+            },
+            {
+              "id": "2a30f8a4-eb86-40f9-bafd-412f95f08246",
+              "name": "Ratelimited",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "description": "The version of the Universal Router to use for the swap journey. *MUST* be consistent throughout the API calls.",
+                    "key": "x-universal-router-version",
+                    "value": "2.0"
+                  },
+                  {
+                    "description": "Enable native ETH input support for UniswapX via ERC20-ETH (EIP-7914). When set to true and `tokenIn` is the native currency address (e.g. `0x0000000000000000000000000000000000000000`), the API may return UniswapX routes that spend native ETH for supported wallets.",
+                    "key": "x-erc20eth-enabled",
+                    "value": "false"
+                  },
+                  {
+                    "description": "Disables the Permit2 approval flow. When set to `true`, `permitData` is returned as `null` and the header is forwarded to the routing layer for correct gas simulation against the Proxy Universal Router contract. When `false` or omitted, the standard Permit2 approval flow is used. This header is intended for integrators whose infrastructure uses a direct approval-then-swap pattern without Permit2.",
+                    "key": "x-permit2-disabled",
+                    "value": "false"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"EXACT_INPUT\",\n  \"amount\": \"5\",\n  \"tokenInChainId\": 1,\n  \"tokenOutChainId\": 1,\n  \"tokenIn\": \"0x3b54Af2f08bA002AeEcE9bAE86A6FF1FbebefDbf\",\n  \"tokenOut\": \"83dcfb1f5E78f4F648a7abeAD1565495bb1E32cb\",\n  \"swapper\": \"0x45bABc8176E35Fb50bE15BF7A66992d2F7cDadfb\",\n  \"generatePermitAsTransaction\": false,\n  \"slippageTolerance\": 0.17,\n  \"autoSlippage\": \"DEFAULT\",\n  \"routingPreference\": \"BEST_PRICE\",\n  \"protocols\": [\n    \"V4\",\n    \"V2\"\n  ],\n  \"hooksOptions\": \"V4_HOOKS_ONLY\",\n  \"spreadOptimization\": \"EXECUTION\",\n  \"urgency\": \"urgent\",\n  \"permitAmount\": \"FULL\",\n  \"integratorFees\": [\n    {\n      \"bips\": \"<number>\",\n      \"recipient\": \"0x3A1C251eb0fAffbD186Eebb8BC6BD7BBc4Cdb85a\"\n    }\n  ],\n  \"walletExecutionContext\": {\n    \"scopes\": {\n      \"aliqua4_\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"in50b\": false,\n          \"fugiat2\": -48220696\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"deserunt4ed\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"exa\": -38967561,\n          \"ipsum9\": false\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"reprehenderitb3\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"ut7\": 23844499\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      }\n    },\n    \"properties\": {\n      \"walletInfo\": {\n        \"uuid\": \"<string>\",\n        \"name\": \"<string>\",\n        \"rdns\": \"<string>\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/quote",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "quote"
+                  ]
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"Ratelimited\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:22:49.000Z",
+              "updatedAt": "2026-07-28T03:22:49.000Z",
+              "uid": "35240-2a30f8a4-eb86-40f9-bafd-412f95f08246"
+            },
+            {
+              "id": "b7274738-df8a-4cb6-9ebb-e96c6295f377",
+              "name": "Unexpected error",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "description": "The version of the Universal Router to use for the swap journey. *MUST* be consistent throughout the API calls.",
+                    "key": "x-universal-router-version",
+                    "value": "2.0"
+                  },
+                  {
+                    "description": "Enable native ETH input support for UniswapX via ERC20-ETH (EIP-7914). When set to true and `tokenIn` is the native currency address (e.g. `0x0000000000000000000000000000000000000000`), the API may return UniswapX routes that spend native ETH for supported wallets.",
+                    "key": "x-erc20eth-enabled",
+                    "value": "false"
+                  },
+                  {
+                    "description": "Disables the Permit2 approval flow. When set to `true`, `permitData` is returned as `null` and the header is forwarded to the routing layer for correct gas simulation against the Proxy Universal Router contract. When `false` or omitted, the standard Permit2 approval flow is used. This header is intended for integrators whose infrastructure uses a direct approval-then-swap pattern without Permit2.",
+                    "key": "x-permit2-disabled",
+                    "value": "false"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"EXACT_INPUT\",\n  \"amount\": \"5\",\n  \"tokenInChainId\": 1,\n  \"tokenOutChainId\": 1,\n  \"tokenIn\": \"0x3b54Af2f08bA002AeEcE9bAE86A6FF1FbebefDbf\",\n  \"tokenOut\": \"83dcfb1f5E78f4F648a7abeAD1565495bb1E32cb\",\n  \"swapper\": \"0x45bABc8176E35Fb50bE15BF7A66992d2F7cDadfb\",\n  \"generatePermitAsTransaction\": false,\n  \"slippageTolerance\": 0.17,\n  \"autoSlippage\": \"DEFAULT\",\n  \"routingPreference\": \"BEST_PRICE\",\n  \"protocols\": [\n    \"V4\",\n    \"V2\"\n  ],\n  \"hooksOptions\": \"V4_HOOKS_ONLY\",\n  \"spreadOptimization\": \"EXECUTION\",\n  \"urgency\": \"urgent\",\n  \"permitAmount\": \"FULL\",\n  \"integratorFees\": [\n    {\n      \"bips\": \"<number>\",\n      \"recipient\": \"0x3A1C251eb0fAffbD186Eebb8BC6BD7BBc4Cdb85a\"\n    }\n  ],\n  \"walletExecutionContext\": {\n    \"scopes\": {\n      \"aliqua4_\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"in50b\": false,\n          \"fugiat2\": -48220696\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"deserunt4ed\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"exa\": -38967561,\n          \"ipsum9\": false\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"reprehenderitb3\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"ut7\": 23844499\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      }\n    },\n    \"properties\": {\n      \"walletInfo\": {\n        \"uuid\": \"<string>\",\n        \"name\": \"<string>\",\n        \"rdns\": \"<string>\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/quote",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "quote"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"InternalServerError\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:22:49.000Z",
+              "updatedAt": "2026-07-28T03:22:49.000Z",
+              "uid": "35240-b7274738-df8a-4cb6-9ebb-e96c6295f377"
+            },
+            {
+              "id": "b89f73e4-2b48-41b2-b6e7-2b801bf34e3a",
+              "name": "Request duration limit reached.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "description": "The version of the Universal Router to use for the swap journey. *MUST* be consistent throughout the API calls.",
+                    "key": "x-universal-router-version",
+                    "value": "2.0"
+                  },
+                  {
+                    "description": "Enable native ETH input support for UniswapX via ERC20-ETH (EIP-7914). When set to true and `tokenIn` is the native currency address (e.g. `0x0000000000000000000000000000000000000000`), the API may return UniswapX routes that spend native ETH for supported wallets.",
+                    "key": "x-erc20eth-enabled",
+                    "value": "false"
+                  },
+                  {
+                    "description": "Disables the Permit2 approval flow. When set to `true`, `permitData` is returned as `null` and the header is forwarded to the routing layer for correct gas simulation against the Proxy Universal Router contract. When `false` or omitted, the standard Permit2 approval flow is used. This header is intended for integrators whose infrastructure uses a direct approval-then-swap pattern without Permit2.",
+                    "key": "x-permit2-disabled",
+                    "value": "false"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"EXACT_INPUT\",\n  \"amount\": \"5\",\n  \"tokenInChainId\": 1,\n  \"tokenOutChainId\": 1,\n  \"tokenIn\": \"0x3b54Af2f08bA002AeEcE9bAE86A6FF1FbebefDbf\",\n  \"tokenOut\": \"83dcfb1f5E78f4F648a7abeAD1565495bb1E32cb\",\n  \"swapper\": \"0x45bABc8176E35Fb50bE15BF7A66992d2F7cDadfb\",\n  \"generatePermitAsTransaction\": false,\n  \"slippageTolerance\": 0.17,\n  \"autoSlippage\": \"DEFAULT\",\n  \"routingPreference\": \"BEST_PRICE\",\n  \"protocols\": [\n    \"V4\",\n    \"V2\"\n  ],\n  \"hooksOptions\": \"V4_HOOKS_ONLY\",\n  \"spreadOptimization\": \"EXECUTION\",\n  \"urgency\": \"urgent\",\n  \"permitAmount\": \"FULL\",\n  \"integratorFees\": [\n    {\n      \"bips\": \"<number>\",\n      \"recipient\": \"0x3A1C251eb0fAffbD186Eebb8BC6BD7BBc4Cdb85a\"\n    }\n  ],\n  \"walletExecutionContext\": {\n    \"scopes\": {\n      \"aliqua4_\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"in50b\": false,\n          \"fugiat2\": -48220696\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"deserunt4ed\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"exa\": -38967561,\n          \"ipsum9\": false\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"reprehenderitb3\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"ut7\": 23844499\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      }\n    },\n    \"properties\": {\n      \"walletInfo\": {\n        \"uuid\": \"<string>\",\n        \"name\": \"<string>\",\n        \"rdns\": \"<string>\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/quote",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "quote"
+                  ]
+                }
+              },
+              "status": "Gateway Timeout",
+              "code": 504,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"Timeout\",\n  \"detail\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T03:22:49.000Z",
+              "updatedAt": "2026-07-28T03:22:49.000Z",
+              "uid": "35240-b89f73e4-2b48-41b2-b6e7-2b801bf34e3a"
+            }
+          ],
+          "createdAt": "2026-07-28T03:22:49.000Z",
+          "updatedAt": "2026-07-28T03:22:49.000Z",
+          "uid": "35240-777f2782-1314-4b15-9979-1122c1fd29c5"
+        }
+      ],
+      "id": "61f2978a-f7bf-4496-a0d0-3ea5a5fe8563",
+      "createdAt": "2026-07-28T03:22:49.000Z",
+      "updatedAt": "2026-07-28T03:22:49.000Z",
+      "uid": "35240-61f2978a-f7bf-4496-a0d0-3ea5a5fe8563"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "x-api-key",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://trade-api.gateway.uniswap.org/v1"
+    }
+  ]
+}

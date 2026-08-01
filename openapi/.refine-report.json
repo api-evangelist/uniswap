@@ -1,0 +1,36 @@
+{
+  "provider": "uniswap",
+  "sources": [
+    "uniswap-approval-api-openapi.yml",
+    "uniswap-limitorderquote-api-openapi.yml",
+    "uniswap-liquidity-api-openapi.yml",
+    "uniswap-order-api-openapi.yml",
+    "uniswap-plan-api-openapi.yml",
+    "uniswap-quote-api-openapi.yml",
+    "uniswap-send-api-openapi.yml",
+    "uniswap-swap-api-openapi.yml",
+    "uniswap-swappabletokens-api-openapi.yml",
+    "uniswap-wallet-api-openapi.yml",
+    "uniswap-walletcheckdelegation-api-openapi.yml",
+    "uniswap-walletencode7702-api-openapi.yml"
+  ],
+  "outputs": [
+    "uniswap-approval-api-openapi.yml",
+    "uniswap-limitorderquote-api-openapi.yml",
+    "uniswap-liquidity-api-openapi.yml",
+    "uniswap-order-api-openapi.yml",
+    "uniswap-plan-api-openapi.yml",
+    "uniswap-quote-api-openapi.yml",
+    "uniswap-send-api-openapi.yml",
+    "uniswap-swap-api-openapi.yml",
+    "uniswap-swappabletokens-api-openapi.yml",
+    "uniswap-wallet-api-openapi.yml",
+    "uniswap-walletcheckdelegation-api-openapi.yml",
+    "uniswap-walletencode7702-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
