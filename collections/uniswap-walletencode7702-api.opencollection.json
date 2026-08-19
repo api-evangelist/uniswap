@@ -1,0 +1,47 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Token Trading Approval WalletEncode7702 API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "x-api-key",
+      "value": "{{x-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "WalletEncode7702",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Encode wallet transactions",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://trade-api.gateway.uniswap.org/v1/wallet/encode_7702",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Encodes a list of transactions into a single transaction for smart contract wallet execution. All transactions must have the same chainId."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

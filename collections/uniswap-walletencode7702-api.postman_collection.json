@@ -1,0 +1,478 @@
+{
+  "item": [
+    {
+      "id": "e57b0b57-2d20-4a06-a8c9-c679232dee6a",
+      "name": "WalletEncode7702",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "269ef000-eb46-41d1-8ef0-59e2caefcbd1",
+          "name": "Encode wallet transactions",
+          "request": {
+            "name": "Encode wallet transactions",
+            "description": {
+              "content": "Encodes a list of transactions into a single transaction for smart contract wallet execution. All transactions must have the same chainId.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "wallet",
+                "encode_7702"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"calls\": [\n    {\n      \"to\": \"<string>\",\n      \"from\": \"<string>\",\n      \"data\": \"<string>\",\n      \"value\": \"<string>\",\n      \"chainId\": 1,\n      \"gasLimit\": \"<string>\",\n      \"maxFeePerGas\": \"<string>\",\n      \"maxPriorityFeePerGas\": \"<string>\",\n      \"gasPrice\": \"<string>\"\n    },\n    {\n      \"to\": \"<string>\",\n      \"from\": \"<string>\",\n      \"data\": \"<string>\",\n      \"value\": \"<string>\",\n      \"chainId\": 1,\n      \"gasLimit\": \"<string>\",\n      \"maxFeePerGas\": \"<string>\",\n      \"maxPriorityFeePerGas\": \"<string>\",\n      \"gasPrice\": \"<string>\"\n    }\n  ],\n  \"smartContractDelegationAddress\": \"<string>\",\n  \"walletAddress\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "42e5ca6b-83ba-4310-9cba-2550c21487e1",
+              "name": "Encode 7702 wallet transactions successful.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    "encode_7702"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"calls\": [\n    {\n      \"to\": \"<string>\",\n      \"from\": \"<string>\",\n      \"data\": \"<string>\",\n      \"value\": \"<string>\",\n      \"chainId\": 1,\n      \"gasLimit\": \"<string>\",\n      \"maxFeePerGas\": \"<string>\",\n      \"maxPriorityFeePerGas\": \"<string>\",\n      \"gasPrice\": \"<string>\"\n    },\n    {\n      \"to\": \"<string>\",\n      \"from\": \"<string>\",\n      \"data\": \"<string>\",\n      \"value\": \"<string>\",\n      \"chainId\": 1,\n      \"gasLimit\": \"<string>\",\n      \"maxFeePerGas\": \"<string>\",\n      \"maxPriorityFeePerGas\": \"<string>\",\n      \"gasPrice\": \"<string>\"\n    }\n  ],\n  \"smartContractDelegationAddress\": \"<string>\",\n  \"walletAddress\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"requestId\": \"string\",\n  \"encoded\": {\n    \"to\": \"<string>\",\n    \"from\": \"<string>\",\n    \"data\": \"<string>\",\n    \"value\": \"<string>\",\n    \"chainId\": 1,\n    \"gasLimit\": \"<string>\",\n    \"maxFeePerGas\": \"<string>\",\n    \"maxPriorityFeePerGas\": \"<string>\",\n    \"gasPrice\": \"<string>\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dd8464d2-afd2-4914-8087-a9fbfd55187d",
+              "name": "RequestValidationError, Bad Input",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    "encode_7702"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"calls\": [\n    {\n      \"to\": \"<string>\",\n      \"from\": \"<string>\",\n      \"data\": \"<string>\",\n      \"value\": \"<string>\",\n      \"chainId\": 1,\n      \"gasLimit\": \"<string>\",\n      \"maxFeePerGas\": \"<string>\",\n      \"maxPriorityFeePerGas\": \"<string>\",\n      \"gasPrice\": \"<string>\"\n    },\n    {\n      \"to\": \"<string>\",\n      \"from\": \"<string>\",\n      \"data\": \"<string>\",\n      \"value\": \"<string>\",\n      \"chainId\": 1,\n      \"gasLimit\": \"<string>\",\n      \"maxFeePerGas\": \"<string>\",\n      \"maxPriorityFeePerGas\": \"<string>\",\n      \"gasPrice\": \"<string>\"\n    }\n  ],\n  \"smartContractDelegationAddress\": \"<string>\",\n  \"walletAddress\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"RequestValidationError\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d5815fe0-9fad-4b35-ad73-e06ad3ff7910",
+              "name": "UnauthorizedError eg. Account is blocked.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    "encode_7702"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"calls\": [\n    {\n      \"to\": \"<string>\",\n      \"from\": \"<string>\",\n      \"data\": \"<string>\",\n      \"value\": \"<string>\",\n      \"chainId\": 1,\n      \"gasLimit\": \"<string>\",\n      \"maxFeePerGas\": \"<string>\",\n      \"maxPriorityFeePerGas\": \"<string>\",\n      \"gasPrice\": \"<string>\"\n    },\n    {\n      \"to\": \"<string>\",\n      \"from\": \"<string>\",\n      \"data\": \"<string>\",\n      \"value\": \"<string>\",\n      \"chainId\": 1,\n      \"gasLimit\": \"<string>\",\n      \"maxFeePerGas\": \"<string>\",\n      \"maxPriorityFeePerGas\": \"<string>\",\n      \"gasPrice\": \"<string>\"\n    }\n  ],\n  \"smartContractDelegationAddress\": \"<string>\",\n  \"walletAddress\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"UnauthorizedError\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f38deaa9-d28c-4038-bc39-b41ac06fefda",
+              "name": "ResourceNotFound eg. No quotes available or Gas fee/price not available",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    "encode_7702"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"calls\": [\n    {\n      \"to\": \"<string>\",\n      \"from\": \"<string>\",\n      \"data\": \"<string>\",\n      \"value\": \"<string>\",\n      \"chainId\": 1,\n      \"gasLimit\": \"<string>\",\n      \"maxFeePerGas\": \"<string>\",\n      \"maxPriorityFeePerGas\": \"<string>\",\n      \"gasPrice\": \"<string>\"\n    },\n    {\n      \"to\": \"<string>\",\n      \"from\": \"<string>\",\n      \"data\": \"<string>\",\n      \"value\": \"<string>\",\n      \"chainId\": 1,\n      \"gasLimit\": \"<string>\",\n      \"maxFeePerGas\": \"<string>\",\n      \"maxPriorityFeePerGas\": \"<string>\",\n      \"gasPrice\": \"<string>\"\n    }\n  ],\n  \"smartContractDelegationAddress\": \"<string>\",\n  \"walletAddress\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"QuoteAmountTooLowError\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e3a8a2a1-61a9-40a4-b280-58ecd0baabda",
+              "name": "Ratelimited",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    "encode_7702"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"calls\": [\n    {\n      \"to\": \"<string>\",\n      \"from\": \"<string>\",\n      \"data\": \"<string>\",\n      \"value\": \"<string>\",\n      \"chainId\": 1,\n      \"gasLimit\": \"<string>\",\n      \"maxFeePerGas\": \"<string>\",\n      \"maxPriorityFeePerGas\": \"<string>\",\n      \"gasPrice\": \"<string>\"\n    },\n    {\n      \"to\": \"<string>\",\n      \"from\": \"<string>\",\n      \"data\": \"<string>\",\n      \"value\": \"<string>\",\n      \"chainId\": 1,\n      \"gasLimit\": \"<string>\",\n      \"maxFeePerGas\": \"<string>\",\n      \"maxPriorityFeePerGas\": \"<string>\",\n      \"gasPrice\": \"<string>\"\n    }\n  ],\n  \"smartContractDelegationAddress\": \"<string>\",\n  \"walletAddress\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"Ratelimited\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "13e72ece-f980-43d4-b2bc-19d0e356f02c",
+              "name": "Unexpected error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    "encode_7702"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"calls\": [\n    {\n      \"to\": \"<string>\",\n      \"from\": \"<string>\",\n      \"data\": \"<string>\",\n      \"value\": \"<string>\",\n      \"chainId\": 1,\n      \"gasLimit\": \"<string>\",\n      \"maxFeePerGas\": \"<string>\",\n      \"maxPriorityFeePerGas\": \"<string>\",\n      \"gasPrice\": \"<string>\"\n    },\n    {\n      \"to\": \"<string>\",\n      \"from\": \"<string>\",\n      \"data\": \"<string>\",\n      \"value\": \"<string>\",\n      \"chainId\": 1,\n      \"gasLimit\": \"<string>\",\n      \"maxFeePerGas\": \"<string>\",\n      \"maxPriorityFeePerGas\": \"<string>\",\n      \"gasPrice\": \"<string>\"\n    }\n  ],\n  \"smartContractDelegationAddress\": \"<string>\",\n  \"walletAddress\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"InternalServerError\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6a143978-7457-4828-9246-236df735ef25",
+              "name": "Request duration limit reached.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    "encode_7702"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"calls\": [\n    {\n      \"to\": \"<string>\",\n      \"from\": \"<string>\",\n      \"data\": \"<string>\",\n      \"value\": \"<string>\",\n      \"chainId\": 1,\n      \"gasLimit\": \"<string>\",\n      \"maxFeePerGas\": \"<string>\",\n      \"maxPriorityFeePerGas\": \"<string>\",\n      \"gasPrice\": \"<string>\"\n    },\n    {\n      \"to\": \"<string>\",\n      \"from\": \"<string>\",\n      \"data\": \"<string>\",\n      \"value\": \"<string>\",\n      \"chainId\": 1,\n      \"gasLimit\": \"<string>\",\n      \"maxFeePerGas\": \"<string>\",\n      \"maxPriorityFeePerGas\": \"<string>\",\n      \"gasPrice\": \"<string>\"\n    }\n  ],\n  \"smartContractDelegationAddress\": \"<string>\",\n  \"walletAddress\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Gateway Timeout",
+              "code": 504,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"Timeout\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://trade-api.gateway.uniswap.org/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "x-api-key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "c7e7123a-4b4e-49dd-8a49-af01e32d511f",
+    "name": "Token Trading Approval WalletEncode7702 API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Uniswap Labs trading APIs.\n\nEach operation may include the vendor extension `x-public-endpoint` (boolean): `true` when the operation is available on the public gateway for standard API keys, `false` when it is not publicly exposed. See the [OpenAPI specification extensions](https://swagger.io/docs/specification/v3_0/openapi-extensions/) definition of `x-` fields.",
+      "type": "text/plain"
+    }
+  }
+}

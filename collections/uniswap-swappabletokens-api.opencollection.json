@@ -1,0 +1,55 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Token Trading Approval SwappableTokens API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "x-api-key",
+      "value": "{{x-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "SwappableTokens",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get bridgable tokens",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://trade-api.gateway.uniswap.org/v1/swappable_tokens",
+            "params": [
+              {
+                "name": "tokenIn",
+                "value": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+                "type": "query"
+              },
+              {
+                "name": "tokenInChainId",
+                "value": "1",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns the list of destination bridge chains for a given token on a given chain."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

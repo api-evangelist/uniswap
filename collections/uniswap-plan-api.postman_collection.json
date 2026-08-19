@@ -1,0 +1,1546 @@
+{
+  "item": [
+    {
+      "id": "d7e18fd4-3461-4b34-84c0-1645be9e8c75",
+      "name": "Plan",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d7868c55-ae14-45d7-b109-4b0023d15984",
+          "name": "Create an execution plan",
+          "request": {
+            "name": "Create an execution plan",
+            "description": {
+              "content": "Creates a multi-step execution plan for chained transactions. The plan breaks down complex multi-chain or multi-transaction flows into sequential steps that can be executed by the client. Each step includes the method (transaction, message signature, or batch calls), payload, and current status. The response includes the current step index to track progress through the plan.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "plan"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"routing\": \"<string>\",\n  \"quote\": {\n    \"swapper\": \"<string>\",\n    \"input\": {\n      \"token\": \"<string>\",\n      \"amount\": \"<string>\"\n    },\n    \"output\": {\n      \"token\": \"<string>\",\n      \"amount\": \"<string>\",\n      \"recipient\": \"<string>\"\n    },\n    \"tokenInChainId\": 1,\n    \"tokenOutChainId\": 1,\n    \"tradeType\": \"EXACT_INPUT\",\n    \"quoteId\": \"<string>\",\n    \"gasStrategies\": [\n      {\n        \"limitInflationFactor\": \"<number>\",\n        \"priceInflationFactor\": \"<number>\",\n        \"percentileThresholdFor1559Fee\": \"<number>\",\n        \"thresholdToInflateLastBlockBaseFee\": \"<number>\",\n        \"baseFeeMultiplier\": \"<number>\",\n        \"baseFeeHistoryWindow\": \"<number>\",\n        \"minPriorityFeeRatioOfBaseFee\": \"<number>\",\n        \"minPriorityFeeGwei\": \"<number>\",\n        \"maxPriorityFeeGwei\": \"<number>\"\n      },\n      {\n        \"limitInflationFactor\": \"<number>\",\n        \"priceInflationFactor\": \"<number>\",\n        \"percentileThresholdFor1559Fee\": \"<number>\",\n        \"thresholdToInflateLastBlockBaseFee\": \"<number>\",\n        \"baseFeeMultiplier\": \"<number>\",\n        \"baseFeeHistoryWindow\": \"<number>\",\n        \"minPriorityFeeRatioOfBaseFee\": \"<number>\",\n        \"minPriorityFeeGwei\": \"<number>\",\n        \"maxPriorityFeeGwei\": \"<number>\"\n      }\n    ],\n    \"gasEstimates\": [\n      \"<object>\",\n      \"<object>\"\n    ],\n    \"timeEstimateMs\": \"<number>\",\n    \"gasUseEstimate\": \"<string>\",\n    \"gasFeeUSD\": \"<string>\",\n    \"gasFeeQuote\": \"<string>\",\n    \"gasPrice\": \"<string>\",\n    \"maxFeePerGas\": \"<string>\",\n    \"maxPriorityFeePerGas\": \"<string>\",\n    \"gasFee\": \"<string>\",\n    \"protocols\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"hooksOptions\": \"<string>\",\n    \"steps\": [\n      {\n        \"stepType\": \"<string>\",\n        \"tokenIn\": \"<string>\",\n        \"tokenInChainId\": 1,\n        \"tokenOut\": \"<string>\",\n        \"tokenOutChainId\": 1,\n        \"slippage\": \"<number>\"\n      },\n      {\n        \"stepType\": \"<string>\",\n        \"tokenIn\": \"<string>\",\n        \"tokenInChainId\": 1,\n        \"tokenOut\": \"<string>\",\n        \"tokenOutChainId\": 1,\n        \"slippage\": \"<number>\"\n      }\n    ],\n    \"slippageTolerance\": \"<number>\",\n    \"autoSlippage\": \"<string>\"\n  },\n  \"walletExecutionContext\": {\n    \"scopes\": {\n      \"key_0\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"key_0\": 7463.378298411876\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"key_1\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"key_0\": 5154.121655281567,\n          \"key_1\": \"string\",\n          \"key_2\": 8522.516785237902\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      }\n    },\n    \"properties\": {\n      \"walletInfo\": {\n        \"uuid\": \"<string>\",\n        \"name\": \"<string>\",\n        \"rdns\": \"<string>\"\n      }\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "be7abf19-81b8-4b46-9dbd-e8064772b1bb",
+              "name": "Create plan successful.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "plan"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"routing\": \"<string>\",\n  \"quote\": {\n    \"swapper\": \"<string>\",\n    \"input\": {\n      \"token\": \"<string>\",\n      \"amount\": \"<string>\"\n    },\n    \"output\": {\n      \"token\": \"<string>\",\n      \"amount\": \"<string>\",\n      \"recipient\": \"<string>\"\n    },\n    \"tokenInChainId\": 1,\n    \"tokenOutChainId\": 1,\n    \"tradeType\": \"EXACT_INPUT\",\n    \"quoteId\": \"<string>\",\n    \"gasStrategies\": [\n      {\n        \"limitInflationFactor\": \"<number>\",\n        \"priceInflationFactor\": \"<number>\",\n        \"percentileThresholdFor1559Fee\": \"<number>\",\n        \"thresholdToInflateLastBlockBaseFee\": \"<number>\",\n        \"baseFeeMultiplier\": \"<number>\",\n        \"baseFeeHistoryWindow\": \"<number>\",\n        \"minPriorityFeeRatioOfBaseFee\": \"<number>\",\n        \"minPriorityFeeGwei\": \"<number>\",\n        \"maxPriorityFeeGwei\": \"<number>\"\n      },\n      {\n        \"limitInflationFactor\": \"<number>\",\n        \"priceInflationFactor\": \"<number>\",\n        \"percentileThresholdFor1559Fee\": \"<number>\",\n        \"thresholdToInflateLastBlockBaseFee\": \"<number>\",\n        \"baseFeeMultiplier\": \"<number>\",\n        \"baseFeeHistoryWindow\": \"<number>\",\n        \"minPriorityFeeRatioOfBaseFee\": \"<number>\",\n        \"minPriorityFeeGwei\": \"<number>\",\n        \"maxPriorityFeeGwei\": \"<number>\"\n      }\n    ],\n    \"gasEstimates\": [\n      \"<object>\",\n      \"<object>\"\n    ],\n    \"timeEstimateMs\": \"<number>\",\n    \"gasUseEstimate\": \"<string>\",\n    \"gasFeeUSD\": \"<string>\",\n    \"gasFeeQuote\": \"<string>\",\n    \"gasPrice\": \"<string>\",\n    \"maxFeePerGas\": \"<string>\",\n    \"maxPriorityFeePerGas\": \"<string>\",\n    \"gasFee\": \"<string>\",\n    \"protocols\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"hooksOptions\": \"<string>\",\n    \"steps\": [\n      {\n        \"stepType\": \"<string>\",\n        \"tokenIn\": \"<string>\",\n        \"tokenInChainId\": 1,\n        \"tokenOut\": \"<string>\",\n        \"tokenOutChainId\": 1,\n        \"slippage\": \"<number>\"\n      },\n      {\n        \"stepType\": \"<string>\",\n        \"tokenIn\": \"<string>\",\n        \"tokenInChainId\": 1,\n        \"tokenOut\": \"<string>\",\n        \"tokenOutChainId\": 1,\n        \"slippage\": \"<number>\"\n      }\n    ],\n    \"slippageTolerance\": \"<number>\",\n    \"autoSlippage\": \"<string>\"\n  },\n  \"walletExecutionContext\": {\n    \"scopes\": {\n      \"key_0\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"key_0\": 2709\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"key_1\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"key_0\": false\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"key_2\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"key_0\": 2515,\n          \"key_1\": 1788\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"key_3\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"key_0\": false\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      }\n    },\n    \"properties\": {\n      \"walletInfo\": {\n        \"uuid\": \"<string>\",\n        \"name\": \"<string>\",\n        \"rdns\": \"<string>\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"requestId\": \"string\",\n  \"planId\": \"string\",\n  \"swapper\": \"<string>\",\n  \"recipient\": \"<string>\",\n  \"quoteId\": \"<string>\",\n  \"status\": \"IN_PROGRESS\",\n  \"steps\": [\n    {\n      \"stepIndex\": 5439.857012769237,\n      \"method\": \"SIGN_MSG\",\n      \"payloadType\": \"EIP_712\",\n      \"payload\": {},\n      \"status\": \"NOT_READY\",\n      \"proof\": {\n        \"txHash\": \"6EaC0Af4405BB41AeA52f8AB7bc5Ee63f42C2Cc05C58b74D0A3adb4EBc57c3Ae\",\n        \"signature\": \"string\",\n        \"orderId\": \"string\"\n      },\n      \"tokenIn\": \"<string>\",\n      \"tokenOut\": \"<string>\",\n      \"tokenInChainId\": 1,\n      \"tokenOutChainId\": 1,\n      \"tokenInAmount\": \"<string>\",\n      \"tokenOutAmount\": \"<string>\",\n      \"swapper\": \"<string>\",\n      \"recipient\": \"<string>\",\n      \"stepType\": \"<string>\",\n      \"gasUseEstimate\": \"<string>\",\n      \"gasFeeUSD\": \"<string>\",\n      \"gasFeeQuote\": \"<string>\",\n      \"gasPrice\": \"<string>\",\n      \"maxFeePerGas\": \"<string>\",\n      \"maxPriorityFeePerGas\": \"<string>\",\n      \"gasFee\": \"<string>\",\n      \"routingStepKey\": \"string\",\n      \"slippage\": \"<number>\"\n    },\n    {\n      \"stepIndex\": 4349.336616265464,\n      \"method\": \"SEND_CALLS\",\n      \"payloadType\": \"EIP_712\",\n      \"payload\": {},\n      \"status\": \"AWAITING_ACTION\",\n      \"proof\": {\n        \"txHash\": \"B18E30AD1c4Cacdb677fbEdE7baB69d0D1A13A1BD0d8fCb7FfF9e8E1AFAcf5bf\",\n        \"signature\": \"string\",\n        \"orderId\": \"string\"\n      },\n      \"tokenIn\": \"<string>\",\n      \"tokenOut\": \"<string>\",\n      \"tokenInChainId\": 1,\n      \"tokenOutChainId\": 1,\n      \"tokenInAmount\": \"<string>\",\n      \"tokenOutAmount\": \"<string>\",\n      \"swapper\": \"<string>\",\n      \"recipient\": \"<string>\",\n      \"stepType\": \"<string>\",\n      \"gasUseEstimate\": \"<string>\",\n      \"gasFeeUSD\": \"<string>\",\n      \"gasFeeQuote\": \"<string>\",\n      \"gasPrice\": \"<string>\",\n      \"maxFeePerGas\": \"<string>\",\n      \"maxPriorityFeePerGas\": \"<string>\",\n      \"gasFee\": \"<string>\",\n      \"routingStepKey\": \"string\",\n      \"slippage\": \"<number>\"\n    }\n  ],\n  \"currentStepIndex\": 4864.342460822418,\n  \"expectedOutput\": \"<string>\",\n  \"gasFee\": \"<string>\",\n  \"gasFeeQuote\": \"<string>\",\n  \"gasFeeUSD\": \"<string>\",\n  \"gasUseEstimate\": \"<string>\",\n  \"timeEstimateMs\": 5912.57474780167,\n  \"gasStrategies\": [\n    {\n      \"limitInflationFactor\": \"<number>\",\n      \"priceInflationFactor\": \"<number>\",\n      \"percentileThresholdFor1559Fee\": \"<number>\",\n      \"thresholdToInflateLastBlockBaseFee\": \"<number>\",\n      \"baseFeeMultiplier\": \"<number>\",\n      \"baseFeeHistoryWindow\": \"<number>\",\n      \"minPriorityFeeRatioOfBaseFee\": \"<number>\",\n      \"minPriorityFeeGwei\": \"<number>\",\n      \"maxPriorityFeeGwei\": \"<number>\"\n    },\n    {\n      \"limitInflationFactor\": \"<number>\",\n      \"priceInflationFactor\": \"<number>\",\n      \"percentileThresholdFor1559Fee\": \"<number>\",\n      \"thresholdToInflateLastBlockBaseFee\": \"<number>\",\n      \"baseFeeMultiplier\": \"<number>\",\n      \"baseFeeHistoryWindow\": \"<number>\",\n      \"minPriorityFeeRatioOfBaseFee\": \"<number>\",\n      \"minPriorityFeeGwei\": \"<number>\",\n      \"maxPriorityFeeGwei\": \"<number>\"\n    }\n  ],\n  \"protocols\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"hooksOptions\": \"<string>\",\n  \"createdAt\": \"2021-10-16T12:51:03.986Z\",\n  \"updatedAt\": \"1970-01-11T13:16:14.034Z\",\n  \"completedAt\": \"1963-03-06T12:03:59.215Z\",\n  \"lastUserActionAt\": \"1979-07-29T10:33:13.337Z\",\n  \"slippageTolerance\": \"<number>\",\n  \"autoSlippage\": \"<string>\",\n  \"walletExecutionContext\": {\n    \"scopes\": {\n      \"key_0\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"key_0\": 7520.248858886638,\n          \"key_1\": 5030.400444804353,\n          \"key_2\": 9587\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      }\n    },\n    \"properties\": {\n      \"walletInfo\": {\n        \"uuid\": \"<string>\",\n        \"name\": \"<string>\",\n        \"rdns\": \"<string>\"\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "04092c6f-2735-4da5-8925-4f1dc0915b77",
+              "name": "RequestValidationError, Bad Input",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "plan"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"routing\": \"<string>\",\n  \"quote\": {\n    \"swapper\": \"<string>\",\n    \"input\": {\n      \"token\": \"<string>\",\n      \"amount\": \"<string>\"\n    },\n    \"output\": {\n      \"token\": \"<string>\",\n      \"amount\": \"<string>\",\n      \"recipient\": \"<string>\"\n    },\n    \"tokenInChainId\": 1,\n    \"tokenOutChainId\": 1,\n    \"tradeType\": \"EXACT_INPUT\",\n    \"quoteId\": \"<string>\",\n    \"gasStrategies\": [\n      {\n        \"limitInflationFactor\": \"<number>\",\n        \"priceInflationFactor\": \"<number>\",\n        \"percentileThresholdFor1559Fee\": \"<number>\",\n        \"thresholdToInflateLastBlockBaseFee\": \"<number>\",\n        \"baseFeeMultiplier\": \"<number>\",\n        \"baseFeeHistoryWindow\": \"<number>\",\n        \"minPriorityFeeRatioOfBaseFee\": \"<number>\",\n        \"minPriorityFeeGwei\": \"<number>\",\n        \"maxPriorityFeeGwei\": \"<number>\"\n      },\n      {\n        \"limitInflationFactor\": \"<number>\",\n        \"priceInflationFactor\": \"<number>\",\n        \"percentileThresholdFor1559Fee\": \"<number>\",\n        \"thresholdToInflateLastBlockBaseFee\": \"<number>\",\n        \"baseFeeMultiplier\": \"<number>\",\n        \"baseFeeHistoryWindow\": \"<number>\",\n        \"minPriorityFeeRatioOfBaseFee\": \"<number>\",\n        \"minPriorityFeeGwei\": \"<number>\",\n        \"maxPriorityFeeGwei\": \"<number>\"\n      }\n    ],\n    \"gasEstimates\": [\n      \"<object>\",\n      \"<object>\"\n    ],\n    \"timeEstimateMs\": \"<number>\",\n    \"gasUseEstimate\": \"<string>\",\n    \"gasFeeUSD\": \"<string>\",\n    \"gasFeeQuote\": \"<string>\",\n    \"gasPrice\": \"<string>\",\n    \"maxFeePerGas\": \"<string>\",\n    \"maxPriorityFeePerGas\": \"<string>\",\n    \"gasFee\": \"<string>\",\n    \"protocols\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"hooksOptions\": \"<string>\",\n    \"steps\": [\n      {\n        \"stepType\": \"<string>\",\n        \"tokenIn\": \"<string>\",\n        \"tokenInChainId\": 1,\n        \"tokenOut\": \"<string>\",\n        \"tokenOutChainId\": 1,\n        \"slippage\": \"<number>\"\n      },\n      {\n        \"stepType\": \"<string>\",\n        \"tokenIn\": \"<string>\",\n        \"tokenInChainId\": 1,\n        \"tokenOut\": \"<string>\",\n        \"tokenOutChainId\": 1,\n        \"slippage\": \"<number>\"\n      }\n    ],\n    \"slippageTolerance\": \"<number>\",\n    \"autoSlippage\": \"<string>\"\n  },\n  \"walletExecutionContext\": {\n    \"scopes\": {\n      \"key_0\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"key_0\": 2709\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"key_1\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"key_0\": false\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"key_2\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"key_0\": 2515,\n          \"key_1\": 1788\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"key_3\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"key_0\": false\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      }\n    },\n    \"properties\": {\n      \"walletInfo\": {\n        \"uuid\": \"<string>\",\n        \"name\": \"<string>\",\n        \"rdns\": \"<string>\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"RequestValidationError\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3cedff0c-7c9c-4644-9b3d-2509848895ef",
+              "name": "UnauthorizedError eg. Account is blocked.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "plan"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"routing\": \"<string>\",\n  \"quote\": {\n    \"swapper\": \"<string>\",\n    \"input\": {\n      \"token\": \"<string>\",\n      \"amount\": \"<string>\"\n    },\n    \"output\": {\n      \"token\": \"<string>\",\n      \"amount\": \"<string>\",\n      \"recipient\": \"<string>\"\n    },\n    \"tokenInChainId\": 1,\n    \"tokenOutChainId\": 1,\n    \"tradeType\": \"EXACT_INPUT\",\n    \"quoteId\": \"<string>\",\n    \"gasStrategies\": [\n      {\n        \"limitInflationFactor\": \"<number>\",\n        \"priceInflationFactor\": \"<number>\",\n        \"percentileThresholdFor1559Fee\": \"<number>\",\n        \"thresholdToInflateLastBlockBaseFee\": \"<number>\",\n        \"baseFeeMultiplier\": \"<number>\",\n        \"baseFeeHistoryWindow\": \"<number>\",\n        \"minPriorityFeeRatioOfBaseFee\": \"<number>\",\n        \"minPriorityFeeGwei\": \"<number>\",\n        \"maxPriorityFeeGwei\": \"<number>\"\n      },\n      {\n        \"limitInflationFactor\": \"<number>\",\n        \"priceInflationFactor\": \"<number>\",\n        \"percentileThresholdFor1559Fee\": \"<number>\",\n        \"thresholdToInflateLastBlockBaseFee\": \"<number>\",\n        \"baseFeeMultiplier\": \"<number>\",\n        \"baseFeeHistoryWindow\": \"<number>\",\n        \"minPriorityFeeRatioOfBaseFee\": \"<number>\",\n        \"minPriorityFeeGwei\": \"<number>\",\n        \"maxPriorityFeeGwei\": \"<number>\"\n      }\n    ],\n    \"gasEstimates\": [\n      \"<object>\",\n      \"<object>\"\n    ],\n    \"timeEstimateMs\": \"<number>\",\n    \"gasUseEstimate\": \"<string>\",\n    \"gasFeeUSD\": \"<string>\",\n    \"gasFeeQuote\": \"<string>\",\n    \"gasPrice\": \"<string>\",\n    \"maxFeePerGas\": \"<string>\",\n    \"maxPriorityFeePerGas\": \"<string>\",\n    \"gasFee\": \"<string>\",\n    \"protocols\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"hooksOptions\": \"<string>\",\n    \"steps\": [\n      {\n        \"stepType\": \"<string>\",\n        \"tokenIn\": \"<string>\",\n        \"tokenInChainId\": 1,\n        \"tokenOut\": \"<string>\",\n        \"tokenOutChainId\": 1,\n        \"slippage\": \"<number>\"\n      },\n      {\n        \"stepType\": \"<string>\",\n        \"tokenIn\": \"<string>\",\n        \"tokenInChainId\": 1,\n        \"tokenOut\": \"<string>\",\n        \"tokenOutChainId\": 1,\n        \"slippage\": \"<number>\"\n      }\n    ],\n    \"slippageTolerance\": \"<number>\",\n    \"autoSlippage\": \"<string>\"\n  },\n  \"walletExecutionContext\": {\n    \"scopes\": {\n      \"key_0\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"key_0\": 2709\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"key_1\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"key_0\": false\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"key_2\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"key_0\": 2515,\n          \"key_1\": 1788\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"key_3\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"key_0\": false\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      }\n    },\n    \"properties\": {\n      \"walletInfo\": {\n        \"uuid\": \"<string>\",\n        \"name\": \"<string>\",\n        \"rdns\": \"<string>\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"UnauthorizedError\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d559a1ff-e54b-4c0e-939c-ea64cd34152f",
+              "name": "ResourceNotFound eg. No quotes available or Gas fee/price not available",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "plan"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"routing\": \"<string>\",\n  \"quote\": {\n    \"swapper\": \"<string>\",\n    \"input\": {\n      \"token\": \"<string>\",\n      \"amount\": \"<string>\"\n    },\n    \"output\": {\n      \"token\": \"<string>\",\n      \"amount\": \"<string>\",\n      \"recipient\": \"<string>\"\n    },\n    \"tokenInChainId\": 1,\n    \"tokenOutChainId\": 1,\n    \"tradeType\": \"EXACT_INPUT\",\n    \"quoteId\": \"<string>\",\n    \"gasStrategies\": [\n      {\n        \"limitInflationFactor\": \"<number>\",\n        \"priceInflationFactor\": \"<number>\",\n        \"percentileThresholdFor1559Fee\": \"<number>\",\n        \"thresholdToInflateLastBlockBaseFee\": \"<number>\",\n        \"baseFeeMultiplier\": \"<number>\",\n        \"baseFeeHistoryWindow\": \"<number>\",\n        \"minPriorityFeeRatioOfBaseFee\": \"<number>\",\n        \"minPriorityFeeGwei\": \"<number>\",\n        \"maxPriorityFeeGwei\": \"<number>\"\n      },\n      {\n        \"limitInflationFactor\": \"<number>\",\n        \"priceInflationFactor\": \"<number>\",\n        \"percentileThresholdFor1559Fee\": \"<number>\",\n        \"thresholdToInflateLastBlockBaseFee\": \"<number>\",\n        \"baseFeeMultiplier\": \"<number>\",\n        \"baseFeeHistoryWindow\": \"<number>\",\n        \"minPriorityFeeRatioOfBaseFee\": \"<number>\",\n        \"minPriorityFeeGwei\": \"<number>\",\n        \"maxPriorityFeeGwei\": \"<number>\"\n      }\n    ],\n    \"gasEstimates\": [\n      \"<object>\",\n      \"<object>\"\n    ],\n    \"timeEstimateMs\": \"<number>\",\n    \"gasUseEstimate\": \"<string>\",\n    \"gasFeeUSD\": \"<string>\",\n    \"gasFeeQuote\": \"<string>\",\n    \"gasPrice\": \"<string>\",\n    \"maxFeePerGas\": \"<string>\",\n    \"maxPriorityFeePerGas\": \"<string>\",\n    \"gasFee\": \"<string>\",\n    \"protocols\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"hooksOptions\": \"<string>\",\n    \"steps\": [\n      {\n        \"stepType\": \"<string>\",\n        \"tokenIn\": \"<string>\",\n        \"tokenInChainId\": 1,\n        \"tokenOut\": \"<string>\",\n        \"tokenOutChainId\": 1,\n        \"slippage\": \"<number>\"\n      },\n      {\n        \"stepType\": \"<string>\",\n        \"tokenIn\": \"<string>\",\n        \"tokenInChainId\": 1,\n        \"tokenOut\": \"<string>\",\n        \"tokenOutChainId\": 1,\n        \"slippage\": \"<number>\"\n      }\n    ],\n    \"slippageTolerance\": \"<number>\",\n    \"autoSlippage\": \"<string>\"\n  },\n  \"walletExecutionContext\": {\n    \"scopes\": {\n      \"key_0\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"key_0\": 2709\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"key_1\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"key_0\": false\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"key_2\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"key_0\": 2515,\n          \"key_1\": 1788\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"key_3\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"key_0\": false\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      }\n    },\n    \"properties\": {\n      \"walletInfo\": {\n        \"uuid\": \"<string>\",\n        \"name\": \"<string>\",\n        \"rdns\": \"<string>\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"ResourceNotFound\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d9a719b9-b80c-4cd7-8fc7-8dff6cc48353",
+              "name": "Ratelimited",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "plan"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"routing\": \"<string>\",\n  \"quote\": {\n    \"swapper\": \"<string>\",\n    \"input\": {\n      \"token\": \"<string>\",\n      \"amount\": \"<string>\"\n    },\n    \"output\": {\n      \"token\": \"<string>\",\n      \"amount\": \"<string>\",\n      \"recipient\": \"<string>\"\n    },\n    \"tokenInChainId\": 1,\n    \"tokenOutChainId\": 1,\n    \"tradeType\": \"EXACT_INPUT\",\n    \"quoteId\": \"<string>\",\n    \"gasStrategies\": [\n      {\n        \"limitInflationFactor\": \"<number>\",\n        \"priceInflationFactor\": \"<number>\",\n        \"percentileThresholdFor1559Fee\": \"<number>\",\n        \"thresholdToInflateLastBlockBaseFee\": \"<number>\",\n        \"baseFeeMultiplier\": \"<number>\",\n        \"baseFeeHistoryWindow\": \"<number>\",\n        \"minPriorityFeeRatioOfBaseFee\": \"<number>\",\n        \"minPriorityFeeGwei\": \"<number>\",\n        \"maxPriorityFeeGwei\": \"<number>\"\n      },\n      {\n        \"limitInflationFactor\": \"<number>\",\n        \"priceInflationFactor\": \"<number>\",\n        \"percentileThresholdFor1559Fee\": \"<number>\",\n        \"thresholdToInflateLastBlockBaseFee\": \"<number>\",\n        \"baseFeeMultiplier\": \"<number>\",\n        \"baseFeeHistoryWindow\": \"<number>\",\n        \"minPriorityFeeRatioOfBaseFee\": \"<number>\",\n        \"minPriorityFeeGwei\": \"<number>\",\n        \"maxPriorityFeeGwei\": \"<number>\"\n      }\n    ],\n    \"gasEstimates\": [\n      \"<object>\",\n      \"<object>\"\n    ],\n    \"timeEstimateMs\": \"<number>\",\n    \"gasUseEstimate\": \"<string>\",\n    \"gasFeeUSD\": \"<string>\",\n    \"gasFeeQuote\": \"<string>\",\n    \"gasPrice\": \"<string>\",\n    \"maxFeePerGas\": \"<string>\",\n    \"maxPriorityFeePerGas\": \"<string>\",\n    \"gasFee\": \"<string>\",\n    \"protocols\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"hooksOptions\": \"<string>\",\n    \"steps\": [\n      {\n        \"stepType\": \"<string>\",\n        \"tokenIn\": \"<string>\",\n        \"tokenInChainId\": 1,\n        \"tokenOut\": \"<string>\",\n        \"tokenOutChainId\": 1,\n        \"slippage\": \"<number>\"\n      },\n      {\n        \"stepType\": \"<string>\",\n        \"tokenIn\": \"<string>\",\n        \"tokenInChainId\": 1,\n        \"tokenOut\": \"<string>\",\n        \"tokenOutChainId\": 1,\n        \"slippage\": \"<number>\"\n      }\n    ],\n    \"slippageTolerance\": \"<number>\",\n    \"autoSlippage\": \"<string>\"\n  },\n  \"walletExecutionContext\": {\n    \"scopes\": {\n      \"key_0\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"key_0\": 2709\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"key_1\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"key_0\": false\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"key_2\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"key_0\": 2515,\n          \"key_1\": 1788\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"key_3\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"key_0\": false\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      }\n    },\n    \"properties\": {\n      \"walletInfo\": {\n        \"uuid\": \"<string>\",\n        \"name\": \"<string>\",\n        \"rdns\": \"<string>\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"Ratelimited\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1c94000c-fb60-4df5-97e9-7fa687411cfd",
+              "name": "Unexpected error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "plan"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"routing\": \"<string>\",\n  \"quote\": {\n    \"swapper\": \"<string>\",\n    \"input\": {\n      \"token\": \"<string>\",\n      \"amount\": \"<string>\"\n    },\n    \"output\": {\n      \"token\": \"<string>\",\n      \"amount\": \"<string>\",\n      \"recipient\": \"<string>\"\n    },\n    \"tokenInChainId\": 1,\n    \"tokenOutChainId\": 1,\n    \"tradeType\": \"EXACT_INPUT\",\n    \"quoteId\": \"<string>\",\n    \"gasStrategies\": [\n      {\n        \"limitInflationFactor\": \"<number>\",\n        \"priceInflationFactor\": \"<number>\",\n        \"percentileThresholdFor1559Fee\": \"<number>\",\n        \"thresholdToInflateLastBlockBaseFee\": \"<number>\",\n        \"baseFeeMultiplier\": \"<number>\",\n        \"baseFeeHistoryWindow\": \"<number>\",\n        \"minPriorityFeeRatioOfBaseFee\": \"<number>\",\n        \"minPriorityFeeGwei\": \"<number>\",\n        \"maxPriorityFeeGwei\": \"<number>\"\n      },\n      {\n        \"limitInflationFactor\": \"<number>\",\n        \"priceInflationFactor\": \"<number>\",\n        \"percentileThresholdFor1559Fee\": \"<number>\",\n        \"thresholdToInflateLastBlockBaseFee\": \"<number>\",\n        \"baseFeeMultiplier\": \"<number>\",\n        \"baseFeeHistoryWindow\": \"<number>\",\n        \"minPriorityFeeRatioOfBaseFee\": \"<number>\",\n        \"minPriorityFeeGwei\": \"<number>\",\n        \"maxPriorityFeeGwei\": \"<number>\"\n      }\n    ],\n    \"gasEstimates\": [\n      \"<object>\",\n      \"<object>\"\n    ],\n    \"timeEstimateMs\": \"<number>\",\n    \"gasUseEstimate\": \"<string>\",\n    \"gasFeeUSD\": \"<string>\",\n    \"gasFeeQuote\": \"<string>\",\n    \"gasPrice\": \"<string>\",\n    \"maxFeePerGas\": \"<string>\",\n    \"maxPriorityFeePerGas\": \"<string>\",\n    \"gasFee\": \"<string>\",\n    \"protocols\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"hooksOptions\": \"<string>\",\n    \"steps\": [\n      {\n        \"stepType\": \"<string>\",\n        \"tokenIn\": \"<string>\",\n        \"tokenInChainId\": 1,\n        \"tokenOut\": \"<string>\",\n        \"tokenOutChainId\": 1,\n        \"slippage\": \"<number>\"\n      },\n      {\n        \"stepType\": \"<string>\",\n        \"tokenIn\": \"<string>\",\n        \"tokenInChainId\": 1,\n        \"tokenOut\": \"<string>\",\n        \"tokenOutChainId\": 1,\n        \"slippage\": \"<number>\"\n      }\n    ],\n    \"slippageTolerance\": \"<number>\",\n    \"autoSlippage\": \"<string>\"\n  },\n  \"walletExecutionContext\": {\n    \"scopes\": {\n      \"key_0\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"key_0\": 2709\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"key_1\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"key_0\": false\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"key_2\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"key_0\": 2515,\n          \"key_1\": 1788\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"key_3\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"key_0\": false\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      }\n    },\n    \"properties\": {\n      \"walletInfo\": {\n        \"uuid\": \"<string>\",\n        \"name\": \"<string>\",\n        \"rdns\": \"<string>\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"InternalServerError\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2d759c3e-a2a9-4075-ac20-b6936c7cc7e2",
+              "name": "Request duration limit reached.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "plan"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"routing\": \"<string>\",\n  \"quote\": {\n    \"swapper\": \"<string>\",\n    \"input\": {\n      \"token\": \"<string>\",\n      \"amount\": \"<string>\"\n    },\n    \"output\": {\n      \"token\": \"<string>\",\n      \"amount\": \"<string>\",\n      \"recipient\": \"<string>\"\n    },\n    \"tokenInChainId\": 1,\n    \"tokenOutChainId\": 1,\n    \"tradeType\": \"EXACT_INPUT\",\n    \"quoteId\": \"<string>\",\n    \"gasStrategies\": [\n      {\n        \"limitInflationFactor\": \"<number>\",\n        \"priceInflationFactor\": \"<number>\",\n        \"percentileThresholdFor1559Fee\": \"<number>\",\n        \"thresholdToInflateLastBlockBaseFee\": \"<number>\",\n        \"baseFeeMultiplier\": \"<number>\",\n        \"baseFeeHistoryWindow\": \"<number>\",\n        \"minPriorityFeeRatioOfBaseFee\": \"<number>\",\n        \"minPriorityFeeGwei\": \"<number>\",\n        \"maxPriorityFeeGwei\": \"<number>\"\n      },\n      {\n        \"limitInflationFactor\": \"<number>\",\n        \"priceInflationFactor\": \"<number>\",\n        \"percentileThresholdFor1559Fee\": \"<number>\",\n        \"thresholdToInflateLastBlockBaseFee\": \"<number>\",\n        \"baseFeeMultiplier\": \"<number>\",\n        \"baseFeeHistoryWindow\": \"<number>\",\n        \"minPriorityFeeRatioOfBaseFee\": \"<number>\",\n        \"minPriorityFeeGwei\": \"<number>\",\n        \"maxPriorityFeeGwei\": \"<number>\"\n      }\n    ],\n    \"gasEstimates\": [\n      \"<object>\",\n      \"<object>\"\n    ],\n    \"timeEstimateMs\": \"<number>\",\n    \"gasUseEstimate\": \"<string>\",\n    \"gasFeeUSD\": \"<string>\",\n    \"gasFeeQuote\": \"<string>\",\n    \"gasPrice\": \"<string>\",\n    \"maxFeePerGas\": \"<string>\",\n    \"maxPriorityFeePerGas\": \"<string>\",\n    \"gasFee\": \"<string>\",\n    \"protocols\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"hooksOptions\": \"<string>\",\n    \"steps\": [\n      {\n        \"stepType\": \"<string>\",\n        \"tokenIn\": \"<string>\",\n        \"tokenInChainId\": 1,\n        \"tokenOut\": \"<string>\",\n        \"tokenOutChainId\": 1,\n        \"slippage\": \"<number>\"\n      },\n      {\n        \"stepType\": \"<string>\",\n        \"tokenIn\": \"<string>\",\n        \"tokenInChainId\": 1,\n        \"tokenOut\": \"<string>\",\n        \"tokenOutChainId\": 1,\n        \"slippage\": \"<number>\"\n      }\n    ],\n    \"slippageTolerance\": \"<number>\",\n    \"autoSlippage\": \"<string>\"\n  },\n  \"walletExecutionContext\": {\n    \"scopes\": {\n      \"key_0\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"key_0\": 2709\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"key_1\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"key_0\": false\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"key_2\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"key_0\": 2515,\n          \"key_1\": 1788\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"key_3\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"key_0\": false\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      }\n    },\n    \"properties\": {\n      \"walletInfo\": {\n        \"uuid\": \"<string>\",\n        \"name\": \"<string>\",\n        \"rdns\": \"<string>\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Gateway Timeout",
+              "code": 504,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"Timeout\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8a39fec1-1061-4958-96bc-59a78a604fbc",
+          "name": "Get an execution plan",
+          "request": {
+            "name": "Get an execution plan",
+            "description": {
+              "content": "Retrieves an existing execution plan by its ID. Returns the full plan with current status and all steps. If forceRefresh is set to true, the plan will be refreshed to check for any updates to step statuses. Note: Completed plans cannot be refreshed.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "plan",
+                ":planId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "forceRefresh",
+                  "value": "<boolean>",
+                  "description": "Whether to force refresh the plan status. Defaults to false. Completed plans cannot be refreshed."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "planId",
+                  "description": "(Required) The unique identifier of the plan to retrieve."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "d4fc70ae-04b0-4a6b-bc25-c7698ee821c4",
+              "name": "Get plan successful.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "plan",
+                    ":planId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "forceRefresh",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "planId",
+                      "description": "(Required) The unique identifier of the plan to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"requestId\": \"string\",\n  \"planId\": \"string\",\n  \"swapper\": \"<string>\",\n  \"recipient\": \"<string>\",\n  \"quoteId\": \"<string>\",\n  \"status\": \"COMPLETED\",\n  \"steps\": [\n    {\n      \"stepIndex\": 3924.0611346455544,\n      \"method\": \"SIGN_MSG\",\n      \"payloadType\": \"EIP_5792\",\n      \"payload\": {},\n      \"status\": \"AWAITING_ACTION\",\n      \"proof\": {\n        \"txHash\": \"7ddEBA7C2fFC03fCE4c827C0AaDda46dD83bb7e480b54fA4eB49E2E94d13E45F\",\n        \"signature\": \"string\",\n        \"orderId\": \"string\"\n      },\n      \"tokenIn\": \"<string>\",\n      \"tokenOut\": \"<string>\",\n      \"tokenInChainId\": 1,\n      \"tokenOutChainId\": 1,\n      \"tokenInAmount\": \"<string>\",\n      \"tokenOutAmount\": \"<string>\",\n      \"swapper\": \"<string>\",\n      \"recipient\": \"<string>\",\n      \"stepType\": \"<string>\",\n      \"gasUseEstimate\": \"<string>\",\n      \"gasFeeUSD\": \"<string>\",\n      \"gasFeeQuote\": \"<string>\",\n      \"gasPrice\": \"<string>\",\n      \"maxFeePerGas\": \"<string>\",\n      \"maxPriorityFeePerGas\": \"<string>\",\n      \"gasFee\": \"<string>\",\n      \"routingStepKey\": \"string\",\n      \"slippage\": \"<number>\"\n    },\n    {\n      \"stepIndex\": 2182.6402153938197,\n      \"method\": \"SEND_TX\",\n      \"payloadType\": \"EIP_712\",\n      \"payload\": {},\n      \"status\": \"STEP_ERROR\",\n      \"proof\": {\n        \"txHash\": \"BFa0AcCfDCe3E63d8cb2C8EB31b0C5224477c37C1a3AA53a2Dd3B0aeC558e6f7\",\n        \"signature\": \"string\",\n        \"orderId\": \"string\"\n      },\n      \"tokenIn\": \"<string>\",\n      \"tokenOut\": \"<string>\",\n      \"tokenInChainId\": 1,\n      \"tokenOutChainId\": 1,\n      \"tokenInAmount\": \"<string>\",\n      \"tokenOutAmount\": \"<string>\",\n      \"swapper\": \"<string>\",\n      \"recipient\": \"<string>\",\n      \"stepType\": \"<string>\",\n      \"gasUseEstimate\": \"<string>\",\n      \"gasFeeUSD\": \"<string>\",\n      \"gasFeeQuote\": \"<string>\",\n      \"gasPrice\": \"<string>\",\n      \"maxFeePerGas\": \"<string>\",\n      \"maxPriorityFeePerGas\": \"<string>\",\n      \"gasFee\": \"<string>\",\n      \"routingStepKey\": \"string\",\n      \"slippage\": \"<number>\"\n    }\n  ],\n  \"currentStepIndex\": 5111.3527471012485,\n  \"expectedOutput\": \"<string>\",\n  \"gasFee\": \"<string>\",\n  \"gasFeeQuote\": \"<string>\",\n  \"gasFeeUSD\": \"<string>\",\n  \"gasUseEstimate\": \"<string>\",\n  \"timeEstimateMs\": 6915.7069409983815,\n  \"gasStrategies\": [\n    {\n      \"limitInflationFactor\": \"<number>\",\n      \"priceInflationFactor\": \"<number>\",\n      \"percentileThresholdFor1559Fee\": \"<number>\",\n      \"thresholdToInflateLastBlockBaseFee\": \"<number>\",\n      \"baseFeeMultiplier\": \"<number>\",\n      \"baseFeeHistoryWindow\": \"<number>\",\n      \"minPriorityFeeRatioOfBaseFee\": \"<number>\",\n      \"minPriorityFeeGwei\": \"<number>\",\n      \"maxPriorityFeeGwei\": \"<number>\"\n    },\n    {\n      \"limitInflationFactor\": \"<number>\",\n      \"priceInflationFactor\": \"<number>\",\n      \"percentileThresholdFor1559Fee\": \"<number>\",\n      \"thresholdToInflateLastBlockBaseFee\": \"<number>\",\n      \"baseFeeMultiplier\": \"<number>\",\n      \"baseFeeHistoryWindow\": \"<number>\",\n      \"minPriorityFeeRatioOfBaseFee\": \"<number>\",\n      \"minPriorityFeeGwei\": \"<number>\",\n      \"maxPriorityFeeGwei\": \"<number>\"\n    }\n  ],\n  \"protocols\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"hooksOptions\": \"<string>\",\n  \"createdAt\": \"2008-05-07T04:26:07.585Z\",\n  \"updatedAt\": \"1954-07-13T07:56:29.673Z\",\n  \"completedAt\": \"1982-10-25T17:22:27.704Z\",\n  \"lastUserActionAt\": \"1951-05-09T14:54:32.665Z\",\n  \"slippageTolerance\": \"<number>\",\n  \"autoSlippage\": \"<string>\",\n  \"walletExecutionContext\": {\n    \"scopes\": {\n      \"key_0\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"key_0\": true,\n          \"key_1\": 6039,\n          \"key_2\": 9423\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"key_1\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"key_0\": 2508.6867856842277,\n          \"key_1\": true,\n          \"key_2\": 6971\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"key_2\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"key_0\": \"string\",\n          \"key_1\": 8135\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"key_3\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\",\n          \"key_2\": \"string\"\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      }\n    },\n    \"properties\": {\n      \"walletInfo\": {\n        \"uuid\": \"<string>\",\n        \"name\": \"<string>\",\n        \"rdns\": \"<string>\"\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "55480959-0f9b-4276-aeb4-4d3dff44129e",
+              "name": "RequestValidationError, Bad Input",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "plan",
+                    ":planId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "forceRefresh",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "planId",
+                      "description": "(Required) The unique identifier of the plan to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"RequestValidationError\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c901a352-c120-4783-b3f5-764b421524aa",
+              "name": "UnauthorizedError eg. Account is blocked.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "plan",
+                    ":planId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "forceRefresh",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "planId",
+                      "description": "(Required) The unique identifier of the plan to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"UnauthorizedError\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5ab7d0f3-1b00-4530-a14e-8e6da36d6ad9",
+              "name": "ResourceNotFound eg. No quotes available or Gas fee/price not available",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "plan",
+                    ":planId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "forceRefresh",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "planId",
+                      "description": "(Required) The unique identifier of the plan to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"ResourceNotFound\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c35f742e-a063-4129-914d-457752c119ed",
+              "name": "UnprocessableEntity eg. Plan is already completed and cannot be updated.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "plan",
+                    ":planId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "forceRefresh",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "planId",
+                      "description": "(Required) The unique identifier of the plan to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"UnprocessableEntity\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6dcaf9d2-cd50-4945-9c91-17b433766987",
+              "name": "Ratelimited",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "plan",
+                    ":planId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "forceRefresh",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "planId",
+                      "description": "(Required) The unique identifier of the plan to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"Ratelimited\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3dfcfc92-d406-4a18-b7e5-8ae7872cd696",
+              "name": "Unexpected error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "plan",
+                    ":planId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "forceRefresh",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "planId",
+                      "description": "(Required) The unique identifier of the plan to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"InternalServerError\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ae42b74c-65ca-4be5-99b2-9cb3a0047e28",
+              "name": "Request duration limit reached.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "plan",
+                    ":planId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "forceRefresh",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "planId",
+                      "description": "(Required) The unique identifier of the plan to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Gateway Timeout",
+              "code": 504,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"Timeout\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "73baeb83-16f2-4d3a-9dc1-7483c7eea62f",
+          "name": "Update an existing plan with step proofs",
+          "request": {
+            "name": "Update an existing plan with step proofs",
+            "description": {
+              "content": "Updates an existing execution plan by submitting proof of completed plan steps (transaction hashes or signatures). The endpoint retrieves the existing plan, attaches proofs to specified steps, verifies the proofs, and potentially regenerates remaining steps if needed. Returns the full updated plan with current status. Note: Order IDs are not accepted in requests; they are system-generated after receiving a signature.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "plan",
+                ":planId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "planId",
+                  "description": "(Required) The unique identifier of the plan to update."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"steps\": [\n    {\n      \"stepIndex\": \"<number>\",\n      \"proof\": {\n        \"txHash\": \"<string>\",\n        \"signature\": \"<string>\"\n      }\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ae700de3-aee7-44ec-9c30-bd79d3d2f8d5",
+              "name": "Update plan successful.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "plan",
+                    ":planId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "planId",
+                      "description": "(Required) The unique identifier of the plan to update."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"steps\": [\n    {\n      \"stepIndex\": \"<number>\",\n      \"proof\": {\n        \"txHash\": \"<string>\",\n        \"signature\": \"<string>\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"requestId\": \"string\",\n  \"planId\": \"string\",\n  \"swapper\": \"<string>\",\n  \"recipient\": \"<string>\",\n  \"quoteId\": \"<string>\",\n  \"status\": \"FAILED\",\n  \"steps\": [\n    {\n      \"stepIndex\": 6782.919434199095,\n      \"method\": \"SIGN_MSG\",\n      \"payloadType\": \"EIP_712\",\n      \"payload\": {},\n      \"status\": \"COMPLETE\",\n      \"proof\": {\n        \"txHash\": \"<string>\",\n        \"signature\": \"string\",\n        \"orderId\": \"string\"\n      },\n      \"tokenIn\": \"<string>\",\n      \"tokenOut\": \"<string>\",\n      \"tokenInChainId\": 1,\n      \"tokenOutChainId\": 1,\n      \"tokenInAmount\": \"<string>\",\n      \"tokenOutAmount\": \"<string>\",\n      \"swapper\": \"<string>\",\n      \"recipient\": \"<string>\",\n      \"stepType\": \"<string>\",\n      \"gasUseEstimate\": \"<string>\",\n      \"gasFeeUSD\": \"<string>\",\n      \"gasFeeQuote\": \"<string>\",\n      \"gasPrice\": \"<string>\",\n      \"maxFeePerGas\": \"<string>\",\n      \"maxPriorityFeePerGas\": \"<string>\",\n      \"gasFee\": \"<string>\",\n      \"routingStepKey\": \"string\",\n      \"slippage\": \"<number>\"\n    },\n    {\n      \"stepIndex\": 2338.704991505278,\n      \"method\": \"SEND_TX\",\n      \"payloadType\": \"EIP_5792\",\n      \"payload\": {},\n      \"status\": \"STEP_ERROR\",\n      \"proof\": {\n        \"txHash\": \"<string>\",\n        \"signature\": \"string\",\n        \"orderId\": \"string\"\n      },\n      \"tokenIn\": \"<string>\",\n      \"tokenOut\": \"<string>\",\n      \"tokenInChainId\": 1,\n      \"tokenOutChainId\": 1,\n      \"tokenInAmount\": \"<string>\",\n      \"tokenOutAmount\": \"<string>\",\n      \"swapper\": \"<string>\",\n      \"recipient\": \"<string>\",\n      \"stepType\": \"<string>\",\n      \"gasUseEstimate\": \"<string>\",\n      \"gasFeeUSD\": \"<string>\",\n      \"gasFeeQuote\": \"<string>\",\n      \"gasPrice\": \"<string>\",\n      \"maxFeePerGas\": \"<string>\",\n      \"maxPriorityFeePerGas\": \"<string>\",\n      \"gasFee\": \"<string>\",\n      \"routingStepKey\": \"string\",\n      \"slippage\": \"<number>\"\n    }\n  ],\n  \"currentStepIndex\": 8084.031142083183,\n  \"expectedOutput\": \"<string>\",\n  \"gasFee\": \"<string>\",\n  \"gasFeeQuote\": \"<string>\",\n  \"gasFeeUSD\": \"<string>\",\n  \"gasUseEstimate\": \"<string>\",\n  \"timeEstimateMs\": 7896.102841921093,\n  \"gasStrategies\": [\n    {\n      \"limitInflationFactor\": \"<number>\",\n      \"priceInflationFactor\": \"<number>\",\n      \"percentileThresholdFor1559Fee\": \"<number>\",\n      \"thresholdToInflateLastBlockBaseFee\": \"<number>\",\n      \"baseFeeMultiplier\": \"<number>\",\n      \"baseFeeHistoryWindow\": \"<number>\",\n      \"minPriorityFeeRatioOfBaseFee\": \"<number>\",\n      \"minPriorityFeeGwei\": \"<number>\",\n      \"maxPriorityFeeGwei\": \"<number>\"\n    },\n    {\n      \"limitInflationFactor\": \"<number>\",\n      \"priceInflationFactor\": \"<number>\",\n      \"percentileThresholdFor1559Fee\": \"<number>\",\n      \"thresholdToInflateLastBlockBaseFee\": \"<number>\",\n      \"baseFeeMultiplier\": \"<number>\",\n      \"baseFeeHistoryWindow\": \"<number>\",\n      \"minPriorityFeeRatioOfBaseFee\": \"<number>\",\n      \"minPriorityFeeGwei\": \"<number>\",\n      \"maxPriorityFeeGwei\": \"<number>\"\n    }\n  ],\n  \"protocols\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"hooksOptions\": \"<string>\",\n  \"createdAt\": \"1966-09-28T10:43:51.560Z\",\n  \"updatedAt\": \"2012-06-07T20:46:36.241Z\",\n  \"completedAt\": \"2008-09-10T15:16:21.089Z\",\n  \"lastUserActionAt\": \"1949-08-31T00:33:29.650Z\",\n  \"slippageTolerance\": \"<number>\",\n  \"autoSlippage\": \"<string>\",\n  \"walletExecutionContext\": {\n    \"scopes\": {\n      \"key_0\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"key_0\": \"string\",\n          \"key_1\": 2832,\n          \"key_2\": \"string\"\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"key_1\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"key_0\": \"string\",\n          \"key_1\": 8368.344610810609,\n          \"key_2\": true,\n          \"key_3\": false\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"key_2\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"key_0\": 1559,\n          \"key_1\": 9986.21678023241\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      },\n      \"key_3\": {\n        \"accounts\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"methods\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"capabilities\": {\n          \"key_0\": 2148\n        },\n        \"chains\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"clientContext\": {\n          \"directPrivateKeyAccess\": \"<boolean>\",\n          \"nextEvmUpgradeAddress\": \"<string>\"\n        }\n      }\n    },\n    \"properties\": {\n      \"walletInfo\": {\n        \"uuid\": \"<string>\",\n        \"name\": \"<string>\",\n        \"rdns\": \"<string>\"\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "13e58ece-cda5-40e3-b287-6198ce77abae",
+              "name": "RequestValidationError, Bad Input",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "plan",
+                    ":planId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "planId",
+                      "description": "(Required) The unique identifier of the plan to update."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"steps\": [\n    {\n      \"stepIndex\": \"<number>\",\n      \"proof\": {\n        \"txHash\": \"<string>\",\n        \"signature\": \"<string>\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"RequestValidationError\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "463a868f-9351-470a-8ebb-f3c21d41cd65",
+              "name": "UnauthorizedError eg. Account is blocked.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "plan",
+                    ":planId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "planId",
+                      "description": "(Required) The unique identifier of the plan to update."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"steps\": [\n    {\n      \"stepIndex\": \"<number>\",\n      \"proof\": {\n        \"txHash\": \"<string>\",\n        \"signature\": \"<string>\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"UnauthorizedError\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "66f44a8c-cb04-4dec-8e3a-c7685351044e",
+              "name": "ResourceNotFound eg. No quotes available or Gas fee/price not available",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "plan",
+                    ":planId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "planId",
+                      "description": "(Required) The unique identifier of the plan to update."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"steps\": [\n    {\n      \"stepIndex\": \"<number>\",\n      \"proof\": {\n        \"txHash\": \"<string>\",\n        \"signature\": \"<string>\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"ResourceNotFound\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e8728918-0449-442e-b67e-82e13fd5cf20",
+              "name": "UnprocessableEntity eg. Plan is already completed and cannot be updated.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "plan",
+                    ":planId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "planId",
+                      "description": "(Required) The unique identifier of the plan to update."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"steps\": [\n    {\n      \"stepIndex\": \"<number>\",\n      \"proof\": {\n        \"txHash\": \"<string>\",\n        \"signature\": \"<string>\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"UnprocessableEntity\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a761acae-f7e9-42ce-8022-5c55625ce63f",
+              "name": "Ratelimited",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "plan",
+                    ":planId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "planId",
+                      "description": "(Required) The unique identifier of the plan to update."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"steps\": [\n    {\n      \"stepIndex\": \"<number>\",\n      \"proof\": {\n        \"txHash\": \"<string>\",\n        \"signature\": \"<string>\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"Ratelimited\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d824fb15-a77e-4f0d-8a49-748ae1cdd192",
+              "name": "Unexpected error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "plan",
+                    ":planId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "planId",
+                      "description": "(Required) The unique identifier of the plan to update."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"steps\": [\n    {\n      \"stepIndex\": \"<number>\",\n      \"proof\": {\n        \"txHash\": \"<string>\",\n        \"signature\": \"<string>\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"InternalServerError\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "96549bdf-271c-43c5-a1fa-11e421c7a3c5",
+              "name": "Request duration limit reached.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "plan",
+                    ":planId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "planId",
+                      "description": "(Required) The unique identifier of the plan to update."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"steps\": [\n    {\n      \"stepIndex\": \"<number>\",\n      \"proof\": {\n        \"txHash\": \"<string>\",\n        \"signature\": \"<string>\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Gateway Timeout",
+              "code": 504,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"Timeout\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://trade-api.gateway.uniswap.org/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "x-api-key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "dd64a3e4-6d3d-490a-b6ba-dddd35105038",
+    "name": "Token Trading Approval Plan API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Uniswap Labs trading APIs.\n\nEach operation may include the vendor extension `x-public-endpoint` (boolean): `true` when the operation is available on the public gateway for standard API keys, `false` when it is not publicly exposed. See the [OpenAPI specification extensions](https://swagger.io/docs/specification/v3_0/openapi-extensions/) definition of `x-` fields.",
+      "type": "text/plain"
+    }
+  }
+}

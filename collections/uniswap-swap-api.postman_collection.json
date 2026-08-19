@@ -1,0 +1,1957 @@
+{
+  "item": [
+    {
+      "id": "f7af38db-7253-4c8b-b783-101be0ccfb3c",
+      "name": "Swap",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "3d4091ea-a3fe-440c-9b8d-4ff96d748778",
+          "name": "Create swap calldata",
+          "request": {
+            "name": "Create swap calldata",
+            "description": {
+              "content": "Create the calldata for a swap transaction (including wrap/unwrap) against the Uniswap Protocols. If the `quote` parameter includes the fee parameters, then the calldata will include the fee disbursement. The gas estimates will be **more precise** when the the response calldata would be valid if submitted on-chain.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "swap"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "The version of the Universal Router to use for the swap journey. *MUST* be consistent throughout the API calls.",
+                "key": "x-universal-router-version",
+                "value": "2.0"
+              },
+              {
+                "disabled": false,
+                "description": "Disables the Permit2 approval flow. When set to `true`, `permitData` is returned as `null` and the header is forwarded to the routing layer for correct gas simulation against the Proxy Universal Router contract. When `false` or omitted, the standard Permit2 approval flow is used. This header is intended for integrators whose infrastructure uses a direct approval-then-swap pattern without Permit2.",
+                "key": "x-permit2-disabled",
+                "value": "false"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quote\": {\n    \"input\": {\n      \"token\": \"<string>\",\n      \"amount\": \"<string>\"\n    },\n    \"output\": {\n      \"token\": \"<string>\",\n      \"amount\": \"<string>\",\n      \"recipient\": \"<string>\"\n    },\n    \"swapper\": \"<string>\",\n    \"chainId\": 1,\n    \"slippage\": \"<number>\",\n    \"tradeType\": \"EXACT_INPUT\",\n    \"gasFee\": \"<string>\",\n    \"gasFeeUSD\": \"<string>\",\n    \"gasFeeQuote\": \"<string>\",\n    \"route\": [\n      [\n        {\n          \"type\": \"v2-pool\",\n          \"address\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tokenIn\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tokenOut\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"reserve0\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"reserve1\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"amountIn\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"amountOut\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"type\": \"v2-pool\",\n          \"address\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tokenIn\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tokenOut\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"reserve0\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"reserve1\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"amountIn\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"amountOut\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      [\n        {\n          \"type\": \"v2-pool\",\n          \"address\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tokenIn\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tokenOut\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"reserve0\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"reserve1\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"amountIn\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"amountOut\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"type\": \"v2-pool\",\n          \"address\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tokenIn\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tokenOut\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"reserve0\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"reserve1\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"amountIn\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"amountOut\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ]\n    ],\n    \"portionBips\": \"<number>\",\n    \"portionAmount\": \"<string>\",\n    \"portionRecipient\": \"<string>\",\n    \"routeString\": \"<string>\",\n    \"quoteId\": \"<string>\",\n    \"gasUseEstimate\": \"<string>\",\n    \"blockNumber\": \"<string>\",\n    \"gasPrice\": \"<string>\",\n    \"maxFeePerGas\": \"<string>\",\n    \"maxPriorityFeePerGas\": \"<string>\",\n    \"txFailureReasons\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"priceImpact\": \"<number>\",\n    \"aggregatedOutputs\": [\n      {\n        \"token\": \"<string>\",\n        \"amount\": \"<string>\",\n        \"recipient\": \"<string>\",\n        \"bps\": \"<number>\",\n        \"minAmount\": \"<string>\"\n      },\n      {\n        \"token\": \"<string>\",\n        \"amount\": \"<string>\",\n        \"recipient\": \"<string>\",\n        \"bps\": \"<number>\",\n        \"minAmount\": \"<string>\"\n      }\n    ]\n  },\n  \"signature\": \"<string>\",\n  \"includeGasInfo\": false,\n  \"refreshGasPrice\": false,\n  \"simulateTransaction\": false,\n  \"permitData\": {\n    \"domain\": \"<object>\",\n    \"values\": \"<object>\",\n    \"types\": \"<object>\"\n  },\n  \"safetyMode\": \"<string>\",\n  \"deadline\": \"<number>\",\n  \"urgency\": \"urgent\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "df471e28-cc6a-4df8-bdfe-c33346468a14",
+              "name": "Create swap successful.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "swap"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The version of the Universal Router to use for the swap journey. *MUST* be consistent throughout the API calls.",
+                    "key": "x-universal-router-version",
+                    "value": "2.0"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Disables the Permit2 approval flow. When set to `true`, `permitData` is returned as `null` and the header is forwarded to the routing layer for correct gas simulation against the Proxy Universal Router contract. When `false` or omitted, the standard Permit2 approval flow is used. This header is intended for integrators whose infrastructure uses a direct approval-then-swap pattern without Permit2.",
+                    "key": "x-permit2-disabled",
+                    "value": "false"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quote\": {\n    \"chainId\": 1,\n    \"input\": {\n      \"amount\": \"2516\",\n      \"token\": \"0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599\"\n    },\n    \"output\": {\n      \"amount\": \"996320746321162\",\n      \"token\": \"0x0000000000000000000000000000000000000000\",\n      \"recipient\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\"\n    },\n    \"swapper\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n    \"route\": [\n      [\n        {\n          \"type\": \"v4-pool\",\n          \"address\": \"0x599326d9cd5e1ea0893305c87d5ec3199e7f05e94d72159f35dea381479a615e\",\n          \"tokenIn\": {\n            \"chainId\": 1,\n            \"decimals\": \"8\",\n            \"address\": \"0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599\",\n            \"symbol\": \"WBTC\"\n          },\n          \"tokenOut\": {\n            \"chainId\": 1,\n            \"decimals\": \"18\",\n            \"address\": \"0x0000000000000000000000000000000000000000\",\n            \"symbol\": \"ETH\"\n          },\n          \"fee\": \"500\",\n          \"tickSpacing\": \"10\",\n          \"hooks\": \"0x0000000000000000000000000000000000000000\",\n          \"liquidity\": \"82781860385007263\",\n          \"sqrtRatioX96\": \"125814565506407615477027\",\n          \"tickCurrent\": \"-267075\",\n          \"amountIn\": \"2516\",\n          \"amountOut\": \"993829944455359\"\n        }\n      ]\n    ],\n    \"slippage\": 5.5,\n    \"tradeType\": \"EXACT_INPUT\",\n    \"quoteId\": \"62e83902-9455-405d-8c62-cdf8ee9e2042\",\n    \"gasFeeUSD\": \"1.27511942409885062\",\n    \"gasFeeQuote\": \"489108586810000\",\n    \"gasUseEstimate\": \"180350\",\n    \"priceImpact\": 0.14,\n    \"txFailureReasons\": [],\n    \"maxPriorityFeePerGas\": \"2000000000\",\n    \"maxFeePerGas\": \"4656513686\",\n    \"gasFee\": \"489108586810000\",\n    \"routeString\": \"[V4] 100.00% = WBTC -- 0.05% [0x599326d9cd5e1ea0893305c87d5ec3199e7f05e94d72159f35dea381479a615e]ETH\",\n    \"blockNumber\": \"22483653\",\n    \"aggregatedOutputs\": [\n      {\n        \"amount\": \"993829944455360\",\n        \"token\": \"0x0000000000000000000000000000000000000000\",\n        \"recipient\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n        \"bps\": 9975,\n        \"minAmount\": \"993829944455360\"\n      },\n      {\n        \"amount\": \"2490801865802\",\n        \"token\": \"0x0000000000000000000000000000000000000000\",\n        \"recipient\": \"0x000000fee13a103A10D593b9AE06b3e05F2E7E1c\",\n        \"bps\": 25,\n        \"minAmount\": \"2490801865802\"\n      }\n    ],\n    \"portionAmount\": \"2490801865802\",\n    \"portionBips\": 25,\n    \"portionRecipient\": \"0x000000fee13a103A10D593b9AE06b3e05F2E7E1c\"\n  },\n  \"permitData\": {\n    \"domain\": {\n      \"name\": \"Permit2\",\n      \"chainId\": 1,\n      \"verifyingContract\": \"0x000000000022D473030F116dDEE9F6B43aC78BA3\"\n    },\n    \"types\": {\n      \"PermitSingle\": [\n        {\n          \"name\": \"details\",\n          \"type\": \"PermitDetails\"\n        },\n        {\n          \"name\": \"spender\",\n          \"type\": \"address\"\n        },\n        {\n          \"name\": \"sigDeadline\",\n          \"type\": \"uint256\"\n        }\n      ],\n      \"PermitDetails\": [\n        {\n          \"name\": \"token\",\n          \"type\": \"address\"\n        },\n        {\n          \"name\": \"amount\",\n          \"type\": \"uint160\"\n        },\n        {\n          \"name\": \"expiration\",\n          \"type\": \"uint48\"\n        },\n        {\n          \"name\": \"nonce\",\n          \"type\": \"uint48\"\n        }\n      ]\n    },\n    \"values\": {\n      \"details\": {\n        \"token\": \"0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599\",\n        \"amount\": \"1461501637330902918203684832716283019655932542975\",\n        \"expiration\": \"1749845047\",\n        \"nonce\": \"1\"\n      },\n      \"spender\": \"0x66a9893cc07d91d95644aedd05d03f95e1dba8af\",\n      \"sigDeadline\": \"1747254847\"\n    }\n  },\n  \"signature\": \"0xb22e7f47d8...\",\n  \"simulateTransaction\": true,\n  \"refreshGasPrice\": true,\n  \"safetyMode\": \"SAFE\",\n  \"urgency\": \"normal\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"requestId\": \"dfc1bd88-c741-4cdb-b118-0dddb690bfef\",\n  \"swap\": {\n    \"data\": \"0x3593564c00...\",\n    \"value\": \"0x00\",\n    \"to\": \"0x66a9893cc07d91d95644aedd05d03f95e1dba8af\",\n    \"from\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n    \"maxFeePerGas\": \"4794697230\",\n    \"maxPriorityFeePerGas\": \"2000000000\",\n    \"gasLimit\": \"179302\",\n    \"chainId\": 1\n  },\n  \"gasFee\": \"859698802733460\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f2bb10c5-71e6-431e-91cf-ac099fd230e4",
+              "name": "RequestValidationError, Bad Input",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "swap"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The version of the Universal Router to use for the swap journey. *MUST* be consistent throughout the API calls.",
+                    "key": "x-universal-router-version",
+                    "value": "2.0"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Disables the Permit2 approval flow. When set to `true`, `permitData` is returned as `null` and the header is forwarded to the routing layer for correct gas simulation against the Proxy Universal Router contract. When `false` or omitted, the standard Permit2 approval flow is used. This header is intended for integrators whose infrastructure uses a direct approval-then-swap pattern without Permit2.",
+                    "key": "x-permit2-disabled",
+                    "value": "false"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quote\": {\n    \"chainId\": 1,\n    \"input\": {\n      \"amount\": \"2516\",\n      \"token\": \"0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599\"\n    },\n    \"output\": {\n      \"amount\": \"996320746321162\",\n      \"token\": \"0x0000000000000000000000000000000000000000\",\n      \"recipient\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\"\n    },\n    \"swapper\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n    \"route\": [\n      [\n        {\n          \"type\": \"v4-pool\",\n          \"address\": \"0x599326d9cd5e1ea0893305c87d5ec3199e7f05e94d72159f35dea381479a615e\",\n          \"tokenIn\": {\n            \"chainId\": 1,\n            \"decimals\": \"8\",\n            \"address\": \"0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599\",\n            \"symbol\": \"WBTC\"\n          },\n          \"tokenOut\": {\n            \"chainId\": 1,\n            \"decimals\": \"18\",\n            \"address\": \"0x0000000000000000000000000000000000000000\",\n            \"symbol\": \"ETH\"\n          },\n          \"fee\": \"500\",\n          \"tickSpacing\": \"10\",\n          \"hooks\": \"0x0000000000000000000000000000000000000000\",\n          \"liquidity\": \"82781860385007263\",\n          \"sqrtRatioX96\": \"125814565506407615477027\",\n          \"tickCurrent\": \"-267075\",\n          \"amountIn\": \"2516\",\n          \"amountOut\": \"993829944455359\"\n        }\n      ]\n    ],\n    \"slippage\": 5.5,\n    \"tradeType\": \"EXACT_INPUT\",\n    \"quoteId\": \"62e83902-9455-405d-8c62-cdf8ee9e2042\",\n    \"gasFeeUSD\": \"1.27511942409885062\",\n    \"gasFeeQuote\": \"489108586810000\",\n    \"gasUseEstimate\": \"180350\",\n    \"priceImpact\": 0.14,\n    \"txFailureReasons\": [],\n    \"maxPriorityFeePerGas\": \"2000000000\",\n    \"maxFeePerGas\": \"4656513686\",\n    \"gasFee\": \"489108586810000\",\n    \"routeString\": \"[V4] 100.00% = WBTC -- 0.05% [0x599326d9cd5e1ea0893305c87d5ec3199e7f05e94d72159f35dea381479a615e]ETH\",\n    \"blockNumber\": \"22483653\",\n    \"aggregatedOutputs\": [\n      {\n        \"amount\": \"993829944455360\",\n        \"token\": \"0x0000000000000000000000000000000000000000\",\n        \"recipient\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n        \"bps\": 9975,\n        \"minAmount\": \"993829944455360\"\n      },\n      {\n        \"amount\": \"2490801865802\",\n        \"token\": \"0x0000000000000000000000000000000000000000\",\n        \"recipient\": \"0x000000fee13a103A10D593b9AE06b3e05F2E7E1c\",\n        \"bps\": 25,\n        \"minAmount\": \"2490801865802\"\n      }\n    ],\n    \"portionAmount\": \"2490801865802\",\n    \"portionBips\": 25,\n    \"portionRecipient\": \"0x000000fee13a103A10D593b9AE06b3e05F2E7E1c\"\n  },\n  \"permitData\": {\n    \"domain\": {\n      \"name\": \"Permit2\",\n      \"chainId\": 1,\n      \"verifyingContract\": \"0x000000000022D473030F116dDEE9F6B43aC78BA3\"\n    },\n    \"types\": {\n      \"PermitSingle\": [\n        {\n          \"name\": \"details\",\n          \"type\": \"PermitDetails\"\n        },\n        {\n          \"name\": \"spender\",\n          \"type\": \"address\"\n        },\n        {\n          \"name\": \"sigDeadline\",\n          \"type\": \"uint256\"\n        }\n      ],\n      \"PermitDetails\": [\n        {\n          \"name\": \"token\",\n          \"type\": \"address\"\n        },\n        {\n          \"name\": \"amount\",\n          \"type\": \"uint160\"\n        },\n        {\n          \"name\": \"expiration\",\n          \"type\": \"uint48\"\n        },\n        {\n          \"name\": \"nonce\",\n          \"type\": \"uint48\"\n        }\n      ]\n    },\n    \"values\": {\n      \"details\": {\n        \"token\": \"0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599\",\n        \"amount\": \"1461501637330902918203684832716283019655932542975\",\n        \"expiration\": \"1749845047\",\n        \"nonce\": \"1\"\n      },\n      \"spender\": \"0x66a9893cc07d91d95644aedd05d03f95e1dba8af\",\n      \"sigDeadline\": \"1747254847\"\n    }\n  },\n  \"signature\": \"0xb22e7f47d8...\",\n  \"simulateTransaction\": true,\n  \"refreshGasPrice\": true,\n  \"safetyMode\": \"SAFE\",\n  \"urgency\": \"normal\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"RequestValidationError\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ba1a2996-780a-4d89-bfaf-9baa834912dd",
+              "name": "UnauthorizedError eg. Account is blocked or  Fee is not enabled.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "swap"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The version of the Universal Router to use for the swap journey. *MUST* be consistent throughout the API calls.",
+                    "key": "x-universal-router-version",
+                    "value": "2.0"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Disables the Permit2 approval flow. When set to `true`, `permitData` is returned as `null` and the header is forwarded to the routing layer for correct gas simulation against the Proxy Universal Router contract. When `false` or omitted, the standard Permit2 approval flow is used. This header is intended for integrators whose infrastructure uses a direct approval-then-swap pattern without Permit2.",
+                    "key": "x-permit2-disabled",
+                    "value": "false"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quote\": {\n    \"chainId\": 1,\n    \"input\": {\n      \"amount\": \"2516\",\n      \"token\": \"0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599\"\n    },\n    \"output\": {\n      \"amount\": \"996320746321162\",\n      \"token\": \"0x0000000000000000000000000000000000000000\",\n      \"recipient\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\"\n    },\n    \"swapper\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n    \"route\": [\n      [\n        {\n          \"type\": \"v4-pool\",\n          \"address\": \"0x599326d9cd5e1ea0893305c87d5ec3199e7f05e94d72159f35dea381479a615e\",\n          \"tokenIn\": {\n            \"chainId\": 1,\n            \"decimals\": \"8\",\n            \"address\": \"0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599\",\n            \"symbol\": \"WBTC\"\n          },\n          \"tokenOut\": {\n            \"chainId\": 1,\n            \"decimals\": \"18\",\n            \"address\": \"0x0000000000000000000000000000000000000000\",\n            \"symbol\": \"ETH\"\n          },\n          \"fee\": \"500\",\n          \"tickSpacing\": \"10\",\n          \"hooks\": \"0x0000000000000000000000000000000000000000\",\n          \"liquidity\": \"82781860385007263\",\n          \"sqrtRatioX96\": \"125814565506407615477027\",\n          \"tickCurrent\": \"-267075\",\n          \"amountIn\": \"2516\",\n          \"amountOut\": \"993829944455359\"\n        }\n      ]\n    ],\n    \"slippage\": 5.5,\n    \"tradeType\": \"EXACT_INPUT\",\n    \"quoteId\": \"62e83902-9455-405d-8c62-cdf8ee9e2042\",\n    \"gasFeeUSD\": \"1.27511942409885062\",\n    \"gasFeeQuote\": \"489108586810000\",\n    \"gasUseEstimate\": \"180350\",\n    \"priceImpact\": 0.14,\n    \"txFailureReasons\": [],\n    \"maxPriorityFeePerGas\": \"2000000000\",\n    \"maxFeePerGas\": \"4656513686\",\n    \"gasFee\": \"489108586810000\",\n    \"routeString\": \"[V4] 100.00% = WBTC -- 0.05% [0x599326d9cd5e1ea0893305c87d5ec3199e7f05e94d72159f35dea381479a615e]ETH\",\n    \"blockNumber\": \"22483653\",\n    \"aggregatedOutputs\": [\n      {\n        \"amount\": \"993829944455360\",\n        \"token\": \"0x0000000000000000000000000000000000000000\",\n        \"recipient\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n        \"bps\": 9975,\n        \"minAmount\": \"993829944455360\"\n      },\n      {\n        \"amount\": \"2490801865802\",\n        \"token\": \"0x0000000000000000000000000000000000000000\",\n        \"recipient\": \"0x000000fee13a103A10D593b9AE06b3e05F2E7E1c\",\n        \"bps\": 25,\n        \"minAmount\": \"2490801865802\"\n      }\n    ],\n    \"portionAmount\": \"2490801865802\",\n    \"portionBips\": 25,\n    \"portionRecipient\": \"0x000000fee13a103A10D593b9AE06b3e05F2E7E1c\"\n  },\n  \"permitData\": {\n    \"domain\": {\n      \"name\": \"Permit2\",\n      \"chainId\": 1,\n      \"verifyingContract\": \"0x000000000022D473030F116dDEE9F6B43aC78BA3\"\n    },\n    \"types\": {\n      \"PermitSingle\": [\n        {\n          \"name\": \"details\",\n          \"type\": \"PermitDetails\"\n        },\n        {\n          \"name\": \"spender\",\n          \"type\": \"address\"\n        },\n        {\n          \"name\": \"sigDeadline\",\n          \"type\": \"uint256\"\n        }\n      ],\n      \"PermitDetails\": [\n        {\n          \"name\": \"token\",\n          \"type\": \"address\"\n        },\n        {\n          \"name\": \"amount\",\n          \"type\": \"uint160\"\n        },\n        {\n          \"name\": \"expiration\",\n          \"type\": \"uint48\"\n        },\n        {\n          \"name\": \"nonce\",\n          \"type\": \"uint48\"\n        }\n      ]\n    },\n    \"values\": {\n      \"details\": {\n        \"token\": \"0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599\",\n        \"amount\": \"1461501637330902918203684832716283019655932542975\",\n        \"expiration\": \"1749845047\",\n        \"nonce\": \"1\"\n      },\n      \"spender\": \"0x66a9893cc07d91d95644aedd05d03f95e1dba8af\",\n      \"sigDeadline\": \"1747254847\"\n    }\n  },\n  \"signature\": \"0xb22e7f47d8...\",\n  \"simulateTransaction\": true,\n  \"refreshGasPrice\": true,\n  \"safetyMode\": \"SAFE\",\n  \"urgency\": \"normal\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"UnauthorizedError\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d849c96f-75b1-497f-82bd-ef82761b5722",
+              "name": "ResourceNotFound eg. No quotes available or Gas fee/price not available",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "swap"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The version of the Universal Router to use for the swap journey. *MUST* be consistent throughout the API calls.",
+                    "key": "x-universal-router-version",
+                    "value": "2.0"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Disables the Permit2 approval flow. When set to `true`, `permitData` is returned as `null` and the header is forwarded to the routing layer for correct gas simulation against the Proxy Universal Router contract. When `false` or omitted, the standard Permit2 approval flow is used. This header is intended for integrators whose infrastructure uses a direct approval-then-swap pattern without Permit2.",
+                    "key": "x-permit2-disabled",
+                    "value": "false"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quote\": {\n    \"chainId\": 1,\n    \"input\": {\n      \"amount\": \"2516\",\n      \"token\": \"0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599\"\n    },\n    \"output\": {\n      \"amount\": \"996320746321162\",\n      \"token\": \"0x0000000000000000000000000000000000000000\",\n      \"recipient\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\"\n    },\n    \"swapper\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n    \"route\": [\n      [\n        {\n          \"type\": \"v4-pool\",\n          \"address\": \"0x599326d9cd5e1ea0893305c87d5ec3199e7f05e94d72159f35dea381479a615e\",\n          \"tokenIn\": {\n            \"chainId\": 1,\n            \"decimals\": \"8\",\n            \"address\": \"0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599\",\n            \"symbol\": \"WBTC\"\n          },\n          \"tokenOut\": {\n            \"chainId\": 1,\n            \"decimals\": \"18\",\n            \"address\": \"0x0000000000000000000000000000000000000000\",\n            \"symbol\": \"ETH\"\n          },\n          \"fee\": \"500\",\n          \"tickSpacing\": \"10\",\n          \"hooks\": \"0x0000000000000000000000000000000000000000\",\n          \"liquidity\": \"82781860385007263\",\n          \"sqrtRatioX96\": \"125814565506407615477027\",\n          \"tickCurrent\": \"-267075\",\n          \"amountIn\": \"2516\",\n          \"amountOut\": \"993829944455359\"\n        }\n      ]\n    ],\n    \"slippage\": 5.5,\n    \"tradeType\": \"EXACT_INPUT\",\n    \"quoteId\": \"62e83902-9455-405d-8c62-cdf8ee9e2042\",\n    \"gasFeeUSD\": \"1.27511942409885062\",\n    \"gasFeeQuote\": \"489108586810000\",\n    \"gasUseEstimate\": \"180350\",\n    \"priceImpact\": 0.14,\n    \"txFailureReasons\": [],\n    \"maxPriorityFeePerGas\": \"2000000000\",\n    \"maxFeePerGas\": \"4656513686\",\n    \"gasFee\": \"489108586810000\",\n    \"routeString\": \"[V4] 100.00% = WBTC -- 0.05% [0x599326d9cd5e1ea0893305c87d5ec3199e7f05e94d72159f35dea381479a615e]ETH\",\n    \"blockNumber\": \"22483653\",\n    \"aggregatedOutputs\": [\n      {\n        \"amount\": \"993829944455360\",\n        \"token\": \"0x0000000000000000000000000000000000000000\",\n        \"recipient\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n        \"bps\": 9975,\n        \"minAmount\": \"993829944455360\"\n      },\n      {\n        \"amount\": \"2490801865802\",\n        \"token\": \"0x0000000000000000000000000000000000000000\",\n        \"recipient\": \"0x000000fee13a103A10D593b9AE06b3e05F2E7E1c\",\n        \"bps\": 25,\n        \"minAmount\": \"2490801865802\"\n      }\n    ],\n    \"portionAmount\": \"2490801865802\",\n    \"portionBips\": 25,\n    \"portionRecipient\": \"0x000000fee13a103A10D593b9AE06b3e05F2E7E1c\"\n  },\n  \"permitData\": {\n    \"domain\": {\n      \"name\": \"Permit2\",\n      \"chainId\": 1,\n      \"verifyingContract\": \"0x000000000022D473030F116dDEE9F6B43aC78BA3\"\n    },\n    \"types\": {\n      \"PermitSingle\": [\n        {\n          \"name\": \"details\",\n          \"type\": \"PermitDetails\"\n        },\n        {\n          \"name\": \"spender\",\n          \"type\": \"address\"\n        },\n        {\n          \"name\": \"sigDeadline\",\n          \"type\": \"uint256\"\n        }\n      ],\n      \"PermitDetails\": [\n        {\n          \"name\": \"token\",\n          \"type\": \"address\"\n        },\n        {\n          \"name\": \"amount\",\n          \"type\": \"uint160\"\n        },\n        {\n          \"name\": \"expiration\",\n          \"type\": \"uint48\"\n        },\n        {\n          \"name\": \"nonce\",\n          \"type\": \"uint48\"\n        }\n      ]\n    },\n    \"values\": {\n      \"details\": {\n        \"token\": \"0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599\",\n        \"amount\": \"1461501637330902918203684832716283019655932542975\",\n        \"expiration\": \"1749845047\",\n        \"nonce\": \"1\"\n      },\n      \"spender\": \"0x66a9893cc07d91d95644aedd05d03f95e1dba8af\",\n      \"sigDeadline\": \"1747254847\"\n    }\n  },\n  \"signature\": \"0xb22e7f47d8...\",\n  \"simulateTransaction\": true,\n  \"refreshGasPrice\": true,\n  \"safetyMode\": \"SAFE\",\n  \"urgency\": \"normal\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"QuoteAmountTooLowError\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "87e3cf0f-c7dd-4d2a-ad5e-19cdc6c2967e",
+              "name": "Ratelimited",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "swap"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The version of the Universal Router to use for the swap journey. *MUST* be consistent throughout the API calls.",
+                    "key": "x-universal-router-version",
+                    "value": "2.0"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Disables the Permit2 approval flow. When set to `true`, `permitData` is returned as `null` and the header is forwarded to the routing layer for correct gas simulation against the Proxy Universal Router contract. When `false` or omitted, the standard Permit2 approval flow is used. This header is intended for integrators whose infrastructure uses a direct approval-then-swap pattern without Permit2.",
+                    "key": "x-permit2-disabled",
+                    "value": "false"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quote\": {\n    \"chainId\": 1,\n    \"input\": {\n      \"amount\": \"2516\",\n      \"token\": \"0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599\"\n    },\n    \"output\": {\n      \"amount\": \"996320746321162\",\n      \"token\": \"0x0000000000000000000000000000000000000000\",\n      \"recipient\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\"\n    },\n    \"swapper\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n    \"route\": [\n      [\n        {\n          \"type\": \"v4-pool\",\n          \"address\": \"0x599326d9cd5e1ea0893305c87d5ec3199e7f05e94d72159f35dea381479a615e\",\n          \"tokenIn\": {\n            \"chainId\": 1,\n            \"decimals\": \"8\",\n            \"address\": \"0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599\",\n            \"symbol\": \"WBTC\"\n          },\n          \"tokenOut\": {\n            \"chainId\": 1,\n            \"decimals\": \"18\",\n            \"address\": \"0x0000000000000000000000000000000000000000\",\n            \"symbol\": \"ETH\"\n          },\n          \"fee\": \"500\",\n          \"tickSpacing\": \"10\",\n          \"hooks\": \"0x0000000000000000000000000000000000000000\",\n          \"liquidity\": \"82781860385007263\",\n          \"sqrtRatioX96\": \"125814565506407615477027\",\n          \"tickCurrent\": \"-267075\",\n          \"amountIn\": \"2516\",\n          \"amountOut\": \"993829944455359\"\n        }\n      ]\n    ],\n    \"slippage\": 5.5,\n    \"tradeType\": \"EXACT_INPUT\",\n    \"quoteId\": \"62e83902-9455-405d-8c62-cdf8ee9e2042\",\n    \"gasFeeUSD\": \"1.27511942409885062\",\n    \"gasFeeQuote\": \"489108586810000\",\n    \"gasUseEstimate\": \"180350\",\n    \"priceImpact\": 0.14,\n    \"txFailureReasons\": [],\n    \"maxPriorityFeePerGas\": \"2000000000\",\n    \"maxFeePerGas\": \"4656513686\",\n    \"gasFee\": \"489108586810000\",\n    \"routeString\": \"[V4] 100.00% = WBTC -- 0.05% [0x599326d9cd5e1ea0893305c87d5ec3199e7f05e94d72159f35dea381479a615e]ETH\",\n    \"blockNumber\": \"22483653\",\n    \"aggregatedOutputs\": [\n      {\n        \"amount\": \"993829944455360\",\n        \"token\": \"0x0000000000000000000000000000000000000000\",\n        \"recipient\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n        \"bps\": 9975,\n        \"minAmount\": \"993829944455360\"\n      },\n      {\n        \"amount\": \"2490801865802\",\n        \"token\": \"0x0000000000000000000000000000000000000000\",\n        \"recipient\": \"0x000000fee13a103A10D593b9AE06b3e05F2E7E1c\",\n        \"bps\": 25,\n        \"minAmount\": \"2490801865802\"\n      }\n    ],\n    \"portionAmount\": \"2490801865802\",\n    \"portionBips\": 25,\n    \"portionRecipient\": \"0x000000fee13a103A10D593b9AE06b3e05F2E7E1c\"\n  },\n  \"permitData\": {\n    \"domain\": {\n      \"name\": \"Permit2\",\n      \"chainId\": 1,\n      \"verifyingContract\": \"0x000000000022D473030F116dDEE9F6B43aC78BA3\"\n    },\n    \"types\": {\n      \"PermitSingle\": [\n        {\n          \"name\": \"details\",\n          \"type\": \"PermitDetails\"\n        },\n        {\n          \"name\": \"spender\",\n          \"type\": \"address\"\n        },\n        {\n          \"name\": \"sigDeadline\",\n          \"type\": \"uint256\"\n        }\n      ],\n      \"PermitDetails\": [\n        {\n          \"name\": \"token\",\n          \"type\": \"address\"\n        },\n        {\n          \"name\": \"amount\",\n          \"type\": \"uint160\"\n        },\n        {\n          \"name\": \"expiration\",\n          \"type\": \"uint48\"\n        },\n        {\n          \"name\": \"nonce\",\n          \"type\": \"uint48\"\n        }\n      ]\n    },\n    \"values\": {\n      \"details\": {\n        \"token\": \"0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599\",\n        \"amount\": \"1461501637330902918203684832716283019655932542975\",\n        \"expiration\": \"1749845047\",\n        \"nonce\": \"1\"\n      },\n      \"spender\": \"0x66a9893cc07d91d95644aedd05d03f95e1dba8af\",\n      \"sigDeadline\": \"1747254847\"\n    }\n  },\n  \"signature\": \"0xb22e7f47d8...\",\n  \"simulateTransaction\": true,\n  \"refreshGasPrice\": true,\n  \"safetyMode\": \"SAFE\",\n  \"urgency\": \"normal\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"Ratelimited\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dc7a778a-9c63-4537-967a-4aafd9c66b62",
+              "name": "Unexpected error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "swap"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The version of the Universal Router to use for the swap journey. *MUST* be consistent throughout the API calls.",
+                    "key": "x-universal-router-version",
+                    "value": "2.0"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Disables the Permit2 approval flow. When set to `true`, `permitData` is returned as `null` and the header is forwarded to the routing layer for correct gas simulation against the Proxy Universal Router contract. When `false` or omitted, the standard Permit2 approval flow is used. This header is intended for integrators whose infrastructure uses a direct approval-then-swap pattern without Permit2.",
+                    "key": "x-permit2-disabled",
+                    "value": "false"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quote\": {\n    \"chainId\": 1,\n    \"input\": {\n      \"amount\": \"2516\",\n      \"token\": \"0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599\"\n    },\n    \"output\": {\n      \"amount\": \"996320746321162\",\n      \"token\": \"0x0000000000000000000000000000000000000000\",\n      \"recipient\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\"\n    },\n    \"swapper\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n    \"route\": [\n      [\n        {\n          \"type\": \"v4-pool\",\n          \"address\": \"0x599326d9cd5e1ea0893305c87d5ec3199e7f05e94d72159f35dea381479a615e\",\n          \"tokenIn\": {\n            \"chainId\": 1,\n            \"decimals\": \"8\",\n            \"address\": \"0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599\",\n            \"symbol\": \"WBTC\"\n          },\n          \"tokenOut\": {\n            \"chainId\": 1,\n            \"decimals\": \"18\",\n            \"address\": \"0x0000000000000000000000000000000000000000\",\n            \"symbol\": \"ETH\"\n          },\n          \"fee\": \"500\",\n          \"tickSpacing\": \"10\",\n          \"hooks\": \"0x0000000000000000000000000000000000000000\",\n          \"liquidity\": \"82781860385007263\",\n          \"sqrtRatioX96\": \"125814565506407615477027\",\n          \"tickCurrent\": \"-267075\",\n          \"amountIn\": \"2516\",\n          \"amountOut\": \"993829944455359\"\n        }\n      ]\n    ],\n    \"slippage\": 5.5,\n    \"tradeType\": \"EXACT_INPUT\",\n    \"quoteId\": \"62e83902-9455-405d-8c62-cdf8ee9e2042\",\n    \"gasFeeUSD\": \"1.27511942409885062\",\n    \"gasFeeQuote\": \"489108586810000\",\n    \"gasUseEstimate\": \"180350\",\n    \"priceImpact\": 0.14,\n    \"txFailureReasons\": [],\n    \"maxPriorityFeePerGas\": \"2000000000\",\n    \"maxFeePerGas\": \"4656513686\",\n    \"gasFee\": \"489108586810000\",\n    \"routeString\": \"[V4] 100.00% = WBTC -- 0.05% [0x599326d9cd5e1ea0893305c87d5ec3199e7f05e94d72159f35dea381479a615e]ETH\",\n    \"blockNumber\": \"22483653\",\n    \"aggregatedOutputs\": [\n      {\n        \"amount\": \"993829944455360\",\n        \"token\": \"0x0000000000000000000000000000000000000000\",\n        \"recipient\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n        \"bps\": 9975,\n        \"minAmount\": \"993829944455360\"\n      },\n      {\n        \"amount\": \"2490801865802\",\n        \"token\": \"0x0000000000000000000000000000000000000000\",\n        \"recipient\": \"0x000000fee13a103A10D593b9AE06b3e05F2E7E1c\",\n        \"bps\": 25,\n        \"minAmount\": \"2490801865802\"\n      }\n    ],\n    \"portionAmount\": \"2490801865802\",\n    \"portionBips\": 25,\n    \"portionRecipient\": \"0x000000fee13a103A10D593b9AE06b3e05F2E7E1c\"\n  },\n  \"permitData\": {\n    \"domain\": {\n      \"name\": \"Permit2\",\n      \"chainId\": 1,\n      \"verifyingContract\": \"0x000000000022D473030F116dDEE9F6B43aC78BA3\"\n    },\n    \"types\": {\n      \"PermitSingle\": [\n        {\n          \"name\": \"details\",\n          \"type\": \"PermitDetails\"\n        },\n        {\n          \"name\": \"spender\",\n          \"type\": \"address\"\n        },\n        {\n          \"name\": \"sigDeadline\",\n          \"type\": \"uint256\"\n        }\n      ],\n      \"PermitDetails\": [\n        {\n          \"name\": \"token\",\n          \"type\": \"address\"\n        },\n        {\n          \"name\": \"amount\",\n          \"type\": \"uint160\"\n        },\n        {\n          \"name\": \"expiration\",\n          \"type\": \"uint48\"\n        },\n        {\n          \"name\": \"nonce\",\n          \"type\": \"uint48\"\n        }\n      ]\n    },\n    \"values\": {\n      \"details\": {\n        \"token\": \"0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599\",\n        \"amount\": \"1461501637330902918203684832716283019655932542975\",\n        \"expiration\": \"1749845047\",\n        \"nonce\": \"1\"\n      },\n      \"spender\": \"0x66a9893cc07d91d95644aedd05d03f95e1dba8af\",\n      \"sigDeadline\": \"1747254847\"\n    }\n  },\n  \"signature\": \"0xb22e7f47d8...\",\n  \"simulateTransaction\": true,\n  \"refreshGasPrice\": true,\n  \"safetyMode\": \"SAFE\",\n  \"urgency\": \"normal\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"InternalServerError\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "610df79e-9555-4aa7-b8eb-945411908d32",
+              "name": "Request duration limit reached.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "swap"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The version of the Universal Router to use for the swap journey. *MUST* be consistent throughout the API calls.",
+                    "key": "x-universal-router-version",
+                    "value": "2.0"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Disables the Permit2 approval flow. When set to `true`, `permitData` is returned as `null` and the header is forwarded to the routing layer for correct gas simulation against the Proxy Universal Router contract. When `false` or omitted, the standard Permit2 approval flow is used. This header is intended for integrators whose infrastructure uses a direct approval-then-swap pattern without Permit2.",
+                    "key": "x-permit2-disabled",
+                    "value": "false"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quote\": {\n    \"chainId\": 1,\n    \"input\": {\n      \"amount\": \"2516\",\n      \"token\": \"0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599\"\n    },\n    \"output\": {\n      \"amount\": \"996320746321162\",\n      \"token\": \"0x0000000000000000000000000000000000000000\",\n      \"recipient\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\"\n    },\n    \"swapper\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n    \"route\": [\n      [\n        {\n          \"type\": \"v4-pool\",\n          \"address\": \"0x599326d9cd5e1ea0893305c87d5ec3199e7f05e94d72159f35dea381479a615e\",\n          \"tokenIn\": {\n            \"chainId\": 1,\n            \"decimals\": \"8\",\n            \"address\": \"0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599\",\n            \"symbol\": \"WBTC\"\n          },\n          \"tokenOut\": {\n            \"chainId\": 1,\n            \"decimals\": \"18\",\n            \"address\": \"0x0000000000000000000000000000000000000000\",\n            \"symbol\": \"ETH\"\n          },\n          \"fee\": \"500\",\n          \"tickSpacing\": \"10\",\n          \"hooks\": \"0x0000000000000000000000000000000000000000\",\n          \"liquidity\": \"82781860385007263\",\n          \"sqrtRatioX96\": \"125814565506407615477027\",\n          \"tickCurrent\": \"-267075\",\n          \"amountIn\": \"2516\",\n          \"amountOut\": \"993829944455359\"\n        }\n      ]\n    ],\n    \"slippage\": 5.5,\n    \"tradeType\": \"EXACT_INPUT\",\n    \"quoteId\": \"62e83902-9455-405d-8c62-cdf8ee9e2042\",\n    \"gasFeeUSD\": \"1.27511942409885062\",\n    \"gasFeeQuote\": \"489108586810000\",\n    \"gasUseEstimate\": \"180350\",\n    \"priceImpact\": 0.14,\n    \"txFailureReasons\": [],\n    \"maxPriorityFeePerGas\": \"2000000000\",\n    \"maxFeePerGas\": \"4656513686\",\n    \"gasFee\": \"489108586810000\",\n    \"routeString\": \"[V4] 100.00% = WBTC -- 0.05% [0x599326d9cd5e1ea0893305c87d5ec3199e7f05e94d72159f35dea381479a615e]ETH\",\n    \"blockNumber\": \"22483653\",\n    \"aggregatedOutputs\": [\n      {\n        \"amount\": \"993829944455360\",\n        \"token\": \"0x0000000000000000000000000000000000000000\",\n        \"recipient\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n        \"bps\": 9975,\n        \"minAmount\": \"993829944455360\"\n      },\n      {\n        \"amount\": \"2490801865802\",\n        \"token\": \"0x0000000000000000000000000000000000000000\",\n        \"recipient\": \"0x000000fee13a103A10D593b9AE06b3e05F2E7E1c\",\n        \"bps\": 25,\n        \"minAmount\": \"2490801865802\"\n      }\n    ],\n    \"portionAmount\": \"2490801865802\",\n    \"portionBips\": 25,\n    \"portionRecipient\": \"0x000000fee13a103A10D593b9AE06b3e05F2E7E1c\"\n  },\n  \"permitData\": {\n    \"domain\": {\n      \"name\": \"Permit2\",\n      \"chainId\": 1,\n      \"verifyingContract\": \"0x000000000022D473030F116dDEE9F6B43aC78BA3\"\n    },\n    \"types\": {\n      \"PermitSingle\": [\n        {\n          \"name\": \"details\",\n          \"type\": \"PermitDetails\"\n        },\n        {\n          \"name\": \"spender\",\n          \"type\": \"address\"\n        },\n        {\n          \"name\": \"sigDeadline\",\n          \"type\": \"uint256\"\n        }\n      ],\n      \"PermitDetails\": [\n        {\n          \"name\": \"token\",\n          \"type\": \"address\"\n        },\n        {\n          \"name\": \"amount\",\n          \"type\": \"uint160\"\n        },\n        {\n          \"name\": \"expiration\",\n          \"type\": \"uint48\"\n        },\n        {\n          \"name\": \"nonce\",\n          \"type\": \"uint48\"\n        }\n      ]\n    },\n    \"values\": {\n      \"details\": {\n        \"token\": \"0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599\",\n        \"amount\": \"1461501637330902918203684832716283019655932542975\",\n        \"expiration\": \"1749845047\",\n        \"nonce\": \"1\"\n      },\n      \"spender\": \"0x66a9893cc07d91d95644aedd05d03f95e1dba8af\",\n      \"sigDeadline\": \"1747254847\"\n    }\n  },\n  \"signature\": \"0xb22e7f47d8...\",\n  \"simulateTransaction\": true,\n  \"refreshGasPrice\": true,\n  \"safetyMode\": \"SAFE\",\n  \"urgency\": \"normal\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Gateway Timeout",
+              "code": 504,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"Timeout\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7073cb50-c891-4ade-b577-7b1d30e33b0e",
+          "name": "Get swaps status",
+          "request": {
+            "name": "Get swaps status",
+            "description": {
+              "content": "Get the status of swap or bridge transactions. Accepts on-chain transaction hashes (`txHashes`), ERC-4337 userOperation hashes (`userOpHashes`), or both. At least one of the two must contain at least one item.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "swaps"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "txHashes",
+                  "value": "<string>,<string>",
+                  "description": "On-chain transaction hashes. At least one of `txHashes` or `userOpHashes` must be provided."
+                },
+                {
+                  "disabled": false,
+                  "key": "userOpHashes",
+                  "value": "<string>,<string>",
+                  "description": "ERC-4337 UserOperation hashes. At least one of `txHashes` or `userOpHashes` must be provided."
+                },
+                {
+                  "disabled": false,
+                  "key": "chainId",
+                  "value": "1"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "ac5e380e-1e85-4364-86b5-7361aaecbd53",
+              "name": "Get swap successful.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "swaps"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "txHashes",
+                      "value": "0xc286f0adc6a9d6d26d6114df251d9b09d8bfafb2e00af5953193f6af92e110db"
+                    },
+                    {
+                      "key": "userOpHashes",
+                      "value": "0xd47b609961a02483c9516d1f326244357e7e0b1d91569ebb4d119dff17e47330"
+                    },
+                    {
+                      "key": "chainId",
+                      "value": "1"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"requestId\": \"cL8S8hNtCYcEJLg=\",\n  \"swaps\": [\n    {\n      \"status\": \"SUCCESS\",\n      \"swapType\": \"CLASSIC\",\n      \"txHash\": \"0xc286f0adc6a9d6d26d6114df251d9b09d8bfafb2e00af5953193f6af92e110db\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c46e773b-46f1-4d6e-80c1-232dd9c2fb67",
+              "name": "RequestValidationError, Bad Input",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "swaps"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "txHashes",
+                      "value": "0xc286f0adc6a9d6d26d6114df251d9b09d8bfafb2e00af5953193f6af92e110db"
+                    },
+                    {
+                      "key": "userOpHashes",
+                      "value": "0xd47b609961a02483c9516d1f326244357e7e0b1d91569ebb4d119dff17e47330"
+                    },
+                    {
+                      "key": "chainId",
+                      "value": "1"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"RequestValidationError\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e3fefb70-75c1-43bc-8929-4f6a6523a7d9",
+              "name": "ResourceNotFound eg. No quotes available or Gas fee/price not available",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "swaps"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "txHashes",
+                      "value": "0xc286f0adc6a9d6d26d6114df251d9b09d8bfafb2e00af5953193f6af92e110db"
+                    },
+                    {
+                      "key": "userOpHashes",
+                      "value": "0xd47b609961a02483c9516d1f326244357e7e0b1d91569ebb4d119dff17e47330"
+                    },
+                    {
+                      "key": "chainId",
+                      "value": "1"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"QuoteAmountTooLowError\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a7e6f7a7-1884-4233-af42-c1374c5d13b0",
+              "name": "Ratelimited",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "swaps"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "txHashes",
+                      "value": "0xc286f0adc6a9d6d26d6114df251d9b09d8bfafb2e00af5953193f6af92e110db"
+                    },
+                    {
+                      "key": "userOpHashes",
+                      "value": "0xd47b609961a02483c9516d1f326244357e7e0b1d91569ebb4d119dff17e47330"
+                    },
+                    {
+                      "key": "chainId",
+                      "value": "1"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"Ratelimited\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ad9c0e5f-872d-4dc9-a6d0-399850b5cf64",
+              "name": "Unexpected error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "swaps"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "txHashes",
+                      "value": "0xc286f0adc6a9d6d26d6114df251d9b09d8bfafb2e00af5953193f6af92e110db"
+                    },
+                    {
+                      "key": "userOpHashes",
+                      "value": "0xd47b609961a02483c9516d1f326244357e7e0b1d91569ebb4d119dff17e47330"
+                    },
+                    {
+                      "key": "chainId",
+                      "value": "1"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"InternalServerError\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2c6083e9-359f-483b-bfb0-7a8b5966c5fb",
+              "name": "Request duration limit reached.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "swaps"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "txHashes",
+                      "value": "0xc286f0adc6a9d6d26d6114df251d9b09d8bfafb2e00af5953193f6af92e110db"
+                    },
+                    {
+                      "key": "userOpHashes",
+                      "value": "0xd47b609961a02483c9516d1f326244357e7e0b1d91569ebb4d119dff17e47330"
+                    },
+                    {
+                      "key": "chainId",
+                      "value": "1"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Gateway Timeout",
+              "code": 504,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"Timeout\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4753a25f-c3aa-4843-af9f-6c86ed8ba1c1",
+          "name": "Create swap EIP 5792 calldata",
+          "request": {
+            "name": "Create swap EIP 5792 calldata",
+            "description": {
+              "content": "Create the EIP 5792 calldata for a swap transaction (including wrap/unwrap and bridging) against the Uniswap Protocols. If the `quote` parameter includes the fee parameters, then the calldata will include the fee disbursement. The gas estimates will be **more precise** when the response calldata would be valid if submitted on-chain.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "swap_5792"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "The version of the Universal Router to use for the swap journey. *MUST* be consistent throughout the API calls.",
+                "key": "x-universal-router-version",
+                "value": "2.0"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quote\": {\n    \"input\": {\n      \"token\": \"<string>\",\n      \"amount\": \"<string>\"\n    },\n    \"output\": {\n      \"token\": \"<string>\",\n      \"amount\": \"<string>\",\n      \"recipient\": \"<string>\"\n    },\n    \"swapper\": \"<string>\",\n    \"chainId\": 1,\n    \"slippage\": \"<number>\",\n    \"tradeType\": \"EXACT_INPUT\",\n    \"gasFee\": \"<string>\",\n    \"gasFeeUSD\": \"<string>\",\n    \"gasFeeQuote\": \"<string>\",\n    \"route\": [\n      [\n        {\n          \"type\": \"v2-pool\",\n          \"address\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tokenIn\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tokenOut\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"reserve0\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"reserve1\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"amountIn\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"amountOut\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"type\": \"v2-pool\",\n          \"address\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tokenIn\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tokenOut\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"reserve0\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"reserve1\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"amountIn\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"amountOut\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      [\n        {\n          \"type\": \"v2-pool\",\n          \"address\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tokenIn\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tokenOut\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"reserve0\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"reserve1\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"amountIn\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"amountOut\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"type\": \"v2-pool\",\n          \"address\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tokenIn\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tokenOut\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"reserve0\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"reserve1\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"amountIn\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"amountOut\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ]\n    ],\n    \"portionBips\": \"<number>\",\n    \"portionAmount\": \"<string>\",\n    \"portionRecipient\": \"<string>\",\n    \"routeString\": \"<string>\",\n    \"quoteId\": \"<string>\",\n    \"gasUseEstimate\": \"<string>\",\n    \"blockNumber\": \"<string>\",\n    \"gasPrice\": \"<string>\",\n    \"maxFeePerGas\": \"<string>\",\n    \"maxPriorityFeePerGas\": \"<string>\",\n    \"txFailureReasons\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"priceImpact\": \"<number>\",\n    \"aggregatedOutputs\": [\n      {\n        \"token\": \"<string>\",\n        \"amount\": \"<string>\",\n        \"recipient\": \"<string>\",\n        \"bps\": \"<number>\",\n        \"minAmount\": \"<string>\"\n      },\n      {\n        \"token\": \"<string>\",\n        \"amount\": \"<string>\",\n        \"recipient\": \"<string>\",\n        \"bps\": \"<number>\",\n        \"minAmount\": \"<string>\"\n      }\n    ]\n  },\n  \"permitData\": {\n    \"domain\": \"<object>\",\n    \"values\": \"<object>\",\n    \"types\": \"<object>\"\n  },\n  \"deadline\": \"<number>\",\n  \"urgency\": \"urgent\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "26670376-3b66-4810-8bae-38df3ebf8628",
+              "name": "Create 5792 swap successful.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "swap_5792"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The version of the Universal Router to use for the swap journey. *MUST* be consistent throughout the API calls.",
+                    "key": "x-universal-router-version",
+                    "value": "2.0"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quote\": {\n    \"chainId\": 8453,\n    \"swapper\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n    \"tradeType\": \"EXACT_INPUT\",\n    \"route\": [\n      [\n        {\n          \"type\": \"v4-pool\",\n          \"address\": \"0x636da53e0251b3cb0b4d10dbaff488b294f97bd5212b7e2a7c1bc3fb57fd6e31\",\n          \"tokenIn\": {\n            \"address\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\",\n            \"chainId\": 8453,\n            \"symbol\": \"SOSO\",\n            \"decimals\": \"18\"\n          },\n          \"tokenOut\": {\n            \"address\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n            \"chainId\": 8453,\n            \"symbol\": \"USDC\",\n            \"decimals\": \"6\"\n          },\n          \"sqrtRatioX96\": \"51868315841017165286814\",\n          \"liquidity\": \"60642987270239502\",\n          \"tickCurrent\": \"-284797\",\n          \"fee\": \"1\",\n          \"tickSpacing\": \"1\",\n          \"hooks\": \"0x0000000000000000000000000000000000000000\",\n          \"amountIn\": \"4666414752365827583\",\n          \"amountOut\": \"1999890\"\n        }\n      ]\n    ],\n    \"input\": {\n      \"amount\": \"4666414752365827583\",\n      \"token\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\"\n    },\n    \"output\": {\n      \"amount\": \"1999890\",\n      \"token\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n      \"recipient\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\"\n    },\n    \"slippage\": 2.5,\n    \"priceImpact\": 0.01,\n    \"gasFee\": \"1664618749624\",\n    \"gasFeeUSD\": \"0.002335228716641861\",\n    \"gasFeeQuote\": \"2335\",\n    \"gasUseEstimate\": \"162169\",\n    \"routeString\": \"[v4] 100.00% = [0.0001%] [1] [0x0000000000000000000000000000000000000000] 0x636da53e0251b3cb0b4d10dbaff488b294f97bd5212b7e2a7c1bc3fb57fd6e31\",\n    \"blockNumber\": \"45041016\",\n    \"quoteId\": \"dccb2b4f-3b0c-46be-8e17-9fb103d44990\",\n    \"gasPrice\": \"9000000\",\n    \"txFailureReasons\": [],\n    \"aggregatedOutputs\": [\n      {\n        \"amount\": \"1999890\",\n        \"token\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n        \"recipient\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n        \"bps\": 10000,\n        \"minAmount\": \"1949892\"\n      }\n    ]\n  },\n  \"permitData\": {\n    \"domain\": {\n      \"name\": \"Permit2\",\n      \"chainId\": 8453,\n      \"verifyingContract\": \"0x000000000022D473030F116dDEE9F6B43aC78BA3\"\n    },\n    \"types\": {\n      \"PermitSingle\": [\n        {\n          \"name\": \"details\",\n          \"type\": \"PermitDetails\"\n        },\n        {\n          \"name\": \"spender\",\n          \"type\": \"address\"\n        },\n        {\n          \"name\": \"sigDeadline\",\n          \"type\": \"uint256\"\n        }\n      ],\n      \"PermitDetails\": [\n        {\n          \"name\": \"token\",\n          \"type\": \"address\"\n        },\n        {\n          \"name\": \"amount\",\n          \"type\": \"uint160\"\n        },\n        {\n          \"name\": \"expiration\",\n          \"type\": \"uint48\"\n        },\n        {\n          \"name\": \"nonce\",\n          \"type\": \"uint48\"\n        }\n      ]\n    },\n    \"values\": {\n      \"details\": {\n        \"token\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\",\n        \"amount\": \"1461501637330902918203684832716283019655932542975\",\n        \"expiration\": \"1779463380\",\n        \"nonce\": \"0\"\n      },\n      \"spender\": \"0x6ff5693b99212da76ad316178a184ab56d299b43\",\n      \"sigDeadline\": \"1776873180\"\n    }\n  },\n  \"urgency\": \"normal\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"requestId\": \"cOkpchwvCYcEMhA=\",\n  \"from\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n  \"chainId\": 8453,\n  \"calls\": [\n    {\n      \"to\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\",\n      \"data\": \"0x095ea7b300...\",\n      \"value\": \"0x00\"\n    },\n    {\n      \"to\": \"0x000000000022D473030F116dDEE9F6B43aC78BA3\",\n      \"data\": \"0x87517c4500...\",\n      \"value\": \"0x00\"\n    },\n    {\n      \"to\": \"0x6fF5693b99212Da76ad316178A184AB56D299b43\",\n      \"data\": \"0x3593564c00...\",\n      \"value\": \"0x00\"\n    }\n  ],\n  \"gasFee\": \"1831080624586\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0ef97ad5-8d38-4600-a141-e14ab0cac365",
+              "name": "RequestValidationError, Bad Input",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "swap_5792"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The version of the Universal Router to use for the swap journey. *MUST* be consistent throughout the API calls.",
+                    "key": "x-universal-router-version",
+                    "value": "2.0"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quote\": {\n    \"chainId\": 8453,\n    \"swapper\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n    \"tradeType\": \"EXACT_INPUT\",\n    \"route\": [\n      [\n        {\n          \"type\": \"v4-pool\",\n          \"address\": \"0x636da53e0251b3cb0b4d10dbaff488b294f97bd5212b7e2a7c1bc3fb57fd6e31\",\n          \"tokenIn\": {\n            \"address\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\",\n            \"chainId\": 8453,\n            \"symbol\": \"SOSO\",\n            \"decimals\": \"18\"\n          },\n          \"tokenOut\": {\n            \"address\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n            \"chainId\": 8453,\n            \"symbol\": \"USDC\",\n            \"decimals\": \"6\"\n          },\n          \"sqrtRatioX96\": \"51868315841017165286814\",\n          \"liquidity\": \"60642987270239502\",\n          \"tickCurrent\": \"-284797\",\n          \"fee\": \"1\",\n          \"tickSpacing\": \"1\",\n          \"hooks\": \"0x0000000000000000000000000000000000000000\",\n          \"amountIn\": \"4666414752365827583\",\n          \"amountOut\": \"1999890\"\n        }\n      ]\n    ],\n    \"input\": {\n      \"amount\": \"4666414752365827583\",\n      \"token\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\"\n    },\n    \"output\": {\n      \"amount\": \"1999890\",\n      \"token\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n      \"recipient\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\"\n    },\n    \"slippage\": 2.5,\n    \"priceImpact\": 0.01,\n    \"gasFee\": \"1664618749624\",\n    \"gasFeeUSD\": \"0.002335228716641861\",\n    \"gasFeeQuote\": \"2335\",\n    \"gasUseEstimate\": \"162169\",\n    \"routeString\": \"[v4] 100.00% = [0.0001%] [1] [0x0000000000000000000000000000000000000000] 0x636da53e0251b3cb0b4d10dbaff488b294f97bd5212b7e2a7c1bc3fb57fd6e31\",\n    \"blockNumber\": \"45041016\",\n    \"quoteId\": \"dccb2b4f-3b0c-46be-8e17-9fb103d44990\",\n    \"gasPrice\": \"9000000\",\n    \"txFailureReasons\": [],\n    \"aggregatedOutputs\": [\n      {\n        \"amount\": \"1999890\",\n        \"token\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n        \"recipient\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n        \"bps\": 10000,\n        \"minAmount\": \"1949892\"\n      }\n    ]\n  },\n  \"permitData\": {\n    \"domain\": {\n      \"name\": \"Permit2\",\n      \"chainId\": 8453,\n      \"verifyingContract\": \"0x000000000022D473030F116dDEE9F6B43aC78BA3\"\n    },\n    \"types\": {\n      \"PermitSingle\": [\n        {\n          \"name\": \"details\",\n          \"type\": \"PermitDetails\"\n        },\n        {\n          \"name\": \"spender\",\n          \"type\": \"address\"\n        },\n        {\n          \"name\": \"sigDeadline\",\n          \"type\": \"uint256\"\n        }\n      ],\n      \"PermitDetails\": [\n        {\n          \"name\": \"token\",\n          \"type\": \"address\"\n        },\n        {\n          \"name\": \"amount\",\n          \"type\": \"uint160\"\n        },\n        {\n          \"name\": \"expiration\",\n          \"type\": \"uint48\"\n        },\n        {\n          \"name\": \"nonce\",\n          \"type\": \"uint48\"\n        }\n      ]\n    },\n    \"values\": {\n      \"details\": {\n        \"token\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\",\n        \"amount\": \"1461501637330902918203684832716283019655932542975\",\n        \"expiration\": \"1779463380\",\n        \"nonce\": \"0\"\n      },\n      \"spender\": \"0x6ff5693b99212da76ad316178a184ab56d299b43\",\n      \"sigDeadline\": \"1776873180\"\n    }\n  },\n  \"urgency\": \"normal\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"RequestValidationError\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "78fee7d0-c1e2-4584-b4f4-23575e8fbe55",
+              "name": "UnauthorizedError eg. Account is blocked or  Fee is not enabled.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "swap_5792"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The version of the Universal Router to use for the swap journey. *MUST* be consistent throughout the API calls.",
+                    "key": "x-universal-router-version",
+                    "value": "2.0"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quote\": {\n    \"chainId\": 8453,\n    \"swapper\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n    \"tradeType\": \"EXACT_INPUT\",\n    \"route\": [\n      [\n        {\n          \"type\": \"v4-pool\",\n          \"address\": \"0x636da53e0251b3cb0b4d10dbaff488b294f97bd5212b7e2a7c1bc3fb57fd6e31\",\n          \"tokenIn\": {\n            \"address\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\",\n            \"chainId\": 8453,\n            \"symbol\": \"SOSO\",\n            \"decimals\": \"18\"\n          },\n          \"tokenOut\": {\n            \"address\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n            \"chainId\": 8453,\n            \"symbol\": \"USDC\",\n            \"decimals\": \"6\"\n          },\n          \"sqrtRatioX96\": \"51868315841017165286814\",\n          \"liquidity\": \"60642987270239502\",\n          \"tickCurrent\": \"-284797\",\n          \"fee\": \"1\",\n          \"tickSpacing\": \"1\",\n          \"hooks\": \"0x0000000000000000000000000000000000000000\",\n          \"amountIn\": \"4666414752365827583\",\n          \"amountOut\": \"1999890\"\n        }\n      ]\n    ],\n    \"input\": {\n      \"amount\": \"4666414752365827583\",\n      \"token\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\"\n    },\n    \"output\": {\n      \"amount\": \"1999890\",\n      \"token\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n      \"recipient\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\"\n    },\n    \"slippage\": 2.5,\n    \"priceImpact\": 0.01,\n    \"gasFee\": \"1664618749624\",\n    \"gasFeeUSD\": \"0.002335228716641861\",\n    \"gasFeeQuote\": \"2335\",\n    \"gasUseEstimate\": \"162169\",\n    \"routeString\": \"[v4] 100.00% = [0.0001%] [1] [0x0000000000000000000000000000000000000000] 0x636da53e0251b3cb0b4d10dbaff488b294f97bd5212b7e2a7c1bc3fb57fd6e31\",\n    \"blockNumber\": \"45041016\",\n    \"quoteId\": \"dccb2b4f-3b0c-46be-8e17-9fb103d44990\",\n    \"gasPrice\": \"9000000\",\n    \"txFailureReasons\": [],\n    \"aggregatedOutputs\": [\n      {\n        \"amount\": \"1999890\",\n        \"token\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n        \"recipient\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n        \"bps\": 10000,\n        \"minAmount\": \"1949892\"\n      }\n    ]\n  },\n  \"permitData\": {\n    \"domain\": {\n      \"name\": \"Permit2\",\n      \"chainId\": 8453,\n      \"verifyingContract\": \"0x000000000022D473030F116dDEE9F6B43aC78BA3\"\n    },\n    \"types\": {\n      \"PermitSingle\": [\n        {\n          \"name\": \"details\",\n          \"type\": \"PermitDetails\"\n        },\n        {\n          \"name\": \"spender\",\n          \"type\": \"address\"\n        },\n        {\n          \"name\": \"sigDeadline\",\n          \"type\": \"uint256\"\n        }\n      ],\n      \"PermitDetails\": [\n        {\n          \"name\": \"token\",\n          \"type\": \"address\"\n        },\n        {\n          \"name\": \"amount\",\n          \"type\": \"uint160\"\n        },\n        {\n          \"name\": \"expiration\",\n          \"type\": \"uint48\"\n        },\n        {\n          \"name\": \"nonce\",\n          \"type\": \"uint48\"\n        }\n      ]\n    },\n    \"values\": {\n      \"details\": {\n        \"token\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\",\n        \"amount\": \"1461501637330902918203684832716283019655932542975\",\n        \"expiration\": \"1779463380\",\n        \"nonce\": \"0\"\n      },\n      \"spender\": \"0x6ff5693b99212da76ad316178a184ab56d299b43\",\n      \"sigDeadline\": \"1776873180\"\n    }\n  },\n  \"urgency\": \"normal\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"UnauthorizedError\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f5ca1c6f-7aee-424d-a8f9-157f9db451c7",
+              "name": "ResourceNotFound eg. No quotes available or Gas fee/price not available",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "swap_5792"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The version of the Universal Router to use for the swap journey. *MUST* be consistent throughout the API calls.",
+                    "key": "x-universal-router-version",
+                    "value": "2.0"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quote\": {\n    \"chainId\": 8453,\n    \"swapper\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n    \"tradeType\": \"EXACT_INPUT\",\n    \"route\": [\n      [\n        {\n          \"type\": \"v4-pool\",\n          \"address\": \"0x636da53e0251b3cb0b4d10dbaff488b294f97bd5212b7e2a7c1bc3fb57fd6e31\",\n          \"tokenIn\": {\n            \"address\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\",\n            \"chainId\": 8453,\n            \"symbol\": \"SOSO\",\n            \"decimals\": \"18\"\n          },\n          \"tokenOut\": {\n            \"address\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n            \"chainId\": 8453,\n            \"symbol\": \"USDC\",\n            \"decimals\": \"6\"\n          },\n          \"sqrtRatioX96\": \"51868315841017165286814\",\n          \"liquidity\": \"60642987270239502\",\n          \"tickCurrent\": \"-284797\",\n          \"fee\": \"1\",\n          \"tickSpacing\": \"1\",\n          \"hooks\": \"0x0000000000000000000000000000000000000000\",\n          \"amountIn\": \"4666414752365827583\",\n          \"amountOut\": \"1999890\"\n        }\n      ]\n    ],\n    \"input\": {\n      \"amount\": \"4666414752365827583\",\n      \"token\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\"\n    },\n    \"output\": {\n      \"amount\": \"1999890\",\n      \"token\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n      \"recipient\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\"\n    },\n    \"slippage\": 2.5,\n    \"priceImpact\": 0.01,\n    \"gasFee\": \"1664618749624\",\n    \"gasFeeUSD\": \"0.002335228716641861\",\n    \"gasFeeQuote\": \"2335\",\n    \"gasUseEstimate\": \"162169\",\n    \"routeString\": \"[v4] 100.00% = [0.0001%] [1] [0x0000000000000000000000000000000000000000] 0x636da53e0251b3cb0b4d10dbaff488b294f97bd5212b7e2a7c1bc3fb57fd6e31\",\n    \"blockNumber\": \"45041016\",\n    \"quoteId\": \"dccb2b4f-3b0c-46be-8e17-9fb103d44990\",\n    \"gasPrice\": \"9000000\",\n    \"txFailureReasons\": [],\n    \"aggregatedOutputs\": [\n      {\n        \"amount\": \"1999890\",\n        \"token\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n        \"recipient\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n        \"bps\": 10000,\n        \"minAmount\": \"1949892\"\n      }\n    ]\n  },\n  \"permitData\": {\n    \"domain\": {\n      \"name\": \"Permit2\",\n      \"chainId\": 8453,\n      \"verifyingContract\": \"0x000000000022D473030F116dDEE9F6B43aC78BA3\"\n    },\n    \"types\": {\n      \"PermitSingle\": [\n        {\n          \"name\": \"details\",\n          \"type\": \"PermitDetails\"\n        },\n        {\n          \"name\": \"spender\",\n          \"type\": \"address\"\n        },\n        {\n          \"name\": \"sigDeadline\",\n          \"type\": \"uint256\"\n        }\n      ],\n      \"PermitDetails\": [\n        {\n          \"name\": \"token\",\n          \"type\": \"address\"\n        },\n        {\n          \"name\": \"amount\",\n          \"type\": \"uint160\"\n        },\n        {\n          \"name\": \"expiration\",\n          \"type\": \"uint48\"\n        },\n        {\n          \"name\": \"nonce\",\n          \"type\": \"uint48\"\n        }\n      ]\n    },\n    \"values\": {\n      \"details\": {\n        \"token\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\",\n        \"amount\": \"1461501637330902918203684832716283019655932542975\",\n        \"expiration\": \"1779463380\",\n        \"nonce\": \"0\"\n      },\n      \"spender\": \"0x6ff5693b99212da76ad316178a184ab56d299b43\",\n      \"sigDeadline\": \"1776873180\"\n    }\n  },\n  \"urgency\": \"normal\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"QuoteAmountTooLowError\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c19b79bb-0943-4a3c-91c2-0468680b9121",
+              "name": "Ratelimited",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "swap_5792"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The version of the Universal Router to use for the swap journey. *MUST* be consistent throughout the API calls.",
+                    "key": "x-universal-router-version",
+                    "value": "2.0"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quote\": {\n    \"chainId\": 8453,\n    \"swapper\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n    \"tradeType\": \"EXACT_INPUT\",\n    \"route\": [\n      [\n        {\n          \"type\": \"v4-pool\",\n          \"address\": \"0x636da53e0251b3cb0b4d10dbaff488b294f97bd5212b7e2a7c1bc3fb57fd6e31\",\n          \"tokenIn\": {\n            \"address\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\",\n            \"chainId\": 8453,\n            \"symbol\": \"SOSO\",\n            \"decimals\": \"18\"\n          },\n          \"tokenOut\": {\n            \"address\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n            \"chainId\": 8453,\n            \"symbol\": \"USDC\",\n            \"decimals\": \"6\"\n          },\n          \"sqrtRatioX96\": \"51868315841017165286814\",\n          \"liquidity\": \"60642987270239502\",\n          \"tickCurrent\": \"-284797\",\n          \"fee\": \"1\",\n          \"tickSpacing\": \"1\",\n          \"hooks\": \"0x0000000000000000000000000000000000000000\",\n          \"amountIn\": \"4666414752365827583\",\n          \"amountOut\": \"1999890\"\n        }\n      ]\n    ],\n    \"input\": {\n      \"amount\": \"4666414752365827583\",\n      \"token\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\"\n    },\n    \"output\": {\n      \"amount\": \"1999890\",\n      \"token\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n      \"recipient\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\"\n    },\n    \"slippage\": 2.5,\n    \"priceImpact\": 0.01,\n    \"gasFee\": \"1664618749624\",\n    \"gasFeeUSD\": \"0.002335228716641861\",\n    \"gasFeeQuote\": \"2335\",\n    \"gasUseEstimate\": \"162169\",\n    \"routeString\": \"[v4] 100.00% = [0.0001%] [1] [0x0000000000000000000000000000000000000000] 0x636da53e0251b3cb0b4d10dbaff488b294f97bd5212b7e2a7c1bc3fb57fd6e31\",\n    \"blockNumber\": \"45041016\",\n    \"quoteId\": \"dccb2b4f-3b0c-46be-8e17-9fb103d44990\",\n    \"gasPrice\": \"9000000\",\n    \"txFailureReasons\": [],\n    \"aggregatedOutputs\": [\n      {\n        \"amount\": \"1999890\",\n        \"token\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n        \"recipient\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n        \"bps\": 10000,\n        \"minAmount\": \"1949892\"\n      }\n    ]\n  },\n  \"permitData\": {\n    \"domain\": {\n      \"name\": \"Permit2\",\n      \"chainId\": 8453,\n      \"verifyingContract\": \"0x000000000022D473030F116dDEE9F6B43aC78BA3\"\n    },\n    \"types\": {\n      \"PermitSingle\": [\n        {\n          \"name\": \"details\",\n          \"type\": \"PermitDetails\"\n        },\n        {\n          \"name\": \"spender\",\n          \"type\": \"address\"\n        },\n        {\n          \"name\": \"sigDeadline\",\n          \"type\": \"uint256\"\n        }\n      ],\n      \"PermitDetails\": [\n        {\n          \"name\": \"token\",\n          \"type\": \"address\"\n        },\n        {\n          \"name\": \"amount\",\n          \"type\": \"uint160\"\n        },\n        {\n          \"name\": \"expiration\",\n          \"type\": \"uint48\"\n        },\n        {\n          \"name\": \"nonce\",\n          \"type\": \"uint48\"\n        }\n      ]\n    },\n    \"values\": {\n      \"details\": {\n        \"token\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\",\n        \"amount\": \"1461501637330902918203684832716283019655932542975\",\n        \"expiration\": \"1779463380\",\n        \"nonce\": \"0\"\n      },\n      \"spender\": \"0x6ff5693b99212da76ad316178a184ab56d299b43\",\n      \"sigDeadline\": \"1776873180\"\n    }\n  },\n  \"urgency\": \"normal\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"Ratelimited\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "66f9d500-22f7-440c-b41d-4ba74482c153",
+              "name": "Unexpected error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "swap_5792"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The version of the Universal Router to use for the swap journey. *MUST* be consistent throughout the API calls.",
+                    "key": "x-universal-router-version",
+                    "value": "2.0"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quote\": {\n    \"chainId\": 8453,\n    \"swapper\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n    \"tradeType\": \"EXACT_INPUT\",\n    \"route\": [\n      [\n        {\n          \"type\": \"v4-pool\",\n          \"address\": \"0x636da53e0251b3cb0b4d10dbaff488b294f97bd5212b7e2a7c1bc3fb57fd6e31\",\n          \"tokenIn\": {\n            \"address\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\",\n            \"chainId\": 8453,\n            \"symbol\": \"SOSO\",\n            \"decimals\": \"18\"\n          },\n          \"tokenOut\": {\n            \"address\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n            \"chainId\": 8453,\n            \"symbol\": \"USDC\",\n            \"decimals\": \"6\"\n          },\n          \"sqrtRatioX96\": \"51868315841017165286814\",\n          \"liquidity\": \"60642987270239502\",\n          \"tickCurrent\": \"-284797\",\n          \"fee\": \"1\",\n          \"tickSpacing\": \"1\",\n          \"hooks\": \"0x0000000000000000000000000000000000000000\",\n          \"amountIn\": \"4666414752365827583\",\n          \"amountOut\": \"1999890\"\n        }\n      ]\n    ],\n    \"input\": {\n      \"amount\": \"4666414752365827583\",\n      \"token\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\"\n    },\n    \"output\": {\n      \"amount\": \"1999890\",\n      \"token\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n      \"recipient\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\"\n    },\n    \"slippage\": 2.5,\n    \"priceImpact\": 0.01,\n    \"gasFee\": \"1664618749624\",\n    \"gasFeeUSD\": \"0.002335228716641861\",\n    \"gasFeeQuote\": \"2335\",\n    \"gasUseEstimate\": \"162169\",\n    \"routeString\": \"[v4] 100.00% = [0.0001%] [1] [0x0000000000000000000000000000000000000000] 0x636da53e0251b3cb0b4d10dbaff488b294f97bd5212b7e2a7c1bc3fb57fd6e31\",\n    \"blockNumber\": \"45041016\",\n    \"quoteId\": \"dccb2b4f-3b0c-46be-8e17-9fb103d44990\",\n    \"gasPrice\": \"9000000\",\n    \"txFailureReasons\": [],\n    \"aggregatedOutputs\": [\n      {\n        \"amount\": \"1999890\",\n        \"token\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n        \"recipient\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n        \"bps\": 10000,\n        \"minAmount\": \"1949892\"\n      }\n    ]\n  },\n  \"permitData\": {\n    \"domain\": {\n      \"name\": \"Permit2\",\n      \"chainId\": 8453,\n      \"verifyingContract\": \"0x000000000022D473030F116dDEE9F6B43aC78BA3\"\n    },\n    \"types\": {\n      \"PermitSingle\": [\n        {\n          \"name\": \"details\",\n          \"type\": \"PermitDetails\"\n        },\n        {\n          \"name\": \"spender\",\n          \"type\": \"address\"\n        },\n        {\n          \"name\": \"sigDeadline\",\n          \"type\": \"uint256\"\n        }\n      ],\n      \"PermitDetails\": [\n        {\n          \"name\": \"token\",\n          \"type\": \"address\"\n        },\n        {\n          \"name\": \"amount\",\n          \"type\": \"uint160\"\n        },\n        {\n          \"name\": \"expiration\",\n          \"type\": \"uint48\"\n        },\n        {\n          \"name\": \"nonce\",\n          \"type\": \"uint48\"\n        }\n      ]\n    },\n    \"values\": {\n      \"details\": {\n        \"token\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\",\n        \"amount\": \"1461501637330902918203684832716283019655932542975\",\n        \"expiration\": \"1779463380\",\n        \"nonce\": \"0\"\n      },\n      \"spender\": \"0x6ff5693b99212da76ad316178a184ab56d299b43\",\n      \"sigDeadline\": \"1776873180\"\n    }\n  },\n  \"urgency\": \"normal\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"InternalServerError\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "20ea2edc-f0b5-4c6f-b3db-824029897814",
+              "name": "Request duration limit reached.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "swap_5792"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The version of the Universal Router to use for the swap journey. *MUST* be consistent throughout the API calls.",
+                    "key": "x-universal-router-version",
+                    "value": "2.0"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quote\": {\n    \"chainId\": 8453,\n    \"swapper\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n    \"tradeType\": \"EXACT_INPUT\",\n    \"route\": [\n      [\n        {\n          \"type\": \"v4-pool\",\n          \"address\": \"0x636da53e0251b3cb0b4d10dbaff488b294f97bd5212b7e2a7c1bc3fb57fd6e31\",\n          \"tokenIn\": {\n            \"address\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\",\n            \"chainId\": 8453,\n            \"symbol\": \"SOSO\",\n            \"decimals\": \"18\"\n          },\n          \"tokenOut\": {\n            \"address\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n            \"chainId\": 8453,\n            \"symbol\": \"USDC\",\n            \"decimals\": \"6\"\n          },\n          \"sqrtRatioX96\": \"51868315841017165286814\",\n          \"liquidity\": \"60642987270239502\",\n          \"tickCurrent\": \"-284797\",\n          \"fee\": \"1\",\n          \"tickSpacing\": \"1\",\n          \"hooks\": \"0x0000000000000000000000000000000000000000\",\n          \"amountIn\": \"4666414752365827583\",\n          \"amountOut\": \"1999890\"\n        }\n      ]\n    ],\n    \"input\": {\n      \"amount\": \"4666414752365827583\",\n      \"token\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\"\n    },\n    \"output\": {\n      \"amount\": \"1999890\",\n      \"token\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n      \"recipient\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\"\n    },\n    \"slippage\": 2.5,\n    \"priceImpact\": 0.01,\n    \"gasFee\": \"1664618749624\",\n    \"gasFeeUSD\": \"0.002335228716641861\",\n    \"gasFeeQuote\": \"2335\",\n    \"gasUseEstimate\": \"162169\",\n    \"routeString\": \"[v4] 100.00% = [0.0001%] [1] [0x0000000000000000000000000000000000000000] 0x636da53e0251b3cb0b4d10dbaff488b294f97bd5212b7e2a7c1bc3fb57fd6e31\",\n    \"blockNumber\": \"45041016\",\n    \"quoteId\": \"dccb2b4f-3b0c-46be-8e17-9fb103d44990\",\n    \"gasPrice\": \"9000000\",\n    \"txFailureReasons\": [],\n    \"aggregatedOutputs\": [\n      {\n        \"amount\": \"1999890\",\n        \"token\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n        \"recipient\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n        \"bps\": 10000,\n        \"minAmount\": \"1949892\"\n      }\n    ]\n  },\n  \"permitData\": {\n    \"domain\": {\n      \"name\": \"Permit2\",\n      \"chainId\": 8453,\n      \"verifyingContract\": \"0x000000000022D473030F116dDEE9F6B43aC78BA3\"\n    },\n    \"types\": {\n      \"PermitSingle\": [\n        {\n          \"name\": \"details\",\n          \"type\": \"PermitDetails\"\n        },\n        {\n          \"name\": \"spender\",\n          \"type\": \"address\"\n        },\n        {\n          \"name\": \"sigDeadline\",\n          \"type\": \"uint256\"\n        }\n      ],\n      \"PermitDetails\": [\n        {\n          \"name\": \"token\",\n          \"type\": \"address\"\n        },\n        {\n          \"name\": \"amount\",\n          \"type\": \"uint160\"\n        },\n        {\n          \"name\": \"expiration\",\n          \"type\": \"uint48\"\n        },\n        {\n          \"name\": \"nonce\",\n          \"type\": \"uint48\"\n        }\n      ]\n    },\n    \"values\": {\n      \"details\": {\n        \"token\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\",\n        \"amount\": \"1461501637330902918203684832716283019655932542975\",\n        \"expiration\": \"1779463380\",\n        \"nonce\": \"0\"\n      },\n      \"spender\": \"0x6ff5693b99212da76ad316178a184ab56d299b43\",\n      \"sigDeadline\": \"1776873180\"\n    }\n  },\n  \"urgency\": \"normal\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Gateway Timeout",
+              "code": 504,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"Timeout\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a17beb02-f122-480c-96bb-19367f020657",
+          "name": "Create swap EIP 7702 calldata",
+          "request": {
+            "name": "Create swap EIP 7702 calldata",
+            "description": {
+              "content": "Create the EIP 7702 calldata for a swap transaction (including wrap/unwrap and bridging) against the Uniswap Protocols. If the `quote` parameter includes the fee parameters, then the calldata will include the fee disbursement. The gas estimates will be **more precise** when the the response calldata would be valid if submitted on-chain.\n\nNative ETH / UniswapX setup: When `x-erc20eth-enabled` is `true` and the input token is native ETH, the response may include an additional native approval call (e.g. an `approveNative` step) to enable ERC20-ETH (EIP-7914) spending for the wallet. This native allowance is a prerequisite for native ETH input on UniswapX (`/quote` → `/order`) for supported wallets.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "swap_7702"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "The version of the Universal Router to use for the swap journey. *MUST* be consistent throughout the API calls.",
+                "key": "x-universal-router-version",
+                "value": "2.0"
+              },
+              {
+                "disabled": false,
+                "description": "Enable native ETH input support for UniswapX via ERC20-ETH (EIP-7914). When set to true and `tokenIn` is the native currency address (e.g. `0x0000000000000000000000000000000000000000`), the API may return UniswapX routes that spend native ETH for supported wallets.",
+                "key": "x-erc20eth-enabled",
+                "value": "false"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quote\": {\n    \"input\": {\n      \"token\": \"<string>\",\n      \"amount\": \"<string>\"\n    },\n    \"output\": {\n      \"token\": \"<string>\",\n      \"amount\": \"<string>\",\n      \"recipient\": \"<string>\"\n    },\n    \"swapper\": \"<string>\",\n    \"chainId\": 1,\n    \"slippage\": \"<number>\",\n    \"tradeType\": \"EXACT_INPUT\",\n    \"gasFee\": \"<string>\",\n    \"gasFeeUSD\": \"<string>\",\n    \"gasFeeQuote\": \"<string>\",\n    \"route\": [\n      [\n        {\n          \"type\": \"v2-pool\",\n          \"address\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tokenIn\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tokenOut\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"reserve0\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"reserve1\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"amountIn\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"amountOut\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"type\": \"v2-pool\",\n          \"address\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tokenIn\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tokenOut\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"reserve0\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"reserve1\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"amountIn\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"amountOut\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      [\n        {\n          \"type\": \"v2-pool\",\n          \"address\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tokenIn\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tokenOut\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"reserve0\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"reserve1\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"amountIn\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"amountOut\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"type\": \"v2-pool\",\n          \"address\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tokenIn\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tokenOut\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"reserve0\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"reserve1\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"amountIn\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"amountOut\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ]\n    ],\n    \"portionBips\": \"<number>\",\n    \"portionAmount\": \"<string>\",\n    \"portionRecipient\": \"<string>\",\n    \"routeString\": \"<string>\",\n    \"quoteId\": \"<string>\",\n    \"gasUseEstimate\": \"<string>\",\n    \"blockNumber\": \"<string>\",\n    \"gasPrice\": \"<string>\",\n    \"maxFeePerGas\": \"<string>\",\n    \"maxPriorityFeePerGas\": \"<string>\",\n    \"txFailureReasons\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"priceImpact\": \"<number>\",\n    \"aggregatedOutputs\": [\n      {\n        \"token\": \"<string>\",\n        \"amount\": \"<string>\",\n        \"recipient\": \"<string>\",\n        \"bps\": \"<number>\",\n        \"minAmount\": \"<string>\"\n      },\n      {\n        \"token\": \"<string>\",\n        \"amount\": \"<string>\",\n        \"recipient\": \"<string>\",\n        \"bps\": \"<number>\",\n        \"minAmount\": \"<string>\"\n      }\n    ]\n  },\n  \"permitData\": {\n    \"domain\": \"<object>\",\n    \"values\": \"<object>\",\n    \"types\": \"<object>\"\n  },\n  \"smartContractDelegationAddress\": \"<string>\",\n  \"includeGasInfo\": false,\n  \"deadline\": \"<number>\",\n  \"urgency\": \"urgent\",\n  \"simulateTransaction\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9fbe4f82-c149-4490-8210-4d241927f76d",
+              "name": "Create 7702 swap successful.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "swap_7702"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The version of the Universal Router to use for the swap journey. *MUST* be consistent throughout the API calls.",
+                    "key": "x-universal-router-version",
+                    "value": "2.0"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Enable native ETH input support for UniswapX via ERC20-ETH (EIP-7914). When set to true and `tokenIn` is the native currency address (e.g. `0x0000000000000000000000000000000000000000`), the API may return UniswapX routes that spend native ETH for supported wallets.",
+                    "key": "x-erc20eth-enabled",
+                    "value": "false"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quote\": {\n    \"chainId\": 8453,\n    \"swapper\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n    \"tradeType\": \"EXACT_INPUT\",\n    \"route\": [\n      [\n        {\n          \"type\": \"v4-pool\",\n          \"address\": \"0x636da53e0251b3cb0b4d10dbaff488b294f97bd5212b7e2a7c1bc3fb57fd6e31\",\n          \"tokenIn\": {\n            \"address\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\",\n            \"chainId\": 8453,\n            \"symbol\": \"SOSO\",\n            \"decimals\": \"18\"\n          },\n          \"tokenOut\": {\n            \"address\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n            \"chainId\": 8453,\n            \"symbol\": \"USDC\",\n            \"decimals\": \"6\"\n          },\n          \"sqrtRatioX96\": \"51868315841017165286814\",\n          \"liquidity\": \"60642987270239502\",\n          \"tickCurrent\": \"-284797\",\n          \"fee\": \"1\",\n          \"tickSpacing\": \"1\",\n          \"hooks\": \"0x0000000000000000000000000000000000000000\",\n          \"amountIn\": \"4666414752365827583\",\n          \"amountOut\": \"1999890\"\n        }\n      ]\n    ],\n    \"input\": {\n      \"amount\": \"4666414752365827583\",\n      \"token\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\"\n    },\n    \"output\": {\n      \"amount\": \"1999890\",\n      \"token\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n      \"recipient\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\"\n    },\n    \"slippage\": 2.5,\n    \"priceImpact\": 0.01,\n    \"gasFee\": \"1636896419348\",\n    \"gasFeeUSD\": \"0.002335228716641861\",\n    \"gasFeeQuote\": \"2335\",\n    \"gasUseEstimate\": \"162169\",\n    \"routeString\": \"[v4] 100.00% = [0.0001%] [1] [0x0000000000000000000000000000000000000000] 0x636da53e0251b3cb0b4d10dbaff488b294f97bd5212b7e2a7c1bc3fb57fd6e31\",\n    \"blockNumber\": \"45041659\",\n    \"quoteId\": \"ce44f65c-b16a-46e3-a3cf-23cadea6110b\",\n    \"gasPrice\": \"9000000\",\n    \"txFailureReasons\": [],\n    \"aggregatedOutputs\": [\n      {\n        \"amount\": \"1999890\",\n        \"token\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n        \"recipient\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n        \"bps\": 10000,\n        \"minAmount\": \"1949892\"\n      }\n    ]\n  },\n  \"permitData\": {\n    \"domain\": {\n      \"name\": \"Permit2\",\n      \"chainId\": 8453,\n      \"verifyingContract\": \"0x000000000022D473030F116dDEE9F6B43aC78BA3\"\n    },\n    \"types\": {\n      \"PermitSingle\": [\n        {\n          \"name\": \"details\",\n          \"type\": \"PermitDetails\"\n        },\n        {\n          \"name\": \"spender\",\n          \"type\": \"address\"\n        },\n        {\n          \"name\": \"sigDeadline\",\n          \"type\": \"uint256\"\n        }\n      ],\n      \"PermitDetails\": [\n        {\n          \"name\": \"token\",\n          \"type\": \"address\"\n        },\n        {\n          \"name\": \"amount\",\n          \"type\": \"uint160\"\n        },\n        {\n          \"name\": \"expiration\",\n          \"type\": \"uint48\"\n        },\n        {\n          \"name\": \"nonce\",\n          \"type\": \"uint48\"\n        }\n      ]\n    },\n    \"values\": {\n      \"details\": {\n        \"token\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\",\n        \"amount\": \"1461501637330902918203684832716283019655932542975\",\n        \"expiration\": \"1779464665\",\n        \"nonce\": \"0\"\n      },\n      \"spender\": \"0x6ff5693b99212da76ad316178a184ab56d299b43\",\n      \"sigDeadline\": \"1776874465\"\n    }\n  },\n  \"smartContractDelegationAddress\": \"0x000000009b1d0af20d8c6d0a44e162d11f9b8f00\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"requestId\": \"cOnyIgrpiYcEJYg=\",\n  \"swap\": {\n    \"to\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n    \"from\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n    \"data\": \"0x99e1d01600...\",\n    \"value\": \"0x0\",\n    \"chainId\": 8453,\n    \"gasLimit\": \"225580\",\n    \"gasPrice\": \"6000000\"\n  },\n  \"gasFee\": \"1631928838652\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b9042653-ba93-4de8-a907-309c605eba19",
+              "name": "RequestValidationError, Bad Input",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "swap_7702"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The version of the Universal Router to use for the swap journey. *MUST* be consistent throughout the API calls.",
+                    "key": "x-universal-router-version",
+                    "value": "2.0"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Enable native ETH input support for UniswapX via ERC20-ETH (EIP-7914). When set to true and `tokenIn` is the native currency address (e.g. `0x0000000000000000000000000000000000000000`), the API may return UniswapX routes that spend native ETH for supported wallets.",
+                    "key": "x-erc20eth-enabled",
+                    "value": "false"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quote\": {\n    \"chainId\": 8453,\n    \"swapper\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n    \"tradeType\": \"EXACT_INPUT\",\n    \"route\": [\n      [\n        {\n          \"type\": \"v4-pool\",\n          \"address\": \"0x636da53e0251b3cb0b4d10dbaff488b294f97bd5212b7e2a7c1bc3fb57fd6e31\",\n          \"tokenIn\": {\n            \"address\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\",\n            \"chainId\": 8453,\n            \"symbol\": \"SOSO\",\n            \"decimals\": \"18\"\n          },\n          \"tokenOut\": {\n            \"address\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n            \"chainId\": 8453,\n            \"symbol\": \"USDC\",\n            \"decimals\": \"6\"\n          },\n          \"sqrtRatioX96\": \"51868315841017165286814\",\n          \"liquidity\": \"60642987270239502\",\n          \"tickCurrent\": \"-284797\",\n          \"fee\": \"1\",\n          \"tickSpacing\": \"1\",\n          \"hooks\": \"0x0000000000000000000000000000000000000000\",\n          \"amountIn\": \"4666414752365827583\",\n          \"amountOut\": \"1999890\"\n        }\n      ]\n    ],\n    \"input\": {\n      \"amount\": \"4666414752365827583\",\n      \"token\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\"\n    },\n    \"output\": {\n      \"amount\": \"1999890\",\n      \"token\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n      \"recipient\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\"\n    },\n    \"slippage\": 2.5,\n    \"priceImpact\": 0.01,\n    \"gasFee\": \"1636896419348\",\n    \"gasFeeUSD\": \"0.002335228716641861\",\n    \"gasFeeQuote\": \"2335\",\n    \"gasUseEstimate\": \"162169\",\n    \"routeString\": \"[v4] 100.00% = [0.0001%] [1] [0x0000000000000000000000000000000000000000] 0x636da53e0251b3cb0b4d10dbaff488b294f97bd5212b7e2a7c1bc3fb57fd6e31\",\n    \"blockNumber\": \"45041659\",\n    \"quoteId\": \"ce44f65c-b16a-46e3-a3cf-23cadea6110b\",\n    \"gasPrice\": \"9000000\",\n    \"txFailureReasons\": [],\n    \"aggregatedOutputs\": [\n      {\n        \"amount\": \"1999890\",\n        \"token\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n        \"recipient\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n        \"bps\": 10000,\n        \"minAmount\": \"1949892\"\n      }\n    ]\n  },\n  \"permitData\": {\n    \"domain\": {\n      \"name\": \"Permit2\",\n      \"chainId\": 8453,\n      \"verifyingContract\": \"0x000000000022D473030F116dDEE9F6B43aC78BA3\"\n    },\n    \"types\": {\n      \"PermitSingle\": [\n        {\n          \"name\": \"details\",\n          \"type\": \"PermitDetails\"\n        },\n        {\n          \"name\": \"spender\",\n          \"type\": \"address\"\n        },\n        {\n          \"name\": \"sigDeadline\",\n          \"type\": \"uint256\"\n        }\n      ],\n      \"PermitDetails\": [\n        {\n          \"name\": \"token\",\n          \"type\": \"address\"\n        },\n        {\n          \"name\": \"amount\",\n          \"type\": \"uint160\"\n        },\n        {\n          \"name\": \"expiration\",\n          \"type\": \"uint48\"\n        },\n        {\n          \"name\": \"nonce\",\n          \"type\": \"uint48\"\n        }\n      ]\n    },\n    \"values\": {\n      \"details\": {\n        \"token\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\",\n        \"amount\": \"1461501637330902918203684832716283019655932542975\",\n        \"expiration\": \"1779464665\",\n        \"nonce\": \"0\"\n      },\n      \"spender\": \"0x6ff5693b99212da76ad316178a184ab56d299b43\",\n      \"sigDeadline\": \"1776874465\"\n    }\n  },\n  \"smartContractDelegationAddress\": \"0x000000009b1d0af20d8c6d0a44e162d11f9b8f00\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"RequestValidationError\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "28e0a364-7ab2-46cf-82a2-ce34b6ea4893",
+              "name": "UnauthorizedError eg. Account is blocked or  Fee is not enabled.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "swap_7702"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The version of the Universal Router to use for the swap journey. *MUST* be consistent throughout the API calls.",
+                    "key": "x-universal-router-version",
+                    "value": "2.0"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Enable native ETH input support for UniswapX via ERC20-ETH (EIP-7914). When set to true and `tokenIn` is the native currency address (e.g. `0x0000000000000000000000000000000000000000`), the API may return UniswapX routes that spend native ETH for supported wallets.",
+                    "key": "x-erc20eth-enabled",
+                    "value": "false"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quote\": {\n    \"chainId\": 8453,\n    \"swapper\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n    \"tradeType\": \"EXACT_INPUT\",\n    \"route\": [\n      [\n        {\n          \"type\": \"v4-pool\",\n          \"address\": \"0x636da53e0251b3cb0b4d10dbaff488b294f97bd5212b7e2a7c1bc3fb57fd6e31\",\n          \"tokenIn\": {\n            \"address\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\",\n            \"chainId\": 8453,\n            \"symbol\": \"SOSO\",\n            \"decimals\": \"18\"\n          },\n          \"tokenOut\": {\n            \"address\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n            \"chainId\": 8453,\n            \"symbol\": \"USDC\",\n            \"decimals\": \"6\"\n          },\n          \"sqrtRatioX96\": \"51868315841017165286814\",\n          \"liquidity\": \"60642987270239502\",\n          \"tickCurrent\": \"-284797\",\n          \"fee\": \"1\",\n          \"tickSpacing\": \"1\",\n          \"hooks\": \"0x0000000000000000000000000000000000000000\",\n          \"amountIn\": \"4666414752365827583\",\n          \"amountOut\": \"1999890\"\n        }\n      ]\n    ],\n    \"input\": {\n      \"amount\": \"4666414752365827583\",\n      \"token\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\"\n    },\n    \"output\": {\n      \"amount\": \"1999890\",\n      \"token\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n      \"recipient\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\"\n    },\n    \"slippage\": 2.5,\n    \"priceImpact\": 0.01,\n    \"gasFee\": \"1636896419348\",\n    \"gasFeeUSD\": \"0.002335228716641861\",\n    \"gasFeeQuote\": \"2335\",\n    \"gasUseEstimate\": \"162169\",\n    \"routeString\": \"[v4] 100.00% = [0.0001%] [1] [0x0000000000000000000000000000000000000000] 0x636da53e0251b3cb0b4d10dbaff488b294f97bd5212b7e2a7c1bc3fb57fd6e31\",\n    \"blockNumber\": \"45041659\",\n    \"quoteId\": \"ce44f65c-b16a-46e3-a3cf-23cadea6110b\",\n    \"gasPrice\": \"9000000\",\n    \"txFailureReasons\": [],\n    \"aggregatedOutputs\": [\n      {\n        \"amount\": \"1999890\",\n        \"token\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n        \"recipient\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n        \"bps\": 10000,\n        \"minAmount\": \"1949892\"\n      }\n    ]\n  },\n  \"permitData\": {\n    \"domain\": {\n      \"name\": \"Permit2\",\n      \"chainId\": 8453,\n      \"verifyingContract\": \"0x000000000022D473030F116dDEE9F6B43aC78BA3\"\n    },\n    \"types\": {\n      \"PermitSingle\": [\n        {\n          \"name\": \"details\",\n          \"type\": \"PermitDetails\"\n        },\n        {\n          \"name\": \"spender\",\n          \"type\": \"address\"\n        },\n        {\n          \"name\": \"sigDeadline\",\n          \"type\": \"uint256\"\n        }\n      ],\n      \"PermitDetails\": [\n        {\n          \"name\": \"token\",\n          \"type\": \"address\"\n        },\n        {\n          \"name\": \"amount\",\n          \"type\": \"uint160\"\n        },\n        {\n          \"name\": \"expiration\",\n          \"type\": \"uint48\"\n        },\n        {\n          \"name\": \"nonce\",\n          \"type\": \"uint48\"\n        }\n      ]\n    },\n    \"values\": {\n      \"details\": {\n        \"token\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\",\n        \"amount\": \"1461501637330902918203684832716283019655932542975\",\n        \"expiration\": \"1779464665\",\n        \"nonce\": \"0\"\n      },\n      \"spender\": \"0x6ff5693b99212da76ad316178a184ab56d299b43\",\n      \"sigDeadline\": \"1776874465\"\n    }\n  },\n  \"smartContractDelegationAddress\": \"0x000000009b1d0af20d8c6d0a44e162d11f9b8f00\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"UnauthorizedError\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7e0f1578-1a9e-4f70-8940-ea275e669974",
+              "name": "ResourceNotFound eg. No quotes available or Gas fee/price not available",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "swap_7702"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The version of the Universal Router to use for the swap journey. *MUST* be consistent throughout the API calls.",
+                    "key": "x-universal-router-version",
+                    "value": "2.0"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Enable native ETH input support for UniswapX via ERC20-ETH (EIP-7914). When set to true and `tokenIn` is the native currency address (e.g. `0x0000000000000000000000000000000000000000`), the API may return UniswapX routes that spend native ETH for supported wallets.",
+                    "key": "x-erc20eth-enabled",
+                    "value": "false"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quote\": {\n    \"chainId\": 8453,\n    \"swapper\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n    \"tradeType\": \"EXACT_INPUT\",\n    \"route\": [\n      [\n        {\n          \"type\": \"v4-pool\",\n          \"address\": \"0x636da53e0251b3cb0b4d10dbaff488b294f97bd5212b7e2a7c1bc3fb57fd6e31\",\n          \"tokenIn\": {\n            \"address\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\",\n            \"chainId\": 8453,\n            \"symbol\": \"SOSO\",\n            \"decimals\": \"18\"\n          },\n          \"tokenOut\": {\n            \"address\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n            \"chainId\": 8453,\n            \"symbol\": \"USDC\",\n            \"decimals\": \"6\"\n          },\n          \"sqrtRatioX96\": \"51868315841017165286814\",\n          \"liquidity\": \"60642987270239502\",\n          \"tickCurrent\": \"-284797\",\n          \"fee\": \"1\",\n          \"tickSpacing\": \"1\",\n          \"hooks\": \"0x0000000000000000000000000000000000000000\",\n          \"amountIn\": \"4666414752365827583\",\n          \"amountOut\": \"1999890\"\n        }\n      ]\n    ],\n    \"input\": {\n      \"amount\": \"4666414752365827583\",\n      \"token\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\"\n    },\n    \"output\": {\n      \"amount\": \"1999890\",\n      \"token\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n      \"recipient\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\"\n    },\n    \"slippage\": 2.5,\n    \"priceImpact\": 0.01,\n    \"gasFee\": \"1636896419348\",\n    \"gasFeeUSD\": \"0.002335228716641861\",\n    \"gasFeeQuote\": \"2335\",\n    \"gasUseEstimate\": \"162169\",\n    \"routeString\": \"[v4] 100.00% = [0.0001%] [1] [0x0000000000000000000000000000000000000000] 0x636da53e0251b3cb0b4d10dbaff488b294f97bd5212b7e2a7c1bc3fb57fd6e31\",\n    \"blockNumber\": \"45041659\",\n    \"quoteId\": \"ce44f65c-b16a-46e3-a3cf-23cadea6110b\",\n    \"gasPrice\": \"9000000\",\n    \"txFailureReasons\": [],\n    \"aggregatedOutputs\": [\n      {\n        \"amount\": \"1999890\",\n        \"token\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n        \"recipient\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n        \"bps\": 10000,\n        \"minAmount\": \"1949892\"\n      }\n    ]\n  },\n  \"permitData\": {\n    \"domain\": {\n      \"name\": \"Permit2\",\n      \"chainId\": 8453,\n      \"verifyingContract\": \"0x000000000022D473030F116dDEE9F6B43aC78BA3\"\n    },\n    \"types\": {\n      \"PermitSingle\": [\n        {\n          \"name\": \"details\",\n          \"type\": \"PermitDetails\"\n        },\n        {\n          \"name\": \"spender\",\n          \"type\": \"address\"\n        },\n        {\n          \"name\": \"sigDeadline\",\n          \"type\": \"uint256\"\n        }\n      ],\n      \"PermitDetails\": [\n        {\n          \"name\": \"token\",\n          \"type\": \"address\"\n        },\n        {\n          \"name\": \"amount\",\n          \"type\": \"uint160\"\n        },\n        {\n          \"name\": \"expiration\",\n          \"type\": \"uint48\"\n        },\n        {\n          \"name\": \"nonce\",\n          \"type\": \"uint48\"\n        }\n      ]\n    },\n    \"values\": {\n      \"details\": {\n        \"token\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\",\n        \"amount\": \"1461501637330902918203684832716283019655932542975\",\n        \"expiration\": \"1779464665\",\n        \"nonce\": \"0\"\n      },\n      \"spender\": \"0x6ff5693b99212da76ad316178a184ab56d299b43\",\n      \"sigDeadline\": \"1776874465\"\n    }\n  },\n  \"smartContractDelegationAddress\": \"0x000000009b1d0af20d8c6d0a44e162d11f9b8f00\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"QuoteAmountTooLowError\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "993ba070-5bd3-4c3f-ac31-5bb9338f2367",
+              "name": "Ratelimited",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "swap_7702"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The version of the Universal Router to use for the swap journey. *MUST* be consistent throughout the API calls.",
+                    "key": "x-universal-router-version",
+                    "value": "2.0"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Enable native ETH input support for UniswapX via ERC20-ETH (EIP-7914). When set to true and `tokenIn` is the native currency address (e.g. `0x0000000000000000000000000000000000000000`), the API may return UniswapX routes that spend native ETH for supported wallets.",
+                    "key": "x-erc20eth-enabled",
+                    "value": "false"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quote\": {\n    \"chainId\": 8453,\n    \"swapper\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n    \"tradeType\": \"EXACT_INPUT\",\n    \"route\": [\n      [\n        {\n          \"type\": \"v4-pool\",\n          \"address\": \"0x636da53e0251b3cb0b4d10dbaff488b294f97bd5212b7e2a7c1bc3fb57fd6e31\",\n          \"tokenIn\": {\n            \"address\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\",\n            \"chainId\": 8453,\n            \"symbol\": \"SOSO\",\n            \"decimals\": \"18\"\n          },\n          \"tokenOut\": {\n            \"address\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n            \"chainId\": 8453,\n            \"symbol\": \"USDC\",\n            \"decimals\": \"6\"\n          },\n          \"sqrtRatioX96\": \"51868315841017165286814\",\n          \"liquidity\": \"60642987270239502\",\n          \"tickCurrent\": \"-284797\",\n          \"fee\": \"1\",\n          \"tickSpacing\": \"1\",\n          \"hooks\": \"0x0000000000000000000000000000000000000000\",\n          \"amountIn\": \"4666414752365827583\",\n          \"amountOut\": \"1999890\"\n        }\n      ]\n    ],\n    \"input\": {\n      \"amount\": \"4666414752365827583\",\n      \"token\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\"\n    },\n    \"output\": {\n      \"amount\": \"1999890\",\n      \"token\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n      \"recipient\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\"\n    },\n    \"slippage\": 2.5,\n    \"priceImpact\": 0.01,\n    \"gasFee\": \"1636896419348\",\n    \"gasFeeUSD\": \"0.002335228716641861\",\n    \"gasFeeQuote\": \"2335\",\n    \"gasUseEstimate\": \"162169\",\n    \"routeString\": \"[v4] 100.00% = [0.0001%] [1] [0x0000000000000000000000000000000000000000] 0x636da53e0251b3cb0b4d10dbaff488b294f97bd5212b7e2a7c1bc3fb57fd6e31\",\n    \"blockNumber\": \"45041659\",\n    \"quoteId\": \"ce44f65c-b16a-46e3-a3cf-23cadea6110b\",\n    \"gasPrice\": \"9000000\",\n    \"txFailureReasons\": [],\n    \"aggregatedOutputs\": [\n      {\n        \"amount\": \"1999890\",\n        \"token\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n        \"recipient\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n        \"bps\": 10000,\n        \"minAmount\": \"1949892\"\n      }\n    ]\n  },\n  \"permitData\": {\n    \"domain\": {\n      \"name\": \"Permit2\",\n      \"chainId\": 8453,\n      \"verifyingContract\": \"0x000000000022D473030F116dDEE9F6B43aC78BA3\"\n    },\n    \"types\": {\n      \"PermitSingle\": [\n        {\n          \"name\": \"details\",\n          \"type\": \"PermitDetails\"\n        },\n        {\n          \"name\": \"spender\",\n          \"type\": \"address\"\n        },\n        {\n          \"name\": \"sigDeadline\",\n          \"type\": \"uint256\"\n        }\n      ],\n      \"PermitDetails\": [\n        {\n          \"name\": \"token\",\n          \"type\": \"address\"\n        },\n        {\n          \"name\": \"amount\",\n          \"type\": \"uint160\"\n        },\n        {\n          \"name\": \"expiration\",\n          \"type\": \"uint48\"\n        },\n        {\n          \"name\": \"nonce\",\n          \"type\": \"uint48\"\n        }\n      ]\n    },\n    \"values\": {\n      \"details\": {\n        \"token\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\",\n        \"amount\": \"1461501637330902918203684832716283019655932542975\",\n        \"expiration\": \"1779464665\",\n        \"nonce\": \"0\"\n      },\n      \"spender\": \"0x6ff5693b99212da76ad316178a184ab56d299b43\",\n      \"sigDeadline\": \"1776874465\"\n    }\n  },\n  \"smartContractDelegationAddress\": \"0x000000009b1d0af20d8c6d0a44e162d11f9b8f00\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"Ratelimited\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d9b32c8a-f5ad-4322-979f-ea04a81458c1",
+              "name": "Unexpected error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "swap_7702"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The version of the Universal Router to use for the swap journey. *MUST* be consistent throughout the API calls.",
+                    "key": "x-universal-router-version",
+                    "value": "2.0"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Enable native ETH input support for UniswapX via ERC20-ETH (EIP-7914). When set to true and `tokenIn` is the native currency address (e.g. `0x0000000000000000000000000000000000000000`), the API may return UniswapX routes that spend native ETH for supported wallets.",
+                    "key": "x-erc20eth-enabled",
+                    "value": "false"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quote\": {\n    \"chainId\": 8453,\n    \"swapper\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n    \"tradeType\": \"EXACT_INPUT\",\n    \"route\": [\n      [\n        {\n          \"type\": \"v4-pool\",\n          \"address\": \"0x636da53e0251b3cb0b4d10dbaff488b294f97bd5212b7e2a7c1bc3fb57fd6e31\",\n          \"tokenIn\": {\n            \"address\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\",\n            \"chainId\": 8453,\n            \"symbol\": \"SOSO\",\n            \"decimals\": \"18\"\n          },\n          \"tokenOut\": {\n            \"address\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n            \"chainId\": 8453,\n            \"symbol\": \"USDC\",\n            \"decimals\": \"6\"\n          },\n          \"sqrtRatioX96\": \"51868315841017165286814\",\n          \"liquidity\": \"60642987270239502\",\n          \"tickCurrent\": \"-284797\",\n          \"fee\": \"1\",\n          \"tickSpacing\": \"1\",\n          \"hooks\": \"0x0000000000000000000000000000000000000000\",\n          \"amountIn\": \"4666414752365827583\",\n          \"amountOut\": \"1999890\"\n        }\n      ]\n    ],\n    \"input\": {\n      \"amount\": \"4666414752365827583\",\n      \"token\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\"\n    },\n    \"output\": {\n      \"amount\": \"1999890\",\n      \"token\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n      \"recipient\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\"\n    },\n    \"slippage\": 2.5,\n    \"priceImpact\": 0.01,\n    \"gasFee\": \"1636896419348\",\n    \"gasFeeUSD\": \"0.002335228716641861\",\n    \"gasFeeQuote\": \"2335\",\n    \"gasUseEstimate\": \"162169\",\n    \"routeString\": \"[v4] 100.00% = [0.0001%] [1] [0x0000000000000000000000000000000000000000] 0x636da53e0251b3cb0b4d10dbaff488b294f97bd5212b7e2a7c1bc3fb57fd6e31\",\n    \"blockNumber\": \"45041659\",\n    \"quoteId\": \"ce44f65c-b16a-46e3-a3cf-23cadea6110b\",\n    \"gasPrice\": \"9000000\",\n    \"txFailureReasons\": [],\n    \"aggregatedOutputs\": [\n      {\n        \"amount\": \"1999890\",\n        \"token\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n        \"recipient\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n        \"bps\": 10000,\n        \"minAmount\": \"1949892\"\n      }\n    ]\n  },\n  \"permitData\": {\n    \"domain\": {\n      \"name\": \"Permit2\",\n      \"chainId\": 8453,\n      \"verifyingContract\": \"0x000000000022D473030F116dDEE9F6B43aC78BA3\"\n    },\n    \"types\": {\n      \"PermitSingle\": [\n        {\n          \"name\": \"details\",\n          \"type\": \"PermitDetails\"\n        },\n        {\n          \"name\": \"spender\",\n          \"type\": \"address\"\n        },\n        {\n          \"name\": \"sigDeadline\",\n          \"type\": \"uint256\"\n        }\n      ],\n      \"PermitDetails\": [\n        {\n          \"name\": \"token\",\n          \"type\": \"address\"\n        },\n        {\n          \"name\": \"amount\",\n          \"type\": \"uint160\"\n        },\n        {\n          \"name\": \"expiration\",\n          \"type\": \"uint48\"\n        },\n        {\n          \"name\": \"nonce\",\n          \"type\": \"uint48\"\n        }\n      ]\n    },\n    \"values\": {\n      \"details\": {\n        \"token\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\",\n        \"amount\": \"1461501637330902918203684832716283019655932542975\",\n        \"expiration\": \"1779464665\",\n        \"nonce\": \"0\"\n      },\n      \"spender\": \"0x6ff5693b99212da76ad316178a184ab56d299b43\",\n      \"sigDeadline\": \"1776874465\"\n    }\n  },\n  \"smartContractDelegationAddress\": \"0x000000009b1d0af20d8c6d0a44e162d11f9b8f00\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"InternalServerError\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3906db58-c69c-4c80-9088-1c2bbead7d75",
+              "name": "Request duration limit reached.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "swap_7702"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The version of the Universal Router to use for the swap journey. *MUST* be consistent throughout the API calls.",
+                    "key": "x-universal-router-version",
+                    "value": "2.0"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Enable native ETH input support for UniswapX via ERC20-ETH (EIP-7914). When set to true and `tokenIn` is the native currency address (e.g. `0x0000000000000000000000000000000000000000`), the API may return UniswapX routes that spend native ETH for supported wallets.",
+                    "key": "x-erc20eth-enabled",
+                    "value": "false"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quote\": {\n    \"chainId\": 8453,\n    \"swapper\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n    \"tradeType\": \"EXACT_INPUT\",\n    \"route\": [\n      [\n        {\n          \"type\": \"v4-pool\",\n          \"address\": \"0x636da53e0251b3cb0b4d10dbaff488b294f97bd5212b7e2a7c1bc3fb57fd6e31\",\n          \"tokenIn\": {\n            \"address\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\",\n            \"chainId\": 8453,\n            \"symbol\": \"SOSO\",\n            \"decimals\": \"18\"\n          },\n          \"tokenOut\": {\n            \"address\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n            \"chainId\": 8453,\n            \"symbol\": \"USDC\",\n            \"decimals\": \"6\"\n          },\n          \"sqrtRatioX96\": \"51868315841017165286814\",\n          \"liquidity\": \"60642987270239502\",\n          \"tickCurrent\": \"-284797\",\n          \"fee\": \"1\",\n          \"tickSpacing\": \"1\",\n          \"hooks\": \"0x0000000000000000000000000000000000000000\",\n          \"amountIn\": \"4666414752365827583\",\n          \"amountOut\": \"1999890\"\n        }\n      ]\n    ],\n    \"input\": {\n      \"amount\": \"4666414752365827583\",\n      \"token\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\"\n    },\n    \"output\": {\n      \"amount\": \"1999890\",\n      \"token\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n      \"recipient\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\"\n    },\n    \"slippage\": 2.5,\n    \"priceImpact\": 0.01,\n    \"gasFee\": \"1636896419348\",\n    \"gasFeeUSD\": \"0.002335228716641861\",\n    \"gasFeeQuote\": \"2335\",\n    \"gasUseEstimate\": \"162169\",\n    \"routeString\": \"[v4] 100.00% = [0.0001%] [1] [0x0000000000000000000000000000000000000000] 0x636da53e0251b3cb0b4d10dbaff488b294f97bd5212b7e2a7c1bc3fb57fd6e31\",\n    \"blockNumber\": \"45041659\",\n    \"quoteId\": \"ce44f65c-b16a-46e3-a3cf-23cadea6110b\",\n    \"gasPrice\": \"9000000\",\n    \"txFailureReasons\": [],\n    \"aggregatedOutputs\": [\n      {\n        \"amount\": \"1999890\",\n        \"token\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n        \"recipient\": \"0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421\",\n        \"bps\": 10000,\n        \"minAmount\": \"1949892\"\n      }\n    ]\n  },\n  \"permitData\": {\n    \"domain\": {\n      \"name\": \"Permit2\",\n      \"chainId\": 8453,\n      \"verifyingContract\": \"0x000000000022D473030F116dDEE9F6B43aC78BA3\"\n    },\n    \"types\": {\n      \"PermitSingle\": [\n        {\n          \"name\": \"details\",\n          \"type\": \"PermitDetails\"\n        },\n        {\n          \"name\": \"spender\",\n          \"type\": \"address\"\n        },\n        {\n          \"name\": \"sigDeadline\",\n          \"type\": \"uint256\"\n        }\n      ],\n      \"PermitDetails\": [\n        {\n          \"name\": \"token\",\n          \"type\": \"address\"\n        },\n        {\n          \"name\": \"amount\",\n          \"type\": \"uint160\"\n        },\n        {\n          \"name\": \"expiration\",\n          \"type\": \"uint48\"\n        },\n        {\n          \"name\": \"nonce\",\n          \"type\": \"uint48\"\n        }\n      ]\n    },\n    \"values\": {\n      \"details\": {\n        \"token\": \"0x624e2e7fDc8903165F64891672267AB0FCB98831\",\n        \"amount\": \"1461501637330902918203684832716283019655932542975\",\n        \"expiration\": \"1779464665\",\n        \"nonce\": \"0\"\n      },\n      \"spender\": \"0x6ff5693b99212da76ad316178a184ab56d299b43\",\n      \"sigDeadline\": \"1776874465\"\n    }\n  },\n  \"smartContractDelegationAddress\": \"0x000000009b1d0af20d8c6d0a44e162d11f9b8f00\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Gateway Timeout",
+              "code": 504,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"Timeout\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://trade-api.gateway.uniswap.org/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "x-api-key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "6c02c3d1-a5e0-44a6-8ceb-e590a51249c4",
+    "name": "Token Trading Approval Swap API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Uniswap Labs trading APIs.\n\nEach operation may include the vendor extension `x-public-endpoint` (boolean): `true` when the operation is available on the public gateway for standard API keys, `false` when it is not publicly exposed. See the [OpenAPI specification extensions](https://swagger.io/docs/specification/v3_0/openapi-extensions/) definition of `x-` fields.",
+      "type": "text/plain"
+    }
+  }
+}

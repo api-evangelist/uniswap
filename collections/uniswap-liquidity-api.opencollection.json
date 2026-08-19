@@ -1,0 +1,173 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Token Trading Approval Liquidity API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "x-api-key",
+      "value": "{{x-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Liquidity",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Check LP token approvals",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://trade-api.gateway.uniswap.org/v1/lp/check_approval",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Checks whether the wallet has the required token approvals to perform an LP action (create, increase, decrease, or migrate). Returns any needed approval transactions. If `simulateTransaction` is set to `true`, the response will include gas fees for the approval transactions.\n\nThe `action` field specifies which LP operation the approval is for. Different actions may require different approvals (e.g., V2 decrease requires approval of the LP token, V3 migrate requires approval of the V3 NFT)."
+        },
+        {
+          "info": {
+            "name": "Create a V3 or V4 LP position",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://trade-api.gateway.uniswap.org/v1/lp/create",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Creates a new LP position in a V3 or V4 pool (including full-range positions). You can create a position in an existing pool by providing `existingPool` parameters, or create a new pool by providing `newPool` parameters (fee, tick spacing, initial price, and optionally hooks for V4). The position's price range is specified via either `priceBounds` or `tickBounds`. The server computes the dependent token amount. If `simulateTransaction` is set to `true`, the response will include the gas fee."
+        },
+        {
+          "info": {
+            "name": "Increase an LP position",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://trade-api.gateway.uniswap.org/v1/lp/increase",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Increases liquidity in an existing position. Specify the independent token and amount; the server derives the dependent token amount from the current pool state. Supports V2 (by token pair), V3, and V4 (by NFT token ID). If `simulateTransaction` is set to `true`, the response will include the gas fee."
+        },
+        {
+          "info": {
+            "name": "Decrease an LP position",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://trade-api.gateway.uniswap.org/v1/lp/decrease",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Decreases liquidity in an existing position by a specified percentage. The server derives all position state (liquidity, fees, ticks) from on-chain data. Supports V2 (by token pair), V3, and V4 (by NFT token ID). If `simulateTransaction` is set to `true`, the response will include the gas fee."
+        },
+        {
+          "info": {
+            "name": "Claim LP position fees",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://trade-api.gateway.uniswap.org/v1/lp/claim_fees",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Claims accumulated trading fees from a V3 or V4 LP position. If `simulateTransaction` is set to `true`, the response will include the gas fee for the claim transaction.\n\nNote: V2 positions do not have claimable fees. V2 trading fees are automatically added to your LP token balance."
+        },
+        {
+          "info": {
+            "name": "Create a classic (V2) LP position",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://trade-api.gateway.uniswap.org/v1/lp/create_classic",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Creates a full-range liquidity position in a Uniswap V2 pool. Specify the independent token and amount; the server computes the dependent token amount based on the current pool ratio. If `simulateTransaction` is set to `true`, the response will include the gas fee for the creation transaction."
+        },
+        {
+          "info": {
+            "name": "Fetch Pool Information",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://trade-api.gateway.uniswap.org/v1/lp/pool_info",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Fetches detailed information about one or more liquidity pools across Uniswap V2, V3, and V4. Returns pool state including token addresses, reserves, liquidity, current tick, sqrtRatioX96, fee tier, tick spacing, and hook addresses (V4).\n\nProvide one of `poolParameters` or `poolReferences` (not both):\n- `poolParameters`: Look up pools by token pair. Provide token addresses and optional fee/tickSpacing/hooks to find matching pools.\n- `poolReferences`: Look up specific known pools by their referen"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
