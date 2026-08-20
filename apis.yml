@@ -253,6 +253,8 @@ apis:
   description: The Quote API from Uniswap — 1 operation(s) for quote.
   humanURL: https://developers.uniswap.org/
   tags:
+  - Quotes
+  tags_raw:
   - Quote
   properties:
   - type: OpenAPI
@@ -425,6 +427,8 @@ apis:
   description: The Wallet API from Uniswap — 1 operation(s) for wallet.
   humanURL: https://developers.uniswap.org/
   tags:
+  - Wallets
+  tags_raw:
   - Wallet
   properties:
   - type: OpenAPI
