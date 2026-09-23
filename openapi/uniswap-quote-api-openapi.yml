@@ -1,11 +1,11 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   version: 1.0.0
-  title: Token Trading Approval Quote API
+  title: Token Trading Quote API
   description: 'Uniswap Labs trading APIs.
 
 
-    Each operation may include the vendor extension `x-public-endpoint` (boolean): `true` when the operation is available on the public gateway for standard API keys, `false` when it is not publicly exposed. See the [OpenAPI specification extensions](https://swagger.io/docs/specification/v3_0/openapi-extensions/) definition of `x-` fields.'
+    Each operation may include the vendor extension `x-public-endpoint` (boolean): `true` when the operation is available on the public gateway for standard API keys, `false` when it is not publicly exposed. See the OpenAPI specification extensions definition of `x-` fields.'
 servers:
 - description: Uniswap Trading API
   url: https://trade-api.gateway.uniswap.org/v1
@@ -22,7 +22,7 @@ paths:
       description: 'Requests a quote according to the specified swap parameters. This endpoint may be used to get a quote for a swap, a bridge, or a wrap/unwrap. The resulting response includes a quote for the swap and the proposed route by which the quote was achieved. The response will also include estimated gas fees for the proposed quote route. If the proposed route is via a Uniswap Protocol pool, the response may include a permit2 message for the swapper to sign prior to making a /swap request. The proposed route will also be simulated. If the simulation fails, the response will include an error message or `txFailureReason`.
 
 
-        Certain routing options may be whitelisted by the requestor through the use of the `protocols` field. Further, the requestor may ask for the best price route or for the fastest price route through the ''routingPreference'' field. Note that the fastest price route refers to the speed with which a quote is returned, not the number of transactions that may be required to get from the input token and chain to the output token and chain. Further note that all `routingPreference` values except for `FASTEST` and `BEST_PRICE` are deprecated. For more information on the `protocols` and `routingPreference` fields, see the [Token Trading Workflow](https://uniswap-docs.readme.io/reference/trading-flow#swap-routing) explanation of Swap Routing.
+        Certain routing options may be whitelisted by the requestor through the use of the `protocols` field. Further, the requestor may ask for the best price route or for the fastest price route through the ''routingPreference'' field. Note that the fastest price route refers to the speed with which a quote is returned, not the number of transactions that may be required to get from the input token and chain to the output token and chain. Further note that all `routingPreference` values except for `FASTEST` and `BEST_PRICE` are deprecated. For more information on the `protocols` and `routingPreference` fields, see the Token Trading Workflow explanation of Swap Routing.
 
 
         API integrators using this API for the benefit of customer end users may request a service fee be taken from the output token and deposited to a fee collection address. To request this, please reach out to your Uniswap Labs contact. This optional fee is associated to the API key and is always taken from the output token. Note if there is a fee and the `type` is `EXACT_INPUT`, the output amount quoted will **not** include the fee subtraction. If there is a fee and the `type` is `EXACT_OUTPUT`, the input amount quoted will **not** include the fee addition. Instead, in both cases, the fee will be recorded in the `portionBips` and `portionAmount` fields.
@@ -78,166 +78,117 @@ paths:
       x-public-endpoint: true
 components:
   schemas:
-    PriorityInput:
-      type: object
-      properties:
-        amount:
-          $ref: '#/components/schemas/tokenAmount'
-        token:
-          $ref: '#/components/schemas/inputToken'
-        mpsPerPriorityFeeWei:
-          type: string
-      required:
-      - amount
-      - token
-      - mpsPerPriorityFeeWei
-    DutchQuote:
-      type: object
-      properties:
-        encodedOrder:
-          $ref: '#/components/schemas/encodedOrder'
-        orderId:
-          $ref: '#/components/schemas/orderId'
-        orderInfo:
-          $ref: '#/components/schemas/DutchOrderInfo'
-        portionBips:
-          $ref: '#/components/schemas/portionBips'
-        portionAmount:
-          $ref: '#/components/schemas/portionAmount'
-        portionRecipient:
-          $ref: '#/components/schemas/portionAmountReceiverAddress'
-        quoteId:
-          $ref: '#/components/schemas/quoteId'
-        slippageTolerance:
-          $ref: '#/components/schemas/slippageTolerance'
-        classicGasUseEstimateUSD:
-          $ref: '#/components/schemas/ClassicGasUseEstimateUSD'
-        aggregatedOutputs:
-          type: array
-          items:
-            $ref: '#/components/schemas/AggregatedOutput'
-      required:
-      - encodedOrder
-      - orderInfo
-      - orderId
-    TruncatedPlanStep:
-      type: object
-      description: A truncated representation of a plan step containing only routing information.
-      properties:
-        stepType:
-          $ref: '#/components/schemas/PlanStepType'
-        tokenIn:
-          $ref: '#/components/schemas/inputToken'
-        tokenInChainId:
-          $ref: '#/components/schemas/ChainId'
-        tokenOut:
-          $ref: '#/components/schemas/outputToken'
-        tokenOutChainId:
-          $ref: '#/components/schemas/ChainId'
-        slippage:
-          $ref: '#/components/schemas/slippageTolerance'
-      required:
-      - stepType
-    ClassicInput:
-      type: object
-      properties:
-        token:
-          $ref: '#/components/schemas/inputToken'
-        amount:
-          $ref: '#/components/schemas/tokenAmount'
-    RequestId:
+    outputToken:
       type: string
-      description: A unique ID for the request.
-    gasFee:
-      type: string
-      description: The total estimated gas cost of this transaction (eg. `gasLimit` multiplied by `maxFeePerGas`) in the base unit of the chain.
-    AggregatedOutput:
-      description: An array of all outputs of the proposed transaction. This includes the swap as well as any fees collected by the API integrator. This does not include pool fees when routing is through a Uniswap Protocol pool.
-      type: object
-      properties:
-        token:
-          $ref: '#/components/schemas/outputToken'
-        amount:
-          $ref: '#/components/schemas/tokenAmount'
-        recipient:
-          $ref: '#/components/schemas/receiverWalletAddress'
-        bps:
-          $ref: '#/components/schemas/bps'
-        minAmount:
-          $ref: '#/components/schemas/minAmount'
-    portionBips:
-      type: number
-      multipleOf: 0.01
-      description: The portion of the swap that will be taken as a fee stated in basis points. Fractional basis points are supported with up to two decimal places (e.g. 87.5 for 0.875%). The fee will be taken from the output token.
-    PriorityOutput:
-      type: object
-      properties:
-        amount:
-          $ref: '#/components/schemas/tokenAmount'
-        token:
-          $ref: '#/components/schemas/outputToken'
-        recipient:
-          $ref: '#/components/schemas/receiverWalletAddress'
-        mpsPerPriorityFeeWei:
-          type: string
-          description: The scaling factor of the priority fee based on the output token amount.
-      required:
-      - amount
-      - token
-      - recipient
-      - mpsPerPriorityFeeWei
-    Routing:
+      description: The token which will be received, specified by its token address. For a list of supported tokens, see the [FAQ](https://api-docs.uniswap.org/guides/faqs).
+      pattern: ^(0x)?[0-9a-fA-F]{40}$
+    ProtocolItems:
       type: string
       enum:
-      - CLASSIC
-      - DUTCH_LIMIT
-      - DUTCH_V2
-      - DUTCH_V3
-      - BRIDGE
-      - LIMIT_ORDER
-      - PRIORITY
-      - WRAP
-      - UNWRAP
-      - CHAINED
-      description: The routing for the proposed transaction.
-    WalletExecutionContext:
-      type: object
-      description: Wallet execution context based on CAIP-25 Standard. Provides information about wallet capabilities and scopes.
-      properties:
-        scopes:
-          type: object
-          description: Map of scope identifiers to their scope data.
-          additionalProperties:
-            $ref: '#/components/schemas/ScopeData'
-        properties:
-          $ref: '#/components/schemas/WalletProperties'
-      required:
-      - scopes
-    sqrtRatioX96:
+      - V2
+      - V3
+      - V4
+      - UNISWAPX
+      - UNISWAPX_V2
+      - UNISWAPX_V3
+      description: The protocol to use for the swap/order.
+    liquidity:
       type: string
-      description: The square root of the ratio of the token0 and token1 in the pool, as a Q64.64 number. For more information see the [Uniswap V3 Whitepaper](https://app.uniswap.org/whitepaper-v3.pdf).
-    tokenSymbol:
-      type: string
-      description: The symbol of the token.
-    nonce:
-      type: string
-      description: A unique nonce for this order.
-    receiverWalletAddress:
-      type: string
-      description: The wallet address which will receive the token.
-      pattern: ^(0x)?[0-9a-fA-F]{40}$
-    Err401:
+      description: The amount of liquidity in the pool at a given tick. For more information see the [Uniswap V3 Whitepaper](https://app.uniswap.org/whitepaper-v3.pdf).
+    Err400:
       type: object
       properties:
         errorCode:
-          default: UnauthorizedError
+          default: RequestValidationError
           type: string
         detail:
           type: string
-    contractAddress:
+    bps:
+      type: number
+      multipleOf: 0.01
+      description: The portion of the swap stated in basis points. Fractional basis points are supported with up to two decimal places (e.g. 12.5).
+    WalletProperties:
+      type: object
+      description: Properties describing the wallet.
+      properties:
+        walletInfo:
+          $ref: '#/components/schemas/WalletInfo'
+    gasPrice:
       type: string
-      description: The address of a contract which will be used to facilitate the swap.
+      description: The cost per unit of gas.
+    gasFee:
+      type: string
+      description: The total estimated gas cost of this transaction (eg. `gasLimit` multiplied by `maxFeePerGas`) in the base unit of the chain.
+    ChainId:
+      description: The unique ID of the blockchain. For a list of supported chains see the [FAQ](https://api-docs.uniswap.org/guides/faqs).
+      type: number
+      enum:
+      - 1
+      - 10
+      - 56
+      - 130
+      - 137
+      - 143
+      - 196
+      - 324
+      - 480
+      - 1868
+      - 4217
+      - 8453
+      - 10143
+      - 42161
+      - 42220
+      - 43114
+      - 59144
+      - 81457
+      - 7777777
+      - 1301
+      - 84532
+      - 11155111
+      default: 1
+    RoutingPreference:
+      type: string
+      description: The `routingPreference` specifies the preferred strategy to determine the quote. If the `routingPreference` is `BEST_PRICE`, then the quote will propose a route through the specified whitelisted protocols (or all, if none are specified) that provides the best price. When the `routingPreference` is `FASTEST`, the quote will propose the first route which is found to complete the swap.
+      enum:
+      - BEST_PRICE
+      - FASTEST
+      default: BEST_PRICE
+    ClassicGasUseEstimateUSD:
+      description: The gas fee you would pay if you opted for a CLASSIC swap over a Uniswap X order in terms of USD.
+      type: string
+    inputToken:
+      type: string
+      description: The token which will be sent, specified by its token address. For a list of supported tokens, see the [FAQ](https://api-docs.uniswap.org/guides/faqs).
       pattern: ^(0x)?[0-9a-fA-F]{40}$
+    Quote:
+      oneOf:
+      - $ref: '#/components/schemas/DutchQuote'
+      - $ref: '#/components/schemas/ClassicQuote'
+      - $ref: '#/components/schemas/WrapUnwrapQuote'
+      - $ref: '#/components/schemas/DutchQuoteV2'
+      - $ref: '#/components/schemas/DutchQuoteV3'
+      - $ref: '#/components/schemas/BridgeQuote'
+      - $ref: '#/components/schemas/PriorityQuote'
+      - $ref: '#/components/schemas/ChainedQuote'
+    DutchInputV3:
+      type: object
+      properties:
+        startAmount:
+          $ref: '#/components/schemas/startAmount'
+        maxAmount:
+          type: string
+        adjustmentPerGweiBaseFee:
+          type: string
+        curve:
+          $ref: '#/components/schemas/Curve'
+        token:
+          $ref: '#/components/schemas/inputToken'
+      required:
+      - startAmount
+      - maxAmount
+      - adjustmentPerGweiBaseFee
+      - curve
+      - token
     WrapUnwrapQuote:
       title: Wrap/Unwrap Quote
       type: object
@@ -266,282 +217,37 @@ components:
           $ref: '#/components/schemas/maxFeePerGas'
         maxPriorityFeePerGas:
           $ref: '#/components/schemas/maxPriorityFeePerGas'
-    quoteId:
-      type: string
-      description: A unique ID for the quote.
-    outputToken:
-      type: string
-      description: The token which will be received, specified by its token address. For a list of supported tokens, see the [FAQ](https://api-docs.uniswap.org/guides/faqs).
-      pattern: ^(0x)?[0-9a-fA-F]{40}$
-    cosignerAddress:
-      type: string
-      description: The address of a cosigner who will run the auction and ensure the best executable price within the given parameters. Currently the cosigner is always Uniswap Labs.
-      pattern: ^(0x)?[0-9a-fA-F]{40}$
-    maxPriorityFeePerGas:
-      type: string
-      description: The maximum tip to the block builder. Adjusted based upon the urgency specified in the request.
-    ClientContext:
+    Err401:
       type: object
-      description: Uni client-specific context describing how this wallet integrates with the application.
       properties:
-        directPrivateKeyAccess:
+        errorCode:
+          default: UnauthorizedError
+          type: string
+        detail:
+          type: string
+    startAmount:
+      type: string
+      description: The intended execution quantity of tokens resulting from this swap.
+    endAmount:
+      type: string
+      description: The worst case quantity of tokens resulting from this swap.
+    additionalValidationData:
+      type: string
+      default: 0x
+      description: Unused and deprecated.
+      deprecated: true
+    SponsorshipInfo:
+      type: object
+      description: Gas sponsorship information for the quoted swap. When `sponsored` is `true`, gas fees for executing this swap will be covered by the `sponsor`. When `sponsored` is `false`, `rejectionReason` describes why sponsorship was not granted.
+      properties:
+        sponsored:
           type: boolean
-          description: Whether the wallet has direct private key access.
-        nextEvmUpgradeAddress:
+          description: Whether gas for this swap is sponsored.
+        rejectionReason:
           type: string
-          description: Address for the next EVM upgrade.
-    tokenAmount:
-      type: string
-      description: The quantity of tokens denominated in the token's base units. (For example, for an ERC20 token one token is 1x10^18 base units. For one USDC token one token is 1x10^6 base units.) This value must be greater than 0.
-      pattern: ^[0-9]+$
-    NullablePermit:
-      description: the permit2 message object for the customer to sign to permit spending by the permit2 contract.
-      type: object
-      nullable: true
-      properties:
-        domain:
-          type: object
-        values:
-          type: object
-        types:
-          type: object
-    orderId:
-      type: string
-      description: A unique ID for the order. Used to track the order's status.
-    deadline:
-      type: number
-      description: The unix timestamp at which the order will be reverted if not filled.
-    bps:
-      type: number
-      multipleOf: 0.01
-      description: The portion of the swap stated in basis points. Fractional basis points are supported with up to two decimal places (e.g. 12.5).
-    generatePermitAsTransaction:
-      type: boolean
-      default: false
-      description: Indicates whether you want to receive a permit2 transaction to sign and submit onchain, or a permit message to sign. When set to `true`, the quote response returns the Permit2 as a calldata which the user signs and broadcasts. When set to `false` (the default), the quote response returns the Permit2 as a message which the user signs but does not need to broadcast. When using a 7702-delegated wallet, set this field to `true`. Except for this scenario, it is recommended that this field is set to false. Note that a Permit2 calldata (e.g. `true`), will provide indefinite permission for Permit2 to spend a token, in contrast to a Permit2 message (e.g. `false`) which is only valid for 30 days. Further, a Permit2 calldata (e.g. `true`) requires the user to pay gas to submit the transaction, whereas the Permit2 message (e.g. `false` ) does not require the user to submit a transaction and requires no gas.
-    Err500:
-      type: object
-      properties:
-        errorCode:
-          default: InternalServerError
-          type: string
-        detail:
-          type: string
-    ProtocolItems:
-      type: string
-      enum:
-      - V2
-      - V3
-      - V4
-      - UNISWAPX
-      - UNISWAPX_V2
-      - UNISWAPX_V3
-      description: The protocol to use for the swap/order.
-    liquidity:
-      type: string
-      description: The amount of liquidity in the pool at a given tick. For more information see the [Uniswap V3 Whitepaper](https://app.uniswap.org/whitepaper-v3.pdf).
-    inputToken:
-      type: string
-      description: The token which will be sent, specified by its token address. For a list of supported tokens, see the [FAQ](https://api-docs.uniswap.org/guides/faqs).
-      pattern: ^(0x)?[0-9a-fA-F]{40}$
-    Err404:
-      type: object
-      properties:
-        errorCode:
-          enum:
-          - ResourceNotFound
-          - QuoteAmountTooLowError
-          - TokenBalanceNotAvailable
-          - InsufficientBalance
-          type: string
-        detail:
-          type: string
-    V4PoolInRoute:
-      title: V4 Route
-      type: object
-      properties:
-        type:
-          type: string
-          default: v4-pool
-        address:
-          $ref: '#/components/schemas/contractAddress'
-        tokenIn:
-          $ref: '#/components/schemas/TokenInRoute'
-        tokenOut:
-          $ref: '#/components/schemas/TokenInRoute'
-        sqrtRatioX96:
-          $ref: '#/components/schemas/sqrtRatioX96'
-        liquidity:
-          $ref: '#/components/schemas/liquidity'
-        tickCurrent:
-          $ref: '#/components/schemas/tickCurrent'
-        fee:
-          $ref: '#/components/schemas/poolFee'
-        tickSpacing:
-          $ref: '#/components/schemas/tickSpacing'
-        hooks:
-          type: string
-          description: The address of the hook for the pool, if any. If the pool has no hook, this field will be the null address (e.g. 0x0000000000000000000000000000000000000000).
-        amountIn:
-          $ref: '#/components/schemas/tokenAmount'
-        amountOut:
-          $ref: '#/components/schemas/tokenAmount'
-      required:
-      - type
-      - address
-      - tokenIn
-      - tokenOut
-      - sqrtRatioX96
-      - liquidity
-      - tickCurrent
-      - fee
-      - tickSpacing
-      - hooks
-    DutchQuoteV2:
-      title: UniswapX V2 Quote
-      type: object
-      properties:
-        encodedOrder:
-          $ref: '#/components/schemas/encodedOrder'
-        orderId:
-          $ref: '#/components/schemas/orderId'
-        orderInfo:
-          $ref: '#/components/schemas/DutchOrderInfoV2'
-        portionBips:
-          $ref: '#/components/schemas/portionBips'
-        portionAmount:
-          $ref: '#/components/schemas/portionAmount'
-        portionRecipient:
-          $ref: '#/components/schemas/portionAmountReceiverAddress'
-        quoteId:
-          $ref: '#/components/schemas/quoteId'
-        slippageTolerance:
-          $ref: '#/components/schemas/slippageTolerance'
-        deadlineBufferSecs:
-          type: number
-        classicGasUseEstimateUSD:
-          $ref: '#/components/schemas/ClassicGasUseEstimateUSD'
-        aggregatedOutputs:
-          type: array
-          items:
-            $ref: '#/components/schemas/AggregatedOutput'
-      required:
-      - encodedOrder
-      - orderInfo
-      - orderId
-    TradeType:
-      type: string
-      enum:
-      - EXACT_INPUT
-      - EXACT_OUTPUT
-      description: The handling of the `amount` field. `EXACT_INPUT` means the requester will send the specified `amount` of input tokens and get a quote with a variable quantity of output tokens. `EXACT_OUTPUT` means the requester will receive the specified `amount` of output tokens and get a quote with a variable quantity of input tokens.
-      default: EXACT_INPUT
-    ClassicQuote:
-      title: Classic Quote
-      type: object
-      properties:
-        input:
-          $ref: '#/components/schemas/ClassicInput'
-        output:
-          $ref: '#/components/schemas/ClassicOutput'
-        swapper:
-          $ref: '#/components/schemas/senderWalletAddress'
-        chainId:
-          $ref: '#/components/schemas/ChainId'
-        slippage:
-          $ref: '#/components/schemas/slippageTolerance'
-        tradeType:
-          $ref: '#/components/schemas/TradeType'
-        gasFee:
-          $ref: '#/components/schemas/gasFee'
-        gasFeeUSD:
-          $ref: '#/components/schemas/gasFeeUSD'
-        gasFeeQuote:
-          $ref: '#/components/schemas/gasFeeInCurrency'
-        route:
-          type: array
-          items:
-            type: array
-            items:
-              oneOf:
-              - $ref: '#/components/schemas/V2PoolInRoute'
-              - $ref: '#/components/schemas/V3PoolInRoute'
-              - $ref: '#/components/schemas/V4PoolInRoute'
-        portionBips:
-          $ref: '#/components/schemas/portionBips'
-        portionAmount:
-          $ref: '#/components/schemas/portionAmount'
-        portionRecipient:
-          $ref: '#/components/schemas/portionAmountReceiverAddress'
-        routeString:
-          type: string
-          description: The route in string format.
-        quoteId:
-          $ref: '#/components/schemas/quoteId'
-        gasUseEstimate:
-          type: string
-          description: The estimated gas use. It does NOT include the additional gas for token approvals.
-        blockNumber:
-          type: string
-          description: The current block number.
-        gasPrice:
-          $ref: '#/components/schemas/gasPrice'
-        maxFeePerGas:
-          $ref: '#/components/schemas/maxFeePerGas'
-        maxPriorityFeePerGas:
-          $ref: '#/components/schemas/maxPriorityFeePerGas'
-        txFailureReasons:
-          description: The reason(s) why the transaction failed during simulation.
-          type: array
-          items:
-            $ref: '#/components/schemas/TransactionFailureReason'
-        priceImpact:
-          type: number
-          description: The impact the trade has on the market price of the pool, between 0-100 percent
-        aggregatedOutputs:
-          type: array
-          items:
-            $ref: '#/components/schemas/AggregatedOutput'
-    TransactionFailureReason:
-      type: string
-      enum:
-      - SIMULATION_ERROR
-      - UNSUPPORTED_SIMULATION
-      - SIMULATION_UNAVAILABLE
-      - SLIPPAGE_TOO_LOW
-      - TRANSFER_FROM_FAILED
-    WalletInfo:
-      type: object
-      description: Information about the wallet.
-      properties:
-        uuid:
-          type: string
-          description: Unique identifier for the wallet.
-        name:
-          type: string
-          description: Name of the wallet.
-        rdns:
-          type: string
-          description: Reverse domain name identifier for the wallet.
-    portionAmount:
-      type: string
-      description: The portion of the swap that will be taken as a fee in the base units of the token. The fee will be taken from the output token.
-    RoutingPreference:
-      type: string
-      description: The `routingPreference` specifies the preferred strategy to determine the quote. If the `routingPreference` is `BEST_PRICE`, then the quote will propose a route through the specified whitelisted protocols (or all, if none are specified) that provides the best price. When the `routingPreference` is `FASTEST`, the quote will propose the first route which is found to complete the swap.
-      enum:
-      - BEST_PRICE
-      - FASTEST
-      default: BEST_PRICE
-    gasFeeUSD:
-      type: string
-      description: The total estimated gas cost of this transaction (eg. `gasLimit` multiplied by `maxFeePerGas`) denominated in USDC.
-    minAmount:
-      type: string
-      description: The minimum portion of the swap, stated in the base unit of the token, which will be output to the recipient.
-    ClassicGasUseEstimateUSD:
-      description: The gas fee you would pay if you opted for a CLASSIC swap over a Uniswap X order in terms of USD.
-      type: string
+          description: Reason gas sponsorship was not granted. Present only when `sponsored` is `false`.
+        sponsor:
+          $ref: '#/components/schemas/SponsorSummary'
     Err429:
       type: object
       properties:
@@ -550,57 +256,15 @@ components:
           type: string
         detail:
           type: string
-    DutchOutputV3:
-      type: object
-      properties:
-        startAmount:
-          $ref: '#/components/schemas/startAmount'
-        minAmount:
-          $ref: '#/components/schemas/minAmount'
-        recipient:
-          $ref: '#/components/schemas/receiverWalletAddress'
-        adjustmentPerGweiBaseFee:
-          type: string
-        curve:
-          $ref: '#/components/schemas/Curve'
-        token:
-          $ref: '#/components/schemas/outputToken'
-      required:
-      - startAmount
-      - maxAmount
-      - adjustmentPerGweiBaseFee
-      - curve
-      - token
-      - recipient
-    bpsFee:
-      type: string
-      description: A fee charged by the token specified in basis points. Field is not present if the token does not charge a fee.
-    DutchOutput:
-      type: object
-      properties:
-        startAmount:
-          $ref: '#/components/schemas/startAmount'
-        endAmount:
-          $ref: '#/components/schemas/endAmount'
-        token:
-          $ref: '#/components/schemas/outputToken'
-        recipient:
-          $ref: '#/components/schemas/receiverWalletAddress'
-      required:
-      - startAmount
-      - endAmount
-      - token
-      - recipient
-    additionalValidationData:
-      type: string
-      default: 0x
-      description: Unused and deprecated.
-      deprecated: true
     tickCurrent:
       type: string
       description: The current tick of the pool. For more information see the [Uniswap V3 Whitepaper](https://app.uniswap.org/whitepaper-v3.pdf).
-    PriorityQuote:
-      title: UniswapX Priority Quote
+    cosignerAddress:
+      type: string
+      description: The address of a cosigner who will run the auction and ensure the best executable price within the given parameters. Currently the cosigner is always Uniswap Labs.
+      pattern: ^(0x)?[0-9a-fA-F]{40}$
+    DutchQuoteV3:
+      title: UniswapX V3 Quote
       type: object
       properties:
         encodedOrder:
@@ -608,7 +272,7 @@ components:
         orderId:
           $ref: '#/components/schemas/orderId'
         orderInfo:
-          $ref: '#/components/schemas/PriorityOrderInfo'
+          $ref: '#/components/schemas/DutchOrderInfoV3'
         portionBips:
           $ref: '#/components/schemas/portionBips'
         portionAmount:
@@ -624,9 +288,9 @@ components:
         classicGasUseEstimateUSD:
           $ref: '#/components/schemas/ClassicGasUseEstimateUSD'
         expectedAmountIn:
-          $ref: '#/components/schemas/tokenAmount'
+          type: string
         expectedAmountOut:
-          $ref: '#/components/schemas/tokenAmount'
+          type: string
         aggregatedOutputs:
           type: array
           items:
@@ -635,151 +299,124 @@ components:
       - encodedOrder
       - orderInfo
       - orderId
-    encodedOrder:
+    PlanStepType:
       type: string
-      description: An encoded copy of the order details which will be submitted to the filler network along with the signed permit.
-    tickSpacing:
-      type: number
-      description: The width of ticks in this pool (e.g. the price range between two ticks) specified in basis points. For more information see the [Uniswap V3 Whitepaper](https://app.uniswap.org/whitepaper-v3.pdf).
-    ChainId:
-      description: The unique ID of the blockchain. For a list of supported chains see the [FAQ](https://api-docs.uniswap.org/guides/faqs).
-      type: number
       enum:
-      - 1
-      - 10
-      - 56
-      - 130
-      - 137
-      - 143
-      - 196
-      - 324
-      - 480
-      - 1868
-      - 4217
-      - 8453
-      - 10143
-      - 42161
-      - 42220
-      - 43114
-      - 59144
-      - 81457
-      - 7777777
-      - 1301
-      - 84532
-      - 11155111
-      default: 1
-    IntegratorFee:
+      - DUTCH_LIMIT
+      - CLASSIC
+      - DUTCH_V2
+      - LIMIT_ORDER
+      - WRAP
+      - UNWRAP
+      - BRIDGE
+      - PRIORITY
+      - DUTCH_V3
+      - QUICKROUTE
+      - CHAINED
+      - APPROVAL_TXN
+      - APPROVAL_PERMIT
+      - RESET_APPROVAL_TXN
+      description: The type of step in a plan, including swap types and approval types.
+    SponsorSummary:
       type: object
-      description: A fee configuration specifying the fee amount in basis points and the recipient address.
+      description: Display information about the sponsor covering gas fees for the swap.
       properties:
-        bips:
-          type: number
-          description: Fee amount in basis points (1 bip = 0.01%). Must be greater than 0 and at most 500.
-          minimum: 0
-          exclusiveMinimum: true
-          maximum: 500
-        recipient:
+        name:
           type: string
-          description: Ethereum address that receives the fee.
-          pattern: ^0x[a-fA-F0-9]{40}$
-      required:
-      - bips
-      - recipient
-    AutoSlippage:
+          description: Display name of the sponsor.
+        logoUrl:
+          type: string
+          description: URL of the sponsor's logo.
+    UniversalRouterVersion:
       type: string
       enum:
-      - DEFAULT
-      description: 'The auto slippage strategy to employ. For Uniswap Protocols (v2, v3, v4) the auto slippage will be automatically calculated when this field is set to `DEFAULT`. Auto slippage cannot be calculated for UniswapX swaps.
-
-
-        Note that if the trade type is `EXACT_INPUT`, then the slippage is in terms of the output token. If the trade type is `EXACT_OUTPUT`, then the slippage is in terms of the input token.
-
-
-        When submitting a request, `autoSlippage` may not be set when `slippageTolerance` is defined. One of `slippageTolerance` or `autoSlippage` must be defined.'
-    Curve:
-      type: object
-      properties:
-        relativeBlocks:
-          type: array
-          items:
-            type: number
-        relativeAmounts:
-          type: array
-          items:
-            type: string
-      required:
-      - type
-    gasFeeInCurrency:
+      - '1.2'
+      - '2.0'
+      - 2.1.1
+      default: '2.0'
+    senderWalletAddress:
       type: string
-      description: The total estimated gas cost of this transaction (eg. gasLimit multiplied by maxFeePerGas) in the quoted currency (e.g. output token) in the base units of the quoted currency.
-    TokenInRoute:
+      description: The wallet address which will be used to send the token.
+      pattern: ^(0x)?[0-9a-fA-F]{40}$
+    portionAmountReceiverAddress:
+      type: string
+      description: The wallet address which will receive the fee.
+    tokenAmount:
+      type: string
+      description: The quantity of tokens denominated in the token's base units. (For example, for an ERC20 token one token is 1x10^18 base units. For one USDC token one token is 1x10^6 base units.) This value must be greater than 0.
+      pattern: ^[0-9]+$
+    bpsFee:
+      type: string
+      description: A fee charged by the token specified in basis points. Field is not present if the token does not charge a fee.
+    ClientContext:
+      type: object
+      description: Uni client-specific context describing how this wallet integrates with the application.
+      properties:
+        directPrivateKeyAccess:
+          type: boolean
+          description: Whether the wallet has direct private key access.
+        nextEvmUpgradeAddress:
+          type: string
+          description: Address for the next EVM upgrade.
+    maxFeePerGas:
+      type: string
+      description: The sum of the base fee and priority fee. Subtracting `maxPriorityFeePerGas` from this value will yield the base fee to be paid for this transaction.
+    ClassicInput:
       type: object
       properties:
-        address:
+        token:
           $ref: '#/components/schemas/inputToken'
-        chainId:
-          $ref: '#/components/schemas/ChainId'
-        symbol:
-          $ref: '#/components/schemas/tokenSymbol'
-        decimals:
-          type: string
-          description: The number of decimals supported by the token. This number is used to convert token amounts to the token's common representation.
-        buyFeeBps:
-          $ref: '#/components/schemas/bpsFee'
-        sellFeeBps:
-          $ref: '#/components/schemas/bpsFee'
-    QuoteRequest:
-      type: object
-      properties:
-        type:
-          $ref: '#/components/schemas/TradeType'
         amount:
           $ref: '#/components/schemas/tokenAmount'
-        tokenInChainId:
+    Protocols:
+      type: array
+      items:
+        $ref: '#/components/schemas/ProtocolItems'
+      description: The protocols to use for the swap/order. If the `protocols` field is defined, then you can only set the `routingPreference` to `BEST_PRICE`. Note that the value `UNISWAPX` is deprecated and will be removed in a future release.
+    DutchOrderInfoV3:
+      type: object
+      properties:
+        chainId:
           $ref: '#/components/schemas/ChainId'
-        tokenOutChainId:
-          $ref: '#/components/schemas/ChainId'
-        tokenIn:
-          $ref: '#/components/schemas/inputToken'
-        tokenOut:
-          $ref: '#/components/schemas/outputToken'
-        generatePermitAsTransaction:
-          $ref: '#/components/schemas/generatePermitAsTransaction'
+        nonce:
+          $ref: '#/components/schemas/nonce'
+        reactor:
+          $ref: '#/components/schemas/contractAddress'
         swapper:
-          $ref: '#/components/schemas/senderWalletAddress'
-        slippageTolerance:
-          $ref: '#/components/schemas/slippageTolerance'
-        autoSlippage:
-          $ref: '#/components/schemas/AutoSlippage'
-        routingPreference:
-          $ref: '#/components/schemas/RoutingPreference'
-        protocols:
-          $ref: '#/components/schemas/Protocols'
-        hooksOptions:
-          $ref: '#/components/schemas/HooksOptions'
-        spreadOptimization:
-          $ref: '#/components/schemas/SpreadOptimization'
-        urgency:
-          $ref: '#/components/schemas/Urgency'
-        permitAmount:
-          $ref: '#/components/schemas/PermitAmount'
-        integratorFees:
+          $ref: '#/components/schemas/receiverWalletAddress'
+        deadline:
+          $ref: '#/components/schemas/deadline'
+        additionalValidationContract:
+          $ref: '#/components/schemas/additionalValidationContract'
+        additionalValidationData:
+          $ref: '#/components/schemas/additionalValidationData'
+        input:
+          $ref: '#/components/schemas/DutchInputV3'
+        outputs:
           type: array
-          description: Optional integrator fee configuration. When provided, the specified fee is applied to the swap instead of the default partner fee service. Only one fee entry is currently supported.
           items:
-            $ref: '#/components/schemas/IntegratorFee'
-          minItems: 1
-          maxItems: 1
-        walletExecutionContext:
-          $ref: '#/components/schemas/WalletExecutionContext'
+            $ref: '#/components/schemas/DutchOutputV3'
+        cosigner:
+          $ref: '#/components/schemas/cosignerAddress'
+        startingBaseFee:
+          type: string
       required:
-      - type
-      - amount
-      - tokenInChainId
-      - tokenOutChainId
-      - tokenIn
-      - tokenOut
+      - chainId
+      - nonce
+      - reactor
       - swapper
+      - deadline
+      - validationContract
+      - validationData
+      - startTime
+      - endTime
+      - exclusiveFiller
+      - exclusivityOverrideBps
+      - input
+      - outputs
+    minAmount:
+      type: string
+      description: The minimum portion of the swap, stated in the base unit of the token, which will be output to the recipient.
     BridgeQuote:
       title: Bridge Quote
       type: object
@@ -831,576 +468,6 @@ components:
         fillDeadline:
           type: number
           description: The deadline by which, if the order is not filled, the order will be reverted.
-    DutchOrderInfoV3:
-      type: object
-      properties:
-        chainId:
-          $ref: '#/components/schemas/ChainId'
-        nonce:
-          $ref: '#/components/schemas/nonce'
-        reactor:
-          $ref: '#/components/schemas/contractAddress'
-        swapper:
-          $ref: '#/components/schemas/receiverWalletAddress'
-        deadline:
-          $ref: '#/components/schemas/deadline'
-        additionalValidationContract:
-          $ref: '#/components/schemas/additionalValidationContract'
-        additionalValidationData:
-          $ref: '#/components/schemas/additionalValidationData'
-        input:
-          $ref: '#/components/schemas/DutchInputV3'
-        outputs:
-          type: array
-          items:
-            $ref: '#/components/schemas/DutchOutputV3'
-        cosigner:
-          $ref: '#/components/schemas/cosignerAddress'
-        startingBaseFee:
-          type: string
-      required:
-      - chainId
-      - nonce
-      - reactor
-      - swapper
-      - deadline
-      - validationContract
-      - validationData
-      - startTime
-      - endTime
-      - exclusiveFiller
-      - exclusivityOverrideBps
-      - input
-      - outputs
-    V2PoolInRoute:
-      title: V2 Route
-      type: object
-      properties:
-        type:
-          type: string
-          default: v2-pool
-        address:
-          $ref: '#/components/schemas/contractAddress'
-        tokenIn:
-          $ref: '#/components/schemas/TokenInRoute'
-        tokenOut:
-          $ref: '#/components/schemas/TokenInRoute'
-        reserve0:
-          $ref: '#/components/schemas/V2Reserve'
-        reserve1:
-          $ref: '#/components/schemas/V2Reserve'
-        amountIn:
-          $ref: '#/components/schemas/tokenAmount'
-        amountOut:
-          $ref: '#/components/schemas/tokenAmount'
-    WalletProperties:
-      type: object
-      description: Properties describing the wallet.
-      properties:
-        walletInfo:
-          $ref: '#/components/schemas/WalletInfo'
-    Err400:
-      type: object
-      properties:
-        errorCode:
-          default: RequestValidationError
-          type: string
-        detail:
-          type: string
-    Quote:
-      oneOf:
-      - $ref: '#/components/schemas/DutchQuote'
-      - $ref: '#/components/schemas/ClassicQuote'
-      - $ref: '#/components/schemas/WrapUnwrapQuote'
-      - $ref: '#/components/schemas/DutchQuoteV2'
-      - $ref: '#/components/schemas/DutchQuoteV3'
-      - $ref: '#/components/schemas/BridgeQuote'
-      - $ref: '#/components/schemas/PriorityQuote'
-      - $ref: '#/components/schemas/ChainedQuote'
-    DutchInput:
-      type: object
-      properties:
-        startAmount:
-          $ref: '#/components/schemas/startAmount'
-        endAmount:
-          $ref: '#/components/schemas/endAmount'
-        token:
-          $ref: '#/components/schemas/inputToken'
-      required:
-      - startAmount
-      - endAmount
-      - type
-    SpreadOptimization:
-      type: string
-      enum:
-      - EXECUTION
-      - PRICE
-      description: For UniswapX swaps, when set to `EXECUTION`, quotes optimize for looser spreads at higher fill rates. When set to `PRICE`, quotes optimize for tighter spreads at lower fill rates. This field is not applicable to Uniswap Protocols (v2, v3, v4), bridging, or wrapping/unwrapping and will be ignored if set.
-      default: EXECUTION
-    endAmount:
-      type: string
-      description: The worst case quantity of tokens resulting from this swap.
-    GasStrategy:
-      type: object
-      description: Gas strategy configuration for transaction fee estimation.
-      properties:
-        limitInflationFactor:
-          type: number
-          description: Factor to inflate the gas limit estimate.
-        priceInflationFactor:
-          type: number
-          description: Factor to inflate the gas price estimate.
-        percentileThresholdFor1559Fee:
-          type: number
-          description: Percentile threshold for EIP-1559 fee calculation.
-        thresholdToInflateLastBlockBaseFee:
-          type: number
-          description: Threshold to inflate the last block base fee.
-        baseFeeMultiplier:
-          type: number
-          description: Multiplier for the base fee.
-        baseFeeHistoryWindow:
-          type: number
-          description: Number of blocks to consider for base fee history.
-        minPriorityFeeRatioOfBaseFee:
-          type: number
-          description: Minimum priority fee as a ratio of base fee.
-        minPriorityFeeGwei:
-          type: number
-          description: Minimum priority fee in Gwei.
-        maxPriorityFeeGwei:
-          type: number
-          description: Maximum priority fee in Gwei.
-      required:
-      - limitInflationFactor
-      - priceInflationFactor
-      - percentileThresholdFor1559Fee
-    gasPrice:
-      type: string
-      description: The cost per unit of gas.
-    V3PoolInRoute:
-      title: V3 Route
-      type: object
-      properties:
-        type:
-          type: string
-          default: v3-pool
-        address:
-          $ref: '#/components/schemas/contractAddress'
-        tokenIn:
-          $ref: '#/components/schemas/TokenInRoute'
-        tokenOut:
-          $ref: '#/components/schemas/TokenInRoute'
-        sqrtRatioX96:
-          $ref: '#/components/schemas/sqrtRatioX96'
-        liquidity:
-          $ref: '#/components/schemas/liquidity'
-        tickCurrent:
-          $ref: '#/components/schemas/tickCurrent'
-        fee:
-          $ref: '#/components/schemas/poolFee'
-        amountIn:
-          $ref: '#/components/schemas/tokenAmount'
-        amountOut:
-          $ref: '#/components/schemas/tokenAmount'
-    QuoteResponse:
-      type: object
-      properties:
-        requestId:
-          $ref: '#/components/schemas/RequestId'
-        quote:
-          $ref: '#/components/schemas/Quote'
-        routing:
-          $ref: '#/components/schemas/Routing'
-        permitTransaction:
-          $ref: '#/components/schemas/TransactionRequest'
-        permitData:
-          $ref: '#/components/schemas/NullablePermit'
-        permitGasFee:
-          $ref: '#/components/schemas/gasFee'
-        sponsorshipInfo:
-          $ref: '#/components/schemas/SponsorshipInfo'
-      required:
-      - routing
-      - quote
-      - permitData
-      - requestId
-    PermitAmount:
-      type: string
-      enum:
-      - FULL
-      - EXACT
-      description: For Uniswap Protocols (v2, v3, v4) swaps, specify the input token spend allowance (e.g. quantity) to be set in the permit. `FULL` can be used to specify an unlimited token quantity, and may prevent the wallet from needing to sign another permit for the same token in the future. `EXACT` can be used to specify the exact input token quantity for this request. Defaults to `FULL`.
-      default: FULL
-    Protocols:
-      type: array
-      items:
-        $ref: '#/components/schemas/ProtocolItems'
-      description: The protocols to use for the swap/order. If the `protocols` field is defined, then you can only set the `routingPreference` to `BEST_PRICE`. Note that the value `UNISWAPX` is deprecated and will be removed in a future release.
-    V2Reserve:
-      description: The remaining reserve of this token in the pool.
-      type: object
-      properties:
-        token:
-          $ref: '#/components/schemas/TokenInRoute'
-        quotient:
-          description: The quantity of this token remaining in the pool, specified in the base units of the token.
-          type: string
-    ClassicOutput:
-      type: object
-      properties:
-        token:
-          $ref: '#/components/schemas/outputToken'
-        amount:
-          $ref: '#/components/schemas/tokenAmount'
-        recipient:
-          $ref: '#/components/schemas/receiverWalletAddress'
-    HooksOptions:
-      type: string
-      enum:
-      - V4_HOOKS_INCLUSIVE
-      - V4_HOOKS_ONLY
-      - V4_NO_HOOKS
-      description: The hook options to use for V4 pool quotes. `V4_HOOKS_INCLUSIVE` will get quotes for V4 pools with or without hooks. `V4_HOOKS_ONLY` will only get quotes for V4 pools with hooks. `V4_NO_HOOKS` will only get quotes for V4 pools without hooks. Defaults to `V4_HOOKS_INCLUSIVE` if `V4` is included in `protocols` and `hookOptions` is not set. This field is ignored if `V4` is not passed in `protocols`.
-    senderWalletAddress:
-      type: string
-      description: The wallet address which will be used to send the token.
-      pattern: ^(0x)?[0-9a-fA-F]{40}$
-    DutchInputV3:
-      type: object
-      properties:
-        startAmount:
-          $ref: '#/components/schemas/startAmount'
-        maxAmount:
-          type: string
-        adjustmentPerGweiBaseFee:
-          type: string
-        curve:
-          $ref: '#/components/schemas/Curve'
-        token:
-          $ref: '#/components/schemas/inputToken'
-      required:
-      - startAmount
-      - maxAmount
-      - adjustmentPerGweiBaseFee
-      - curve
-      - token
-    poolFee:
-      type: string
-      description: The fee of the pool in basis points.
-    PriorityOrderInfo:
-      type: object
-      properties:
-        chainId:
-          $ref: '#/components/schemas/ChainId'
-        nonce:
-          $ref: '#/components/schemas/nonce'
-        reactor:
-          $ref: '#/components/schemas/contractAddress'
-        swapper:
-          $ref: '#/components/schemas/receiverWalletAddress'
-        deadline:
-          $ref: '#/components/schemas/deadline'
-        additionalValidationContract:
-          $ref: '#/components/schemas/additionalValidationContract'
-        additionalValidationData:
-          $ref: '#/components/schemas/additionalValidationData'
-        auctionStartBlock:
-          type: string
-        baselinePriorityFeeWei:
-          type: string
-        input:
-          $ref: '#/components/schemas/PriorityInput'
-        outputs:
-          type: array
-          items:
-            $ref: '#/components/schemas/PriorityOutput'
-        cosigner:
-          $ref: '#/components/schemas/cosignerAddress'
-      required:
-      - chainId
-      - nonce
-      - reactor
-      - swapper
-      - deadline
-      - validationContract
-      - validationData
-      - auctionStartBlock
-      - baselinePriorityFeeWei
-      - input
-      - outputs
-      - cosigner
-    Err504:
-      type: object
-      properties:
-        errorCode:
-          default: Timeout
-          type: string
-        detail:
-          type: string
-    ScopeData:
-      type: object
-      description: Data defining a wallet scope including accounts, methods, capabilities, chains, and client context.
-      properties:
-        accounts:
-          type: array
-          description: Array of account addresses associated with this scope.
-          items:
-            type: string
-        methods:
-          type: array
-          description: Array of methods allowed in this scope.
-          items:
-            type: string
-        capabilities:
-          type: object
-          description: Additional capabilities for this scope.
-          additionalProperties: true
-        chains:
-          type: array
-          description: Array of chain identifiers allowed in this scope.
-          items:
-            type: string
-        clientContext:
-          $ref: '#/components/schemas/ClientContext'
-      required:
-      - accounts
-      - methods
-    PlanStepType:
-      type: string
-      enum:
-      - DUTCH_LIMIT
-      - CLASSIC
-      - DUTCH_V2
-      - LIMIT_ORDER
-      - WRAP
-      - UNWRAP
-      - BRIDGE
-      - PRIORITY
-      - DUTCH_V3
-      - QUICKROUTE
-      - CHAINED
-      - APPROVAL_TXN
-      - APPROVAL_PERMIT
-      - RESET_APPROVAL_TXN
-      description: The type of step in a plan, including swap types and approval types.
-    TransactionRequest:
-      type: object
-      properties:
-        to:
-          $ref: '#/components/schemas/receiverWalletAddress'
-        from:
-          $ref: '#/components/schemas/senderWalletAddress'
-        data:
-          type: string
-          description: The calldata for the transaction.
-        value:
-          type: string
-          description: The quantity of ETH tokens approved for spending by the transaction, denominated in wei. Note that by default Uniswap Labs sets this to the maximum approvable spend.
-        gasLimit:
-          $ref: '#/components/schemas/gasLimit'
-        chainId:
-          $ref: '#/components/schemas/ChainId'
-        maxFeePerGas:
-          $ref: '#/components/schemas/maxFeePerGas'
-        maxPriorityFeePerGas:
-          $ref: '#/components/schemas/maxPriorityFeePerGas'
-        gasPrice:
-          $ref: '#/components/schemas/gasPrice'
-      required:
-      - to
-      - from
-      - data
-      - value
-      - chainId
-    DutchQuoteV3:
-      title: UniswapX V3 Quote
-      type: object
-      properties:
-        encodedOrder:
-          $ref: '#/components/schemas/encodedOrder'
-        orderId:
-          $ref: '#/components/schemas/orderId'
-        orderInfo:
-          $ref: '#/components/schemas/DutchOrderInfoV3'
-        portionBips:
-          $ref: '#/components/schemas/portionBips'
-        portionAmount:
-          $ref: '#/components/schemas/portionAmount'
-        portionRecipient:
-          $ref: '#/components/schemas/portionAmountReceiverAddress'
-        quoteId:
-          $ref: '#/components/schemas/quoteId'
-        slippageTolerance:
-          $ref: '#/components/schemas/slippageTolerance'
-        deadlineBufferSecs:
-          type: number
-        classicGasUseEstimateUSD:
-          $ref: '#/components/schemas/ClassicGasUseEstimateUSD'
-        expectedAmountIn:
-          type: string
-        expectedAmountOut:
-          type: string
-        aggregatedOutputs:
-          type: array
-          items:
-            $ref: '#/components/schemas/AggregatedOutput'
-      required:
-      - encodedOrder
-      - orderInfo
-      - orderId
-    slippageTolerance:
-      description: 'The slippage tolerance as a percentage up to a maximum of two decimal places. For Uniswap Protocols (v2, v3, v4), the slippage tolerance is the maximum amount the price can change between the time the transaction is submitted and the time it is executed. The slippage tolerance is a percentage of the total value of the swap.
-
-
-        When submitting a quote, note that slippage tolerance works differently in UniswapX swaps where it does not set a limit on the Spread in an order. See [here](https://api-docs.uniswap.org/guides/faqs#why-do-uniswapx-quotes-have-more-slippage-than-the-tolerance-i-set) for more information.
-
-
-        Note that if the trade type is `EXACT_INPUT`, then the slippage is in terms of the output token. If the trade type is `EXACT_OUTPUT`, then the slippage is in terms of the input token.
-
-
-        When submitting a request, `slippageTolerance` may not be set when `autoSlippage` is defined. One of `slippageTolerance` or `autoSlippage` must be defined.'
-      type: number
-      pattern: ^[0-9]{0,3}\.?[0-9]{0,2}$
-    UniversalRouterVersion:
-      type: string
-      enum:
-      - '1.2'
-      - '2.0'
-      - 2.1.1
-      default: '2.0'
-    additionalValidationContract:
-      type: string
-      default: '0x0000000000000000000000000000000000000000'
-      description: Unused and deprecated.
-      deprecated: true
-    maxFeePerGas:
-      type: string
-      description: The sum of the base fee and priority fee. Subtracting `maxPriorityFeePerGas` from this value will yield the base fee to be paid for this transaction.
-    gasLimit:
-      type: string
-      description: The maximum units of gas that will be consumed by this transaction.
-    DutchOrderInfoV2:
-      type: object
-      properties:
-        chainId:
-          $ref: '#/components/schemas/ChainId'
-        nonce:
-          $ref: '#/components/schemas/nonce'
-        reactor:
-          $ref: '#/components/schemas/contractAddress'
-        swapper:
-          $ref: '#/components/schemas/receiverWalletAddress'
-        deadline:
-          $ref: '#/components/schemas/deadline'
-        additionalValidationContract:
-          $ref: '#/components/schemas/additionalValidationContract'
-        additionalValidationData:
-          $ref: '#/components/schemas/additionalValidationData'
-        input:
-          $ref: '#/components/schemas/DutchInput'
-        outputs:
-          type: array
-          items:
-            $ref: '#/components/schemas/DutchOutput'
-        cosigner:
-          $ref: '#/components/schemas/cosignerAddress'
-      required:
-      - chainId
-      - nonce
-      - reactor
-      - swapper
-      - deadline
-      - validationContract
-      - validationData
-      - startTime
-      - endTime
-      - exclusiveFiller
-      - exclusivityOverrideBps
-      - input
-      - outputs
-    SponsorSummary:
-      type: object
-      description: Display information about the sponsor covering gas fees for the swap.
-      properties:
-        name:
-          type: string
-          description: Display name of the sponsor.
-        logoUrl:
-          type: string
-          description: URL of the sponsor's logo.
-    SponsorshipInfo:
-      type: object
-      description: Gas sponsorship information for the quoted swap. When `sponsored` is `true`, gas fees for executing this swap will be covered by the `sponsor`. When `sponsored` is `false`, `rejectionReason` describes why sponsorship was not granted.
-      properties:
-        sponsored:
-          type: boolean
-          description: Whether gas for this swap is sponsored.
-        rejectionReason:
-          type: string
-          description: Reason gas sponsorship was not granted. Present only when `sponsored` is `false`.
-        sponsor:
-          $ref: '#/components/schemas/SponsorSummary'
-    startAmount:
-      type: string
-      description: The intended execution quantity of tokens resulting from this swap.
-    Urgency:
-      type: string
-      enum:
-      - normal
-      - fast
-      - urgent
-      description: The urgency impacts the estimated gas price of the transaction. The higher the urgency, the higher the gas price, and the faster the transaction is likely to be selected from the mempool. The default value is `urgent`.
-      default: urgent
-    DutchOrderInfo:
-      type: object
-      properties:
-        chainId:
-          $ref: '#/components/schemas/ChainId'
-        nonce:
-          $ref: '#/components/schemas/nonce'
-        reactor:
-          $ref: '#/components/schemas/contractAddress'
-        swapper:
-          $ref: '#/components/schemas/receiverWalletAddress'
-        deadline:
-          $ref: '#/components/schemas/deadline'
-        additionalValidationContract:
-          $ref: '#/components/schemas/additionalValidationContract'
-        additionalValidationData:
-          $ref: '#/components/schemas/additionalValidationData'
-        decayStartTime:
-          type: number
-          description: The unix timestamp at which the order will be eligible to be filled by alternate fillers at a lower price. Noted that the fill amount will not be lower than the output `endAmount`.
-        decayEndTime:
-          type: number
-          description: The unix timestamp at which the order will no longer be eligible to be filled by alternate fillers.
-        exclusiveFiller:
-          type: string
-          description: The address of the filler who has priority to fill the order by the `decayStartTime`.
-        exclusivityOverrideBps:
-          type: string
-          description: The portion of the order which is eligible to be filled by the `exclusiveFiller`, specified in basis points.
-        input:
-          $ref: '#/components/schemas/DutchInput'
-        outputs:
-          type: array
-          items:
-            $ref: '#/components/schemas/DutchOutput'
-      required:
-      - chainId
-      - nonce
-      - reactor
-      - swapper
-      - deadline
-      - validationContract
-      - validationData
-      - startTime
-      - endTime
-      - exclusiveFiller
-      - exclusivityOverrideBps
-      - input
-      - outputs
     ChainedQuote:
       title: Chained Quote
       type: object
@@ -1470,28 +537,967 @@ components:
       - tradeType
       - quoteId
       - gasStrategies
-    portionAmountReceiverAddress:
+    TransactionFailureReason:
       type: string
-      description: The wallet address which will receive the fee.
+      enum:
+      - SIMULATION_ERROR
+      - UNSUPPORTED_SIMULATION
+      - SIMULATION_UNAVAILABLE
+      - SLIPPAGE_TOO_LOW
+      - TRANSFER_FROM_FAILED
+    PriorityOrderInfo:
+      type: object
+      properties:
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        nonce:
+          $ref: '#/components/schemas/nonce'
+        reactor:
+          $ref: '#/components/schemas/contractAddress'
+        swapper:
+          $ref: '#/components/schemas/receiverWalletAddress'
+        deadline:
+          $ref: '#/components/schemas/deadline'
+        additionalValidationContract:
+          $ref: '#/components/schemas/additionalValidationContract'
+        additionalValidationData:
+          $ref: '#/components/schemas/additionalValidationData'
+        auctionStartBlock:
+          type: string
+        baselinePriorityFeeWei:
+          type: string
+        input:
+          $ref: '#/components/schemas/PriorityInput'
+        outputs:
+          type: array
+          items:
+            $ref: '#/components/schemas/PriorityOutput'
+        cosigner:
+          $ref: '#/components/schemas/cosignerAddress'
+      required:
+      - chainId
+      - nonce
+      - reactor
+      - swapper
+      - deadline
+      - validationContract
+      - validationData
+      - auctionStartBlock
+      - baselinePriorityFeeWei
+      - input
+      - outputs
+      - cosigner
+    TradeType:
+      type: string
+      enum:
+      - EXACT_INPUT
+      - EXACT_OUTPUT
+      description: The handling of the `amount` field. `EXACT_INPUT` means the requester will send the specified `amount` of input tokens and get a quote with a variable quantity of output tokens. `EXACT_OUTPUT` means the requester will receive the specified `amount` of output tokens and get a quote with a variable quantity of input tokens.
+      default: EXACT_INPUT
+    V2PoolInRoute:
+      title: V2 Route
+      type: object
+      properties:
+        type:
+          type: string
+          default: v2-pool
+        address:
+          $ref: '#/components/schemas/contractAddress'
+        tokenIn:
+          $ref: '#/components/schemas/TokenInRoute'
+        tokenOut:
+          $ref: '#/components/schemas/TokenInRoute'
+        reserve0:
+          $ref: '#/components/schemas/V2Reserve'
+        reserve1:
+          $ref: '#/components/schemas/V2Reserve'
+        amountIn:
+          $ref: '#/components/schemas/tokenAmount'
+        amountOut:
+          $ref: '#/components/schemas/tokenAmount'
+    Routing:
+      type: string
+      enum:
+      - CLASSIC
+      - DUTCH_LIMIT
+      - DUTCH_V2
+      - DUTCH_V3
+      - BRIDGE
+      - LIMIT_ORDER
+      - PRIORITY
+      - WRAP
+      - UNWRAP
+      - CHAINED
+      description: The routing for the proposed transaction.
+    Curve:
+      type: object
+      properties:
+        relativeBlocks:
+          type: array
+          items:
+            type: number
+        relativeAmounts:
+          type: array
+          items:
+            type: string
+      required:
+      - type
+    ClassicQuote:
+      title: Classic Quote
+      type: object
+      properties:
+        input:
+          $ref: '#/components/schemas/ClassicInput'
+        output:
+          $ref: '#/components/schemas/ClassicOutput'
+        swapper:
+          $ref: '#/components/schemas/senderWalletAddress'
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        slippage:
+          $ref: '#/components/schemas/slippageTolerance'
+        tradeType:
+          $ref: '#/components/schemas/TradeType'
+        gasFee:
+          $ref: '#/components/schemas/gasFee'
+        gasFeeUSD:
+          $ref: '#/components/schemas/gasFeeUSD'
+        gasFeeQuote:
+          $ref: '#/components/schemas/gasFeeInCurrency'
+        route:
+          type: array
+          items:
+            type: array
+            items:
+              oneOf:
+              - $ref: '#/components/schemas/V2PoolInRoute'
+              - $ref: '#/components/schemas/V3PoolInRoute'
+              - $ref: '#/components/schemas/V4PoolInRoute'
+        portionBips:
+          $ref: '#/components/schemas/portionBips'
+        portionAmount:
+          $ref: '#/components/schemas/portionAmount'
+        portionRecipient:
+          $ref: '#/components/schemas/portionAmountReceiverAddress'
+        routeString:
+          type: string
+          description: The route in string format.
+        quoteId:
+          $ref: '#/components/schemas/quoteId'
+        gasUseEstimate:
+          type: string
+          description: The estimated gas use. It does NOT include the additional gas for token approvals.
+        blockNumber:
+          type: string
+          description: The current block number.
+        gasPrice:
+          $ref: '#/components/schemas/gasPrice'
+        maxFeePerGas:
+          $ref: '#/components/schemas/maxFeePerGas'
+        maxPriorityFeePerGas:
+          $ref: '#/components/schemas/maxPriorityFeePerGas'
+        txFailureReasons:
+          description: The reason(s) why the transaction failed during simulation.
+          type: array
+          items:
+            $ref: '#/components/schemas/TransactionFailureReason'
+        priceImpact:
+          type: number
+          description: The impact the trade has on the market price of the pool, between 0-100 percent
+        aggregatedOutputs:
+          type: array
+          items:
+            $ref: '#/components/schemas/AggregatedOutput'
+    PermitAmount:
+      type: string
+      enum:
+      - FULL
+      - EXACT
+      description: For Uniswap Protocols (v2, v3, v4) swaps, specify the input token spend allowance (e.g. quantity) to be set in the permit. `FULL` can be used to specify an unlimited token quantity, and may prevent the wallet from needing to sign another permit for the same token in the future. `EXACT` can be used to specify the exact input token quantity for this request. Defaults to `FULL`.
+      default: FULL
+    orderId:
+      type: string
+      description: A unique ID for the order. Used to track the order's status.
+    WalletExecutionContext:
+      type: object
+      description: Wallet execution context based on CAIP-25 Standard. Provides information about wallet capabilities and scopes.
+      properties:
+        scopes:
+          type: object
+          description: Map of scope identifiers to their scope data.
+          additionalProperties:
+            $ref: '#/components/schemas/ScopeData'
+        properties:
+          $ref: '#/components/schemas/WalletProperties'
+      required:
+      - scopes
+    sqrtRatioX96:
+      type: string
+      description: The square root of the ratio of the token0 and token1 in the pool, as a Q64.64 number. For more information see the [Uniswap V3 Whitepaper](https://app.uniswap.org/whitepaper-v3.pdf).
+    DutchQuoteV2:
+      title: UniswapX V2 Quote
+      type: object
+      properties:
+        encodedOrder:
+          $ref: '#/components/schemas/encodedOrder'
+        orderId:
+          $ref: '#/components/schemas/orderId'
+        orderInfo:
+          $ref: '#/components/schemas/DutchOrderInfoV2'
+        portionBips:
+          $ref: '#/components/schemas/portionBips'
+        portionAmount:
+          $ref: '#/components/schemas/portionAmount'
+        portionRecipient:
+          $ref: '#/components/schemas/portionAmountReceiverAddress'
+        quoteId:
+          $ref: '#/components/schemas/quoteId'
+        slippageTolerance:
+          $ref: '#/components/schemas/slippageTolerance'
+        deadlineBufferSecs:
+          type: number
+        classicGasUseEstimateUSD:
+          $ref: '#/components/schemas/ClassicGasUseEstimateUSD'
+        aggregatedOutputs:
+          type: array
+          items:
+            $ref: '#/components/schemas/AggregatedOutput'
+      required:
+      - encodedOrder
+      - orderInfo
+      - orderId
+    TruncatedPlanStep:
+      type: object
+      description: A truncated representation of a plan step containing only routing information.
+      properties:
+        stepType:
+          $ref: '#/components/schemas/PlanStepType'
+        tokenIn:
+          $ref: '#/components/schemas/inputToken'
+        tokenInChainId:
+          $ref: '#/components/schemas/ChainId'
+        tokenOut:
+          $ref: '#/components/schemas/outputToken'
+        tokenOutChainId:
+          $ref: '#/components/schemas/ChainId'
+        slippage:
+          $ref: '#/components/schemas/slippageTolerance'
+      required:
+      - stepType
+    Err504:
+      type: object
+      properties:
+        errorCode:
+          default: Timeout
+          type: string
+        detail:
+          type: string
+    V4PoolInRoute:
+      title: V4 Route
+      type: object
+      properties:
+        type:
+          type: string
+          default: v4-pool
+        address:
+          $ref: '#/components/schemas/contractAddress'
+        tokenIn:
+          $ref: '#/components/schemas/TokenInRoute'
+        tokenOut:
+          $ref: '#/components/schemas/TokenInRoute'
+        sqrtRatioX96:
+          $ref: '#/components/schemas/sqrtRatioX96'
+        liquidity:
+          $ref: '#/components/schemas/liquidity'
+        tickCurrent:
+          $ref: '#/components/schemas/tickCurrent'
+        fee:
+          $ref: '#/components/schemas/poolFee'
+        tickSpacing:
+          $ref: '#/components/schemas/tickSpacing'
+        hooks:
+          type: string
+          description: The address of the hook for the pool, if any. If the pool has no hook, this field will be the null address (e.g. 0x0000000000000000000000000000000000000000).
+        amountIn:
+          $ref: '#/components/schemas/tokenAmount'
+        amountOut:
+          $ref: '#/components/schemas/tokenAmount'
+      required:
+      - type
+      - address
+      - tokenIn
+      - tokenOut
+      - sqrtRatioX96
+      - liquidity
+      - tickCurrent
+      - fee
+      - tickSpacing
+      - hooks
+    slippageTolerance:
+      description: 'The slippage tolerance as a percentage up to a maximum of two decimal places. For Uniswap Protocols (v2, v3, v4), the slippage tolerance is the maximum amount the price can change between the time the transaction is submitted and the time it is executed. The slippage tolerance is a percentage of the total value of the swap.
+
+
+        When submitting a quote, note that slippage tolerance works differently in UniswapX swaps where it does not set a limit on the Spread in an order. See [here](https://api-docs.uniswap.org/guides/faqs#why-do-uniswapx-quotes-have-more-slippage-than-the-tolerance-i-set) for more information.
+
+
+        Note that if the trade type is `EXACT_INPUT`, then the slippage is in terms of the output token. If the trade type is `EXACT_OUTPUT`, then the slippage is in terms of the input token.
+
+
+        When submitting a request, `slippageTolerance` may not be set when `autoSlippage` is defined. One of `slippageTolerance` or `autoSlippage` must be defined.'
+      type: number
+      pattern: ^[0-9]{0,3}\.?[0-9]{0,2}$
+    DutchOrderInfoV2:
+      type: object
+      properties:
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        nonce:
+          $ref: '#/components/schemas/nonce'
+        reactor:
+          $ref: '#/components/schemas/contractAddress'
+        swapper:
+          $ref: '#/components/schemas/receiverWalletAddress'
+        deadline:
+          $ref: '#/components/schemas/deadline'
+        additionalValidationContract:
+          $ref: '#/components/schemas/additionalValidationContract'
+        additionalValidationData:
+          $ref: '#/components/schemas/additionalValidationData'
+        input:
+          $ref: '#/components/schemas/DutchInput'
+        outputs:
+          type: array
+          items:
+            $ref: '#/components/schemas/DutchOutput'
+        cosigner:
+          $ref: '#/components/schemas/cosignerAddress'
+      required:
+      - chainId
+      - nonce
+      - reactor
+      - swapper
+      - deadline
+      - validationContract
+      - validationData
+      - startTime
+      - endTime
+      - exclusiveFiller
+      - exclusivityOverrideBps
+      - input
+      - outputs
+    GasStrategy:
+      type: object
+      description: Gas strategy configuration for transaction fee estimation.
+      properties:
+        limitInflationFactor:
+          type: number
+          description: Factor to inflate the gas limit estimate.
+        priceInflationFactor:
+          type: number
+          description: Factor to inflate the gas price estimate.
+        percentileThresholdFor1559Fee:
+          type: number
+          description: Percentile threshold for EIP-1559 fee calculation.
+        thresholdToInflateLastBlockBaseFee:
+          type: number
+          description: Threshold to inflate the last block base fee.
+        baseFeeMultiplier:
+          type: number
+          description: Multiplier for the base fee.
+        baseFeeHistoryWindow:
+          type: number
+          description: Number of blocks to consider for base fee history.
+        minPriorityFeeRatioOfBaseFee:
+          type: number
+          description: Minimum priority fee as a ratio of base fee.
+        minPriorityFeeGwei:
+          type: number
+          description: Minimum priority fee in Gwei.
+        maxPriorityFeeGwei:
+          type: number
+          description: Maximum priority fee in Gwei.
+      required:
+      - limitInflationFactor
+      - priceInflationFactor
+      - percentileThresholdFor1559Fee
+    AggregatedOutput:
+      description: An array of all outputs of the proposed transaction. This includes the swap as well as any fees collected by the API integrator. This does not include pool fees when routing is through a Uniswap Protocol pool.
+      type: object
+      properties:
+        token:
+          $ref: '#/components/schemas/outputToken'
+        amount:
+          $ref: '#/components/schemas/tokenAmount'
+        recipient:
+          $ref: '#/components/schemas/receiverWalletAddress'
+        bps:
+          $ref: '#/components/schemas/bps'
+        minAmount:
+          $ref: '#/components/schemas/minAmount'
+    PriorityInput:
+      type: object
+      properties:
+        amount:
+          $ref: '#/components/schemas/tokenAmount'
+        token:
+          $ref: '#/components/schemas/inputToken'
+        mpsPerPriorityFeeWei:
+          type: string
+      required:
+      - amount
+      - token
+      - mpsPerPriorityFeeWei
+    DutchOrderInfo:
+      type: object
+      properties:
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        nonce:
+          $ref: '#/components/schemas/nonce'
+        reactor:
+          $ref: '#/components/schemas/contractAddress'
+        swapper:
+          $ref: '#/components/schemas/receiverWalletAddress'
+        deadline:
+          $ref: '#/components/schemas/deadline'
+        additionalValidationContract:
+          $ref: '#/components/schemas/additionalValidationContract'
+        additionalValidationData:
+          $ref: '#/components/schemas/additionalValidationData'
+        decayStartTime:
+          type: number
+          description: The unix timestamp at which the order will be eligible to be filled by alternate fillers at a lower price. Noted that the fill amount will not be lower than the output `endAmount`.
+        decayEndTime:
+          type: number
+          description: The unix timestamp at which the order will no longer be eligible to be filled by alternate fillers.
+        exclusiveFiller:
+          type: string
+          description: The address of the filler who has priority to fill the order by the `decayStartTime`.
+        exclusivityOverrideBps:
+          type: string
+          description: The portion of the order which is eligible to be filled by the `exclusiveFiller`, specified in basis points.
+        input:
+          $ref: '#/components/schemas/DutchInput'
+        outputs:
+          type: array
+          items:
+            $ref: '#/components/schemas/DutchOutput'
+      required:
+      - chainId
+      - nonce
+      - reactor
+      - swapper
+      - deadline
+      - validationContract
+      - validationData
+      - startTime
+      - endTime
+      - exclusiveFiller
+      - exclusivityOverrideBps
+      - input
+      - outputs
+    SpreadOptimization:
+      type: string
+      enum:
+      - EXECUTION
+      - PRICE
+      description: For UniswapX swaps, when set to `EXECUTION`, quotes optimize for looser spreads at higher fill rates. When set to `PRICE`, quotes optimize for tighter spreads at lower fill rates. This field is not applicable to Uniswap Protocols (v2, v3, v4), bridging, or wrapping/unwrapping and will be ignored if set.
+      default: EXECUTION
+    quoteId:
+      type: string
+      description: A unique ID for the quote.
+    receiverWalletAddress:
+      type: string
+      description: The wallet address which will receive the token.
+      pattern: ^(0x)?[0-9a-fA-F]{40}$
+    Err500:
+      type: object
+      properties:
+        errorCode:
+          default: InternalServerError
+          type: string
+        detail:
+          type: string
+    TransactionRequest:
+      type: object
+      properties:
+        to:
+          $ref: '#/components/schemas/receiverWalletAddress'
+        from:
+          $ref: '#/components/schemas/senderWalletAddress'
+        data:
+          type: string
+          description: The calldata for the transaction.
+        value:
+          type: string
+          description: The quantity of ETH tokens approved for spending by the transaction, denominated in wei. Note that by default Uniswap Labs sets this to the maximum approvable spend.
+        gasLimit:
+          $ref: '#/components/schemas/gasLimit'
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        maxFeePerGas:
+          $ref: '#/components/schemas/maxFeePerGas'
+        maxPriorityFeePerGas:
+          $ref: '#/components/schemas/maxPriorityFeePerGas'
+        gasPrice:
+          $ref: '#/components/schemas/gasPrice'
+      required:
+      - to
+      - from
+      - data
+      - value
+      - chainId
+    nonce:
+      type: string
+      description: A unique nonce for this order.
+    PriorityQuote:
+      title: UniswapX Priority Quote
+      type: object
+      properties:
+        encodedOrder:
+          $ref: '#/components/schemas/encodedOrder'
+        orderId:
+          $ref: '#/components/schemas/orderId'
+        orderInfo:
+          $ref: '#/components/schemas/PriorityOrderInfo'
+        portionBips:
+          $ref: '#/components/schemas/portionBips'
+        portionAmount:
+          $ref: '#/components/schemas/portionAmount'
+        portionRecipient:
+          $ref: '#/components/schemas/portionAmountReceiverAddress'
+        quoteId:
+          $ref: '#/components/schemas/quoteId'
+        slippageTolerance:
+          $ref: '#/components/schemas/slippageTolerance'
+        deadlineBufferSecs:
+          type: number
+        classicGasUseEstimateUSD:
+          $ref: '#/components/schemas/ClassicGasUseEstimateUSD'
+        expectedAmountIn:
+          $ref: '#/components/schemas/tokenAmount'
+        expectedAmountOut:
+          $ref: '#/components/schemas/tokenAmount'
+        aggregatedOutputs:
+          type: array
+          items:
+            $ref: '#/components/schemas/AggregatedOutput'
+      required:
+      - encodedOrder
+      - orderInfo
+      - orderId
+    DutchQuote:
+      type: object
+      properties:
+        encodedOrder:
+          $ref: '#/components/schemas/encodedOrder'
+        orderId:
+          $ref: '#/components/schemas/orderId'
+        orderInfo:
+          $ref: '#/components/schemas/DutchOrderInfo'
+        portionBips:
+          $ref: '#/components/schemas/portionBips'
+        portionAmount:
+          $ref: '#/components/schemas/portionAmount'
+        portionRecipient:
+          $ref: '#/components/schemas/portionAmountReceiverAddress'
+        quoteId:
+          $ref: '#/components/schemas/quoteId'
+        slippageTolerance:
+          $ref: '#/components/schemas/slippageTolerance'
+        classicGasUseEstimateUSD:
+          $ref: '#/components/schemas/ClassicGasUseEstimateUSD'
+        aggregatedOutputs:
+          type: array
+          items:
+            $ref: '#/components/schemas/AggregatedOutput'
+      required:
+      - encodedOrder
+      - orderInfo
+      - orderId
+    gasFeeInCurrency:
+      type: string
+      description: The total estimated gas cost of this transaction (eg. gasLimit multiplied by maxFeePerGas) in the quoted currency (e.g. output token) in the base units of the quoted currency.
+    DutchOutput:
+      type: object
+      properties:
+        startAmount:
+          $ref: '#/components/schemas/startAmount'
+        endAmount:
+          $ref: '#/components/schemas/endAmount'
+        token:
+          $ref: '#/components/schemas/outputToken'
+        recipient:
+          $ref: '#/components/schemas/receiverWalletAddress'
+      required:
+      - startAmount
+      - endAmount
+      - token
+      - recipient
+    tickSpacing:
+      type: number
+      description: The width of ticks in this pool (e.g. the price range between two ticks) specified in basis points. For more information see the [Uniswap V3 Whitepaper](https://app.uniswap.org/whitepaper-v3.pdf).
+    gasLimit:
+      type: string
+      description: The maximum units of gas that will be consumed by this transaction.
+    gasFeeUSD:
+      type: string
+      description: The total estimated gas cost of this transaction (eg. `gasLimit` multiplied by `maxFeePerGas`) denominated in USDC.
+    portionAmount:
+      type: string
+      description: The portion of the swap that will be taken as a fee in the base units of the token. The fee will be taken from the output token.
+    WalletInfo:
+      type: object
+      description: Information about the wallet.
+      properties:
+        uuid:
+          type: string
+          description: Unique identifier for the wallet.
+        name:
+          type: string
+          description: Name of the wallet.
+        rdns:
+          type: string
+          description: Reverse domain name identifier for the wallet.
+    NullablePermit:
+      description: the permit2 message object for the customer to sign to permit spending by the permit2 contract.
+      type:
+      - object
+      - 'null'
+      properties:
+        domain:
+          type: object
+        values:
+          type: object
+        types:
+          type: object
+    generatePermitAsTransaction:
+      type: boolean
+      default: false
+      description: Indicates whether you want to receive a permit2 transaction to sign and submit onchain, or a permit message to sign. When set to `true`, the quote response returns the Permit2 as a calldata which the user signs and broadcasts. When set to `false` (the default), the quote response returns the Permit2 as a message which the user signs but does not need to broadcast. When using a 7702-delegated wallet, set this field to `true`. Except for this scenario, it is recommended that this field is set to false. Note that a Permit2 calldata (e.g. `true`), will provide indefinite permission for Permit2 to spend a token, in contrast to a Permit2 message (e.g. `false`) which is only valid for 30 days. Further, a Permit2 calldata (e.g. `true`) requires the user to pay gas to submit the transaction, whereas the Permit2 message (e.g. `false` ) does not require the user to submit a transaction and requires no gas.
+    maxPriorityFeePerGas:
+      type: string
+      description: The maximum tip to the block builder. Adjusted based upon the urgency specified in the request.
+    IntegratorFee:
+      type: object
+      description: A fee configuration specifying the fee amount in basis points and the recipient address.
+      properties:
+        bips:
+          type: number
+          description: Fee amount in basis points (1 bip = 0.01%). Must be greater than 0 and at most 500.
+          maximum: 500
+          exclusiveMinimum: 0
+        recipient:
+          type: string
+          description: Ethereum address that receives the fee.
+          pattern: ^0x[a-fA-F0-9]{40}$
+      required:
+      - bips
+      - recipient
+    contractAddress:
+      type: string
+      description: The address of a contract which will be used to facilitate the swap.
+      pattern: ^(0x)?[0-9a-fA-F]{40}$
+    encodedOrder:
+      type: string
+      description: An encoded copy of the order details which will be submitted to the filler network along with the signed permit.
+    additionalValidationContract:
+      type: string
+      default: '0x0000000000000000000000000000000000000000'
+      description: Unused and deprecated.
+      deprecated: true
+    DutchOutputV3:
+      type: object
+      properties:
+        startAmount:
+          $ref: '#/components/schemas/startAmount'
+        minAmount:
+          $ref: '#/components/schemas/minAmount'
+        recipient:
+          $ref: '#/components/schemas/receiverWalletAddress'
+        adjustmentPerGweiBaseFee:
+          type: string
+        curve:
+          $ref: '#/components/schemas/Curve'
+        token:
+          $ref: '#/components/schemas/outputToken'
+      required:
+      - startAmount
+      - maxAmount
+      - adjustmentPerGweiBaseFee
+      - curve
+      - token
+      - recipient
+    PriorityOutput:
+      type: object
+      properties:
+        amount:
+          $ref: '#/components/schemas/tokenAmount'
+        token:
+          $ref: '#/components/schemas/outputToken'
+        recipient:
+          $ref: '#/components/schemas/receiverWalletAddress'
+        mpsPerPriorityFeeWei:
+          type: string
+          description: The scaling factor of the priority fee based on the output token amount.
+      required:
+      - amount
+      - token
+      - recipient
+      - mpsPerPriorityFeeWei
+    poolFee:
+      type: string
+      description: The fee of the pool in basis points.
+    QuoteResponse:
+      type: object
+      properties:
+        requestId:
+          $ref: '#/components/schemas/RequestId'
+        quote:
+          $ref: '#/components/schemas/Quote'
+        routing:
+          $ref: '#/components/schemas/Routing'
+        permitTransaction:
+          $ref: '#/components/schemas/TransactionRequest'
+        permitData:
+          $ref: '#/components/schemas/NullablePermit'
+        permitGasFee:
+          $ref: '#/components/schemas/gasFee'
+        sponsorshipInfo:
+          $ref: '#/components/schemas/SponsorshipInfo'
+      required:
+      - routing
+      - quote
+      - permitData
+      - requestId
+    ScopeData:
+      type: object
+      description: Data defining a wallet scope including accounts, methods, capabilities, chains, and client context.
+      properties:
+        accounts:
+          type: array
+          description: Array of account addresses associated with this scope.
+          items:
+            type: string
+        methods:
+          type: array
+          description: Array of methods allowed in this scope.
+          items:
+            type: string
+        capabilities:
+          type: object
+          description: Additional capabilities for this scope.
+          additionalProperties: true
+        chains:
+          type: array
+          description: Array of chain identifiers allowed in this scope.
+          items:
+            type: string
+        clientContext:
+          $ref: '#/components/schemas/ClientContext'
+      required:
+      - accounts
+      - methods
+    portionBips:
+      type: number
+      multipleOf: 0.01
+      description: The portion of the swap that will be taken as a fee stated in basis points. Fractional basis points are supported with up to two decimal places (e.g. 87.5 for 0.875%). The fee will be taken from the output token.
+    DutchInput:
+      type: object
+      properties:
+        startAmount:
+          $ref: '#/components/schemas/startAmount'
+        endAmount:
+          $ref: '#/components/schemas/endAmount'
+        token:
+          $ref: '#/components/schemas/inputToken'
+      required:
+      - startAmount
+      - endAmount
+      - type
+    RequestId:
+      type: string
+      description: A unique ID for the request.
+    V3PoolInRoute:
+      title: V3 Route
+      type: object
+      properties:
+        type:
+          type: string
+          default: v3-pool
+        address:
+          $ref: '#/components/schemas/contractAddress'
+        tokenIn:
+          $ref: '#/components/schemas/TokenInRoute'
+        tokenOut:
+          $ref: '#/components/schemas/TokenInRoute'
+        sqrtRatioX96:
+          $ref: '#/components/schemas/sqrtRatioX96'
+        liquidity:
+          $ref: '#/components/schemas/liquidity'
+        tickCurrent:
+          $ref: '#/components/schemas/tickCurrent'
+        fee:
+          $ref: '#/components/schemas/poolFee'
+        amountIn:
+          $ref: '#/components/schemas/tokenAmount'
+        amountOut:
+          $ref: '#/components/schemas/tokenAmount'
+    HooksOptions:
+      type: string
+      enum:
+      - V4_HOOKS_INCLUSIVE
+      - V4_HOOKS_ONLY
+      - V4_NO_HOOKS
+      description: The hook options to use for V4 pool quotes. `V4_HOOKS_INCLUSIVE` will get quotes for V4 pools with or without hooks. `V4_HOOKS_ONLY` will only get quotes for V4 pools with hooks. `V4_NO_HOOKS` will only get quotes for V4 pools without hooks. Defaults to `V4_HOOKS_INCLUSIVE` if `V4` is included in `protocols` and `hookOptions` is not set. This field is ignored if `V4` is not passed in `protocols`.
+    AutoSlippage:
+      type: string
+      enum:
+      - DEFAULT
+      description: 'The auto slippage strategy to employ. For Uniswap Protocols (v2, v3, v4) the auto slippage will be automatically calculated when this field is set to `DEFAULT`. Auto slippage cannot be calculated for UniswapX swaps.
+
+
+        Note that if the trade type is `EXACT_INPUT`, then the slippage is in terms of the output token. If the trade type is `EXACT_OUTPUT`, then the slippage is in terms of the input token.
+
+
+        When submitting a request, `autoSlippage` may not be set when `slippageTolerance` is defined. One of `slippageTolerance` or `autoSlippage` must be defined.'
+    V2Reserve:
+      description: The remaining reserve of this token in the pool.
+      type: object
+      properties:
+        token:
+          $ref: '#/components/schemas/TokenInRoute'
+        quotient:
+          description: The quantity of this token remaining in the pool, specified in the base units of the token.
+          type: string
+    tokenSymbol:
+      type: string
+      description: The symbol of the token.
+    ClassicOutput:
+      type: object
+      properties:
+        token:
+          $ref: '#/components/schemas/outputToken'
+        amount:
+          $ref: '#/components/schemas/tokenAmount'
+        recipient:
+          $ref: '#/components/schemas/receiverWalletAddress'
+    Urgency:
+      type: string
+      enum:
+      - normal
+      - fast
+      - urgent
+      description: The urgency impacts the estimated gas price of the transaction. The higher the urgency, the higher the gas price, and the faster the transaction is likely to be selected from the mempool. The default value is `urgent`.
+      default: urgent
+    Err404:
+      type: object
+      properties:
+        errorCode:
+          enum:
+          - ResourceNotFound
+          - QuoteAmountTooLowError
+          - TokenBalanceNotAvailable
+          - InsufficientBalance
+          type: string
+        detail:
+          type: string
+    deadline:
+      type: number
+      description: The unix timestamp at which the order will be reverted if not filled.
+    QuoteRequest:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/TradeType'
+        amount:
+          $ref: '#/components/schemas/tokenAmount'
+        tokenInChainId:
+          $ref: '#/components/schemas/ChainId'
+        tokenOutChainId:
+          $ref: '#/components/schemas/ChainId'
+        tokenIn:
+          $ref: '#/components/schemas/inputToken'
+        tokenOut:
+          $ref: '#/components/schemas/outputToken'
+        generatePermitAsTransaction:
+          $ref: '#/components/schemas/generatePermitAsTransaction'
+        swapper:
+          $ref: '#/components/schemas/senderWalletAddress'
+        slippageTolerance:
+          $ref: '#/components/schemas/slippageTolerance'
+        autoSlippage:
+          $ref: '#/components/schemas/AutoSlippage'
+        routingPreference:
+          $ref: '#/components/schemas/RoutingPreference'
+        protocols:
+          $ref: '#/components/schemas/Protocols'
+        hooksOptions:
+          $ref: '#/components/schemas/HooksOptions'
+        spreadOptimization:
+          $ref: '#/components/schemas/SpreadOptimization'
+        urgency:
+          $ref: '#/components/schemas/Urgency'
+        permitAmount:
+          $ref: '#/components/schemas/PermitAmount'
+        integratorFees:
+          type: array
+          description: Optional integrator fee configuration. When provided, the specified fee is applied to the swap instead of the default partner fee service. Only one fee entry is currently supported.
+          items:
+            $ref: '#/components/schemas/IntegratorFee'
+          minItems: 1
+          maxItems: 1
+        walletExecutionContext:
+          $ref: '#/components/schemas/WalletExecutionContext'
+      required:
+      - type
+      - amount
+      - tokenInChainId
+      - tokenOutChainId
+      - tokenIn
+      - tokenOut
+      - swapper
+    TokenInRoute:
+      type: object
+      properties:
+        address:
+          $ref: '#/components/schemas/inputToken'
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        symbol:
+          $ref: '#/components/schemas/tokenSymbol'
+        decimals:
+          type: string
+          description: The number of decimals supported by the token. This number is used to convert token amounts to the token's common representation.
+        buyFeeBps:
+          $ref: '#/components/schemas/bpsFee'
+        sellFeeBps:
+          $ref: '#/components/schemas/bpsFee'
   responses:
-    Unauthorized401:
-      description: UnauthorizedError eg. Account is blocked.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Err401'
-    Timeout504:
-      description: Request duration limit reached.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Err504'
     BadRequest400:
       description: RequestValidationError, Bad Input
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Err400'
+    RateLimitedErr429:
+      description: Ratelimited
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err429'
+    Timeout504:
+      description: Request duration limit reached.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err504'
+    Unauthorized401:
+      description: UnauthorizedError eg. Account is blocked.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err401'
     InternalErr500:
       description: Unexpected error
       content:
@@ -1596,12 +1602,6 @@ components:
                 spender: '0x66a9893cc07d91d95644aedd05d03f95e1dba8af'
                 sigDeadline: '1747254847'
             permitTransaction: null
-    RateLimitedErr429:
-      description: Ratelimited
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Err429'
     QuoteNotFound404:
       description: ResourceNotFound eg. No quotes available or Gas fee/price not available
       content:
@@ -1609,10 +1609,10 @@ components:
           schema:
             $ref: '#/components/schemas/Err404'
   parameters:
-    permit2DisabledHeader:
-      name: x-permit2-disabled
+    erc20EthEnabledHeader:
+      name: x-erc20eth-enabled
       in: header
-      description: Disables the Permit2 approval flow. When set to `true`, `permitData` is returned as `null` and the header is forwarded to the routing layer for correct gas simulation against the Proxy Universal Router contract. When `false` or omitted, the standard Permit2 approval flow is used. This header is intended for integrators whose infrastructure uses a direct approval-then-swap pattern without Permit2.
+      description: Enable native ETH input support for UniswapX via ERC20-ETH (EIP-7914). When set to true and `tokenIn` is the native currency address (e.g. `0x0000000000000000000000000000000000000000`), the API may return UniswapX routes that spend native ETH for supported wallets.
       required: false
       schema:
         type: boolean
@@ -1624,10 +1624,10 @@ components:
       required: false
       schema:
         $ref: '#/components/schemas/UniversalRouterVersion'
-    erc20EthEnabledHeader:
-      name: x-erc20eth-enabled
+    permit2DisabledHeader:
+      name: x-permit2-disabled
       in: header
-      description: Enable native ETH input support for UniswapX via ERC20-ETH (EIP-7914). When set to true and `tokenIn` is the native currency address (e.g. `0x0000000000000000000000000000000000000000`), the API may return UniswapX routes that spend native ETH for supported wallets.
+      description: Disables the Permit2 approval flow. When set to `true`, `permitData` is returned as `null` and the header is forwarded to the routing layer for correct gas simulation against the Proxy Universal Router contract. When `false` or omitted, the standard Permit2 approval flow is used. This header is intended for integrators whose infrastructure uses a direct approval-then-swap pattern without Permit2.
       required: false
       schema:
         type: boolean

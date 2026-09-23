@@ -1,11 +1,11 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   version: 1.0.0
   title: Token Trading Approval API
   description: 'Uniswap Labs trading APIs.
 
 
-    Each operation may include the vendor extension `x-public-endpoint` (boolean): `true` when the operation is available on the public gateway for standard API keys, `false` when it is not publicly exposed. See the [OpenAPI specification extensions](https://swagger.io/docs/specification/v3_0/openapi-extensions/) definition of `x-` fields.'
+    Each operation may include the vendor extension `x-public-endpoint` (boolean): `true` when the operation is available on the public gateway for standard API keys, `false` when it is not publicly exposed. See the OpenAPI specification extensions definition of `x-` fields.'
 servers:
 - description: Uniswap Trading API
   url: https://trade-api.gateway.uniswap.org/v1
@@ -57,67 +57,33 @@ paths:
           $ref: '#/components/responses/Timeout504'
       x-public-endpoint: true
 components:
-  responses:
-    ApprovalNotFound404:
-      description: ResourceNotFound eg. Token allowance not found or Gas info not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Err404'
-    RateLimitedErr429:
-      description: Ratelimited
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Err429'
-    ApprovalUnauthorized401:
-      description: UnauthorizedError eg. Account is blocked.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Err401'
-    BadRequest400:
-      description: RequestValidationError, Bad Input
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Err400'
-    Timeout504:
-      description: Request duration limit reached.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Err504'
-    ApprovalSuccess200:
-      description: Check approval successful.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ApprovalResponse'
-          example:
-            requestId: e63f1e1e-b9e9-411a-bcc8-ff18ce4e77cf
-            approval:
-              to: '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599'
-              value: '0x00'
-              from: '0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421'
-              data: 0x095ea7b300...
-              maxFeePerGas: '4656513686'
-              maxPriorityFeePerGas: '2000000000'
-              gasLimit: '56344'
-              chainId: 1
-            cancel: null
-            gasFee: '262366607123984'
-    InternalErr500:
-      description: Unexpected error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Err500'
   schemas:
+    outputToken:
+      type: string
+      description: The token which will be received, specified by its token address. For a list of supported tokens, see the [FAQ](https://api-docs.uniswap.org/guides/faqs).
+      pattern: ^(0x)?[0-9a-fA-F]{40}$
+    senderWalletAddress:
+      type: string
+      description: The wallet address which will be used to send the token.
+      pattern: ^(0x)?[0-9a-fA-F]{40}$
+    Err400:
+      type: object
+      properties:
+        errorCode:
+          default: RequestValidationError
+          type: string
+        detail:
+          type: string
     tokenAmount:
       type: string
       description: The quantity of tokens denominated in the token's base units. (For example, for an ERC20 token one token is 1x10^18 base units. For one USDC token one token is 1x10^6 base units.) This value must be greater than 0.
       pattern: ^[0-9]+$
+    gasPrice:
+      type: string
+      description: The cost per unit of gas.
+    gasFee:
+      type: string
+      description: The total estimated gas cost of this transaction (eg. `gasLimit` multiplied by `maxFeePerGas`) in the base unit of the chain.
     ApprovalResponse:
       type: object
       properties:
@@ -135,6 +101,18 @@ components:
       - requestId
       - approval
       - cancel
+    receiverWalletAddress:
+      type: string
+      description: The wallet address which will receive the token.
+      pattern: ^(0x)?[0-9a-fA-F]{40}$
+    Err500:
+      type: object
+      properties:
+        errorCode:
+          default: InternalServerError
+          type: string
+        detail:
+          type: string
     ChainId:
       description: The unique ID of the blockchain. For a list of supported chains see the [FAQ](https://api-docs.uniswap.org/guides/faqs).
       type: number
@@ -162,72 +140,9 @@ components:
       - 84532
       - 11155111
       default: 1
-    ApprovalRequest:
-      type: object
-      properties:
-        walletAddress:
-          $ref: '#/components/schemas/senderWalletAddress'
-        token:
-          $ref: '#/components/schemas/inputToken'
-        amount:
-          $ref: '#/components/schemas/tokenAmount'
-        chainId:
-          $ref: '#/components/schemas/ChainId'
-        urgency:
-          $ref: '#/components/schemas/Urgency'
-        includeGasInfo:
-          $ref: '#/components/schemas/includeGasInfo'
-        tokenOut:
-          $ref: '#/components/schemas/outputToken'
-        tokenOutChainId:
-          $ref: '#/components/schemas/ChainId'
-      required:
-      - walletAddress
-      - token
-      - amount
-      - chainId
-    Err500:
-      type: object
-      properties:
-        errorCode:
-          default: InternalServerError
-          type: string
-        detail:
-          type: string
-    senderWalletAddress:
-      type: string
-      description: The wallet address which will be used to send the token.
-      pattern: ^(0x)?[0-9a-fA-F]{40}$
-    inputToken:
-      type: string
-      description: The token which will be sent, specified by its token address. For a list of supported tokens, see the [FAQ](https://api-docs.uniswap.org/guides/faqs).
-      pattern: ^(0x)?[0-9a-fA-F]{40}$
     RequestId:
       type: string
       description: A unique ID for the request.
-    Err404:
-      type: object
-      properties:
-        errorCode:
-          enum:
-          - ResourceNotFound
-          - QuoteAmountTooLowError
-          - TokenBalanceNotAvailable
-          - InsufficientBalance
-          type: string
-        detail:
-          type: string
-    Err504:
-      type: object
-      properties:
-        errorCode:
-          default: Timeout
-          type: string
-        detail:
-          type: string
-    gasFee:
-      type: string
-      description: The total estimated gas cost of this transaction (eg. `gasLimit` multiplied by `maxFeePerGas`) in the base unit of the chain.
     TransactionRequest:
       type: object
       properties:
@@ -257,24 +172,20 @@ components:
       - data
       - value
       - chainId
+    inputToken:
+      type: string
+      description: The token which will be sent, specified by its token address. For a list of supported tokens, see the [FAQ](https://api-docs.uniswap.org/guides/faqs).
+      pattern: ^(0x)?[0-9a-fA-F]{40}$
     maxFeePerGas:
       type: string
       description: The sum of the base fee and priority fee. Subtracting `maxPriorityFeePerGas` from this value will yield the base fee to be paid for this transaction.
-    Err400:
-      type: object
-      properties:
-        errorCode:
-          default: RequestValidationError
-          type: string
-        detail:
-          type: string
+    includeGasInfo:
+      type: boolean
+      description: If set to `true`, the response will include the estimated gas fee for the proposed transaction.
+      default: false
     gasLimit:
       type: string
       description: The maximum units of gas that will be consumed by this transaction.
-    receiverWalletAddress:
-      type: string
-      description: The wallet address which will receive the token.
-      pattern: ^(0x)?[0-9a-fA-F]{40}$
     Err401:
       type: object
       properties:
@@ -283,21 +194,30 @@ components:
           type: string
         detail:
           type: string
-    gasPrice:
-      type: string
-      description: The cost per unit of gas.
-    includeGasInfo:
-      type: boolean
-      description: If set to `true`, the response will include the estimated gas fee for the proposed transaction.
-      default: false
-    Err429:
+    ApprovalRequest:
       type: object
       properties:
-        errorCode:
-          default: Ratelimited
-          type: string
-        detail:
-          type: string
+        walletAddress:
+          $ref: '#/components/schemas/senderWalletAddress'
+        token:
+          $ref: '#/components/schemas/inputToken'
+        amount:
+          $ref: '#/components/schemas/tokenAmount'
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        urgency:
+          $ref: '#/components/schemas/Urgency'
+        includeGasInfo:
+          $ref: '#/components/schemas/includeGasInfo'
+        tokenOut:
+          $ref: '#/components/schemas/outputToken'
+        tokenOutChainId:
+          $ref: '#/components/schemas/ChainId'
+      required:
+      - walletAddress
+      - token
+      - amount
+      - chainId
     Urgency:
       type: string
       enum:
@@ -306,13 +226,93 @@ components:
       - urgent
       description: The urgency impacts the estimated gas price of the transaction. The higher the urgency, the higher the gas price, and the faster the transaction is likely to be selected from the mempool. The default value is `urgent`.
       default: urgent
-    outputToken:
-      type: string
-      description: The token which will be received, specified by its token address. For a list of supported tokens, see the [FAQ](https://api-docs.uniswap.org/guides/faqs).
-      pattern: ^(0x)?[0-9a-fA-F]{40}$
     maxPriorityFeePerGas:
       type: string
       description: The maximum tip to the block builder. Adjusted based upon the urgency specified in the request.
+    Err429:
+      type: object
+      properties:
+        errorCode:
+          default: Ratelimited
+          type: string
+        detail:
+          type: string
+    Err404:
+      type: object
+      properties:
+        errorCode:
+          enum:
+          - ResourceNotFound
+          - QuoteAmountTooLowError
+          - TokenBalanceNotAvailable
+          - InsufficientBalance
+          type: string
+        detail:
+          type: string
+    Err504:
+      type: object
+      properties:
+        errorCode:
+          default: Timeout
+          type: string
+        detail:
+          type: string
+  responses:
+    Timeout504:
+      description: Request duration limit reached.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err504'
+    BadRequest400:
+      description: RequestValidationError, Bad Input
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err400'
+    ApprovalSuccess200:
+      description: Check approval successful.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApprovalResponse'
+          example:
+            requestId: e63f1e1e-b9e9-411a-bcc8-ff18ce4e77cf
+            approval:
+              to: '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599'
+              value: '0x00'
+              from: '0xC9bebBA9f481b12cE6f3EA54c4B182c9636ec421'
+              data: 0x095ea7b300...
+              maxFeePerGas: '4656513686'
+              maxPriorityFeePerGas: '2000000000'
+              gasLimit: '56344'
+              chainId: 1
+            cancel: null
+            gasFee: '262366607123984'
+    ApprovalNotFound404:
+      description: ResourceNotFound eg. Token allowance not found or Gas info not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err404'
+    ApprovalUnauthorized401:
+      description: UnauthorizedError eg. Account is blocked.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err401'
+    InternalErr500:
+      description: Unexpected error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err500'
+    RateLimitedErr429:
+      description: Ratelimited
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err429'
   parameters:
     permit2DisabledHeader:
       name: x-permit2-disabled

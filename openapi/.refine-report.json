@@ -1,18 +1,7 @@
 {
   "provider": "uniswap",
   "sources": [
-    "uniswap-approval-api-openapi.yml",
-    "uniswap-limitorderquote-api-openapi.yml",
-    "uniswap-liquidity-api-openapi.yml",
-    "uniswap-order-api-openapi.yml",
-    "uniswap-plan-api-openapi.yml",
-    "uniswap-quote-api-openapi.yml",
-    "uniswap-send-api-openapi.yml",
-    "uniswap-swap-api-openapi.yml",
-    "uniswap-swappabletokens-api-openapi.yml",
-    "uniswap-wallet-api-openapi.yml",
-    "uniswap-walletcheckdelegation-api-openapi.yml",
-    "uniswap-walletencode7702-api-openapi.yml"
+    "_original/uniswap-trading-openapi.json"
   ],
   "outputs": [
     "uniswap-approval-api-openapi.yml",
@@ -31,6 +20,38 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "1 archived document(s) dropped as subsets of other archived documents",
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "uniswap-trading-openapi.json: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "uniswap-trading-openapi.json: tagged paths PATCH /plan/{planId} -> Plan",
+    "uniswap-trading-openapi.json: declared missing tag: Approval",
+    "uniswap-trading-openapi.json: declared missing tag: LimitOrderQuote",
+    "uniswap-trading-openapi.json: declared missing tag: Liquidity",
+    "uniswap-trading-openapi.json: declared missing tag: Order",
+    "uniswap-trading-openapi.json: declared missing tag: Plan",
+    "uniswap-trading-openapi.json: declared missing tag: Quote",
+    "uniswap-trading-openapi.json: declared missing tag: Send",
+    "uniswap-trading-openapi.json: declared missing tag: Swap",
+    "uniswap-trading-openapi.json: declared missing tag: SwappableTokens",
+    "uniswap-trading-openapi.json: declared missing tag: Wallet",
+    "uniswap-trading-openapi.json: declared missing tag: WalletCheckDelegation",
+    "uniswap-trading-openapi.json: declared missing tag: WalletEncode7702",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "_original/uniswap-trading-openapi.yaml: archived document superseded by a larger archived document",
+    "uniswap-approval-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "uniswap-limitorderquote-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "uniswap-liquidity-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "uniswap-order-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "uniswap-plan-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "uniswap-quote-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "uniswap-send-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "uniswap-swap-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "uniswap-swappabletokens-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "uniswap-wallet-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "uniswap-walletcheckdelegation-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "uniswap-walletencode7702-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
