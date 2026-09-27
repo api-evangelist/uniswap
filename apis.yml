@@ -440,6 +440,7 @@ tags:
 - Decentralized Exchange
 - Liquidity
 - Swap
+- Ethereum
 tags_raw:
 - Blockchain
 - Cryptocurrency
@@ -447,6 +448,7 @@ tags_raw:
 - Decentralized Exchange
 - Liquidity
 - Swaps
+- Ethereum
 kind: contract
 deliveryModel:
   model: saas

@@ -45,28 +45,56 @@ paths:
           $ref: '#/components/responses/Timeout504'
       x-public-endpoint: false
 components:
+  responses:
+    BadRequest400:
+      description: RequestValidationError, Bad Input
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err400'
+    Unauthorized401:
+      description: UnauthorizedError eg. Account is blocked.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err401'
+    InternalErr500:
+      description: Unexpected error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err500'
+    RateLimitedErr429:
+      description: Ratelimited
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err429'
+    Timeout504:
+      description: Request duration limit reached.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err504'
+    SendNotFound404:
+      description: ResourceNotFound eg. Gas fee not available
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err404'
+    CreateSendSuccess200:
+      description: Create send successful.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreateSendResponse'
   schemas:
-    CreateSendRequest:
-      type: object
-      properties:
-        sender:
-          $ref: '#/components/schemas/senderWalletAddress'
-        recipient:
-          $ref: '#/components/schemas/receiverWalletAddress'
-        token:
-          $ref: '#/components/schemas/inputToken'
-        amount:
-          $ref: '#/components/schemas/tokenAmount'
-        chainId:
-          $ref: '#/components/schemas/ChainId'
-        urgency:
-          $ref: '#/components/schemas/Urgency'
-      required:
-      - sender
-      - recipient
-      - token
-      - amount
-      - chainId
+    maxPriorityFeePerGas:
+      type: string
+      description: The maximum tip to the block builder. Adjusted based upon the urgency specified in the request.
+    gasFee:
+      type: string
+      description: The total estimated gas cost of this transaction (eg. `gasLimit` multiplied by `maxFeePerGas`) in the base unit of the chain.
     senderWalletAddress:
       type: string
       description: The wallet address which will be used to send the token.
@@ -83,16 +111,23 @@ components:
       type: string
       description: The quantity of tokens denominated in the token's base units. (For example, for an ERC20 token one token is 1x10^18 base units. For one USDC token one token is 1x10^6 base units.) This value must be greater than 0.
       pattern: ^[0-9]+$
-    gasPrice:
+    CreateSendResponse:
+      type: object
+      properties:
+        requestId:
+          $ref: '#/components/schemas/RequestId'
+        send:
+          $ref: '#/components/schemas/TransactionRequest'
+        gasFee:
+          $ref: '#/components/schemas/gasFee'
+        gasFeeUSD:
+          $ref: '#/components/schemas/gasFeeUSD'
+      required:
+      - requestId
+      - send
+    gasLimit:
       type: string
-      description: The cost per unit of gas.
-    gasFee:
-      type: string
-      description: The total estimated gas cost of this transaction (eg. `gasLimit` multiplied by `maxFeePerGas`) in the base unit of the chain.
-    receiverWalletAddress:
-      type: string
-      description: The wallet address which will receive the token.
-      pattern: ^(0x)?[0-9a-fA-F]{40}$
+      description: The maximum units of gas that will be consumed by this transaction.
     Err500:
       type: object
       properties:
@@ -101,36 +136,9 @@ components:
           type: string
         detail:
           type: string
-    RequestId:
+    gasFeeUSD:
       type: string
-      description: A unique ID for the request.
-    ChainId:
-      description: The unique ID of the blockchain. For a list of supported chains see the [FAQ](https://api-docs.uniswap.org/guides/faqs).
-      type: number
-      enum:
-      - 1
-      - 10
-      - 56
-      - 130
-      - 137
-      - 143
-      - 196
-      - 324
-      - 480
-      - 1868
-      - 4217
-      - 8453
-      - 10143
-      - 42161
-      - 42220
-      - 43114
-      - 59144
-      - 81457
-      - 7777777
-      - 1301
-      - 84532
-      - 11155111
-      default: 1
+      description: The total estimated gas cost of this transaction (eg. `gasLimit` multiplied by `maxFeePerGas`) denominated in USDC.
     TransactionRequest:
       type: object
       properties:
@@ -160,30 +168,6 @@ components:
       - data
       - value
       - chainId
-    CreateSendResponse:
-      type: object
-      properties:
-        requestId:
-          $ref: '#/components/schemas/RequestId'
-        send:
-          $ref: '#/components/schemas/TransactionRequest'
-        gasFee:
-          $ref: '#/components/schemas/gasFee'
-        gasFeeUSD:
-          $ref: '#/components/schemas/gasFeeUSD'
-      required:
-      - requestId
-      - send
-    inputToken:
-      type: string
-      description: The token which will be sent, specified by its token address. For a list of supported tokens, see the [FAQ](https://api-docs.uniswap.org/guides/faqs).
-      pattern: ^(0x)?[0-9a-fA-F]{40}$
-    maxFeePerGas:
-      type: string
-      description: The sum of the base fee and priority fee. Subtracting `maxPriorityFeePerGas` from this value will yield the base fee to be paid for this transaction.
-    gasLimit:
-      type: string
-      description: The maximum units of gas that will be consumed by this transaction.
     Err401:
       type: object
       properties:
@@ -192,9 +176,13 @@ components:
           type: string
         detail:
           type: string
-    gasFeeUSD:
+    gasPrice:
       type: string
-      description: The total estimated gas cost of this transaction (eg. `gasLimit` multiplied by `maxFeePerGas`) denominated in USDC.
+      description: The cost per unit of gas.
+    inputToken:
+      type: string
+      description: The token which will be sent, specified by its token address. For a list of supported tokens, see the [FAQ](https://api-docs.uniswap.org/guides/faqs).
+      pattern: ^(0x)?[0-9a-fA-F]{40}$
     Urgency:
       type: string
       enum:
@@ -203,17 +191,6 @@ components:
       - urgent
       description: The urgency impacts the estimated gas price of the transaction. The higher the urgency, the higher the gas price, and the faster the transaction is likely to be selected from the mempool. The default value is `urgent`.
       default: urgent
-    maxPriorityFeePerGas:
-      type: string
-      description: The maximum tip to the block builder. Adjusted based upon the urgency specified in the request.
-    Err429:
-      type: object
-      properties:
-        errorCode:
-          default: Ratelimited
-          type: string
-        detail:
-          type: string
     Err404:
       type: object
       properties:
@@ -226,6 +203,10 @@ components:
           type: string
         detail:
           type: string
+    receiverWalletAddress:
+      type: string
+      description: The wallet address which will receive the token.
+      pattern: ^(0x)?[0-9a-fA-F]{40}$
     Err504:
       type: object
       properties:
@@ -234,49 +215,68 @@ components:
           type: string
         detail:
           type: string
-  responses:
-    Timeout504:
-      description: Request duration limit reached.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Err504'
-    BadRequest400:
-      description: RequestValidationError, Bad Input
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Err400'
-    SendNotFound404:
-      description: ResourceNotFound eg. Gas fee not available
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Err404'
-    Unauthorized401:
-      description: UnauthorizedError eg. Account is blocked.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Err401'
-    InternalErr500:
-      description: Unexpected error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Err500'
-    RateLimitedErr429:
-      description: Ratelimited
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Err429'
-    CreateSendSuccess200:
-      description: Create send successful.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/CreateSendResponse'
+    RequestId:
+      type: string
+      description: A unique ID for the request.
+    Err429:
+      type: object
+      properties:
+        errorCode:
+          default: Ratelimited
+          type: string
+        detail:
+          type: string
+    ChainId:
+      description: The unique ID of the blockchain. For a list of supported chains see the [FAQ](https://api-docs.uniswap.org/guides/faqs).
+      type: number
+      enum:
+      - 1
+      - 10
+      - 56
+      - 130
+      - 137
+      - 143
+      - 196
+      - 324
+      - 480
+      - 1868
+      - 4217
+      - 8453
+      - 10143
+      - 42161
+      - 42220
+      - 43114
+      - 59144
+      - 81457
+      - 7777777
+      - 1301
+      - 84532
+      - 11155111
+      default: 1
+    CreateSendRequest:
+      type: object
+      properties:
+        sender:
+          $ref: '#/components/schemas/senderWalletAddress'
+        recipient:
+          $ref: '#/components/schemas/receiverWalletAddress'
+        token:
+          $ref: '#/components/schemas/inputToken'
+        amount:
+          $ref: '#/components/schemas/tokenAmount'
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        urgency:
+          $ref: '#/components/schemas/Urgency'
+      required:
+      - sender
+      - recipient
+      - token
+      - amount
+      - chainId
+    maxFeePerGas:
+      type: string
+      description: The sum of the base fee and priority fee. Subtracting `maxPriorityFeePerGas` from this value will yield the base fee to be paid for this transaction.
   securitySchemes:
     apiKey:
       type: apiKey

@@ -52,6 +52,9 @@ paths:
       x-public-endpoint: true
 components:
   schemas:
+    Address:
+      type: string
+      pattern: ^(0x)?[0-9a-fA-F]{40}$
     WalletCheckDelegationRequestBody:
       type: object
       properties:
@@ -76,6 +79,32 @@ components:
           type: string
         detail:
           type: string
+    ChainDelegationMap:
+      type: object
+      description: Map of chain IDs to delegation details for a specific wallet.
+      additionalProperties:
+        $ref: '#/components/schemas/DelegationDetails'
+    Err500:
+      type: object
+      properties:
+        errorCode:
+          default: InternalServerError
+          type: string
+        detail:
+          type: string
+    WalletCheckDelegationResponseBody:
+      type: object
+      properties:
+        requestId:
+          $ref: '#/components/schemas/RequestId'
+        delegationDetails:
+          type: object
+          description: Map of wallet addresses to chain IDs to delegation details.
+          additionalProperties:
+            $ref: '#/components/schemas/ChainDelegationMap'
+      required:
+      - requestId
+      - delegationDetails
     DelegationDetails:
       type: object
       properties:
@@ -94,17 +123,45 @@ components:
       - isWalletDelegatedToUniswap
       - currentDelegationAddress
       - latestDelegationAddress
-    Err500:
+    Err401:
       type: object
       properties:
         errorCode:
-          default: InternalServerError
+          default: UnauthorizedError
+          type: string
+        detail:
+          type: string
+    Err404:
+      type: object
+      properties:
+        errorCode:
+          enum:
+          - ResourceNotFound
+          - QuoteAmountTooLowError
+          - TokenBalanceNotAvailable
+          - InsufficientBalance
+          type: string
+        detail:
+          type: string
+    Err504:
+      type: object
+      properties:
+        errorCode:
+          default: Timeout
           type: string
         detail:
           type: string
     RequestId:
       type: string
       description: A unique ID for the request.
+    Err429:
+      type: object
+      properties:
+        errorCode:
+          default: Ratelimited
+          type: string
+        detail:
+          type: string
     ChainId:
       description: The unique ID of the blockchain. For a list of supported chains see the [FAQ](https://api-docs.uniswap.org/guides/faqs).
       type: number
@@ -132,88 +189,13 @@ components:
       - 84532
       - 11155111
       default: 1
-    WalletCheckDelegationResponseBody:
-      type: object
-      properties:
-        requestId:
-          $ref: '#/components/schemas/RequestId'
-        delegationDetails:
-          type: object
-          description: Map of wallet addresses to chain IDs to delegation details.
-          additionalProperties:
-            $ref: '#/components/schemas/ChainDelegationMap'
-      required:
-      - requestId
-      - delegationDetails
-    Err401:
-      type: object
-      properties:
-        errorCode:
-          default: UnauthorizedError
-          type: string
-        detail:
-          type: string
-    Address:
-      type: string
-      pattern: ^(0x)?[0-9a-fA-F]{40}$
-    ChainDelegationMap:
-      type: object
-      description: Map of chain IDs to delegation details for a specific wallet.
-      additionalProperties:
-        $ref: '#/components/schemas/DelegationDetails'
-    Err429:
-      type: object
-      properties:
-        errorCode:
-          default: Ratelimited
-          type: string
-        detail:
-          type: string
-    Err404:
-      type: object
-      properties:
-        errorCode:
-          enum:
-          - ResourceNotFound
-          - QuoteAmountTooLowError
-          - TokenBalanceNotAvailable
-          - InsufficientBalance
-          type: string
-        detail:
-          type: string
-    Err504:
-      type: object
-      properties:
-        errorCode:
-          default: Timeout
-          type: string
-        detail:
-          type: string
   responses:
-    Timeout504:
-      description: Request duration limit reached.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Err504'
     BadRequest400:
       description: RequestValidationError, Bad Input
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Err400'
-    Unauthorized401:
-      description: UnauthorizedError eg. Account is blocked.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Err401'
-    InternalErr500:
-      description: Unexpected error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Err500'
     WalletCheckDelegationSuccess200:
       description: Wallet delegation info request successful.
       content:
@@ -232,18 +214,36 @@ components:
                   isWalletDelegatedToUniswap: true
                   currentDelegationAddress: '0x000000009b1d0af20d8c6d0a44e162d11f9b8f00'
                   latestDelegationAddress: '0x000000009b1d0af20d8c6d0a44e162d11f9b8f00'
-    QuoteNotFound404:
-      description: ResourceNotFound eg. No quotes available or Gas fee/price not available
+    Unauthorized401:
+      description: UnauthorizedError eg. Account is blocked.
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Err404'
+            $ref: '#/components/schemas/Err401'
+    InternalErr500:
+      description: Unexpected error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err500'
     RateLimitedErr429:
       description: Ratelimited
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Err429'
+    QuoteNotFound404:
+      description: ResourceNotFound eg. No quotes available or Gas fee/price not available
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err404'
+    Timeout504:
+      description: Request duration limit reached.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err504'
   securitySchemes:
     apiKey:
       type: apiKey

@@ -46,6 +46,40 @@ paths:
       x-public-endpoint: true
 components:
   schemas:
+    Address:
+      type: string
+      pattern: ^(0x)?[0-9a-fA-F]{40}$
+    Encode7702ResponseBody:
+      type: object
+      properties:
+        requestId:
+          $ref: '#/components/schemas/RequestId'
+        encoded:
+          $ref: '#/components/schemas/TransactionRequest'
+      required:
+      - requestId
+      - encoded
+    maxPriorityFeePerGas:
+      type: string
+      description: The maximum tip to the block builder. Adjusted based upon the urgency specified in the request.
+    WalletEncode7702RequestBody:
+      type: object
+      properties:
+        calls:
+          type: array
+          description: Array of transaction requests to be encoded. All transactions must have the same chainId.
+          items:
+            $ref: '#/components/schemas/TransactionRequest'
+        smartContractDelegationAddress:
+          $ref: '#/components/schemas/Address'
+          description: The address of the smart contract delegation implementation to use.
+        walletAddress:
+          $ref: '#/components/schemas/Address'
+          description: The address of the wallet for which the transactions will be encoded.
+      required:
+      - calls
+      - smartContractDelegationAddress
+      - walletAddress
     senderWalletAddress:
       type: string
       description: The wallet address which will be used to send the token.
@@ -58,18 +92,89 @@ components:
           type: string
         detail:
           type: string
-    gasPrice:
+    gasLimit:
       type: string
-      description: The cost per unit of gas.
-    receiverWalletAddress:
-      type: string
-      description: The wallet address which will receive the token.
-      pattern: ^(0x)?[0-9a-fA-F]{40}$
+      description: The maximum units of gas that will be consumed by this transaction.
     Err500:
       type: object
       properties:
         errorCode:
           default: InternalServerError
+          type: string
+        detail:
+          type: string
+    TransactionRequest:
+      type: object
+      properties:
+        to:
+          $ref: '#/components/schemas/receiverWalletAddress'
+        from:
+          $ref: '#/components/schemas/senderWalletAddress'
+        data:
+          type: string
+          description: The calldata for the transaction.
+        value:
+          type: string
+          description: The quantity of ETH tokens approved for spending by the transaction, denominated in wei. Note that by default Uniswap Labs sets this to the maximum approvable spend.
+        gasLimit:
+          $ref: '#/components/schemas/gasLimit'
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        maxFeePerGas:
+          $ref: '#/components/schemas/maxFeePerGas'
+        maxPriorityFeePerGas:
+          $ref: '#/components/schemas/maxPriorityFeePerGas'
+        gasPrice:
+          $ref: '#/components/schemas/gasPrice'
+      required:
+      - to
+      - from
+      - data
+      - value
+      - chainId
+    Err401:
+      type: object
+      properties:
+        errorCode:
+          default: UnauthorizedError
+          type: string
+        detail:
+          type: string
+    gasPrice:
+      type: string
+      description: The cost per unit of gas.
+    Err404:
+      type: object
+      properties:
+        errorCode:
+          enum:
+          - ResourceNotFound
+          - QuoteAmountTooLowError
+          - TokenBalanceNotAvailable
+          - InsufficientBalance
+          type: string
+        detail:
+          type: string
+    receiverWalletAddress:
+      type: string
+      description: The wallet address which will receive the token.
+      pattern: ^(0x)?[0-9a-fA-F]{40}$
+    Err504:
+      type: object
+      properties:
+        errorCode:
+          default: Timeout
+          type: string
+        detail:
+          type: string
+    RequestId:
+      type: string
+      description: A unique ID for the request.
+    Err429:
+      type: object
+      properties:
+        errorCode:
+          default: Ratelimited
           type: string
         detail:
           type: string
@@ -100,127 +205,22 @@ components:
       - 84532
       - 11155111
       default: 1
-    RequestId:
-      type: string
-      description: A unique ID for the request.
-    TransactionRequest:
-      type: object
-      properties:
-        to:
-          $ref: '#/components/schemas/receiverWalletAddress'
-        from:
-          $ref: '#/components/schemas/senderWalletAddress'
-        data:
-          type: string
-          description: The calldata for the transaction.
-        value:
-          type: string
-          description: The quantity of ETH tokens approved for spending by the transaction, denominated in wei. Note that by default Uniswap Labs sets this to the maximum approvable spend.
-        gasLimit:
-          $ref: '#/components/schemas/gasLimit'
-        chainId:
-          $ref: '#/components/schemas/ChainId'
-        maxFeePerGas:
-          $ref: '#/components/schemas/maxFeePerGas'
-        maxPriorityFeePerGas:
-          $ref: '#/components/schemas/maxPriorityFeePerGas'
-        gasPrice:
-          $ref: '#/components/schemas/gasPrice'
-      required:
-      - to
-      - from
-      - data
-      - value
-      - chainId
     maxFeePerGas:
       type: string
       description: The sum of the base fee and priority fee. Subtracting `maxPriorityFeePerGas` from this value will yield the base fee to be paid for this transaction.
-    gasLimit:
-      type: string
-      description: The maximum units of gas that will be consumed by this transaction.
-    Err401:
-      type: object
-      properties:
-        errorCode:
-          default: UnauthorizedError
-          type: string
-        detail:
-          type: string
-    Address:
-      type: string
-      pattern: ^(0x)?[0-9a-fA-F]{40}$
-    WalletEncode7702RequestBody:
-      type: object
-      properties:
-        calls:
-          type: array
-          description: Array of transaction requests to be encoded. All transactions must have the same chainId.
-          items:
-            $ref: '#/components/schemas/TransactionRequest'
-        smartContractDelegationAddress:
-          $ref: '#/components/schemas/Address'
-          description: The address of the smart contract delegation implementation to use.
-        walletAddress:
-          $ref: '#/components/schemas/Address'
-          description: The address of the wallet for which the transactions will be encoded.
-      required:
-      - calls
-      - smartContractDelegationAddress
-      - walletAddress
-    maxPriorityFeePerGas:
-      type: string
-      description: The maximum tip to the block builder. Adjusted based upon the urgency specified in the request.
-    Err429:
-      type: object
-      properties:
-        errorCode:
-          default: Ratelimited
-          type: string
-        detail:
-          type: string
-    Err404:
-      type: object
-      properties:
-        errorCode:
-          enum:
-          - ResourceNotFound
-          - QuoteAmountTooLowError
-          - TokenBalanceNotAvailable
-          - InsufficientBalance
-          type: string
-        detail:
-          type: string
-    Encode7702ResponseBody:
-      type: object
-      properties:
-        requestId:
-          $ref: '#/components/schemas/RequestId'
-        encoded:
-          $ref: '#/components/schemas/TransactionRequest'
-      required:
-      - requestId
-      - encoded
-    Err504:
-      type: object
-      properties:
-        errorCode:
-          default: Timeout
-          type: string
-        detail:
-          type: string
   responses:
-    Timeout504:
-      description: Request duration limit reached.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Err504'
     BadRequest400:
       description: RequestValidationError, Bad Input
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Err400'
+    WalletEncode7702Success200:
+      description: Encode 7702 wallet transactions successful.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Encode7702ResponseBody'
     Unauthorized401:
       description: UnauthorizedError eg. Account is blocked.
       content:
@@ -233,24 +233,24 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Err500'
-    WalletEncode7702Success200:
-      description: Encode 7702 wallet transactions successful.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Encode7702ResponseBody'
-    QuoteNotFound404:
-      description: ResourceNotFound eg. No quotes available or Gas fee/price not available
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Err404'
     RateLimitedErr429:
       description: Ratelimited
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Err429'
+    QuoteNotFound404:
+      description: ResourceNotFound eg. No quotes available or Gas fee/price not available
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err404'
+    Timeout504:
+      description: Request duration limit reached.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err504'
   securitySchemes:
     apiKey:
       type: apiKey

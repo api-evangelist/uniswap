@@ -44,14 +44,6 @@ paths:
       x-public-endpoint: true
 components:
   schemas:
-    Err400:
-      type: object
-      properties:
-        errorCode:
-          default: RequestValidationError
-          type: string
-        detail:
-          type: string
     TokenProjectLogo:
       type: object
       properties:
@@ -59,109 +51,9 @@ components:
           type: string
       required:
       - url
-    Err500:
-      type: object
-      properties:
-        errorCode:
-          default: InternalServerError
-          type: string
-        detail:
-          type: string
-    ChainId:
-      description: The unique ID of the blockchain. For a list of supported chains see the [FAQ](https://api-docs.uniswap.org/guides/faqs).
-      type: number
-      enum:
-      - 1
-      - 10
-      - 56
-      - 130
-      - 137
-      - 143
-      - 196
-      - 324
-      - 480
-      - 1868
-      - 4217
-      - 8453
-      - 10143
-      - 42161
-      - 42220
-      - 43114
-      - 59144
-      - 81457
-      - 7777777
-      - 1301
-      - 84532
-      - 11155111
-      default: 1
-    RequestId:
-      type: string
-      description: A unique ID for the request.
-    isSpam:
-      type: boolean
-      description: Whether the token is considered a spam token.
-    SafetyLevel:
-      type: string
-      enum:
-      - BLOCKED
-      - MEDIUM_WARNING
-      - STRONG_WARNING
-      - VERIFIED
-    tokenSymbol:
-      type: string
-      description: The symbol of the token.
-    Err401:
-      type: object
-      properties:
-        errorCode:
-          default: UnauthorizedError
-          type: string
-        detail:
-          type: string
     Address:
       type: string
       pattern: ^(0x)?[0-9a-fA-F]{40}$
-    TokenProject:
-      type: object
-      properties:
-        logo:
-          $ref: '#/components/schemas/TokenProjectLogo'
-        safetyLevel:
-          $ref: '#/components/schemas/SafetyLevel'
-        isSpam:
-          $ref: '#/components/schemas/isSpam'
-      required:
-      - logo
-      - safetyLevel
-      - isSpam
-    Err429:
-      type: object
-      properties:
-        errorCode:
-          default: Ratelimited
-          type: string
-        detail:
-          type: string
-    Err404:
-      type: object
-      properties:
-        errorCode:
-          enum:
-          - ResourceNotFound
-          - QuoteAmountTooLowError
-          - TokenBalanceNotAvailable
-          - InsufficientBalance
-          type: string
-        detail:
-          type: string
-    Err504:
-      type: object
-      properties:
-        errorCode:
-          default: Timeout
-          type: string
-        detail:
-          type: string
     GetSwappableTokensResponse:
       type: object
       properties:
@@ -198,13 +90,115 @@ components:
       required:
       - requestId
       - tokens
+    Err400:
+      type: object
+      properties:
+        errorCode:
+          default: RequestValidationError
+          type: string
+        detail:
+          type: string
+    TokenProject:
+      type: object
+      properties:
+        logo:
+          $ref: '#/components/schemas/TokenProjectLogo'
+        safetyLevel:
+          $ref: '#/components/schemas/SafetyLevel'
+        isSpam:
+          $ref: '#/components/schemas/isSpam'
+      required:
+      - logo
+      - safetyLevel
+      - isSpam
+    isSpam:
+      type: boolean
+      description: Whether the token is considered a spam token.
+    Err500:
+      type: object
+      properties:
+        errorCode:
+          default: InternalServerError
+          type: string
+        detail:
+          type: string
+    Err401:
+      type: object
+      properties:
+        errorCode:
+          default: UnauthorizedError
+          type: string
+        detail:
+          type: string
+    Err404:
+      type: object
+      properties:
+        errorCode:
+          enum:
+          - ResourceNotFound
+          - QuoteAmountTooLowError
+          - TokenBalanceNotAvailable
+          - InsufficientBalance
+          type: string
+        detail:
+          type: string
+    tokenSymbol:
+      type: string
+      description: The symbol of the token.
+    Err504:
+      type: object
+      properties:
+        errorCode:
+          default: Timeout
+          type: string
+        detail:
+          type: string
+    SafetyLevel:
+      type: string
+      enum:
+      - BLOCKED
+      - MEDIUM_WARNING
+      - STRONG_WARNING
+      - VERIFIED
+    RequestId:
+      type: string
+      description: A unique ID for the request.
+    Err429:
+      type: object
+      properties:
+        errorCode:
+          default: Ratelimited
+          type: string
+        detail:
+          type: string
+    ChainId:
+      description: The unique ID of the blockchain. For a list of supported chains see the [FAQ](https://api-docs.uniswap.org/guides/faqs).
+      type: number
+      enum:
+      - 1
+      - 10
+      - 56
+      - 130
+      - 137
+      - 143
+      - 196
+      - 324
+      - 480
+      - 1868
+      - 4217
+      - 8453
+      - 10143
+      - 42161
+      - 42220
+      - 43114
+      - 59144
+      - 81457
+      - 7777777
+      - 1301
+      - 84532
+      - 11155111
+      default: 1
   responses:
-    Timeout504:
-      description: Request duration limit reached.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Err504'
     BadRequest400:
       description: RequestValidationError, Bad Input
       content:
@@ -223,6 +217,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Err500'
+    RateLimitedErr429:
+      description: Ratelimited
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err429'
     GetSwappableTokensSuccess200:
       description: Get swappable tokens successful.
       content:
@@ -268,26 +268,26 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Err404'
-    RateLimitedErr429:
-      description: Ratelimited
+    Timeout504:
+      description: Request duration limit reached.
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Err429'
+            $ref: '#/components/schemas/Err504'
   parameters:
-    tokenInParam:
-      name: tokenIn
-      in: query
-      schema:
-        $ref: '#/components/schemas/Address'
-      example: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48'
-      required: true
     bridgeTokenInChainIdParam:
       name: tokenInChainId
       in: query
       schema:
         $ref: '#/components/schemas/ChainId'
       example: 1
+      required: true
+    tokenInParam:
+      name: tokenIn
+      in: query
+      schema:
+        $ref: '#/components/schemas/Address'
+      example: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48'
       required: true
   securitySchemes:
     apiKey:
