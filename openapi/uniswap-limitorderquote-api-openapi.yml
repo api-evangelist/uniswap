@@ -44,158 +44,22 @@ paths:
       x-public-endpoint: false
 components:
   schemas:
-    additionalValidationContract:
-      type: string
-      default: '0x0000000000000000000000000000000000000000'
-      description: Unused and deprecated.
-      deprecated: true
-    portionBips:
+    NullablePermit:
+      description: the permit2 message object for the customer to sign to permit spending by the permit2 contract.
+      type:
+      - object
+      - 'null'
+      properties:
+        domain:
+          type: object
+        values:
+          type: object
+        types:
+          type: object
+    bps:
       type: number
       multipleOf: 0.01
-      description: The portion of the swap that will be taken as a fee stated in basis points. Fractional basis points are supported with up to two decimal places (e.g. 87.5 for 0.875%). The fee will be taken from the output token.
-    DutchQuote:
-      type: object
-      properties:
-        encodedOrder:
-          $ref: '#/components/schemas/encodedOrder'
-        orderId:
-          $ref: '#/components/schemas/orderId'
-        orderInfo:
-          $ref: '#/components/schemas/DutchOrderInfo'
-        portionBips:
-          $ref: '#/components/schemas/portionBips'
-        portionAmount:
-          $ref: '#/components/schemas/portionAmount'
-        portionRecipient:
-          $ref: '#/components/schemas/portionAmountReceiverAddress'
-        quoteId:
-          $ref: '#/components/schemas/quoteId'
-        slippageTolerance:
-          $ref: '#/components/schemas/slippageTolerance'
-        classicGasUseEstimateUSD:
-          $ref: '#/components/schemas/ClassicGasUseEstimateUSD'
-        aggregatedOutputs:
-          type: array
-          items:
-            $ref: '#/components/schemas/AggregatedOutput'
-      required:
-      - encodedOrder
-      - orderInfo
-      - orderId
-    DutchOutput:
-      type: object
-      properties:
-        startAmount:
-          $ref: '#/components/schemas/startAmount'
-        endAmount:
-          $ref: '#/components/schemas/endAmount'
-        token:
-          $ref: '#/components/schemas/outputToken'
-        recipient:
-          $ref: '#/components/schemas/receiverWalletAddress'
-      required:
-      - startAmount
-      - endAmount
-      - token
-      - recipient
-    ClassicGasUseEstimateUSD:
-      description: The gas fee you would pay if you opted for a CLASSIC swap over a Uniswap X order in terms of USD.
-      type: string
-    deadline:
-      type: number
-      description: The unix timestamp at which the order will be reverted if not filled.
-    portionAmountReceiverAddress:
-      type: string
-      description: The wallet address which will receive the fee.
-    Err400:
-      type: object
-      properties:
-        errorCode:
-          default: RequestValidationError
-          type: string
-        detail:
-          type: string
-    DutchInput:
-      type: object
-      properties:
-        startAmount:
-          $ref: '#/components/schemas/startAmount'
-        endAmount:
-          $ref: '#/components/schemas/endAmount'
-        token:
-          $ref: '#/components/schemas/inputToken'
-      required:
-      - startAmount
-      - endAmount
-      - type
-    portionAmount:
-      type: string
-      description: The portion of the swap that will be taken as a fee in the base units of the token. The fee will be taken from the output token.
-    tokenAmount:
-      type: string
-      description: The quantity of tokens denominated in the token's base units. (For example, for an ERC20 token one token is 1x10^18 base units. For one USDC token one token is 1x10^6 base units.) This value must be greater than 0.
-      pattern: ^[0-9]+$
-    LimitOrderQuoteRequest:
-      type: object
-      properties:
-        swapper:
-          $ref: '#/components/schemas/receiverWalletAddress'
-        limitPrice:
-          type: string
-        amount:
-          $ref: '#/components/schemas/tokenAmount'
-        orderDeadline:
-          type: number
-        type:
-          $ref: '#/components/schemas/TradeType'
-        tokenIn:
-          $ref: '#/components/schemas/inputToken'
-        tokenOut:
-          $ref: '#/components/schemas/outputToken'
-        tokenInChainId:
-          $ref: '#/components/schemas/ChainId'
-        tokenOutChainId:
-          $ref: '#/components/schemas/ChainId'
-      required:
-      - swapper
-      - type
-      - amount
-      - tokenIn
-      - tokenOut
-      - tokenInChainId
-      - tokenOutChainId
-    AggregatedOutput:
-      description: An array of all outputs of the proposed transaction. This includes the swap as well as any fees collected by the API integrator. This does not include pool fees when routing is through a Uniswap Protocol pool.
-      type: object
-      properties:
-        token:
-          $ref: '#/components/schemas/outputToken'
-        amount:
-          $ref: '#/components/schemas/tokenAmount'
-        recipient:
-          $ref: '#/components/schemas/receiverWalletAddress'
-        bps:
-          $ref: '#/components/schemas/bps'
-        minAmount:
-          $ref: '#/components/schemas/minAmount'
-    slippageTolerance:
-      description: 'The slippage tolerance as a percentage up to a maximum of two decimal places. For Uniswap Protocols (v2, v3, v4), the slippage tolerance is the maximum amount the price can change between the time the transaction is submitted and the time it is executed. The slippage tolerance is a percentage of the total value of the swap.
-
-
-        When submitting a quote, note that slippage tolerance works differently in UniswapX swaps where it does not set a limit on the Spread in an order. See [here](https://api-docs.uniswap.org/guides/faqs#why-do-uniswapx-quotes-have-more-slippage-than-the-tolerance-i-set) for more information.
-
-
-        Note that if the trade type is `EXACT_INPUT`, then the slippage is in terms of the output token. If the trade type is `EXACT_OUTPUT`, then the slippage is in terms of the input token.
-
-
-        When submitting a request, `slippageTolerance` may not be set when `autoSlippage` is defined. One of `slippageTolerance` or `autoSlippage` must be defined.'
-      type: number
-      pattern: ^[0-9]{0,3}\.?[0-9]{0,2}$
-    additionalValidationData:
-      type: string
-      default: 0x
-      description: Unused and deprecated.
-      deprecated: true
+      description: The portion of the swap stated in basis points. Fractional basis points are supported with up to two decimal places (e.g. 12.5).
     Err500:
       type: object
       properties:
@@ -204,13 +68,46 @@ components:
           type: string
         detail:
           type: string
-    outputToken:
+    deadline:
+      type: number
+      description: The unix timestamp at which the order will be reverted if not filled.
+    orderId:
       type: string
-      description: The token which will be received, specified by its token address. For a list of supported tokens, see the [FAQ](https://api-docs.uniswap.org/guides/faqs).
+      description: A unique ID for the order. Used to track the order's status.
+    ChainId:
+      description: The unique ID of the blockchain. For a list of supported chains see the [FAQ](https://api-docs.uniswap.org/guides/faqs).
+      type: number
+      enum:
+      - 1
+      - 10
+      - 56
+      - 130
+      - 137
+      - 143
+      - 196
+      - 324
+      - 480
+      - 1868
+      - 4217
+      - 8453
+      - 10143
+      - 42161
+      - 42220
+      - 43114
+      - 59144
+      - 81457
+      - 7777777
+      - 1301
+      - 84532
+      - 11155111
+      default: 1
+    endAmount:
+      type: string
+      description: The worst case quantity of tokens resulting from this swap.
+    inputToken:
+      type: string
+      description: The token which will be sent, specified by its token address. For a list of supported tokens, see the [FAQ](https://api-docs.uniswap.org/guides/faqs).
       pattern: ^(0x)?[0-9a-fA-F]{40}$
-    startAmount:
-      type: string
-      description: The intended execution quantity of tokens resulting from this swap.
     Err401:
       type: object
       properties:
@@ -219,29 +116,60 @@ components:
           type: string
         detail:
           type: string
-    inputToken:
+    contractAddress:
       type: string
-      description: The token which will be sent, specified by its token address. For a list of supported tokens, see the [FAQ](https://api-docs.uniswap.org/guides/faqs).
+      description: The address of a contract which will be used to facilitate the swap.
       pattern: ^(0x)?[0-9a-fA-F]{40}$
-    quoteId:
-      type: string
-      description: A unique ID for the quote.
-    nonce:
-      type: string
-      description: A unique nonce for this order.
-    encodedOrder:
-      type: string
-      description: An encoded copy of the order details which will be submitted to the filler network along with the signed permit.
-    orderId:
-      type: string
-      description: A unique ID for the order. Used to track the order's status.
     receiverWalletAddress:
       type: string
       description: The wallet address which will receive the token.
       pattern: ^(0x)?[0-9a-fA-F]{40}$
+    LimitOrderQuoteResponse:
+      type: object
+      properties:
+        requestId:
+          $ref: '#/components/schemas/RequestId'
+        quote:
+          $ref: '#/components/schemas/DutchQuote'
+        routing:
+          type: string
+          enum:
+          - LIMIT_ORDER
+        permitData:
+          $ref: '#/components/schemas/NullablePermit'
+      required:
+      - routing
+      - quote
+      - permitData
+      - requestId
+    ClassicGasUseEstimateUSD:
+      description: The gas fee you would pay if you opted for a CLASSIC swap over a Uniswap X order in terms of USD.
+      type: string
+    Err400:
+      type: object
+      properties:
+        errorCode:
+          default: RequestValidationError
+          type: string
+        detail:
+          type: string
+    portionAmountReceiverAddress:
+      type: string
+      description: The wallet address which will receive the fee.
     minAmount:
       type: string
       description: The minimum portion of the swap, stated in the base unit of the token, which will be output to the recipient.
+    outputToken:
+      type: string
+      description: The token which will be received, specified by its token address. For a list of supported tokens, see the [FAQ](https://api-docs.uniswap.org/guides/faqs).
+      pattern: ^(0x)?[0-9a-fA-F]{40}$
+    TradeType:
+      type: string
+      enum:
+      - EXACT_INPUT
+      - EXACT_OUTPUT
+      description: The handling of the `amount` field. `EXACT_INPUT` means the requester will send the specified `amount` of input tokens and get a quote with a variable quantity of output tokens. `EXACT_OUTPUT` means the requester will receive the specified `amount` of output tokens and get a quote with a variable quantity of input tokens.
+      default: EXACT_INPUT
     DutchOrderInfo:
       type: object
       properties:
@@ -291,10 +219,112 @@ components:
       - exclusivityOverrideBps
       - input
       - outputs
-    contractAddress:
+    LimitOrderQuoteRequest:
+      type: object
+      properties:
+        swapper:
+          $ref: '#/components/schemas/receiverWalletAddress'
+        limitPrice:
+          type: string
+        amount:
+          $ref: '#/components/schemas/tokenAmount'
+        orderDeadline:
+          type: number
+        type:
+          $ref: '#/components/schemas/TradeType'
+        tokenIn:
+          $ref: '#/components/schemas/inputToken'
+        tokenOut:
+          $ref: '#/components/schemas/outputToken'
+        tokenInChainId:
+          $ref: '#/components/schemas/ChainId'
+        tokenOutChainId:
+          $ref: '#/components/schemas/ChainId'
+      required:
+      - swapper
+      - type
+      - amount
+      - tokenIn
+      - tokenOut
+      - tokenInChainId
+      - tokenOutChainId
+    additionalValidationContract:
       type: string
-      description: The address of a contract which will be used to facilitate the swap.
-      pattern: ^(0x)?[0-9a-fA-F]{40}$
+      default: '0x0000000000000000000000000000000000000000'
+      description: Unused and deprecated.
+      deprecated: true
+    AggregatedOutput:
+      description: An array of all outputs of the proposed transaction. This includes the swap as well as any fees collected by the API integrator. This does not include pool fees when routing is through a Uniswap Protocol pool.
+      type: object
+      properties:
+        token:
+          $ref: '#/components/schemas/outputToken'
+        amount:
+          $ref: '#/components/schemas/tokenAmount'
+        recipient:
+          $ref: '#/components/schemas/receiverWalletAddress'
+        bps:
+          $ref: '#/components/schemas/bps'
+        minAmount:
+          $ref: '#/components/schemas/minAmount'
+    Err504:
+      type: object
+      properties:
+        errorCode:
+          default: Timeout
+          type: string
+        detail:
+          type: string
+    DutchInput:
+      type: object
+      properties:
+        startAmount:
+          $ref: '#/components/schemas/startAmount'
+        endAmount:
+          $ref: '#/components/schemas/endAmount'
+        token:
+          $ref: '#/components/schemas/inputToken'
+      required:
+      - startAmount
+      - endAmount
+      - type
+    tokenAmount:
+      type: string
+      description: The quantity of tokens denominated in the token's base units. (For example, for an ERC20 token one token is 1x10^18 base units. For one USDC token one token is 1x10^6 base units.) This value must be greater than 0.
+      pattern: ^[0-9]+$
+    startAmount:
+      type: string
+      description: The intended execution quantity of tokens resulting from this swap.
+    additionalValidationData:
+      type: string
+      default: 0x
+      description: Unused and deprecated.
+      deprecated: true
+    DutchOutput:
+      type: object
+      properties:
+        startAmount:
+          $ref: '#/components/schemas/startAmount'
+        endAmount:
+          $ref: '#/components/schemas/endAmount'
+        token:
+          $ref: '#/components/schemas/outputToken'
+        recipient:
+          $ref: '#/components/schemas/receiverWalletAddress'
+      required:
+      - startAmount
+      - endAmount
+      - token
+      - recipient
+    portionAmount:
+      type: string
+      description: The portion of the swap that will be taken as a fee in the base units of the token. The fee will be taken from the output token.
+    quoteId:
+      type: string
+      description: A unique ID for the quote.
+    RequestId:
+      type: string
+      description: A unique ID for the request.
     Err404:
       type: object
       properties:
@@ -307,81 +337,54 @@ components:
           type: string
         detail:
           type: string
-    Err504:
+    nonce:
+      type: string
+      description: A unique nonce for this order.
+    slippageTolerance:
+      description: 'The slippage tolerance as a percentage up to a maximum of two decimal places. For Uniswap Protocols (v2, v3, v4), the slippage tolerance is the maximum amount the price can change between the time the transaction is submitted and the time it is executed. The slippage tolerance is a percentage of the total value of the swap.
+
+
+        When submitting a quote, note that slippage tolerance works differently in UniswapX swaps where it does not set a limit on the Spread in an order. See [here](https://api-docs.uniswap.org/guides/faqs#why-do-uniswapx-quotes-have-more-slippage-than-the-tolerance-i-set) for more information.
+
+
+        Note that if the trade type is `EXACT_INPUT`, then the slippage is in terms of the output token. If the trade type is `EXACT_OUTPUT`, then the slippage is in terms of the input token.
+
+
+        When submitting a request, `slippageTolerance` may not be set when `autoSlippage` is defined. One of `slippageTolerance` or `autoSlippage` must be defined.'
+      type: number
+      pattern: ^[0-9]{0,3}\.?[0-9]{0,2}$
+    encodedOrder:
+      type: string
+      description: An encoded copy of the order details which will be submitted to the filler network along with the signed permit.
+    DutchQuote:
       type: object
       properties:
-        errorCode:
-          default: Timeout
-          type: string
-        detail:
-          type: string
-    LimitOrderQuoteResponse:
-      type: object
-      properties:
-        requestId:
-          $ref: '#/components/schemas/RequestId'
-        quote:
-          $ref: '#/components/schemas/DutchQuote'
-        routing:
-          type: string
-          enum:
-          - LIMIT_ORDER
-        permitData:
-          $ref: '#/components/schemas/NullablePermit'
+        encodedOrder:
+          $ref: '#/components/schemas/encodedOrder'
+        orderId:
+          $ref: '#/components/schemas/orderId'
+        orderInfo:
+          $ref: '#/components/schemas/DutchOrderInfo'
+        portionBips:
+          $ref: '#/components/schemas/portionBips'
+        portionAmount:
+          $ref: '#/components/schemas/portionAmount'
+        portionRecipient:
+          $ref: '#/components/schemas/portionAmountReceiverAddress'
+        quoteId:
+          $ref: '#/components/schemas/quoteId'
+        slippageTolerance:
+          $ref: '#/components/schemas/slippageTolerance'
+        classicGasUseEstimateUSD:
+          $ref: '#/components/schemas/ClassicGasUseEstimateUSD'
+        aggregatedOutputs:
+          type: array
+          items:
+            $ref: '#/components/schemas/AggregatedOutput'
       required:
-      - routing
-      - quote
-      - permitData
-      - requestId
-    endAmount:
-      type: string
-      description: The worst case quantity of tokens resulting from this swap.
-    NullablePermit:
-      description: the permit2 message object for the customer to sign to permit spending by the permit2 contract.
-      type:
-      - object
-      - 'null'
-      properties:
-        domain:
-          type: object
-        values:
-          type: object
-        types:
-          type: object
-    RequestId:
-      type: string
-      description: A unique ID for the request.
-    bps:
-      type: number
-      multipleOf: 0.01
-      description: The portion of the swap stated in basis points. Fractional basis points are supported with up to two decimal places (e.g. 12.5).
-    ChainId:
-      description: The unique ID of the blockchain. For a list of supported chains see the [FAQ](https://api-docs.uniswap.org/guides/faqs).
-      type: number
-      enum:
-      - 1
-      - 10
-      - 56
-      - 130
-      - 137
-      - 143
-      - 196
-      - 324
-      - 480
-      - 1868
-      - 4217
-      - 8453
-      - 10143
-      - 42161
-      - 42220
-      - 43114
-      - 59144
-      - 81457
-      - 7777777
-      - 1301
-      - 84532
-      - 11155111
-      default: 1
+      - encodedOrder
+      - orderInfo
+      - orderId
     Err429:
       type: object
       properties:
@@ -390,32 +393,41 @@ components:
           type: string
         detail:
           type: string
-    TradeType:
-      type: string
-      enum:
-      - EXACT_INPUT
-      - EXACT_OUTPUT
-      description: The handling of the `amount` field. `EXACT_INPUT` means the requester will send the specified `amount` of input tokens and get a quote with a variable quantity of output tokens. `EXACT_OUTPUT` means the requester will receive the specified `amount` of output tokens and get a quote with a variable quantity of input tokens.
-      default: EXACT_INPUT
+    portionBips:
+      type: number
+      multipleOf: 0.01
+      description: The portion of the swap that will be taken as a fee stated in basis points. Fractional basis points are supported with up to two decimal places (e.g. 87.5 for 0.875%). The fee will be taken from the output token.
   responses:
-    BadRequest400:
-      description: RequestValidationError, Bad Input
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Err400'
-    LimitOrderQuoteSuccess200:
-      description: Limit Order Quote request successful.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/LimitOrderQuoteResponse'
     Unauthorized401:
       description: UnauthorizedError eg. Account is blocked.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Err401'
+    LimitOrderQuoteSuccess200:
+      description: Limit Order Quote request successful.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/LimitOrderQuoteResponse'
+    BadRequest400:
+      description: RequestValidationError, Bad Input
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err400'
+    Timeout504:
+      description: Request duration limit reached.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err504'
+    QuoteNotFound404:
+      description: ResourceNotFound eg. No quotes available or Gas fee/price not available
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err404'
     InternalErr500:
       description: Unexpected error
       content:
@@ -428,18 +440,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Err429'
-    QuoteNotFound404:
-      description: ResourceNotFound eg. No quotes available or Gas fee/price not available
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Err404'
-    Timeout504:
-      description: Request duration limit reached.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Err504'
   securitySchemes:
     apiKey:
       type: apiKey

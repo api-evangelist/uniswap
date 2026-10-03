@@ -93,13 +93,388 @@ paths:
       x-public-endpoint: true
 components:
   schemas:
+    bps:
+      type: number
+      multipleOf: 0.01
+      description: The portion of the swap stated in basis points. Fractional basis points are supported with up to two decimal places (e.g. 12.5).
+    contractAddress:
+      type: string
+      description: The address of a contract which will be used to facilitate the swap.
+      pattern: ^(0x)?[0-9a-fA-F]{40}$
+    receiverWalletAddress:
+      type: string
+      description: The wallet address which will receive the token.
+      pattern: ^(0x)?[0-9a-fA-F]{40}$
+    ClassicGasUseEstimateUSD:
+      description: The gas fee you would pay if you opted for a CLASSIC swap over a Uniswap X order in terms of USD.
+      type: string
+    Curve:
+      type: object
+      properties:
+        relativeBlocks:
+          type: array
+          items:
+            type: number
+        relativeAmounts:
+          type: array
+          items:
+            type: string
+      required:
+      - type
+    outputToken:
+      type: string
+      description: The token which will be received, specified by its token address. For a list of supported tokens, see the [FAQ](https://api-docs.uniswap.org/guides/faqs).
+      pattern: ^(0x)?[0-9a-fA-F]{40}$
+    PriorityInput:
+      type: object
+      properties:
+        amount:
+          $ref: '#/components/schemas/tokenAmount'
+        token:
+          $ref: '#/components/schemas/inputToken'
+        mpsPerPriorityFeeWei:
+          type: string
+      required:
+      - amount
+      - token
+      - mpsPerPriorityFeeWei
+    OrderRequest:
+      type: object
+      properties:
+        signature:
+          type: string
+          description: The signed permit.
+        quote:
+          oneOf:
+          - $ref: '#/components/schemas/DutchQuoteV2'
+          - $ref: '#/components/schemas/DutchQuoteV3'
+          - $ref: '#/components/schemas/PriorityQuote'
+        routing:
+          $ref: '#/components/schemas/Routing'
+      required:
+      - signature
+      - quote
+    startAmount:
+      type: string
+      description: The intended execution quantity of tokens resulting from this swap.
+    DutchOutput:
+      type: object
+      properties:
+        startAmount:
+          $ref: '#/components/schemas/startAmount'
+        endAmount:
+          $ref: '#/components/schemas/endAmount'
+        token:
+          $ref: '#/components/schemas/outputToken'
+        recipient:
+          $ref: '#/components/schemas/receiverWalletAddress'
+      required:
+      - startAmount
+      - endAmount
+      - token
+      - recipient
+    CosignerData:
+      type: object
+      properties:
+        decayStartTime:
+          type: number
+          description: The unix timestamp at which the order will be eligible to be filled by alternate fillers at a lower price. Noted that the fill amount will not be lower than the output `endAmount`.
+        decayEndTime:
+          type: number
+          description: The unix timestamp at which the order will no longer be eligible to be filled by alternate fillers.
+        exclusiveFiller:
+          type: string
+          description: The address of the filler who has priority to fill the order by the `decayStartTime`.
+        inputOverride:
+          type: string
+        outputOverrides:
+          type: array
+          items:
+            type: string
+    OrderInput:
+      type: object
+      properties:
+        token:
+          $ref: '#/components/schemas/inputToken'
+        startAmount:
+          $ref: '#/components/schemas/startAmount'
+        endAmount:
+          $ref: '#/components/schemas/endAmount'
+      required:
+      - token
+    slippageTolerance:
+      description: 'The slippage tolerance as a percentage up to a maximum of two decimal places. For Uniswap Protocols (v2, v3, v4), the slippage tolerance is the maximum amount the price can change between the time the transaction is submitted and the time it is executed. The slippage tolerance is a percentage of the total value of the swap.
+
+
+        When submitting a quote, note that slippage tolerance works differently in UniswapX swaps where it does not set a limit on the Spread in an order. See [here](https://api-docs.uniswap.org/guides/faqs#why-do-uniswapx-quotes-have-more-slippage-than-the-tolerance-i-set) for more information.
+
+
+        Note that if the trade type is `EXACT_INPUT`, then the slippage is in terms of the output token. If the trade type is `EXACT_OUTPUT`, then the slippage is in terms of the input token.
+
+
+        When submitting a request, `slippageTolerance` may not be set when `autoSlippage` is defined. One of `slippageTolerance` or `autoSlippage` must be defined.'
+      type: number
+      pattern: ^[0-9]{0,3}\.?[0-9]{0,2}$
+    DutchOrderInfoV3:
+      type: object
+      properties:
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        nonce:
+          $ref: '#/components/schemas/nonce'
+        reactor:
+          $ref: '#/components/schemas/contractAddress'
+        swapper:
+          $ref: '#/components/schemas/receiverWalletAddress'
+        deadline:
+          $ref: '#/components/schemas/deadline'
+        additionalValidationContract:
+          $ref: '#/components/schemas/additionalValidationContract'
+        additionalValidationData:
+          $ref: '#/components/schemas/additionalValidationData'
+        input:
+          $ref: '#/components/schemas/DutchInputV3'
+        outputs:
+          type: array
+          items:
+            $ref: '#/components/schemas/DutchOutputV3'
+        cosigner:
+          $ref: '#/components/schemas/cosignerAddress'
+        startingBaseFee:
+          type: string
+      required:
+      - chainId
+      - nonce
+      - reactor
+      - swapper
+      - deadline
+      - validationContract
+      - validationData
+      - startTime
+      - endTime
+      - exclusiveFiller
+      - exclusivityOverrideBps
+      - input
+      - outputs
     Address:
       type: string
       pattern: ^(0x)?[0-9a-fA-F]{40}$
+    Err429:
+      type: object
+      properties:
+        errorCode:
+          default: Ratelimited
+          type: string
+        detail:
+          type: string
+    OrderIds:
+      type: string
+    inputToken:
+      type: string
+      description: The token which will be sent, specified by its token address. For a list of supported tokens, see the [FAQ](https://api-docs.uniswap.org/guides/faqs).
+      pattern: ^(0x)?[0-9a-fA-F]{40}$
+    minAmount:
+      type: string
+      description: The minimum portion of the swap, stated in the base unit of the token, which will be output to the recipient.
+    Routing:
+      type: string
+      enum:
+      - CLASSIC
+      - DUTCH_LIMIT
+      - DUTCH_V2
+      - DUTCH_V3
+      - BRIDGE
+      - LIMIT_ORDER
+      - PRIORITY
+      - WRAP
+      - UNWRAP
+      - CHAINED
+      description: The routing for the proposed transaction.
+    Err504:
+      type: object
+      properties:
+        errorCode:
+          default: Timeout
+          type: string
+        detail:
+          type: string
+    tokenAmount:
+      type: string
+      description: The quantity of tokens denominated in the token's base units. (For example, for an ERC20 token one token is 1x10^18 base units. For one USDC token one token is 1x10^6 base units.) This value must be greater than 0.
+      pattern: ^[0-9]+$
+    OrderResponse:
+      type: object
+      properties:
+        requestId:
+          $ref: '#/components/schemas/RequestId'
+        orderId:
+          $ref: '#/components/schemas/orderId'
+        orderStatus:
+          $ref: '#/components/schemas/OrderStatus'
+      required:
+      - requestId
+      - orderId
+      - orderStatus
+    OrderTypeQuery:
+      type: string
+      enum:
+      - Dutch_V2
+      - Dutch_V3
+      - Limit
+      - Priority
+    SortKey:
+      type: string
+      enum:
+      - createdAt
+    quoteId:
+      type: string
+      description: A unique ID for the quote.
+    DutchOutputV3:
+      type: object
+      properties:
+        startAmount:
+          $ref: '#/components/schemas/startAmount'
+        minAmount:
+          $ref: '#/components/schemas/minAmount'
+        recipient:
+          $ref: '#/components/schemas/receiverWalletAddress'
+        adjustmentPerGweiBaseFee:
+          type: string
+        curve:
+          $ref: '#/components/schemas/Curve'
+        token:
+          $ref: '#/components/schemas/outputToken'
+      required:
+      - startAmount
+      - maxAmount
+      - adjustmentPerGweiBaseFee
+      - curve
+      - token
+      - recipient
+    Err404:
+      type: object
+      properties:
+        errorCode:
+          enum:
+          - ResourceNotFound
+          - QuoteAmountTooLowError
+          - TokenBalanceNotAvailable
+          - InsufficientBalance
+          type: string
+        detail:
+          type: string
+    encodedOrder:
+      type: string
+      description: An encoded copy of the order details which will be submitted to the filler network along with the signed permit.
     portionBips:
       type: number
       multipleOf: 0.01
       description: The portion of the swap that will be taken as a fee stated in basis points. Fractional basis points are supported with up to two decimal places (e.g. 87.5 for 0.875%). The fee will be taken from the output token.
+    DutchQuoteV3:
+      title: UniswapX V3 Quote
+      type: object
+      properties:
+        encodedOrder:
+          $ref: '#/components/schemas/encodedOrder'
+        orderId:
+          $ref: '#/components/schemas/orderId'
+        orderInfo:
+          $ref: '#/components/schemas/DutchOrderInfoV3'
+        portionBips:
+          $ref: '#/components/schemas/portionBips'
+        portionAmount:
+          $ref: '#/components/schemas/portionAmount'
+        portionRecipient:
+          $ref: '#/components/schemas/portionAmountReceiverAddress'
+        quoteId:
+          $ref: '#/components/schemas/quoteId'
+        slippageTolerance:
+          $ref: '#/components/schemas/slippageTolerance'
+        deadlineBufferSecs:
+          type: number
+        classicGasUseEstimateUSD:
+          $ref: '#/components/schemas/ClassicGasUseEstimateUSD'
+        expectedAmountIn:
+          type: string
+        expectedAmountOut:
+          type: string
+        aggregatedOutputs:
+          type: array
+          items:
+            $ref: '#/components/schemas/AggregatedOutput'
+      required:
+      - encodedOrder
+      - orderInfo
+      - orderId
+    DutchInputV3:
+      type: object
+      properties:
+        startAmount:
+          $ref: '#/components/schemas/startAmount'
+        maxAmount:
+          type: string
+        adjustmentPerGweiBaseFee:
+          type: string
+        curve:
+          $ref: '#/components/schemas/Curve'
+        token:
+          $ref: '#/components/schemas/inputToken'
+      required:
+      - startAmount
+      - maxAmount
+      - adjustmentPerGweiBaseFee
+      - curve
+      - token
+    DutchOrderInfoV2:
+      type: object
+      properties:
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        nonce:
+          $ref: '#/components/schemas/nonce'
+        reactor:
+          $ref: '#/components/schemas/contractAddress'
+        swapper:
+          $ref: '#/components/schemas/receiverWalletAddress'
+        deadline:
+          $ref: '#/components/schemas/deadline'
+        additionalValidationContract:
+          $ref: '#/components/schemas/additionalValidationContract'
+        additionalValidationData:
+          $ref: '#/components/schemas/additionalValidationData'
+        input:
+          $ref: '#/components/schemas/DutchInput'
+        outputs:
+          type: array
+          items:
+            $ref: '#/components/schemas/DutchOutput'
+        cosigner:
+          $ref: '#/components/schemas/cosignerAddress'
+      required:
+      - chainId
+      - nonce
+      - reactor
+      - swapper
+      - deadline
+      - validationContract
+      - validationData
+      - startTime
+      - endTime
+      - exclusiveFiller
+      - exclusivityOverrideBps
+      - input
+      - outputs
+    Err500:
+      type: object
+      properties:
+        errorCode:
+          default: InternalServerError
+          type: string
+        detail:
+          type: string
+    deadline:
+      type: number
+      description: The unix timestamp at which the order will be reverted if not filled.
     GetOrdersResponse:
       type: object
       properties:
@@ -114,17 +489,38 @@ components:
       required:
       - orders
       - requestId
-    SettledAmount:
+    DutchQuoteV2:
+      title: UniswapX V2 Quote
       type: object
       properties:
-        tokenOut:
-          $ref: '#/components/schemas/outputToken'
-        amountOut:
-          $ref: '#/components/schemas/tokenAmount'
-        tokenIn:
-          $ref: '#/components/schemas/inputToken'
-        amountIn:
-          $ref: '#/components/schemas/tokenAmount'
+        encodedOrder:
+          $ref: '#/components/schemas/encodedOrder'
+        orderId:
+          $ref: '#/components/schemas/orderId'
+        orderInfo:
+          $ref: '#/components/schemas/DutchOrderInfoV2'
+        portionBips:
+          $ref: '#/components/schemas/portionBips'
+        portionAmount:
+          $ref: '#/components/schemas/portionAmount'
+        portionRecipient:
+          $ref: '#/components/schemas/portionAmountReceiverAddress'
+        quoteId:
+          $ref: '#/components/schemas/quoteId'
+        slippageTolerance:
+          $ref: '#/components/schemas/slippageTolerance'
+        deadlineBufferSecs:
+          type: number
+        classicGasUseEstimateUSD:
+          $ref: '#/components/schemas/ClassicGasUseEstimateUSD'
+        aggregatedOutputs:
+          type: array
+          items:
+            $ref: '#/components/schemas/AggregatedOutput'
+      required:
+      - encodedOrder
+      - orderInfo
+      - orderId
     DutchInput:
       type: object
       properties:
@@ -141,19 +537,133 @@ components:
     portionAmount:
       type: string
       description: The portion of the swap that will be taken as a fee in the base units of the token. The fee will be taken from the output token.
-    slippageTolerance:
-      description: 'The slippage tolerance as a percentage up to a maximum of two decimal places. For Uniswap Protocols (v2, v3, v4), the slippage tolerance is the maximum amount the price can change between the time the transaction is submitted and the time it is executed. The slippage tolerance is a percentage of the total value of the swap.
-
-
-        When submitting a quote, note that slippage tolerance works differently in UniswapX swaps where it does not set a limit on the Spread in an order. See [here](https://api-docs.uniswap.org/guides/faqs#why-do-uniswapx-quotes-have-more-slippage-than-the-tolerance-i-set) for more information.
-
-
-        Note that if the trade type is `EXACT_INPUT`, then the slippage is in terms of the output token. If the trade type is `EXACT_OUTPUT`, then the slippage is in terms of the input token.
-
-
-        When submitting a request, `slippageTolerance` may not be set when `autoSlippage` is defined. One of `slippageTolerance` or `autoSlippage` must be defined.'
+    RequestId:
+      type: string
+      description: A unique ID for the request.
+    TransactionHash:
+      type: string
+      description: The unique hash of the transaction.
+      pattern: ^(0x)?[0-9a-fA-F]{64}$
+    SettledAmount:
+      type: object
+      properties:
+        tokenOut:
+          $ref: '#/components/schemas/outputToken'
+        amountOut:
+          $ref: '#/components/schemas/tokenAmount'
+        tokenIn:
+          $ref: '#/components/schemas/inputToken'
+        amountIn:
+          $ref: '#/components/schemas/tokenAmount'
+    orderId:
+      type: string
+      description: A unique ID for the order. Used to track the order's status.
+    cosignerAddress:
+      type: string
+      description: The address of a cosigner who will run the auction and ensure the best executable price within the given parameters. Currently the cosigner is always Uniswap Labs.
+      pattern: ^(0x)?[0-9a-fA-F]{40}$
+    OrderStatus:
+      description: "The status of the order. Note that all of these are final states with the exception of Open, meaning that no further state changes will occur. \n Open - order is not yet filled by a filler.\n Expired - order has expired without being filled and is no longer fillable.\n Error - a catchall for other final states which are not otherwise specified, where the order will not be filled.\n Cancelled - order is cancelled. Note that to cancel an order, a new order must be placed with the same nonce as the prior open order and it must be placed within the same block as the original order.\n Filled - order is filled.\n Insufficient-funds - the swapper (you) do not have enough funds for the order to be completed and the order is cancelled and will not be filled.\n Unverified - order has not been verified yet."
+      type: string
+      enum:
+      - open
+      - expired
+      - error
+      - cancelled
+      - filled
+      - unverified
+      - insufficient-funds
+    ChainId:
+      description: The unique ID of the blockchain. For a list of supported chains see the [FAQ](https://api-docs.uniswap.org/guides/faqs).
       type: number
-      pattern: ^[0-9]{0,3}\.?[0-9]{0,2}$
+      enum:
+      - 1
+      - 10
+      - 56
+      - 130
+      - 137
+      - 143
+      - 196
+      - 324
+      - 480
+      - 1868
+      - 4217
+      - 8453
+      - 10143
+      - 42161
+      - 42220
+      - 43114
+      - 59144
+      - 81457
+      - 7777777
+      - 1301
+      - 84532
+      - 11155111
+      default: 1
+    endAmount:
+      type: string
+      description: The worst case quantity of tokens resulting from this swap.
+    PriorityOrderInfo:
+      type: object
+      properties:
+        chainId:
+          $ref: '#/components/schemas/ChainId'
+        nonce:
+          $ref: '#/components/schemas/nonce'
+        reactor:
+          $ref: '#/components/schemas/contractAddress'
+        swapper:
+          $ref: '#/components/schemas/receiverWalletAddress'
+        deadline:
+          $ref: '#/components/schemas/deadline'
+        additionalValidationContract:
+          $ref: '#/components/schemas/additionalValidationContract'
+        additionalValidationData:
+          $ref: '#/components/schemas/additionalValidationData'
+        auctionStartBlock:
+          type: string
+        baselinePriorityFeeWei:
+          type: string
+        input:
+          $ref: '#/components/schemas/PriorityInput'
+        outputs:
+          type: array
+          items:
+            $ref: '#/components/schemas/PriorityOutput'
+        cosigner:
+          $ref: '#/components/schemas/cosignerAddress'
+      required:
+      - chainId
+      - nonce
+      - reactor
+      - swapper
+      - deadline
+      - validationContract
+      - validationData
+      - auctionStartBlock
+      - baselinePriorityFeeWei
+      - input
+      - outputs
+      - cosigner
+    Err401:
+      type: object
+      properties:
+        errorCode:
+          default: UnauthorizedError
+          type: string
+        detail:
+          type: string
+    Err400:
+      type: object
+      properties:
+        errorCode:
+          default: RequestValidationError
+          type: string
+        detail:
+          type: string
+    portionAmountReceiverAddress:
+      type: string
+      description: The wallet address which will receive the fee.
     UniswapXOrder:
       type: object
       properties:
@@ -199,250 +709,6 @@ components:
       - orderStatus
       - chainId
       - type
-    DutchQuoteV2:
-      title: UniswapX V2 Quote
-      type: object
-      properties:
-        encodedOrder:
-          $ref: '#/components/schemas/encodedOrder'
-        orderId:
-          $ref: '#/components/schemas/orderId'
-        orderInfo:
-          $ref: '#/components/schemas/DutchOrderInfoV2'
-        portionBips:
-          $ref: '#/components/schemas/portionBips'
-        portionAmount:
-          $ref: '#/components/schemas/portionAmount'
-        portionRecipient:
-          $ref: '#/components/schemas/portionAmountReceiverAddress'
-        quoteId:
-          $ref: '#/components/schemas/quoteId'
-        slippageTolerance:
-          $ref: '#/components/schemas/slippageTolerance'
-        deadlineBufferSecs:
-          type: number
-        classicGasUseEstimateUSD:
-          $ref: '#/components/schemas/ClassicGasUseEstimateUSD'
-        aggregatedOutputs:
-          type: array
-          items:
-            $ref: '#/components/schemas/AggregatedOutput'
-      required:
-      - encodedOrder
-      - orderInfo
-      - orderId
-    startAmount:
-      type: string
-      description: The intended execution quantity of tokens resulting from this swap.
-    OrderOutput:
-      type: object
-      properties:
-        token:
-          $ref: '#/components/schemas/outputToken'
-        startAmount:
-          $ref: '#/components/schemas/startAmount'
-        endAmount:
-          $ref: '#/components/schemas/endAmount'
-        isFeeOutput:
-          type: boolean
-        recipient:
-          $ref: '#/components/schemas/receiverWalletAddress'
-      required:
-      - token
-    Err401:
-      type: object
-      properties:
-        errorCode:
-          default: UnauthorizedError
-          type: string
-        detail:
-          type: string
-    quoteId:
-      type: string
-      description: A unique ID for the quote.
-    encodedOrder:
-      type: string
-      description: An encoded copy of the order details which will be submitted to the filler network along with the signed permit.
-    PriorityOutput:
-      type: object
-      properties:
-        amount:
-          $ref: '#/components/schemas/tokenAmount'
-        token:
-          $ref: '#/components/schemas/outputToken'
-        recipient:
-          $ref: '#/components/schemas/receiverWalletAddress'
-        mpsPerPriorityFeeWei:
-          type: string
-          description: The scaling factor of the priority fee based on the output token amount.
-      required:
-      - amount
-      - token
-      - recipient
-      - mpsPerPriorityFeeWei
-    OrderStatus:
-      description: "The status of the order. Note that all of these are final states with the exception of Open, meaning that no further state changes will occur. \n Open - order is not yet filled by a filler.\n Expired - order has expired without being filled and is no longer fillable.\n Error - a catchall for other final states which are not otherwise specified, where the order will not be filled.\n Cancelled - order is cancelled. Note that to cancel an order, a new order must be placed with the same nonce as the prior open order and it must be placed within the same block as the original order.\n Filled - order is filled.\n Insufficient-funds - the swapper (you) do not have enough funds for the order to be completed and the order is cancelled and will not be filled.\n Unverified - order has not been verified yet."
-      type: string
-      enum:
-      - open
-      - expired
-      - error
-      - cancelled
-      - filled
-      - unverified
-      - insufficient-funds
-    RequestId:
-      type: string
-      description: A unique ID for the request.
-    SortKey:
-      type: string
-      enum:
-      - createdAt
-    DutchOrderInfoV2:
-      type: object
-      properties:
-        chainId:
-          $ref: '#/components/schemas/ChainId'
-        nonce:
-          $ref: '#/components/schemas/nonce'
-        reactor:
-          $ref: '#/components/schemas/contractAddress'
-        swapper:
-          $ref: '#/components/schemas/receiverWalletAddress'
-        deadline:
-          $ref: '#/components/schemas/deadline'
-        additionalValidationContract:
-          $ref: '#/components/schemas/additionalValidationContract'
-        additionalValidationData:
-          $ref: '#/components/schemas/additionalValidationData'
-        input:
-          $ref: '#/components/schemas/DutchInput'
-        outputs:
-          type: array
-          items:
-            $ref: '#/components/schemas/DutchOutput'
-        cosigner:
-          $ref: '#/components/schemas/cosignerAddress'
-      required:
-      - chainId
-      - nonce
-      - reactor
-      - swapper
-      - deadline
-      - validationContract
-      - validationData
-      - startTime
-      - endTime
-      - exclusiveFiller
-      - exclusivityOverrideBps
-      - input
-      - outputs
-    deadline:
-      type: number
-      description: The unix timestamp at which the order will be reverted if not filled.
-    ClassicGasUseEstimateUSD:
-      description: The gas fee you would pay if you opted for a CLASSIC swap over a Uniswap X order in terms of USD.
-      type: string
-    OrderIds:
-      type: string
-    additionalValidationData:
-      type: string
-      default: 0x
-      description: Unused and deprecated.
-      deprecated: true
-    Err503:
-      type: object
-      properties:
-        errorCode:
-          default: ServiceUnavailable
-          type: string
-        detail:
-          type: string
-    Curve:
-      type: object
-      properties:
-        relativeBlocks:
-          type: array
-          items:
-            type: number
-        relativeAmounts:
-          type: array
-          items:
-            type: string
-      required:
-      - type
-    DutchQuoteV3:
-      title: UniswapX V3 Quote
-      type: object
-      properties:
-        encodedOrder:
-          $ref: '#/components/schemas/encodedOrder'
-        orderId:
-          $ref: '#/components/schemas/orderId'
-        orderInfo:
-          $ref: '#/components/schemas/DutchOrderInfoV3'
-        portionBips:
-          $ref: '#/components/schemas/portionBips'
-        portionAmount:
-          $ref: '#/components/schemas/portionAmount'
-        portionRecipient:
-          $ref: '#/components/schemas/portionAmountReceiverAddress'
-        quoteId:
-          $ref: '#/components/schemas/quoteId'
-        slippageTolerance:
-          $ref: '#/components/schemas/slippageTolerance'
-        deadlineBufferSecs:
-          type: number
-        classicGasUseEstimateUSD:
-          $ref: '#/components/schemas/ClassicGasUseEstimateUSD'
-        expectedAmountIn:
-          type: string
-        expectedAmountOut:
-          type: string
-        aggregatedOutputs:
-          type: array
-          items:
-            $ref: '#/components/schemas/AggregatedOutput'
-      required:
-      - encodedOrder
-      - orderInfo
-      - orderId
-    minAmount:
-      type: string
-      description: The minimum portion of the swap, stated in the base unit of the token, which will be output to the recipient.
-    OrderTypeQuery:
-      type: string
-      enum:
-      - Dutch_V2
-      - Dutch_V3
-      - Limit
-      - Priority
-    Routing:
-      type: string
-      enum:
-      - CLASSIC
-      - DUTCH_LIMIT
-      - DUTCH_V2
-      - DUTCH_V3
-      - BRIDGE
-      - LIMIT_ORDER
-      - PRIORITY
-      - WRAP
-      - UNWRAP
-      - CHAINED
-      description: The routing for the proposed transaction.
-    bps:
-      type: number
-      multipleOf: 0.01
-      description: The portion of the swap stated in basis points. Fractional basis points are supported with up to two decimal places (e.g. 12.5).
-    OrderType:
-      type: string
-      enum:
-      - DutchLimit
-      - Dutch
-      - Dutch_V2
-      - Dutch_V3
-      - Priority
     PriorityQuote:
       title: UniswapX Priority Quote
       type: object
@@ -479,40 +745,6 @@ components:
       - encodedOrder
       - orderInfo
       - orderId
-    additionalValidationContract:
-      type: string
-      default: '0x0000000000000000000000000000000000000000'
-      description: Unused and deprecated.
-      deprecated: true
-    DutchOutputV3:
-      type: object
-      properties:
-        startAmount:
-          $ref: '#/components/schemas/startAmount'
-        minAmount:
-          $ref: '#/components/schemas/minAmount'
-        recipient:
-          $ref: '#/components/schemas/receiverWalletAddress'
-        adjustmentPerGweiBaseFee:
-          type: string
-        curve:
-          $ref: '#/components/schemas/Curve'
-        token:
-          $ref: '#/components/schemas/outputToken'
-      required:
-      - startAmount
-      - maxAmount
-      - adjustmentPerGweiBaseFee
-      - curve
-      - token
-      - recipient
-    portionAmountReceiverAddress:
-      type: string
-      description: The wallet address which will receive the fee.
-    TransactionHash:
-      type: string
-      description: The unique hash of the transaction.
-      pattern: ^(0x)?[0-9a-fA-F]{64}$
     AggregatedOutput:
       description: An array of all outputs of the proposed transaction. This includes the swap as well as any fees collected by the API integrator. This does not include pool fees when routing is through a Uniswap Protocol pool.
       type: object
@@ -527,300 +759,128 @@ components:
           $ref: '#/components/schemas/bps'
         minAmount:
           $ref: '#/components/schemas/minAmount'
-    DutchOrderInfoV3:
+    OrderOutput:
       type: object
       properties:
-        chainId:
-          $ref: '#/components/schemas/ChainId'
-        nonce:
-          $ref: '#/components/schemas/nonce'
-        reactor:
-          $ref: '#/components/schemas/contractAddress'
-        swapper:
-          $ref: '#/components/schemas/receiverWalletAddress'
-        deadline:
-          $ref: '#/components/schemas/deadline'
-        additionalValidationContract:
-          $ref: '#/components/schemas/additionalValidationContract'
-        additionalValidationData:
-          $ref: '#/components/schemas/additionalValidationData'
-        input:
-          $ref: '#/components/schemas/DutchInputV3'
-        outputs:
-          type: array
-          items:
-            $ref: '#/components/schemas/DutchOutputV3'
-        cosigner:
-          $ref: '#/components/schemas/cosignerAddress'
-        startingBaseFee:
-          type: string
-      required:
-      - chainId
-      - nonce
-      - reactor
-      - swapper
-      - deadline
-      - validationContract
-      - validationData
-      - startTime
-      - endTime
-      - exclusiveFiller
-      - exclusivityOverrideBps
-      - input
-      - outputs
-    Err500:
-      type: object
-      properties:
-        errorCode:
-          default: InternalServerError
-          type: string
-        detail:
-          type: string
-    PriorityOrderInfo:
-      type: object
-      properties:
-        chainId:
-          $ref: '#/components/schemas/ChainId'
-        nonce:
-          $ref: '#/components/schemas/nonce'
-        reactor:
-          $ref: '#/components/schemas/contractAddress'
-        swapper:
-          $ref: '#/components/schemas/receiverWalletAddress'
-        deadline:
-          $ref: '#/components/schemas/deadline'
-        additionalValidationContract:
-          $ref: '#/components/schemas/additionalValidationContract'
-        additionalValidationData:
-          $ref: '#/components/schemas/additionalValidationData'
-        auctionStartBlock:
-          type: string
-        baselinePriorityFeeWei:
-          type: string
-        input:
-          $ref: '#/components/schemas/PriorityInput'
-        outputs:
-          type: array
-          items:
-            $ref: '#/components/schemas/PriorityOutput'
-        cosigner:
-          $ref: '#/components/schemas/cosignerAddress'
-      required:
-      - chainId
-      - nonce
-      - reactor
-      - swapper
-      - deadline
-      - validationContract
-      - validationData
-      - auctionStartBlock
-      - baselinePriorityFeeWei
-      - input
-      - outputs
-      - cosigner
-    inputToken:
-      type: string
-      description: The token which will be sent, specified by its token address. For a list of supported tokens, see the [FAQ](https://api-docs.uniswap.org/guides/faqs).
-      pattern: ^(0x)?[0-9a-fA-F]{40}$
-    OrderResponse:
-      type: object
-      properties:
-        requestId:
-          $ref: '#/components/schemas/RequestId'
-        orderId:
-          $ref: '#/components/schemas/orderId'
-        orderStatus:
-          $ref: '#/components/schemas/OrderStatus'
-      required:
-      - requestId
-      - orderId
-      - orderStatus
-    Err404:
-      type: object
-      properties:
-        errorCode:
-          enum:
-          - ResourceNotFound
-          - QuoteAmountTooLowError
-          - TokenBalanceNotAvailable
-          - InsufficientBalance
-          type: string
-        detail:
-          type: string
-    orderId:
-      type: string
-      description: A unique ID for the order. Used to track the order's status.
-    receiverWalletAddress:
-      type: string
-      description: The wallet address which will receive the token.
-      pattern: ^(0x)?[0-9a-fA-F]{40}$
-    Err504:
-      type: object
-      properties:
-        errorCode:
-          default: Timeout
-          type: string
-        detail:
-          type: string
-    endAmount:
-      type: string
-      description: The worst case quantity of tokens resulting from this swap.
-    Err429:
-      type: object
-      properties:
-        errorCode:
-          default: Ratelimited
-          type: string
-        detail:
-          type: string
-    ChainId:
-      description: The unique ID of the blockchain. For a list of supported chains see the [FAQ](https://api-docs.uniswap.org/guides/faqs).
-      type: number
-      enum:
-      - 1
-      - 10
-      - 56
-      - 130
-      - 137
-      - 143
-      - 196
-      - 324
-      - 480
-      - 1868
-      - 4217
-      - 8453
-      - 10143
-      - 42161
-      - 42220
-      - 43114
-      - 59144
-      - 81457
-      - 7777777
-      - 1301
-      - 84532
-      - 11155111
-      default: 1
-    OrderRequest:
-      type: object
-      properties:
-        signature:
-          type: string
-          description: The signed permit.
-        quote:
-          oneOf:
-          - $ref: '#/components/schemas/DutchQuoteV2'
-          - $ref: '#/components/schemas/DutchQuoteV3'
-          - $ref: '#/components/schemas/PriorityQuote'
-        routing:
-          $ref: '#/components/schemas/Routing'
-      required:
-      - signature
-      - quote
-    DutchOutput:
-      type: object
-      properties:
+        token:
+          $ref: '#/components/schemas/outputToken'
         startAmount:
           $ref: '#/components/schemas/startAmount'
         endAmount:
           $ref: '#/components/schemas/endAmount'
-        token:
-          $ref: '#/components/schemas/outputToken'
+        isFeeOutput:
+          type: boolean
         recipient:
           $ref: '#/components/schemas/receiverWalletAddress'
       required:
-      - startAmount
-      - endAmount
       - token
-      - recipient
-    cosignerAddress:
+    additionalValidationData:
       type: string
-      description: The address of a cosigner who will run the auction and ensure the best executable price within the given parameters. Currently the cosigner is always Uniswap Labs.
-      pattern: ^(0x)?[0-9a-fA-F]{40}$
-    Err400:
-      type: object
-      properties:
-        errorCode:
-          default: RequestValidationError
-          type: string
-        detail:
-          type: string
-    tokenAmount:
-      type: string
-      description: The quantity of tokens denominated in the token's base units. (For example, for an ERC20 token one token is 1x10^18 base units. For one USDC token one token is 1x10^6 base units.) This value must be greater than 0.
-      pattern: ^[0-9]+$
-    PriorityInput:
+      default: 0x
+      description: Unused and deprecated.
+      deprecated: true
+    PriorityOutput:
       type: object
       properties:
         amount:
           $ref: '#/components/schemas/tokenAmount'
         token:
-          $ref: '#/components/schemas/inputToken'
+          $ref: '#/components/schemas/outputToken'
+        recipient:
+          $ref: '#/components/schemas/receiverWalletAddress'
         mpsPerPriorityFeeWei:
           type: string
+          description: The scaling factor of the priority fee based on the output token amount.
       required:
       - amount
       - token
+      - recipient
       - mpsPerPriorityFeeWei
-    outputToken:
-      type: string
-      description: The token which will be received, specified by its token address. For a list of supported tokens, see the [FAQ](https://api-docs.uniswap.org/guides/faqs).
-      pattern: ^(0x)?[0-9a-fA-F]{40}$
-    DutchInputV3:
+    Err503:
       type: object
       properties:
-        startAmount:
-          $ref: '#/components/schemas/startAmount'
-        maxAmount:
+        errorCode:
+          default: ServiceUnavailable
           type: string
-        adjustmentPerGweiBaseFee:
+        detail:
           type: string
-        curve:
-          $ref: '#/components/schemas/Curve'
-        token:
-          $ref: '#/components/schemas/inputToken'
-      required:
-      - startAmount
-      - maxAmount
-      - adjustmentPerGweiBaseFee
-      - curve
-      - token
+    OrderType:
+      type: string
+      enum:
+      - DutchLimit
+      - Dutch
+      - Dutch_V2
+      - Dutch_V3
+      - Priority
     nonce:
       type: string
       description: A unique nonce for this order.
-    CosignerData:
-      type: object
-      properties:
-        decayStartTime:
-          type: number
-          description: The unix timestamp at which the order will be eligible to be filled by alternate fillers at a lower price. Noted that the fill amount will not be lower than the output `endAmount`.
-        decayEndTime:
-          type: number
-          description: The unix timestamp at which the order will no longer be eligible to be filled by alternate fillers.
-        exclusiveFiller:
-          type: string
-          description: The address of the filler who has priority to fill the order by the `decayStartTime`.
-        inputOverride:
-          type: string
-        outputOverrides:
-          type: array
-          items:
-            type: string
-    OrderInput:
-      type: object
-      properties:
-        token:
-          $ref: '#/components/schemas/inputToken'
-        startAmount:
-          $ref: '#/components/schemas/startAmount'
-        endAmount:
-          $ref: '#/components/schemas/endAmount'
-      required:
-      - token
-    contractAddress:
+    additionalValidationContract:
       type: string
-      description: The address of a contract which will be used to facilitate the swap.
-      pattern: ^(0x)?[0-9a-fA-F]{40}$
+      default: '0x0000000000000000000000000000000000000000'
+      description: Unused and deprecated.
+      deprecated: true
   responses:
+    OrderSuccess201:
+      description: Encoded order submitted.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OrderResponse'
+    OrderUnavailable503:
+      description: Failed to post order to the upstream UniswapX service.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err503'
+    Unauthorized401:
+      description: UnauthorizedError eg. Account is blocked.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err401'
+    Timeout504:
+      description: Request duration limit reached.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err504'
+    BadRequest400:
+      description: RequestValidationError, Bad Input
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err400'
+    RateLimitedErr429:
+      description: Ratelimited
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err429'
+    OrdersBadRequest400:
+      description: RequestValidationError eg. Token allowance not valid or Insufficient Funds.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err400'
+    OrdersUnavailable503:
+      description: Upstream UniswapX service unavailable while fetching orders.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err503'
+    InternalErr500:
+      description: Unexpected error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err500'
+    OrdersNotFound404:
+      description: Orders not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Err404'
     OrdersSuccess200:
       description: The request orders matching the query parameters.
       content:
@@ -868,88 +928,20 @@ components:
                 startAmount: '1211000000'
                 endAmount: '1211000000'
             requestId: cOVivj_DiYcEPqQ=
-    Unauthorized401:
-      description: UnauthorizedError eg. Account is blocked.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Err401'
-    BadRequest400:
-      description: RequestValidationError, Bad Input
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Err400'
-    OrderSuccess201:
-      description: Encoded order submitted.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OrderResponse'
-    OrdersNotFound404:
-      description: Orders not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Err404'
-    OrdersBadRequest400:
-      description: RequestValidationError eg. Token allowance not valid or Insufficient Funds.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Err400'
-    RateLimitedErr429:
-      description: Ratelimited
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Err429'
-    Timeout504:
-      description: Request duration limit reached.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Err504'
-    OrdersUnavailable503:
-      description: Upstream UniswapX service unavailable while fetching orders.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Err503'
-    OrderUnavailable503:
-      description: Failed to post order to the upstream UniswapX service.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Err503'
-    InternalErr500:
-      description: Unexpected error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Err500'
   parameters:
-    orderStatusParam:
-      name: orderStatus
+    limitParam:
+      name: limit
       in: query
-      description: Filter by order status.
+      schema:
+        type: number
+      required: false
+    sortParam:
+      name: sort
+      in: query
+      description: 'Sort query. For example: `sort=gt(UNIX_TIMESTAMP)`, `sort=between(1675872827, 1675872930)`, or `lt(1675872930)`.'
       required: false
       schema:
-        $ref: '#/components/schemas/OrderStatus'
-    orderIdsParam:
-      name: orderIds
-      in: query
-      required: false
-      description: A list of comma separated orderIds (transaction hashes). `orderId` or `orderIds` must be provided, but not both.
-      schema:
-        $ref: '#/components/schemas/OrderIds'
-    orderIdParam:
-      name: orderId
-      in: query
-      description: A transaction hash for an order. `orderId` or `orderIds` must be provided, but not both.
-      required: false
-      schema:
-        $ref: '#/components/schemas/orderId'
+        type: string
     erc20EthEnabledHeader:
       name: x-erc20eth-enabled
       in: header
@@ -958,19 +950,6 @@ components:
       schema:
         type: boolean
         default: false
-    swapperParam:
-      name: swapper
-      in: query
-      description: Filter by swapper address.
-      required: false
-      schema:
-        $ref: '#/components/schemas/Address'
-    cursorParam:
-      name: cursor
-      in: query
-      schema:
-        type: string
-      required: false
     orderTypeParam:
       name: orderType
       in: query
@@ -985,19 +964,6 @@ components:
       required: false
       schema:
         $ref: '#/components/schemas/Address'
-    sortParam:
-      name: sort
-      in: query
-      description: 'Sort query. For example: `sort=gt(UNIX_TIMESTAMP)`, `sort=between(1675872827, 1675872930)`, or `lt(1675872930)`.'
-      required: false
-      schema:
-        type: string
-    limitParam:
-      name: limit
-      in: query
-      schema:
-        type: number
-      required: false
     sortKeyParam:
       name: sortKey
       in: query
@@ -1005,6 +971,40 @@ components:
       required: false
       schema:
         $ref: '#/components/schemas/SortKey'
+    orderIdsParam:
+      name: orderIds
+      in: query
+      required: false
+      description: A list of comma separated orderIds (transaction hashes). `orderId` or `orderIds` must be provided, but not both.
+      schema:
+        $ref: '#/components/schemas/OrderIds'
+    orderIdParam:
+      name: orderId
+      in: query
+      description: A transaction hash for an order. `orderId` or `orderIds` must be provided, but not both.
+      required: false
+      schema:
+        $ref: '#/components/schemas/orderId'
+    swapperParam:
+      name: swapper
+      in: query
+      description: Filter by swapper address.
+      required: false
+      schema:
+        $ref: '#/components/schemas/Address'
+    cursorParam:
+      name: cursor
+      in: query
+      schema:
+        type: string
+      required: false
+    orderStatusParam:
+      name: orderStatus
+      in: query
+      description: Filter by order status.
+      required: false
+      schema:
+        $ref: '#/components/schemas/OrderStatus'
   securitySchemes:
     apiKey:
       type: apiKey
