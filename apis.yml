@@ -23,6 +23,11 @@ apis:
   tags:
   - Blockchain
   - DeFi
+  - Gasless Transactions
+  - Intent Orders
+  tags_raw:
+  - Blockchain
+  - DeFi
   - Gasless
   - Intent Orders
   humanURL: https://docs.uniswap.org/
